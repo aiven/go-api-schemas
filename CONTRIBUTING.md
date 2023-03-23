@@ -1,27 +1,10 @@
 # Welcome!
 
-Contributions are very welcome on {{ PROJECT }}. When contributing please keep this in mind:
+Contributions are very welcome on go-api-schemas. When contributing please keep this in mind:
 
 - Open an issue to discuss new bigger features.
 - Write code consistent with the project style and make sure the tests are passing.
 - Stay in touch with us if we have follow up questions or requests for further changes.
-
-# Development
-
-## Local Environment
-
-
-## Tests
-
-
-## Static checking and Linting
-
-
-## Manual testing
-
-
-### Configuration
-
 
 # Opening a PR
 
