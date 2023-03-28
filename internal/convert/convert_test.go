@@ -1,3 +1,4 @@
+// Package convert is the package that contains the convert functionality.
 package convert
 
 import (
@@ -6,11 +7,13 @@ import (
 	"github.com/aiven/aiven-go-client"
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // TestUserConfigSchema tests the UserConfigSchema function.
+// nolint:funlen,lll // This function is long, but it's a test function.
+// // These lines are long, but they're test data.
 func TestUserConfigSchema(t *testing.T) {
 	type args struct {
 		v aiven.UserConfigSchema
@@ -30,6 +33,7 @@ func TestUserConfigSchema(t *testing.T) {
 					Description:          "",
 					Type:                 nil,
 					Default:              nil,
+					Required:             nil,
 					Properties:           nil,
 					AdditionalProperties: nil,
 					Items:                nil,
@@ -52,10 +56,11 @@ func TestUserConfigSchema(t *testing.T) {
 				Description:                     "",
 				Type:                            nil,
 				Default:                         nil,
+				Required:                        nil,
 				Properties:                      nil,
 				Items:                           nil,
 				OneOf:                           nil,
-				Enum:                            nil,
+				Enum:                            []types.UserConfigSchemaEnumValue{},
 				Minimum:                         util.Ref(0.0),
 				Maximum:                         util.Ref(0.0),
 				MinLength:                       util.Ref(0),
@@ -75,12 +80,17 @@ func TestUserConfigSchema(t *testing.T) {
 					Title:       "",
 					Description: "",
 					Type:        "object",
+					Default:     nil,
+					Required: []string{
+						"datadog_api_key",
+					},
 					Properties: map[string]aiven.UserConfigSchema{
 						"max_partition_contexts": {
 							Title:                "Maximum number of partition contexts to send",
 							Description:          "",
 							Type:                 "integer",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -101,6 +111,7 @@ func TestUserConfigSchema(t *testing.T) {
 							Description:          "",
 							Type:                 "string",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -124,6 +135,7 @@ func TestUserConfigSchema(t *testing.T) {
 							Description:          "",
 							Type:                 "string",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -144,6 +156,7 @@ func TestUserConfigSchema(t *testing.T) {
 							Description:          "",
 							Type:                 "array",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -170,6 +183,7 @@ func TestUserConfigSchema(t *testing.T) {
 							Description:          "",
 							Type:                 "boolean",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -190,6 +204,7 @@ func TestUserConfigSchema(t *testing.T) {
 							Description:          "",
 							Type:                 "integer",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -210,6 +225,7 @@ func TestUserConfigSchema(t *testing.T) {
 							Description:          "",
 							Type:                 "integer",
 							Default:              nil,
+							Required:             nil,
 							Properties:           nil,
 							AdditionalProperties: nil,
 							Items:                nil,
@@ -247,6 +263,9 @@ func TestUserConfigSchema(t *testing.T) {
 				Description:                     "",
 				Type:                            "object",
 				Default:                         nil,
+				Required: []string{
+					"datadog_api_key",
+				},
 				Properties: map[string]types.UserConfigSchema{
 					"datadog_api_key": {
 						UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
@@ -254,10 +273,11 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "string",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
-						Enum:                            nil,
+						Enum:                            []types.UserConfigSchemaEnumValue{},
 						Minimum:                         util.Ref(0.0),
 						Maximum:                         util.Ref(0.0),
 						MinLength:                       util.Ref(0),
@@ -274,10 +294,11 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "array",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
-						Enum:                            nil,
+						Enum:                            []types.UserConfigSchemaEnumValue{},
 						Minimum:                         util.Ref(0.0),
 						Maximum:                         util.Ref(0.0),
 						MinLength:                       util.Ref(0),
@@ -300,10 +321,11 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "boolean",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
-						Enum:                            nil,
+						Enum:                            []types.UserConfigSchemaEnumValue{},
 						Minimum:                         util.Ref(0.0),
 						Maximum:                         util.Ref(0.0),
 						MinLength:                       util.Ref(0),
@@ -320,10 +342,11 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "integer",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
-						Enum:                            nil,
+						Enum:                            []types.UserConfigSchemaEnumValue{},
 						Minimum:                         util.Ref(1.0),
 						Maximum:                         util.Ref(100.0),
 						MinLength:                       util.Ref(0),
@@ -340,10 +363,11 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "integer",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
-						Enum:                            nil,
+						Enum:                            []types.UserConfigSchemaEnumValue{},
 						Minimum:                         util.Ref(2.0),
 						Maximum:                         util.Ref(600.0),
 						MinLength:                       util.Ref(0),
@@ -360,10 +384,11 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "integer",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
-						Enum:                            nil,
+						Enum:                            []types.UserConfigSchemaEnumValue{},
 						Minimum:                         util.Ref(200.0),
 						Maximum:                         util.Ref(200000.0),
 						MinLength:                       util.Ref(0),
@@ -380,6 +405,7 @@ func TestUserConfigSchema(t *testing.T) {
 						Description:                     "",
 						Type:                            "string",
 						Default:                         nil,
+						Required:                        nil,
 						Properties:                      nil,
 						Items:                           nil,
 						OneOf:                           nil,
@@ -400,7 +426,7 @@ func TestUserConfigSchema(t *testing.T) {
 				},
 				Items:      nil,
 				OneOf:      nil,
-				Enum:       nil,
+				Enum:       []types.UserConfigSchemaEnumValue{},
 				Minimum:    util.Ref(0.0),
 				Maximum:    util.Ref(0.0),
 				MinLength:  util.Ref(0),
@@ -413,52 +439,6 @@ func TestUserConfigSchema(t *testing.T) {
 			},
 			wantErr: nil,
 		},
-		{
-			name: "basic",
-			args: args{
-				v: aiven.UserConfigSchema{
-					Title:                "",
-					Description:          "",
-					Type:                 nil,
-					Default:              nil,
-					Properties:           nil,
-					AdditionalProperties: nil,
-					Items:                nil,
-					OneOf:                nil,
-					Enum:                 nil,
-					Minimum:              util.Ref(0.0),
-					Maximum:              util.Ref(0.0),
-					MinLength:            util.Ref(0),
-					MaxLength:            util.Ref(0),
-					MaxItems:             util.Ref(0),
-					CreateOnly:           false,
-					Pattern:              "",
-					Example:              nil,
-					UserError:            "",
-				},
-			},
-			want: &types.UserConfigSchema{
-				UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
-				Title:                           "",
-				Description:                     "",
-				Type:                            nil,
-				Default:                         nil,
-				Properties:                      nil,
-				Items:                           nil,
-				OneOf:                           nil,
-				Enum:                            nil,
-				Minimum:                         util.Ref(0.0),
-				Maximum:                         util.Ref(0.0),
-				MinLength:                       util.Ref(0),
-				MaxLength:                       util.Ref(0),
-				MaxItems:                        util.Ref(0),
-				CreateOnly:                      false,
-				Pattern:                         "",
-				Example:                         nil,
-				UserError:                       "",
-			},
-			wantErr: nil,
-		},
 	}
 
 	for _, tt := range tests {
@@ -466,11 +446,12 @@ func TestUserConfigSchema(t *testing.T) {
 			got, err := UserConfigSchema(tt.args.v)
 			if !cmp.Equal(err, tt.wantErr) {
 				t.Errorf("UserConfigSchema() error = %v, wantErr %v", err, tt.wantErr)
+
 				return
 			}
 
 			if !cmp.Equal(got, tt.want) {
-				t.Errorf("UserConfigSchema() = %v, want %v", got, tt.want)
+				t.Errorf(cmp.Diff(tt.want, got))
 			}
 		})
 	}

@@ -1,3 +1,4 @@
+// Package filter is the package that contains the filter functionality.
 package filter
 
 import (
@@ -39,6 +40,7 @@ func TestServiceTypes(t *testing.T) {
 			got, err := ServiceTypes(tt.args.f)
 			if !cmp.Equal(err, tt.wantErr) {
 				t.Errorf("ServiceTypes() error = %v, wantErr %v", err, tt.wantErr)
+
 				return
 			}
 
@@ -94,6 +96,7 @@ func TestIntegrationTypes(t *testing.T) {
 			got, err := IntegrationTypes(tt.args.f)
 			if !cmp.Equal(err, tt.wantErr) {
 				t.Errorf("IntegrationTypes() error = %v, wantErr %v", err, tt.wantErr)
+
 				return
 			}
 
@@ -156,6 +159,7 @@ func TestIntegrationEndpointTypes(t *testing.T) {
 			got, err := IntegrationEndpointTypes(tt.args.f)
 			if !cmp.Equal(err, tt.wantErr) {
 				t.Errorf("IntegrationEndpointTypes() error = %v, wantErr %v", err, tt.wantErr)
+
 				return
 			}
 

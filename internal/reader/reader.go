@@ -1,3 +1,4 @@
+// Package reader is the package that contains the reader functionality.
 package reader
 
 import (
@@ -9,8 +10,8 @@ import (
 	"golang.org/x/sync/errgroup"
 	"gopkg.in/yaml.v3"
 
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // logger is a pointer to the logger.

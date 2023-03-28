@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - main
-      - v*
     types:
       - opened
       - synchronize
@@ -14,7 +13,6 @@ on:
   push:
     branches:
       - main
-      - v*
 
 permissions:
   actions: read
@@ -34,6 +32,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: github/codeql-action/init@v2
         with:
-          languages: '${{ matrix.language }}'
+          languages: "${{ matrix.language }}"
       - uses: github/codeql-action/autobuild@v2
       - uses: github/codeql-action/analyze@v2

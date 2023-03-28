@@ -1,3 +1,4 @@
+// Package types contains the types of the application.
 package types
 
 // UserConfigSchemaDeprecationInfo is a struct that contains the deprecation info for a user config schema entry.

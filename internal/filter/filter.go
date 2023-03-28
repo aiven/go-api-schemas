@@ -1,3 +1,4 @@
+// Package filter is the package that contains the filter functionality.
 package filter
 
 import (
@@ -59,6 +60,7 @@ func ServiceTypes(f map[string]aiven.ServiceType) (map[string]aiven.ServiceType,
 
 	maps.DeleteFunc(acf, func(k string, _ aiven.ServiceType) bool {
 		_, ok = supportedServiceTypes()[k]
+
 		return !ok
 	})
 
@@ -77,7 +79,7 @@ func IntegrationTypes(f []aiven.IntegrationType) ([]aiven.IntegrationType, error
 		return nil, errUnexpected
 	}
 
-	var nf []aiven.IntegrationType
+	nf := make([]aiven.IntegrationType, 0, len(acf))
 
 	for _, v := range acf {
 		{
@@ -130,7 +132,7 @@ func IntegrationEndpointTypes(f []aiven.IntegrationEndpointType) ([]aiven.Integr
 		return nil, errUnexpected
 	}
 
-	var nf []aiven.IntegrationEndpointType
+	nf := make([]aiven.IntegrationEndpointType, 0, len(acf))
 
 	for _, v := range acf {
 		var st []string

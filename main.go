@@ -1,10 +1,11 @@
+// Package main is the main package of the application.
 package main
 
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/aiven/go-api-schemas/pkg/cmd"
-	"github.com/aiven/go-api-schemas/pkg/util"
+	"github.com/aiven/go-api-schemas/cmd"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // logger is the logger of the application.

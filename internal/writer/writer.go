@@ -1,3 +1,4 @@
+// Package writer is the package that contains the writer functionality.
 package writer
 
 import (
@@ -9,8 +10,8 @@ import (
 	"golang.org/x/sync/errgroup"
 	"gopkg.in/yaml.v3"
 
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // logger is a pointer to the logger.
@@ -24,6 +25,9 @@ var result types.DiffResult
 
 // write is a function that writes map[string]types.UserConfigSchema to a file.
 func write(filename string, schema map[string]types.UserConfigSchema) error {
+	// indentSpaces is the number of spaces to use for indentation.
+	const indentSpaces = 2
+
 	logger.Info.Printf("writing %s", filename)
 
 	outputDir, err := flags.GetString("output-dir")
@@ -46,7 +50,7 @@ func write(filename string, schema map[string]types.UserConfigSchema) error {
 		err = e.Close()
 	}(e)
 
-	e.SetIndent(2)
+	e.SetIndent(indentSpaces)
 
 	if err = e.Encode(schema); err != nil {
 		return err

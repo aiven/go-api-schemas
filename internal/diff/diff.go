@@ -1,13 +1,15 @@
+// Package diff is the package that contains the diff functionality.
 package diff
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
 	"golang.org/x/exp/maps"
 	"golang.org/x/sync/errgroup"
+
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // logger is a pointer to the logger.
@@ -23,7 +25,13 @@ var readResult types.ReadResult
 var result types.DiffResult
 
 // diff is a function that diffs two maps.
-func diff(gen map[string]types.UserConfigSchema, read map[string]types.UserConfigSchema) (map[string]types.UserConfigSchema, error) {
+// nolint:funlen,nestif,gocognit,gocyclo // This function is long, but it's not complex.
+// // This function is nested, but it's not complex.
+// // This function is complex, but it's a diff function.
+func diff(
+	gen map[string]types.UserConfigSchema,
+	read map[string]types.UserConfigSchema,
+) (map[string]types.UserConfigSchema, error) {
 	if len(read) == 0 {
 		return gen, nil
 	}
@@ -279,7 +287,12 @@ func setup(l *util.Logger, gr types.GenerationResult, rr types.ReadResult) {
 }
 
 // Run runs the diff.
-func Run(ctx context.Context, logger *util.Logger, genResult types.GenerationResult, readResult types.ReadResult) (types.DiffResult, error) {
+func Run(
+	ctx context.Context,
+	logger *util.Logger,
+	genResult types.GenerationResult,
+	readResult types.ReadResult,
+) (types.DiffResult, error) {
 	setup(logger, genResult, readResult)
 
 	errs, _ := errgroup.WithContext(ctx)

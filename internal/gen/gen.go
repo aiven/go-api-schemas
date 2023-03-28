@@ -1,3 +1,4 @@
+// Package gen is the package that contains the generation logic.
 package gen
 
 import (
@@ -5,10 +6,10 @@ import (
 	"golang.org/x/net/context"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/aiven/go-api-schemas/pkg/convert"
-	"github.com/aiven/go-api-schemas/pkg/filter"
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
+	"github.com/aiven/go-api-schemas/internal/convert"
+	"github.com/aiven/go-api-schemas/internal/filter"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 const (
@@ -134,7 +135,12 @@ func setup(l *util.Logger, e util.EnvMap, c *aiven.Client) {
 }
 
 // Run executes the generation process.
-func Run(ctx context.Context, logger *util.Logger, env util.EnvMap, client *aiven.Client) (types.GenerationResult, error) {
+func Run(
+	ctx context.Context,
+	logger *util.Logger,
+	env util.EnvMap,
+	client *aiven.Client,
+) (types.GenerationResult, error) {
 	setup(logger, env, client)
 
 	errs, _ := errgroup.WithContext(ctx)

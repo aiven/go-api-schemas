@@ -1,3 +1,4 @@
+// Package cmd is the package that contains the commands of the application.
 package cmd
 
 import (
@@ -10,12 +11,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	"github.com/aiven/go-api-schemas/pkg/diff"
-	"github.com/aiven/go-api-schemas/pkg/gen"
-	"github.com/aiven/go-api-schemas/pkg/reader"
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
-	"github.com/aiven/go-api-schemas/pkg/writer"
+	"github.com/aiven/go-api-schemas/internal/diff"
+	"github.com/aiven/go-api-schemas/internal/gen"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
+	"github.com/aiven/go-api-schemas/internal/reader"
+	"github.com/aiven/go-api-schemas/internal/writer"
 )
 
 // logger is the logger of the application.
@@ -29,11 +30,13 @@ var env = util.EnvMap{
 // client is a pointer to the Aiven client.
 var client = &aiven.Client{}
 
+// NewCmdRoot returns a pointer to the root command.
 func NewCmdRoot(l *util.Logger) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "exp",
-		Short: "exp is a tool for generating and persisting user configuration option schemas from Aiven APIs.",
-		Run:   run,
+		Use: "go-api-schemas",
+		Short: "go-api-schemas is a tool for generating and persisting user configuration option schemas from " +
+			"Aiven APIs.",
+		Run: run,
 	}
 
 	cmd.Flags().StringP("output-dir", "o", "", "the output directory for the generated files")
@@ -53,7 +56,9 @@ func setupOutputDir(flags *pflag.FlagSet) error {
 	}
 
 	if outputDir == "" {
-		wd, err := os.Getwd()
+		var wd string
+
+		wd, err = os.Getwd()
 		if err != nil {
 			return err
 		}
@@ -80,7 +85,7 @@ func setupOutputDir(flags *pflag.FlagSet) error {
 
 // setup sets up the application.
 func setup(flags *pflag.FlagSet) {
-	logger.Info.Println("exp tool started")
+	logger.Info.Println("go-api-schemas tool started")
 
 	logger.Info.Println("setting up output directory")
 

@@ -1,8 +1,8 @@
-name: "updater"
+name: Updater
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: 0 3 * * *
 
 jobs:
   updater:
@@ -12,16 +12,17 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: "1.19"
-      - run: make update
+      - uses: arduino/setup-task@v1
+      - run: task run
         env:
           AIVEN_TOKEN: ${{ secrets.AIVEN_TOKEN }}
           AIVEN_PROJECT_NAME: ${{ secrets.AIVEN_PROJECT_NAME }}
       - id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
       - uses: peter-evans/create-pull-request@v4
         with:
           author: GitHub <noreply@github.com>
-          body: automated changes by [exp-updater](https://github.com/aiven/aiven-go-client/blob/master/.github/workflows/exp-updater.yml) GitHub Actions workflow
-          branch: exp-updater/${{ steps.date.outputs.date }}
-          commit-message: "exp-updater: bump tools/exp/dist/*.yml (${{ steps.date.outputs.date }})"
-          title: "exp-updater: bump tools/exp/dist/*.yml (${{ steps.date.outputs.date }})"
+          body: automated changes by [updater](https://github.com/aiven/go-api-schemas/blob/main/.github/workflows/updater.yml) GitHub Actions workflow
+          branch: updater/${{ steps.date.outputs.date }}
+          commit-message: "chore(updater): bump pkg/dist/*.yml (${{ steps.date.outputs.date }})"
+          title: "chore(updater): bump pkg/dist/*.yml (${{ steps.date.outputs.date }})"

@@ -1,3 +1,4 @@
+// Package convert is the package that contains the convert functionality.
 package convert
 
 import (
@@ -7,7 +8,7 @@ import (
 	"github.com/mitchellh/copystructure"
 	"golang.org/x/exp/slices"
 
-	"github.com/aiven/go-api-schemas/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
 )
 
 // errUnexpected is the error that is returned when an unexpected error occurs.
@@ -17,11 +18,13 @@ var errUnexpected = errors.New("unexpected conversion error")
 const maxSafeNumber = float64(1<<53 - 1)
 
 // UserConfigSchema converts aiven.UserConfigSchema to UserConfigSchema.
+// nolint:funlen,gocognit // This function is long, but it's a conversion function.
+// // This function is complex, but it's a conversion function.
 func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error) {
 	var r []string
 	r = append(r, v.Required...)
 
-	var cnp map[string]types.UserConfigSchema = nil
+	var cnp map[string]types.UserConfigSchema
 
 	if len(v.Properties) != 0 {
 		cnp = make(map[string]types.UserConfigSchema, len(v.Properties))
@@ -48,7 +51,7 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 		}
 	}
 
-	var cni *types.UserConfigSchema = nil
+	var cni *types.UserConfigSchema
 
 	if v.Items != nil {
 		var err error
@@ -59,7 +62,7 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 		}
 	}
 
-	var cno []types.UserConfigSchema = nil
+	var cno []types.UserConfigSchema
 
 	if len(v.OneOf) != 0 {
 		cno = make([]types.UserConfigSchema, len(v.OneOf))
@@ -86,7 +89,7 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 		}
 	}
 
-	var e []types.UserConfigSchemaEnumValue
+	e := make([]types.UserConfigSchemaEnumValue, 0, len(v.Enum))
 
 	for _, v := range v.Enum {
 		e = append(e, types.UserConfigSchemaEnumValue{Value: v})
@@ -95,6 +98,7 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 	// YAML uses scientific notation for floats, they won't change that
 	// https://github.com/go-yaml/yaml/issues/669
 	var max *float64
+
 	if v.Maximum != nil {
 		// If this is an integer it has to be lte maxSafeNumber
 		// Otherwise, uses it as is
@@ -134,6 +138,7 @@ func normalizeTypes(t any) []string {
 	}
 
 	typeList := make([]string, 0)
+
 	a, ok := t.([]any)
 	if !ok {
 		return typeList

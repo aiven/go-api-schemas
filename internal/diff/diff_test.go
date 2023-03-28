@@ -1,3 +1,4 @@
+// Package diff is the package that contains the diff functionality.
 package diff
 
 import (
@@ -5,11 +6,13 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/aiven/go-api-schemas/pkg/types"
-	"github.com/aiven/go-api-schemas/pkg/util"
+	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // TestDiff tests the diff function.
+// nolint:funlen,lll // This function is long, but it's a test function.
+// // These lines are long, but they're test data.
 func TestDiff(t *testing.T) {
 	type args struct {
 		g map[string]types.UserConfigSchema
@@ -2141,6 +2144,7 @@ func TestDiff(t *testing.T) {
 			got, err := diff(tt.args.g, tt.args.r)
 			if !cmp.Equal(err, tt.wantErr) {
 				t.Errorf("diff() error = %v, wantErr %v", err, tt.wantErr)
+
 				return
 			}
 
