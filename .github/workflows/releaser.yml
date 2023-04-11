@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - id: sha
+        run: echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
       - uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.sha }}
-          name: Release ${{ github.sha }}
-          body: auto-generated release for commit ${{ github.sha }}
+          tag_name: ${{ steps.sha.outputs.sha }}
+          name: Release ${{ steps.sha.outputs.sha }}
+          body: auto-generated release for commit ${{ steps.sha.outputs.sha }}
