@@ -1,0 +1,17 @@
+name: Releaser
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  releaser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.sha }}
+          name: Release ${{ github.sha }}
+          body: auto-generated release for commit ${{ github.sha }}
