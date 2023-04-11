@@ -15,6 +15,7 @@ jobs:
       - id: version
         uses: anothrNick/github-tag-action@1.61.0
         with:
+          GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
       - uses: softprops/action-gh-release@v1
         with:
