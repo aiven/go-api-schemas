@@ -42,7 +42,6 @@ var supportedServiceTypes = func() map[string]struct{} {
 		"prometheus":                      {},
 		"redis":                           {},
 		"rsyslog":                         {},
-		"signalfx":                        {},
 	}
 }
 
