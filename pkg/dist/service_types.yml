@@ -4346,7 +4346,9 @@ pg:
         - string
         - "null"
       enum:
-        - value: "11"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "11"
         - value: "12"
         - value: "13"
         - value: "14"
