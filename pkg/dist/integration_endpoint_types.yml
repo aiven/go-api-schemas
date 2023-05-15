@@ -219,11 +219,13 @@ external_kafka:
       max_length: 256
       example: 10.0.0.1:9092,10.0.0.2:9092
     sasl_mechanism:
-      title: The list of SASL mechanisms enabled in the Kafka server.
+      title: SASL mechanism used for connections to the Kafka server.
       type:
         - string
       enum:
         - value: PLAIN
+        - value: SCRAM-SHA-256
+        - value: SCRAM-SHA-512
       example: PLAIN
     sasl_plain_password:
       title: Password for SASL PLAIN mechanism in the Kafka server.
