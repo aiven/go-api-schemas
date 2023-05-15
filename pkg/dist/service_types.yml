@@ -43,6 +43,7 @@ cassandra:
         - "null"
       enum:
         - value: "4"
+        - value: "3"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -2092,6 +2093,8 @@ kafka:
           deprecation_notice: This value is deprecated.
           value: "3.2"
         - value: "3.3"
+        - value: "3.1"
+        - value: "3.4"
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
