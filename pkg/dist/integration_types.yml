@@ -384,6 +384,16 @@ kafka_mirrormaker:
           minimum: 5.24288e+06
           maximum: 1.34217728e+08
           example: "8388608"
+        producer_compression_type:
+          title: producer.compression.type
+          description: Specify the default compression type for producers. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'none' which is the default and equivalent to no compression.
+          type: string
+          enum:
+            - value: gzip
+            - value: snappy
+            - value: lz4
+            - value: zstd
+            - value: none
         producer_linger_ms:
           title: producer.linger.ms
           description: The linger time (ms) for waiting new data to arrive for publishing.
