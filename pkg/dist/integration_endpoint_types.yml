@@ -503,6 +503,7 @@ rsyslog:
       type: string
       min_length: 1
       max_length: 512
+      pattern: ^[ -~\t]+$
       example: <%pri%>%timestamp:::date-rfc3339% %HOSTNAME% %app-name% %msg%
     port:
       title: rsyslog server port
