@@ -2076,6 +2076,13 @@ kafka:
           default: "0"
           minimum: 0
           maximum: 5000
+        producer_max_request_size:
+          title: producer.max.request.size
+          description: The maximum size of a request in bytes. Note that Kafka broker can also cap the record batch size.
+          type: integer
+          default: "1048576"
+          minimum: 0
+          maximum: 2.147483647e+09
         simpleconsumer_pool_size_max:
           title: simpleconsumer.pool.size.max
           description: Maximum number of SimpleConsumers that can be instantiated per broker
