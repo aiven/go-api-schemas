@@ -230,6 +230,15 @@ datadog:
           title: Enable Datadog Opensearch Primary Shard Monitoring
           type: boolean
           example: true
+    redis:
+      title: Datadog Redis Options
+      type: object
+      properties:
+        command_stats_enabled:
+          title: Redis command statistics for Datadog integrations
+          description: Enable command_stats option in the agent's configuration
+          type: boolean
+          default: false
 datasource:
   title: Integration user config
   type: object
