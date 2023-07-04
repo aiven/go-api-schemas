@@ -16,6 +16,18 @@ clickhouse_kafka:
           - data_format
           - group_name
         properties:
+          auto_offset_reset:
+            title: Action to take when there is no initial offset in offset store or the desired offset is out of range
+            type: string
+            default: earliest
+            enum:
+              - value: smallest
+              - value: earliest
+              - value: beginning
+              - value: largest
+              - value: latest
+              - value: end
+            example: latest
           columns:
             title: Table columns
             type: array
@@ -59,6 +71,15 @@ clickhouse_kafka:
               - value: RawBLOB
               - value: AvroConfluent
             example: JSONEachRow
+          date_time_input_format:
+            title: Method to read DateTime from text input formats
+            type: string
+            default: basic
+            enum:
+              - value: basic
+              - value: best_effort
+              - value: best_effort_us
+            example: best_effort
           group_name:
             title: Kafka consumers group
             type: string
@@ -66,12 +87,55 @@ clickhouse_kafka:
             min_length: 1
             max_length: 249
             example: clickhouse
+          handle_error_mode:
+            title: How to handle errors for Kafka engine
+            type: string
+            default: default
+            enum:
+              - value: default
+              - value: stream
+            example: stream
+          max_block_size:
+            title: Number of row collected by poll(s) for flushing data from Kafka
+            type: integer
+            default: "0"
+            minimum: 0
+            maximum: 1e+09
+            example: "100000"
+          max_rows_per_message:
+            title: The maximum number of rows produced in one kafka message for row-based formats
+            type: integer
+            default: "1"
+            minimum: 1
+            maximum: 1e+09
+            example: "100000"
           name:
             title: Name of the table
             type: string
             min_length: 1
             max_length: 40
             example: events
+          num_consumers:
+            title: The number of consumers per table per replica
+            type: integer
+            default: "1"
+            minimum: 1
+            maximum: 10
+            example: "4"
+          poll_max_batch_size:
+            title: Maximum amount of messages to be polled in a single Kafka poll
+            type: integer
+            default: "0"
+            minimum: 0
+            maximum: 1e+09
+            example: "10000"
+          skip_broken_messages:
+            title: Skip at least this number of broken messages from Kafka topic per block
+            type: integer
+            default: "0"
+            minimum: 0
+            maximum: 1e+09
+            example: "10000"
           topics:
             title: Kafka topics
             type: array
