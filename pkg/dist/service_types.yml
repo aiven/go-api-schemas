@@ -176,6 +176,38 @@ clickhouse:
         max_length: 43
         example: 10.20.0.0/16
       max_items: 1024
+    private_access:
+      title: Allow access to selected service ports from private networks
+      type: object
+      properties:
+        clickhouse:
+          title: Allow clients to connect to clickhouse with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+        clickhouse_https:
+          title: Allow clients to connect to clickhouse_https with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+        prometheus:
+          title: Allow clients to connect to prometheus with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+    privatelink_access:
+      title: Allow access to selected service components through Privatelink
+      type: object
+      properties:
+        clickhouse:
+          title: Enable clickhouse
+          type: boolean
+          example: true
+        clickhouse_https:
+          title: Enable clickhouse_https
+          type: boolean
+          example: true
+        prometheus:
+          title: Enable prometheus
+          type: boolean
+          example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
       type:
@@ -184,6 +216,22 @@ clickhouse:
       max_length: 63
       create_only: true
       example: anotherprojectname
+    public_access:
+      title: Allow access to selected service ports from the public Internet
+      type: object
+      properties:
+        clickhouse:
+          title: Allow clients to connect to clickhouse from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        clickhouse_https:
+          title: Allow clients to connect to clickhouse_https from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        prometheus:
+          title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -192,6 +240,11 @@ clickhouse:
       max_length: 64
       create_only: true
       example: anotherservicename
+    static_ips:
+      title: Static IP addresses
+      description: Use static public IP addresses
+      type: boolean
+      example: true
 elasticsearch:
   is_deprecated: true
   deprecation_notice: This property is deprecated.
@@ -1518,6 +1571,10 @@ influxdb:
           type: integer
           minimum: 0
           maximum: 1e+07
+        query_log_enabled:
+          title: Whether queries should be logged before execution. May log sensitive data contained within a query.
+          type: boolean
+          example: true
         query_timeout:
           title: The maximum duration in seconds before a query is killed. Setting this to 0 (the default) will never kill slow queries.
           type: integer
