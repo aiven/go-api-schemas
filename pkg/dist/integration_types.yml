@@ -310,6 +310,21 @@ datasource:
 external_aws_cloudwatch_logs:
   title: Integration user config
   type: object
+  properties:
+    selected_log_fields:
+      title: List of logging fields to include
+      description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
+      type: array
+      items:
+        title: Log field name
+        type: string
+        enum:
+          - value: HOSTNAME
+          - value: PRIORITY
+          - value: REALTIME_TIMESTAMP
+          - value: service_name
+          - value: SYSTEMD_UNIT
+      max_items: 5
 external_aws_cloudwatch_metrics:
   title: External AWS CloudWatch Metrics integration user config
   type: object
@@ -365,12 +380,42 @@ external_aws_cloudwatch_metrics:
 external_elasticsearch_logs:
   title: Integration user config
   type: object
+  properties:
+    selected_log_fields:
+      title: List of logging fields to include
+      description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
+      type: array
+      items:
+        title: Log field name
+        type: string
+        enum:
+          - value: HOSTNAME
+          - value: PRIORITY
+          - value: REALTIME_TIMESTAMP
+          - value: service_name
+          - value: SYSTEMD_UNIT
+      max_items: 5
 external_google_cloud_logging:
   title: Integration user config
   type: object
 external_opensearch_logs:
   title: Integration user config
   type: object
+  properties:
+    selected_log_fields:
+      title: List of logging fields to include
+      description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
+      type: array
+      items:
+        title: Log field name
+        type: string
+        enum:
+          - value: HOSTNAME
+          - value: PRIORITY
+          - value: REALTIME_TIMESTAMP
+          - value: service_name
+          - value: SYSTEMD_UNIT
+      max_items: 5
 flink:
   title: Integration user config
   type: object
@@ -421,6 +466,20 @@ kafka_logs:
       pattern: ^(?!\.$|\.\.$)[-_.A-Za-z0-9]+$
       example: mytopic
       user_error: Must consist of alpha-numeric characters, underscores, dashes or dots, max 249 characters
+    selected_log_fields:
+      title: List of logging fields to include
+      description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
+      type: array
+      items:
+        title: Log field name
+        type: string
+        enum:
+          - value: HOSTNAME
+          - value: PRIORITY
+          - value: REALTIME_TIMESTAMP
+          - value: service_name
+          - value: SYSTEMD_UNIT
+      max_items: 5
 kafka_mirrormaker:
   title: Integration user config
   type: object
@@ -499,6 +558,20 @@ logs:
       min_length: 1
       max_length: 1024
       example: logs
+    selected_log_fields:
+      title: List of logging fields to include
+      description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
+      type: array
+      items:
+        title: Log field name
+        type: string
+        enum:
+          - value: HOSTNAME
+          - value: PRIORITY
+          - value: REALTIME_TIMESTAMP
+          - value: service_name
+          - value: SYSTEMD_UNIT
+      max_items: 5
 m3aggregator:
   title: Integration user config
   type: object
