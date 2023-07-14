@@ -4783,6 +4783,7 @@ redis:
         - value: resetchannels
     redis_io_threads:
       title: Redis IO thread count
+      description: Set Redis IO thread count. Changing this will cause a restart of the Redis service.
       type: integer
       minimum: 1
       maximum: 32
@@ -4821,8 +4822,8 @@ redis:
       max_length: 32
       pattern: ^[KEg\$lshzxeA]*$
     redis_number_of_databases:
-      title: Number of redis databases
-      description: Set number of redis databases. Changing this will cause a restart of redis service.
+      title: Number of Redis databases
+      description: Set number of Redis databases. Changing this will cause a restart of the Redis service.
       type: integer
       minimum: 1
       maximum: 128
