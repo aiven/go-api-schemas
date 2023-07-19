@@ -420,45 +420,65 @@ flink:
   title: Integration user config
   type: object
 flink_external_kafka:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 jolokia:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 kafka_connect:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
     kafka_connect:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Kafka Connect service configuration values
       type: object
       properties:
         config_storage_topic:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: The name of the topic where connector and task configuration data are stored.This must be the same for all workers with the same group_id.
           type: string
           max_length: 249
           example: __connect_configs
         group_id:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: A unique string that identifies the Connect cluster group this worker belongs to.
           type: string
           max_length: 249
           example: connect
         offset_storage_topic:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: The name of the topic where connector and task configuration offsets are stored.This must be the same for all workers with the same group_id.
           type: string
           max_length: 249
           example: __connect_offsets
         status_storage_topic:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: The name of the topic where connector and task configuration status updates are stored.This must be the same for all workers with the same group_id.
           type: string
           max_length: 249
           example: __connect_status
 kafka_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - kafka_topic
   properties:
     kafka_topic:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Topic name
       type: string
       min_length: 1
@@ -467,6 +487,8 @@ kafka_logs:
       example: mytopic
       user_error: Must consist of alpha-numeric characters, underscores, dashes or dots, max 249 characters
     selected_log_fields:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: List of logging fields to include
       description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
       type: array
@@ -481,10 +503,14 @@ kafka_logs:
           - value: SYSTEMD_UNIT
       max_items: 5
 kafka_mirrormaker:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
     cluster_alias:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Kafka cluster alias
       description: 'The alias under which the Kafka cluster is known to MirrorMaker. Can contain the following symbols: ASCII alphanumerics, ''.'', ''_'', and ''-''.'
       type: string
@@ -493,10 +519,14 @@ kafka_mirrormaker:
       example: kafka-abc
       user_error: Must consist of alpha-numeric ASCII characters, dashes, underscores, and dots.
     kafka_mirrormaker:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Kafka MirrorMaker configuration values
       type: object
       properties:
         consumer_fetch_min_bytes:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: consumer.fetch.min.bytes
           description: The minimum amount of data the server should return for a fetch request
           type: integer
@@ -504,6 +534,8 @@ kafka_mirrormaker:
           maximum: 5.24288e+06
           example: "1024"
         producer_batch_size:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: producer.batch.size
           description: The batch size in bytes producer will attempt to collect before publishing to broker.
           type: integer
@@ -511,6 +543,8 @@ kafka_mirrormaker:
           maximum: 5.24288e+06
           example: "1024"
         producer_buffer_memory:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: producer.buffer.memory
           description: The amount of bytes producer can use for buffering data before publishing to broker.
           type: integer
@@ -518,16 +552,30 @@ kafka_mirrormaker:
           maximum: 1.34217728e+08
           example: "8388608"
         producer_compression_type:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: producer.compression.type
           description: Specify the default compression type for producers. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'none' which is the default and equivalent to no compression.
           type: string
           enum:
-            - value: gzip
-            - value: snappy
-            - value: lz4
-            - value: zstd
-            - value: none
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: gzip
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: snappy
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: lz4
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: zstd
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: none
         producer_linger_ms:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: producer.linger.ms
           description: The linger time (ms) for waiting new data to arrive for publishing.
           type: integer
@@ -535,6 +583,8 @@ kafka_mirrormaker:
           maximum: 5000
           example: "100"
         producer_max_request_size:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: producer.max.request.size
           description: The maximum request size in bytes.
           type: integer
@@ -542,9 +592,13 @@ kafka_mirrormaker:
           maximum: 6.7108864e+07
           example: "1048576"
 logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     elasticsearch_index_days_max:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Elasticsearch index retention limit
       type: integer
       default: "3"
@@ -552,6 +606,8 @@ logs:
       maximum: 10000
       example: "5"
     elasticsearch_index_prefix:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Elasticsearch index prefix
       type: string
       default: logs
@@ -559,6 +615,8 @@ logs:
       max_length: 1024
       example: logs
     selected_log_fields:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: List of logging fields to include
       description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
       type: array
@@ -573,16 +631,24 @@ logs:
           - value: SYSTEMD_UNIT
       max_items: 5
 m3aggregator:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 m3coordinator:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 metrics:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
     database:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Name of the database where to store metric datapoints. Only affects PostgreSQL destinations. Defaults to 'metrics'. Note that this must be the same for all metrics integrations that write data to the same PostgreSQL service.
       type: string
       max_length: 40
@@ -590,12 +656,16 @@ metrics:
       example: metrics
       user_error: Must consist of alpha-numeric characters, underscores or dashes, may not start with dash, max 40 characters
     retention_days:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Number of days to keep old metrics. Only affects PostgreSQL destinations. Set to 0 for no automatic cleanup. Defaults to 30 days.
       type: integer
       minimum: 0
       maximum: 10000
       example: "30"
     ro_username:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Name of a user that can be used to read metrics. This will be used for Grafana integration (if enabled) to prevent Grafana users from making undesired changes. Only affects PostgreSQL destinations. Defaults to 'metrics_reader'. Note that this must be the same for all metrics integrations that write data to the same PostgreSQL service.
       type: string
       max_length: 40
@@ -603,76 +673,110 @@ metrics:
       example: metrics_reader
       user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 40 characters
     source_mysql:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Configuration options for metrics where source service is MySQL
       type: object
       properties:
         telegraf:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Configuration options for Telegraf MySQL input plugin
           type: object
           properties:
             gather_event_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.EVENT_WAITS
               type: boolean
               example: false
             gather_file_events_stats:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: gather metrics from PERFORMANCE_SCHEMA.FILE_SUMMARY_BY_EVENT_NAME
               type: boolean
               example: false
             gather_index_io_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.TABLE_IO_WAITS_SUMMARY_BY_INDEX_USAGE
               type: boolean
               example: false
             gather_info_schema_auto_inc:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather auto_increment columns and max values from information schema
               type: boolean
               example: false
             gather_innodb_metrics:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from INFORMATION_SCHEMA.INNODB_METRICS
               type: boolean
               example: true
             gather_perf_events_statements:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.EVENTS_STATEMENTS_SUMMARY_BY_DIGEST
               type: boolean
               example: false
             gather_process_list:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather thread state counts from INFORMATION_SCHEMA.PROCESSLIST
               type: boolean
               example: true
             gather_slave_status:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from SHOW SLAVE STATUS command output
               type: boolean
               example: true
             gather_table_io_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.TABLE_IO_WAITS_SUMMARY_BY_TABLE
               type: boolean
               example: false
             gather_table_lock_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.TABLE_LOCK_WAITS
               type: boolean
               example: false
             gather_table_schema:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from INFORMATION_SCHEMA.TABLES
               type: boolean
               example: true
             perf_events_statements_digest_text_limit:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Truncates digest text from perf_events_statements into this many characters
               type: integer
               minimum: 1
               maximum: 2048
               example: "120"
             perf_events_statements_limit:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Limits metrics from perf_events_statements
               type: integer
               minimum: 1
               maximum: 4000
               example: "250"
             perf_events_statements_time_limit:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Only include perf_events_statements whose last seen is less than this many seconds
               type: integer
               minimum: 1
               maximum: 2.592e+06
               example: "86400"
     username:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Name of the user used to write metrics. Only affects PostgreSQL destinations. Defaults to 'metrics_writer'. Note that this must be the same for all metrics integrations that write data to the same PostgreSQL service.
       type: string
       max_length: 40
@@ -680,79 +784,115 @@ metrics:
       example: metrics_writer
       user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 40 characters
 prometheus:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
     source_mysql:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Configuration options for metrics where source service is MySQL
       type: object
       properties:
         telegraf:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Configuration options for Telegraf MySQL input plugin
           type: object
           properties:
             gather_event_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.EVENT_WAITS
               type: boolean
               example: false
             gather_file_events_stats:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: gather metrics from PERFORMANCE_SCHEMA.FILE_SUMMARY_BY_EVENT_NAME
               type: boolean
               example: false
             gather_index_io_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.TABLE_IO_WAITS_SUMMARY_BY_INDEX_USAGE
               type: boolean
               example: false
             gather_info_schema_auto_inc:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather auto_increment columns and max values from information schema
               type: boolean
               example: false
             gather_innodb_metrics:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from INFORMATION_SCHEMA.INNODB_METRICS
               type: boolean
               example: true
             gather_perf_events_statements:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.EVENTS_STATEMENTS_SUMMARY_BY_DIGEST
               type: boolean
               example: false
             gather_process_list:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather thread state counts from INFORMATION_SCHEMA.PROCESSLIST
               type: boolean
               example: true
             gather_slave_status:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from SHOW SLAVE STATUS command output
               type: boolean
               example: true
             gather_table_io_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.TABLE_IO_WAITS_SUMMARY_BY_TABLE
               type: boolean
               example: false
             gather_table_lock_waits:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from PERFORMANCE_SCHEMA.TABLE_LOCK_WAITS
               type: boolean
               example: false
             gather_table_schema:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Gather metrics from INFORMATION_SCHEMA.TABLES
               type: boolean
               example: true
             perf_events_statements_digest_text_limit:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Truncates digest text from perf_events_statements into this many characters
               type: integer
               minimum: 1
               maximum: 2048
               example: "120"
             perf_events_statements_limit:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Limits metrics from perf_events_statements
               type: integer
               minimum: 1
               maximum: 4000
               example: "250"
             perf_events_statements_time_limit:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Only include perf_events_statements whose last seen is less than this many seconds
               type: integer
               minimum: 1
               maximum: 2.592e+06
               example: "86400"
 rsyslog:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
