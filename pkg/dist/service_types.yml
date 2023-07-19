@@ -1391,6 +1391,10 @@ grafana:
       title: Enable Grafana /metrics endpoint
       type: boolean
       example: true
+    oauth_allow_insecure_email_lookup:
+      title: Enforce user lookup based on email instead of the unique ID provided by the IdP
+      type: boolean
+      example: false
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
