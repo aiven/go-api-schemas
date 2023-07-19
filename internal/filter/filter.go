@@ -22,6 +22,7 @@ var supportedServiceTypes = func() map[string]struct{} {
 		"external_aws_cloudwatch_logs":    {},
 		"external_aws_cloudwatch_metrics": {},
 		"external_elasticsearch_logs":     {},
+		"external_google_cloud_bigquery":  {},
 		"external_google_cloud_logging":   {},
 		"external_kafka":                  {},
 		"external_opensearch_logs":        {},
@@ -91,7 +92,7 @@ func IntegrationTypes(f []aiven.IntegrationType) ([]aiven.IntegrationType, error
 			}
 
 			if len(dst) == 0 {
-				break
+				continue
 			}
 
 			v.DestServiceTypes = dst
@@ -107,7 +108,7 @@ func IntegrationTypes(f []aiven.IntegrationType) ([]aiven.IntegrationType, error
 			}
 
 			if len(sst) == 0 {
-				break
+				continue
 			}
 
 			v.SourceServiceTypes = sst

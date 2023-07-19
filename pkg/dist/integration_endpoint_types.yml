@@ -181,6 +181,25 @@ external_elasticsearch_logs:
       min_length: 12
       max_length: 2048
       example: https://user:passwd@logs.example.com/
+external_google_cloud_bigquery:
+  title: User configuration for Google Cloud BigQuery integration
+  type: object
+  required:
+    - project_id
+    - service_account_credentials
+  properties:
+    project_id:
+      title: GCP project id.
+      type: string
+      min_length: 6
+      max_length: 30
+      example: snappy-photon-12345
+    service_account_credentials:
+      title: Google Service Account Credentials
+      description: This is a JSON object with the fields documented in https://cloud.google.com/iam/docs/creating-managing-service-account-keys .
+      type: string
+      max_length: 4096
+      example: '{"type": "service_account", ...'
 external_google_cloud_logging:
   title: User configuration for Google Cloud Logging integration
   type: object

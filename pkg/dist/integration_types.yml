@@ -419,6 +419,9 @@ external_opensearch_logs:
 flink:
   title: Integration user config
   type: object
+flink_external_bigquery:
+  title: Integration user config
+  type: object
 flink_external_kafka:
   title: Integration user config
   type: object
