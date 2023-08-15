@@ -3600,6 +3600,108 @@ opensearch:
       type: integer
       default: "0"
       minimum: 0
+    openid:
+      title: OpenSearch OpenID Connect Configuration
+      type: object
+      required:
+        - connect_url
+        - client_id
+        - client_secret
+      properties:
+        client_id:
+          title: The ID of the OpenID Connect client
+          description: The ID of the OpenID Connect client configured in your IdP. Required.
+          type: string
+          min_length: 1
+          max_length: 1024
+          example: ""
+        client_secret:
+          title: The client secret of the OpenID Connect
+          description: The client secret of the OpenID Connect client configured in your IdP. Required.
+          type: string
+          min_length: 1
+          max_length: 1024
+          example: ""
+        connect_url:
+          title: OpenID Connect metadata/configuration URL
+          description: The URL of your IdP where the Security plugin can find the OpenID Connect metadata/configuration settings.
+          type: string
+          max_length: 2048
+          example: https://test-account.okta.com/app/exk491jujcVc83LEX697/sso/saml/metadata
+        enabled:
+          title: Enable or disable OpenSearch OpenID Connect authentication
+          description: Enables or disables OpenID Connect authentication for OpenSearch. When enabled, users can authenticate using OpenID Connect with an Identity Provider.
+          type: boolean
+          default: true
+        header:
+          title: HTTP header name of the JWT token
+          description: HTTP header name of the JWT token. Optional. Default is Authorization.
+          type: string
+          default: Authorization
+          min_length: 1
+          max_length: 1024
+          example: ""
+        jwt_header:
+          title: The HTTP header that stores the token
+          description: 'The HTTP header that stores the token. Typically the Authorization header with the Bearer schema: Authorization: Bearer <token>. Optional. Default is Authorization.'
+          type:
+            - string
+            - "null"
+          min_length: 1
+          max_length: 1024
+          example: preferred_username
+        jwt_url_parameter:
+          title: URL JWT token.
+          description: If the token is not transmitted in the HTTP header, but as an URL parameter, define the name of the parameter here. Optional.
+          type:
+            - string
+            - "null"
+          min_length: 1
+          max_length: 1024
+          example: preferred_username
+        refresh_rate_limit_count:
+          title: The maximum number of unknown key IDs in the time frame
+          description: The maximum number of unknown key IDs in the time frame. Default is 10. Optional.
+          type:
+            - integer
+            - "null"
+          default: "10"
+          minimum: 10
+          example: preferred_username
+        refresh_rate_limit_time_window_ms:
+          title: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds
+          description: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds. Optional.Default is 10000 (10 seconds).
+          type:
+            - integer
+            - "null"
+          default: "10000"
+          minimum: 10000
+          example: preferred_username
+        roles_key:
+          title: The key in the JSON payload that stores the user’s roles
+          description: The key in the JSON payload that stores the user’s roles. The value of this key must be a comma-separated list of roles. Required only if you want to use roles in the JWT
+          type:
+            - string
+            - "null"
+          min_length: 1
+          max_length: 1024
+          example: roles
+        scope:
+          title: The scope of the identity token issued by the IdP
+          description: The scope of the identity token issued by the IdP. Optional. Default is openid profile email address phone.
+          type: string
+          min_length: 1
+          max_length: 1024
+          example: ""
+        subject_key:
+          title: The key in the JSON payload that stores the user’s name
+          description: The key in the JSON payload that stores the user’s name. If not defined, the subject registered claim is used. Most IdP providers use the preferred_username claim. Optional.
+          type:
+            - string
+            - "null"
+          min_length: 1
+          max_length: 1024
+          example: preferred_username
     opensearch:
       title: OpenSearch settings
       type: object
