@@ -2091,6 +2091,13 @@ kafka:
           minimum: 131072
           maximum: 6.7108864e+07
           example: "1048576"
+        scheduled_rebalance_max_delay_ms:
+          title: The maximum delay of rebalancing connector workers
+          description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned.  Defaults to 5 minutes.
+          type: integer
+          minimum: 0
+          maximum: 600000
+          example: "300000"
         session_timeout_ms:
           title: The timeout used to detect failures when using Kafka’s group management facilities
           description: The timeout in milliseconds used to detect failures when using Kafka’s group management facilities (defaults to 10000).
@@ -2457,6 +2464,13 @@ kafka_connect:
           minimum: 131072
           maximum: 6.7108864e+07
           example: "1048576"
+        scheduled_rebalance_max_delay_ms:
+          title: The maximum delay of rebalancing connector workers
+          description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned.  Defaults to 5 minutes.
+          type: integer
+          minimum: 0
+          maximum: 600000
+          example: "300000"
         session_timeout_ms:
           title: The timeout used to detect failures when using Kafka’s group management facilities
           description: The timeout in milliseconds used to detect failures when using Kafka’s group management facilities (defaults to 10000).
