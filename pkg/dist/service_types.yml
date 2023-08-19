@@ -1041,6 +1041,10 @@ grafana:
           type: string
           max_length: 2048
           example: https://yourprovider.com/oauth/authorize
+        auto_login:
+          title: Allow users to bypass the login screen and automatically log in
+          type: boolean
+          example: false
         client_id:
           title: Client ID from provider
           type: string
