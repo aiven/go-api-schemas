@@ -1935,13 +1935,6 @@ kafka:
           type: integer
           minimum: 10
           maximum: 10000
-        remote_log_storage_system_enable:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: remote.log.storage.system.enable
-          description: Whether to enable the tiered storage functionality
-          type: boolean
-          example: true
         replica_fetch_max_bytes:
           title: replica.fetch.max.bytes
           description: The number of bytes of messages to attempt to fetch for each partition (defaults to 1048576). This is not an absolute maximum, if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that progress can be made.
@@ -2301,27 +2294,6 @@ kafka:
       description: Use static public IP addresses
       type: boolean
       example: true
-    tiered_storage:
-      title: Tiered storage configuration
-      type: object
-      properties:
-        enabled:
-          title: Enabled
-          description: Whether to enable the tiered storage functionality
-          type: boolean
-          example: true
-        local_cache:
-          title: Local cache
-          description: Local cache configuration
-          type: object
-          properties:
-            size:
-              title: Size, B
-              description: Local cache size in bytes
-              type: integer
-              minimum: 1
-              maximum: 1.073741824e+11
-              example: "1073741824"
 kafka_connect:
   type: object
   properties:
