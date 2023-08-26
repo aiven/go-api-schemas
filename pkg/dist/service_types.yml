@@ -1936,6 +1936,8 @@ kafka:
           minimum: 10
           maximum: 10000
         remote_log_storage_system_enable:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: remote.log.storage.system.enable
           description: Whether to enable the tiered storage functionality
           type: boolean
