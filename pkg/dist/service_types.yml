@@ -2,6 +2,8 @@ cassandra:
   type: object
   properties:
     additional_backup_regions:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -839,6 +841,17 @@ elasticsearch:
 flink:
   type: object
   properties:
+    additional_backup_regions:
+      title: Additional Cloud Regions for Backup Replication
+      type: array
+      items:
+        title: Target cloud
+        type: string
+        max_length: 256
+        pattern: ^[a-z0-9-]+$
+        example: aws-eu-central-1
+        user_error: Must consist of lower-case alpha-numeric characters or dashes
+      max_items: 1
     flink_version:
       title: Flink major version
       type:
@@ -1828,6 +1841,16 @@ kafka:
           minimum: 1.048576e+06
           maximum: 1.048576e+08
           example: "10485760"
+        log_local_retention_bytes:
+          title: log.local.retention.bytes
+          description: The maximum size of local log segments that can grow for a partition before it gets eligible for deletion. If set to -2, the value of log.retention.bytes is used. The effective value should always be less than or equal to log.retention.bytes value.
+          type: integer
+          minimum: -2
+        log_local_retention_ms:
+          title: log.local.retention.ms
+          description: The number of milliseconds to keep the local log segments before it gets eligible for deletion. If set to -2, the value of log.retention.ms is used. The effective value should always be less than or equal to log.retention.ms value.
+          type: integer
+          minimum: -2
         log_message_downconversion_enable:
           title: log.message.downconversion.enable
           description: 'This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. '
@@ -3728,6 +3751,105 @@ opensearch:
             - boolean
             - "null"
           example: true
+        auth_failure_listeners:
+          title: Opensearch Security Plugin Settings
+          type: object
+          properties:
+            internal_authentication_backend_limiting:
+              type: object
+              properties:
+                allowed_tries:
+                  title: internal_authentication_backend_limiting.allowed_tries
+                  description: The number of login attempts allowed before login is blocked
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "10"
+                authentication_backend:
+                  title: internal_authentication_backend_limiting.authentication_backend
+                  description: The internal backend. Enter `internal`
+                  type: string
+                  max_length: 1024
+                  example: internal
+                block_expiry_seconds:
+                  title: internal_authentication_backend_limiting.block_expiry_seconds
+                  description: The duration of time that login remains blocked after a failed login
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "600"
+                max_blocked_clients:
+                  title: internal_authentication_backend_limiting.max_blocked_clients
+                  description: The maximum number of blocked IP addresses
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "100000"
+                max_tracked_clients:
+                  title: internal_authentication_backend_limiting.max_tracked_clients
+                  description: The maximum number of tracked IP addresses that have failed login
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "100000"
+                time_window_seconds:
+                  title: internal_authentication_backend_limiting.time_window_seconds
+                  description: The window of time in which the value for `allowed_tries` is enforced
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "3600"
+                type:
+                  title: internal_authentication_backend_limiting.type
+                  description: The type of rate limiting
+                  type: string
+                  max_length: 1024
+                  example: username
+            ip_rate_limiting:
+              title: IP address rate limiting settings
+              type: object
+              properties:
+                allowed_tries:
+                  title: ip_rate_limiting.allowed_tries
+                  description: The number of login attempts allowed before login is blocked
+                  type: integer
+                  minimum: 1
+                  maximum: 2.147483647e+09
+                  example: "10"
+                block_expiry_seconds:
+                  title: ip_rate_limiting.block_expiry_seconds
+                  description: The duration of time that login remains blocked after a failed login
+                  type: integer
+                  minimum: 1
+                  maximum: 36000
+                  example: "600"
+                max_blocked_clients:
+                  title: ip_rate_limiting.max_blocked_clients
+                  description: The maximum number of blocked IP addresses
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "100000"
+                max_tracked_clients:
+                  title: ip_rate_limiting.max_tracked_clients
+                  description: The maximum number of tracked IP addresses that have failed login
+                  type: integer
+                  minimum: 0
+                  maximum: 2.147483647e+09
+                  example: "100000"
+                time_window_seconds:
+                  title: ip_rate_limiting.time_window_seconds
+                  description: The window of time in which the value for `allowed_tries` is enforced
+                  type: integer
+                  minimum: 1
+                  maximum: 36000
+                  example: "3600"
+                type:
+                  title: ip_rate_limiting.type
+                  description: The type of rate limiting
+                  type: string
+                  max_length: 1024
+                  example: ip
         cluster_max_shards_per_node:
           title: cluster.max_shards_per_node
           description: Controls the number of shards allowed in the cluster per data node
