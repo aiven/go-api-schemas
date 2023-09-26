@@ -925,7 +925,7 @@ grafana:
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
     alerting_enabled:
-      title: Enable or disable Grafana alerting functionality
+      title: Enable or disable Grafana legacy alerting functionality. This should not be enabled with unified_alerting_enabled.
       type: boolean
       example: true
     alerting_error_or_timeout:
@@ -1528,6 +1528,10 @@ grafana:
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
+      type: boolean
+      example: true
+    unified_alerting_enabled:
+      title: Enable or disable Grafana unified alerting functionality. By default this is enabled and any legacy alerts will be migrated on upgrade to Grafana 9+. To stay on legacy alerting, set unified_alerting_enabled to false and alerting_enabled to true. See https://grafana.com/docs/grafana/latest/alerting/set-up/migrating-alerts/ for more details.
       type: boolean
       example: true
     user_auto_assign_org:
