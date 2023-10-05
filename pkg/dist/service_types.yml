@@ -2336,11 +2336,15 @@ kafka:
           type: boolean
           example: true
         local_cache:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Local cache
           description: Local cache configuration
           type: object
           properties:
             size:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Size, B
               description: Local cache size in bytes
               type: integer
