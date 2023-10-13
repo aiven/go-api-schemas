@@ -6,11 +6,11 @@ datadog:
     datadog_api_key:
       title: Datadog API key
       type: string
-      min_length: 32
-      max_length: 32
-      pattern: ^[A-Za-z0-9]{32}$
+      min_length: 1
+      max_length: 256
+      pattern: ^[A-Za-z0-9]{1,256}$
       example: 848f30907c15c55d601fe45487cce9b6
-      user_error: Must consist of alpha-numeric characters and contain 32 characters
+      user_error: Must consist of up to 256 alpha-numeric characters
     datadog_tags:
       title: Custom tags provided by user
       type: array
