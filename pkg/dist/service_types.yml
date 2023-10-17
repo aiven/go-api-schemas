@@ -1979,6 +1979,26 @@ kafka:
           type: integer
           minimum: 1.048576e+07
           maximum: 1.048576e+09
+        sasl_oauthbearer_expected_audience:
+          title: sasl.oauthbearer.expected.audience
+          description: The (optional) comma-delimited setting for the broker to use to verify that the JWT was issued for one of the expected audiences.
+          type: string
+          max_length: 128
+        sasl_oauthbearer_expected_issuer:
+          title: sasl.oauthbearer.expected.issuer
+          description: Optional setting for the broker to use to verify that the JWT was created by the expected issuer.
+          type: string
+          max_length: 128
+        sasl_oauthbearer_jwks_endpoint_url:
+          title: sasl.oauthbearer.jwks.endpoint.url
+          description: 'OIDC JWKS endpoint URL. By setting this the SASL SSL OAuth2/OIDC authentication is enabled. See also other options for SASL OAuth2/OIDC. '
+          type: string
+          max_length: 2048
+        sasl_oauthbearer_sub_claim_name:
+          title: sasl.oauthbearer.sub.claim.name
+          description: Name of the scope from which to extract the subject claim from the JWT. Defaults to sub.
+          type: string
+          max_length: 128
         socket_request_max_bytes:
           title: socket.request.max.bytes
           description: The maximum number of bytes in a socket request (defaults to 104857600).
@@ -3782,6 +3802,8 @@ opensearch:
                   title: internal_authentication_backend_limiting.authentication_backend
                   description: The internal backend. Enter `internal`
                   type: string
+                  enum:
+                    - value: internal
                   max_length: 1024
                   example: internal
                 block_expiry_seconds:
@@ -3816,6 +3838,8 @@ opensearch:
                   title: internal_authentication_backend_limiting.type
                   description: The type of rate limiting
                   type: string
+                  enum:
+                    - value: username
                   max_length: 1024
                   example: username
             ip_rate_limiting:
@@ -3861,6 +3885,8 @@ opensearch:
                   title: ip_rate_limiting.type
                   description: The type of rate limiting
                   type: string
+                  enum:
+                    - value: ip
                   max_length: 1024
                   example: ip
         cluster_max_shards_per_node:
