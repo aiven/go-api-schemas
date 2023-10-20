@@ -1702,6 +1702,10 @@ kafka:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    aiven_kafka_topic_messages:
+      title: Allow access to read Kafka topic messages in the Aiven Console and REST API.
+      type: boolean
+      example: true
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
