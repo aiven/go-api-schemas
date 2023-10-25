@@ -542,7 +542,7 @@ kafka_mirrormaker:
           description: The maximum request size in bytes.
           type: integer
           minimum: 0
-          maximum: 6.7108864e+07
+          maximum: 2.68435456e+08
           example: "1048576"
 logs:
   type: object
