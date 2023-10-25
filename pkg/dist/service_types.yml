@@ -190,6 +190,10 @@ clickhouse:
           title: Allow clients to connect to clickhouse_https with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
           type: boolean
           example: true
+        clickhouse_mysql:
+          title: Allow clients to connect to clickhouse_mysql with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
         prometheus:
           title: Allow clients to connect to prometheus with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
           type: boolean
@@ -204,6 +208,10 @@ clickhouse:
           example: true
         clickhouse_https:
           title: Enable clickhouse_https
+          type: boolean
+          example: true
+        clickhouse_mysql:
+          title: Enable clickhouse_mysql
           type: boolean
           example: true
         prometheus:
@@ -228,6 +236,10 @@ clickhouse:
           example: true
         clickhouse_https:
           title: Allow clients to connect to clickhouse_https from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        clickhouse_mysql:
+          title: Allow clients to connect to clickhouse_mysql from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
         prometheus:
