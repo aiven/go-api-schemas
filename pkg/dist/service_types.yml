@@ -4082,7 +4082,7 @@ opensearch:
             - integer
             - "null"
           minimum: 1
-          maximum: 65536
+          maximum: 1e+06
           example: "10000"
         thread_pool_analyze_queue_size:
           title: analyze thread pool queue size
