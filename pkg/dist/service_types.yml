@@ -3977,6 +3977,18 @@ opensearch:
           type: integer
           minimum: 3
           maximum: 40
+        indices_memory_max_index_buffer_size:
+          title: indices.memory.max_index_buffer_size
+          description: Absolute value. Default is unbound. Doesn't work without indices.memory.index_buffer_size. Maximum amount of heap used for query cache, an absolute indices.memory.index_buffer_size maximum hard limit.
+          type: integer
+          minimum: 3
+          maximum: 2048
+        indices_memory_min_index_buffer_size:
+          title: indices.memory.min_index_buffer_size
+          description: Absolute value. Default is 48mb. Doesn't work without indices.memory.index_buffer_size. Minimum amount of heap used for query cache, an absolute indices.memory.index_buffer_size minimal hard limit.
+          type: integer
+          minimum: 3
+          maximum: 2048
         indices_queries_cache_size:
           title: indices.queries.cache.size
           description: Percentage value. Default is 10%. Maximum amount of heap used for query cache. This is an expert setting. Too low value will decrease query performance and increase performance for other operations; too high value will cause issues with other OpenSearch functionality.
