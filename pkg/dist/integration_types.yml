@@ -494,7 +494,7 @@ kafka_mirrormaker:
       max_length: 128
       pattern: ^[a-zA-Z0-9_.-]+$
       example: kafka-abc
-      user_error: Must consist of alpha-numeric ASCII characters, dashes, underscores, and dots.
+      user_error: Must consist of alpha-numeric ASCII characters, dashes, underscores, and dots, max 128 characters.
     kafka_mirrormaker:
       title: Kafka MirrorMaker configuration values
       type: object
