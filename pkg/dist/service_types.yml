@@ -3236,7 +3236,7 @@ mysql:
           max_length: 2048
           example: db1,db2
         method:
-          title: The migration method to be used (currently supported only by Redis, MySQL and PostgreSQL service types)
+          title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
           enum:
             - value: dump
@@ -4438,7 +4438,7 @@ pg:
           max_length: 2048
           example: db1,db2
         method:
-          title: The migration method to be used (currently supported only by Redis, MySQL and PostgreSQL service types)
+          title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
           enum:
             - value: dump
@@ -5083,7 +5083,7 @@ redis:
           max_length: 2048
           example: db1,db2
         method:
-          title: The migration method to be used (currently supported only by Redis, MySQL and PostgreSQL service types)
+          title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
           enum:
             - value: dump
