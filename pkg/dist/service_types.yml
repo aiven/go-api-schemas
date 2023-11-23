@@ -3922,8 +3922,7 @@ opensearch:
         email_sender_name:
           title: Sender name placeholder to be used in Opensearch Dashboards and Opensearch keystore
           description: This should be identical to the Sender name defined in Opensearch dashboards
-          type:
-            - string
+          type: string
           max_length: 40
           pattern: ^[a-zA-Z0-9-_]+$
           example: alert-sender
@@ -3931,15 +3930,13 @@ opensearch:
         email_sender_password:
           title: Sender password for Opensearch alerts to authenticate with SMTP server
           description: Sender password for Opensearch alerts to authenticate with SMTP server
-          type:
-            - string
+          type: string
           max_length: 1024
           pattern: ^[^\x00-\x1F]+$
           example: very-secure-mail-password
         email_sender_username:
           title: Sender username for Opensearch alerts
-          type:
-            - string
+          type: string
           max_length: 320
           pattern: ^[^\x00-\x1F]+$
           example: jane@example.com
