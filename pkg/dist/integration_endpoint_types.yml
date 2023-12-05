@@ -59,7 +59,7 @@ datadog:
       title: Number of seconds that datadog will wait to get consumer statistics from brokers
       type: integer
       minimum: 2
-      maximum: 600
+      maximum: 300
       example: "60"
     max_partition_contexts:
       title: Maximum number of partition contexts to send
