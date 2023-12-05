@@ -118,6 +118,13 @@ cassandra:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -246,6 +253,13 @@ clickhouse:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -917,6 +931,13 @@ flink:
           title: Enable prometheus
           type: boolean
           example: true
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -1467,6 +1488,13 @@ grafana:
       max_length: 128
       pattern: ^[a-zA-Z0-9-_:.]+$
       example: backup-20191112t091354293891z
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -1687,6 +1715,13 @@ influxdb:
       max_length: 128
       pattern: ^[a-zA-Z0-9-_:.]+$
       example: backup-20191112t091354293891z
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -2210,6 +2245,11 @@ kafka:
             - value: "30000"
           minimum: 1000
           maximum: 30000
+        name_strategy_validation:
+          title: name.strategy.validation
+          description: If true, validate that given schema is registered under expected subject name by the used name strategy when producing messages.
+          type: boolean
+          default: true
         producer_acks:
           title: producer.acks
           description: The number of acknowledgments the producer requires the leader to have received before considering a request complete. If set to 'all' or '-1', the leader will wait for the full set of in-sync replicas to acknowledge the record.
@@ -2363,6 +2403,13 @@ kafka:
           pattern: ^(?!\.$|\.\.$)[-_.A-Za-z0-9]+$
           example: _schemas
           user_error: Must consist of alpha-numeric characters, underscores, dashes or dots, max 249 characters
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -2593,6 +2640,13 @@ kafka_connect:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -2700,6 +2754,13 @@ kafka_mirrormaker:
           minimum: 1
           maximum: 4
           example: "2"
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -2763,6 +2824,13 @@ m3aggregator:
         - value: "1.2"
         - value: "1.5"
       example: "1.1"
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -3119,6 +3187,13 @@ m3db:
                       example: my_value
                 max_items: 10
           max_items: 10
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -3547,6 +3622,13 @@ mysql:
       max_length: 32
       create_only: true
       example: "2019-01-01 23:34:45"
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -4319,6 +4401,13 @@ opensearch:
           min_length: 1
           max_length: 256
           example: NameID
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -4790,6 +4879,38 @@ pg:
           minimum: 10
           maximum: 200
           example: "50"
+    pg_qualstats:
+      title: pg_qualstats settings
+      description: System-wide settings for the pg_qualstats extension
+      type: object
+      properties:
+        enabled:
+          title: Enable pg_qualstats
+          description: Enable / Disable pg_qualstats
+          type: boolean
+          default: false
+        min_err_estimate_num:
+          title: Min error estimation number
+          description: Error estimation num threshold to save quals
+          type: integer
+          default: "0"
+          minimum: 0
+        min_err_estimate_ratio:
+          title: Min error estimation ratio
+          description: Error estimation ratio threshold to save quals
+          type: integer
+          default: "0"
+          minimum: 0
+        track_constants:
+          title: Track constants
+          description: Enable / Disable pg_qualstats constants tracking
+          type: boolean
+          default: true
+        track_pg_catalog:
+          title: Track pg_catalog
+          description: Track quals on system catalogs too.
+          type: boolean
+          default: false
     pg_read_replica:
       title: Should the service which is being forked be a read replica (deprecated, use read_replica service integration instead).
       description: This setting is deprecated. Use read_replica service integration instead.
@@ -4891,6 +5012,7 @@ pg:
           example: false
     pglookout:
       title: PGLookout settings
+      description: System-wide settings for pglookout.
       type: object
       default:
         max_failover_replication_time_lag: "60"
@@ -4965,6 +5087,13 @@ pg:
       max_length: 32
       create_only: true
       example: "2019-01-01 23:34:45"
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
@@ -4994,12 +5123,14 @@ pg:
       example: "off"
     timescaledb:
       title: TimescaleDB extension configuration values
+      description: System-wide settings for the timescaledb extension
       type: object
       properties:
         max_background_workers:
           title: timescaledb.max_background_workers
           description: The number of background workers for timescaledb operations. You should configure this setting to the sum of your number of databases and the total number of concurrent background workers you want running at any given point in time.
           type: integer
+          default: "16"
           minimum: 1
           maximum: 4096
           example: "8"
@@ -5239,6 +5370,13 @@ redis:
       default: "300"
       minimum: 0
       maximum: 3.1536e+07
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
       type:
