@@ -4880,33 +4880,45 @@ pg:
           maximum: 200
           example: "50"
     pg_qualstats:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: pg_qualstats settings
       description: System-wide settings for the pg_qualstats extension
       type: object
       properties:
         enabled:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Enable pg_qualstats
           description: Enable / Disable pg_qualstats
           type: boolean
           default: false
         min_err_estimate_num:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Min error estimation number
           description: Error estimation num threshold to save quals
           type: integer
           default: "0"
           minimum: 0
         min_err_estimate_ratio:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Min error estimation ratio
           description: Error estimation ratio threshold to save quals
           type: integer
           default: "0"
           minimum: 0
         track_constants:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Track constants
           description: Enable / Disable pg_qualstats constants tracking
           type: boolean
           default: true
         track_pg_catalog:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Track pg_catalog
           description: Track quals on system catalogs too.
           type: boolean
