@@ -4027,6 +4027,11 @@ opensearch:
           max_length: 320
           pattern: ^[^\x00-\x1F]+$
           example: jane@example.com
+        enable_security_audit:
+          title: Enable/Disable security audit
+          type: boolean
+          default: false
+          example: true
         http_max_content_length:
           title: http.max_content_length
           description: Maximum content length for HTTP requests to the OpenSearch HTTP API, in bytes.
