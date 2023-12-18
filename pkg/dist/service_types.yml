@@ -3775,6 +3775,7 @@ opensearch:
       title: OpenSearch OpenID Connect Configuration
       type: object
       required:
+        - enabled
         - connect_url
         - client_id
         - client_secret
