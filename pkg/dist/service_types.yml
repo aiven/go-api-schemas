@@ -1169,6 +1169,10 @@ grafana:
           pattern: ^[\040-\176]+$
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
+        skip_org_role_sync:
+          title: Automatically sync user roles.
+          type: boolean
+          example: false
         team_ids:
           title: Require users to belong to one of given team IDs
           type: array
@@ -4105,49 +4109,37 @@ opensearch:
           maximum: 5
         ism_enabled:
           title: Specifies whether ISM is enabled or not
-          type:
-            - boolean
-            - "null"
+          type: boolean
           default: true
           example: true
         ism_history_enabled:
           title: Specifies whether audit history is enabled or not. The logs from ISM are automatically indexed to a logs document.
-          type:
-            - boolean
-            - "null"
+          type: boolean
           default: true
           example: true
         ism_history_max_age:
           title: The maximum age before rolling over the audit history index in hours
-          type:
-            - integer
-            - "null"
+          type: integer
           default: "24"
           minimum: 1
           maximum: 2.147483647e+09
           example: "24"
         ism_history_max_docs:
           title: The maximum number of documents before rolling over the audit history index.
-          type:
-            - integer
-            - "null"
+          type: integer
           default: "2500000"
           minimum: 1
           example: "2500000"
         ism_history_rollover_check_period:
           title: The time between rollover checks for the audit history index in hours.
-          type:
-            - integer
-            - "null"
+          type: integer
           default: "8"
           minimum: 1
           maximum: 2.147483647e+09
           example: "8"
         ism_history_rollover_retention_period:
           title: How long audit history indices are kept in days.
-          type:
-            - integer
-            - "null"
+          type: integer
           default: "30"
           minimum: 1
           maximum: 2.147483647e+09
