@@ -499,7 +499,7 @@ rsyslog:
         ...
         -----END CERTIFICATE-----
     format:
-      title: message format
+      title: Message format
       type: string
       default: rfc5424
       enum:
@@ -518,14 +518,21 @@ rsyslog:
         ...
         -----END PRIVATE KEY-----
     logline:
-      title: custom syslog message format
+      title: Custom syslog message format
       type: string
       min_length: 1
       max_length: 512
       pattern: ^[ -~\t]+$
       example: <%pri%>%timestamp:::date-rfc3339% %HOSTNAME% %app-name% %msg%
+    max_message_size:
+      title: Rsyslog max message size
+      type: integer
+      default: "8192"
+      minimum: 2048
+      maximum: 2.147483647e+09
+      example: "8192"
     port:
-      title: rsyslog server port
+      title: Rsyslog server port
       type: integer
       default: "514"
       minimum: 1
@@ -539,7 +546,7 @@ rsyslog:
       max_length: 1024
       example: TOKEN tag="LiteralValue"
     server:
-      title: rsyslog server IP address or hostname
+      title: Rsyslog server IP address or hostname
       type: string
       min_length: 4
       max_length: 255
