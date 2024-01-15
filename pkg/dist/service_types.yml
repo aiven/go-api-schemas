@@ -1161,6 +1161,10 @@ grafana:
             example: aiven
             user_error: Must consist of alpha-numeric characters and dashes
           max_items: 50
+        auto_login:
+          title: Allow users to bypass the login screen and automatically log in
+          type: boolean
+          example: false
         client_id:
           title: Client ID from provider
           type: string
@@ -1176,7 +1180,7 @@ grafana:
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
         skip_org_role_sync:
-          title: Automatically sync user roles.
+          title: Stop automatically syncing user roles
           type: boolean
           example: false
         team_ids:
@@ -2726,6 +2730,24 @@ kafka_mirrormaker:
           type: integer
           minimum: 1
           example: "60"
+        groups:
+          title: Comma-separated list of consumer groups to replicate
+          description: Consumer groups to replicate. Supports comma-separated group IDs and regexes.
+          type: string
+          max_length: 128
+          example: .*
+        groups_exclude:
+          title: Comma-separated list of group IDs and regexes to exclude from replication
+          description: Exclude groups. Supports comma-separated group IDs and regexes. Excludes take precedence over includes.
+          type: string
+          max_length: 128
+          example: console-consumer-.*,connect-.*,__.*
+        offset_lag_max:
+          title: Maximum offset lag before it is resynced
+          description: How out-of-sync a remote partition can be before it is resynced.
+          type: integer
+          minimum: 1
+          example: "100"
         refresh_groups_enabled:
           title: Refresh consumer groups
           description: Whether to periodically check for new consumer groups. Defaults to 'true'.
