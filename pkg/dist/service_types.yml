@@ -61,7 +61,9 @@ cassandra:
         - "null"
       enum:
         - value: "4"
-        - value: "3"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3"
         - value: "4.1"
     ip_filter:
       title: IP filter
@@ -256,6 +258,165 @@ clickhouse:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
+    service_to_fork_from:
+      title: Name of another service to fork from. This has effect only when a new service is being created.
+      type:
+        - string
+        - "null"
+      max_length: 64
+      create_only: true
+      example: anotherservicename
+    static_ips:
+      title: Static IP addresses
+      description: Use static public IP addresses
+      type: boolean
+      example: true
+dragonfly:
+  type: object
+  properties:
+    cache_mode:
+      title: Evict entries when getting close to maxmemory limit
+      type: boolean
+      default: false
+    dragonfly_ssl:
+      title: Require SSL to access Dragonfly
+      type: boolean
+      default: true
+    ip_filter:
+      title: IP filter
+      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
+      type: array
+      default:
+        - 0.0.0.0/0
+      items:
+        title: CIDR address block, either as a string, or in a dict with an optional description field
+        type:
+          - string
+          - object
+        required:
+          - network
+        properties:
+          description:
+            title: Description for IP filter list entry
+            type: string
+            max_length: 1024
+            example: Production service IP range
+          network:
+            title: CIDR address block
+            type: string
+            max_length: 43
+            example: 10.20.0.0/16
+        max_length: 43
+        example: 10.20.0.0/16
+      max_items: 1024
+    migration:
+      title: Migrate data from existing server
+      type:
+        - object
+        - "null"
+      required:
+        - host
+        - port
+      properties:
+        dbname:
+          title: Database name for bootstrapping the initial connection
+          type: string
+          max_length: 63
+          example: defaultdb
+        host:
+          title: Hostname or IP address of the server where to migrate data from
+          type: string
+          max_length: 255
+          example: my.server.com
+        ignore_dbs:
+          title: Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: db1,db2
+        method:
+          title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+          type: string
+          enum:
+            - value: dump
+            - value: replication
+          example: dump
+        password:
+          title: Password for authentication with the server where to migrate data from
+          type: string
+          max_length: 256
+          example: jjKk45Nnd
+        port:
+          title: Port number of the server where to migrate data from
+          type: integer
+          minimum: 1
+          maximum: 65535
+          example: "1234"
+        ssl:
+          title: The server where to migrate data from is secured with SSL
+          type: boolean
+          default: true
+        username:
+          title: User name for authentication with the server where to migrate data from
+          type: string
+          max_length: 256
+          example: myname
+    private_access:
+      title: Allow access to selected service ports from private networks
+      type: object
+      properties:
+        dragonfly:
+          title: Allow clients to connect to dragonfly with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+        prometheus:
+          title: Allow clients to connect to prometheus with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+    privatelink_access:
+      title: Allow access to selected service components through Privatelink
+      type: object
+      properties:
+        dragonfly:
+          title: Enable dragonfly
+          type: boolean
+          example: true
+        prometheus:
+          title: Enable prometheus
+          type: boolean
+          example: true
+    project_to_fork_from:
+      title: Name of another project to fork a service from. This has effect only when a new service is being created.
+      type:
+        - string
+        - "null"
+      max_length: 63
+      create_only: true
+      example: anotherprojectname
+    public_access:
+      title: Allow access to selected service ports from the public Internet
+      type: object
+      properties:
+        dragonfly:
+          title: Allow clients to connect to dragonfly from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        prometheus:
+          title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+    recovery_basebackup_name:
+      title: Name of the basebackup to restore in forked service
+      type: string
+      max_length: 128
+      pattern: ^[a-zA-Z0-9-_:.]+$
+      example: backup-20191112t091354293891z
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -2319,8 +2480,12 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.2"
-        - value: "3.3"
-        - value: "3.1"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.3"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.1"
         - value: "3.4"
         - value: "3.5"
         - value: "3.6"
@@ -4988,7 +5153,9 @@ pg:
         - string
         - "null"
       enum:
-        - value: "11"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "11"
         - value: "12"
         - value: "13"
         - value: "14"
