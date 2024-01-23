@@ -18,6 +18,7 @@ var supportedServiceTypes = func() map[string]struct{} {
 		"cassandra":                       {},
 		"clickhouse":                      {},
 		"datadog":                         {},
+		"dragonfly":                       {},
 		"elasticsearch":                   {},
 		"external_aws_cloudwatch_logs":    {},
 		"external_aws_cloudwatch_metrics": {},
