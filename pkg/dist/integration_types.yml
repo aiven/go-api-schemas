@@ -31,7 +31,6 @@ clickhouse_kafka:
           columns:
             title: Table columns
             type: array
-            default: []
             items:
               title: Table column
               type: object
