@@ -2425,6 +2425,15 @@ kafka:
             - value: "30000"
           minimum: 1000
           maximum: 30000
+        name_strategy:
+          title: name.strategy
+          description: Name strategy to use when selecting subject for storing schemas
+          type: string
+          default: topic_name
+          enum:
+            - value: topic_name
+            - value: record_name
+            - value: topic_record_name
         name_strategy_validation:
           title: name.strategy.validation
           description: If true, validate that given schema is registered under expected subject name by the used name strategy when producing messages.
