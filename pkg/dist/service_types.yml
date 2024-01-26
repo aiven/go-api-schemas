@@ -55,7 +55,7 @@ cassandra:
           max_length: 128
           example: my-service-google-west1
     cassandra_version:
-      title: Cassandra major version
+      title: Cassandra version
       type:
         - string
         - "null"
@@ -2425,6 +2425,15 @@ kafka:
             - value: "30000"
           minimum: 1000
           maximum: 30000
+        name_strategy:
+          title: name.strategy
+          description: Name strategy to use when selecting subject for storing schemas
+          type: string
+          default: topic_name
+          enum:
+            - value: topic_name
+            - value: record_name
+            - value: topic_record_name
         name_strategy_validation:
           title: name.strategy.validation
           description: If true, validate that given schema is registered under expected subject name by the used name strategy when producing messages.
@@ -5591,6 +5600,13 @@ redis:
       default: "300"
       minimum: 0
       maximum: 3.1536e+07
+    redis_version:
+      title: Redis major version
+      type:
+        - string
+        - "null"
+      enum:
+        - value: "7.0"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
