@@ -360,7 +360,6 @@ external_postgresql:
     - host
     - port
     - username
-    - password
   properties:
     host:
       title: Hostname or IP address of the server
@@ -378,6 +377,24 @@ external_postgresql:
       minimum: 1
       maximum: 65535
       example: "5432"
+    ssl_client_certificate:
+      title: Client certificate
+      type: string
+      default: ""
+      max_length: 16384
+      example: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+    ssl_client_key:
+      title: Client key
+      type: string
+      default: ""
+      max_length: 16384
+      example: |-
+        -----BEGIN PRIVATE KEY-----
+        ...
+        -----END PRIVATE KEY-----
     ssl_mode:
       title: SSL Mode
       type: string
