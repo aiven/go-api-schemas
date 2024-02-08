@@ -5175,11 +5175,13 @@ pg:
         - value: "16"
     pgbouncer:
       title: PGBouncer connection pooling settings
+      description: System-wide settings for pgbouncer.
       type: object
       properties:
         autodb_idle_timeout:
           title: If the automatically created database pools have been unused this many seconds, they are freed. If 0 then timeout is disabled. [seconds]
           type: integer
+          default: "3600"
           minimum: 0
           maximum: 86400
           example: "3600"
@@ -5192,6 +5194,7 @@ pg:
         autodb_pool_mode:
           title: PGBouncer pool mode
           type: string
+          default: transaction
           enum:
             - value: session
             - value: transaction
@@ -5200,6 +5203,7 @@ pg:
         autodb_pool_size:
           title: If non-zero then create automatically a pool of that size per user when a pool doesn't exist.
           type: integer
+          default: "0"
           minimum: 0
           maximum: 10000
           example: "0"
@@ -5207,7 +5211,6 @@ pg:
           title: List of parameters to ignore when given in startup packet
           type: array
           items:
-            title: Enum of parameters to ignore when given in startup packet
             type: string
             enum:
               - value: extra_float_digits
@@ -5219,24 +5222,28 @@ pg:
         min_pool_size:
           title: Add more server connections to pool if below this number. Improves behavior when usual load comes suddenly back after period of total inactivity. The value is effectively capped at the pool size.
           type: integer
+          default: "0"
           minimum: 0
           maximum: 10000
           example: "0"
         server_idle_timeout:
           title: If a server connection has been idle more than this many seconds it will be dropped. If 0 then timeout is disabled. [seconds]
           type: integer
+          default: "600"
           minimum: 0
           maximum: 86400
           example: "600"
         server_lifetime:
           title: The pooler will close an unused server connection that has been connected longer than this. [seconds]
           type: integer
+          default: "3600"
           minimum: 60
           maximum: 86400
           example: "3600"
         server_reset_query_always:
           title: Run server_reset_query (DISCARD ALL) in all pooling modes
           type: boolean
+          default: false
           example: false
     pglookout:
       title: PGLookout settings
