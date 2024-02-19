@@ -2378,7 +2378,7 @@ kafka:
           example: "1048576"
         scheduled_rebalance_max_delay_ms:
           title: The maximum delay of rebalancing connector workers
-          description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned.  Defaults to 5 minutes.
+          description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned. Defaults to 5 minutes.
           type: integer
           minimum: 0
           maximum: 600000
@@ -2783,7 +2783,7 @@ kafka_connect:
           example: "1048576"
         scheduled_rebalance_max_delay_ms:
           title: The maximum delay of rebalancing connector workers
-          description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned.  Defaults to 5 minutes.
+          description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned. Defaults to 5 minutes.
           type: integer
           minimum: 0
           maximum: 600000
@@ -3599,7 +3599,7 @@ mysql:
           example: "30"
         innodb_flush_neighbors:
           title: innodb_flush_neighbors
-          description: 'Specifies whether flushing a page from the InnoDB buffer pool also flushes other dirty pages in the same extent (default is 1): 0 - dirty pages in the same extent are not flushed,  1 - flush contiguous dirty pages in the same extent,  2 - flush dirty pages in the same extent'
+          description: 'Specifies whether flushing a page from the InnoDB buffer pool also flushes other dirty pages in the same extent (default is 1): 0 - dirty pages in the same extent are not flushed, 1 - flush contiguous dirty pages in the same extent, 2 - flush dirty pages in the same extent'
           type: integer
           minimum: 0
           maximum: 2
@@ -4780,7 +4780,7 @@ pg:
           maximum: 1
         autovacuum_analyze_threshold:
           title: autovacuum_analyze_threshold
-          description: Specifies the minimum number of inserted, updated or deleted tuples needed to trigger an  ANALYZE in any one table. The default is 50 tuples.
+          description: Specifies the minimum number of inserted, updated or deleted tuples needed to trigger an ANALYZE in any one table. The default is 50 tuples.
           type: integer
           minimum: 0
           maximum: 2.147483647e+09
