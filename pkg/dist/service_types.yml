@@ -65,6 +65,7 @@ cassandra:
           deprecation_notice: This value is deprecated.
           value: "3"
         - value: "4.1"
+      pattern: ^[0-9]+(\.[0-9]+)?$
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -112,6 +113,7 @@ cassandra:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -135,12 +137,14 @@ cassandra:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     service_to_join_with:
       title: Name of the service to form a bigger cluster with
       description: When bootstrapping, instead of creating a new Cassandra cluster try to join an existing one from another service. Can only be set on service creation.
       type: string
       max_length: 64
+      pattern: ^[a-z][-a-z0-9]{0,63}$
       example: my-test-cassandra
     static_ips:
       title: Static IP addresses
@@ -237,6 +241,7 @@ clickhouse:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -272,6 +277,7 @@ clickhouse:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
@@ -398,6 +404,7 @@ dragonfly:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -431,6 +438,7 @@ dragonfly:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
@@ -1649,6 +1657,7 @@ grafana:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -1678,6 +1687,7 @@ grafana:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     smtp_server:
       title: SMTP server settings
@@ -1878,6 +1888,7 @@ influxdb:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -1907,6 +1918,7 @@ influxdb:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
@@ -2215,11 +2227,13 @@ kafka:
           description: The (optional) comma-delimited setting for the broker to use to verify that the JWT was issued for one of the expected audiences.
           type: string
           max_length: 128
+          pattern: ^[^\r\n]*$
         sasl_oauthbearer_expected_issuer:
           title: sasl.oauthbearer.expected.issuer
           description: Optional setting for the broker to use to verify that the JWT was created by the expected issuer.
           type: string
           max_length: 128
+          pattern: ^[^\r\n]*$
         sasl_oauthbearer_jwks_endpoint_url:
           title: sasl.oauthbearer.jwks.endpoint.url
           description: 'OIDC JWKS endpoint URL. By setting this the SASL SSL OAuth2/OIDC authentication is enabled. See also other options for SASL OAuth2/OIDC. '
@@ -2230,6 +2244,7 @@ kafka:
           description: Name of the scope from which to extract the subject claim from the JWT. Defaults to sub.
           type: string
           max_length: 128
+          pattern: ^[^\r\n]*$
         socket_request_max_bytes:
           title: socket.request.max.bytes
           description: The maximum number of bytes in a socket request (defaults to 104857600).
@@ -2910,12 +2925,14 @@ kafka_mirrormaker:
           description: Consumer groups to replicate. Supports comma-separated group IDs and regexes.
           type: string
           max_length: 128
+          pattern: ^[^\r\n]*$
           example: .*
         groups_exclude:
           title: Comma-separated list of group IDs and regexes to exclude from replication
           description: Exclude groups. Supports comma-separated group IDs and regexes. Excludes take precedence over includes.
           type: string
           max_length: 128
+          pattern: ^[^\r\n]*$
           example: console-consumer-.*,connect-.*,__.*
         offset_lag_max:
           title: Maximum offset lag before it is resynced
@@ -3274,6 +3291,7 @@ m3db:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -3418,6 +3436,7 @@ m3db:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
@@ -3576,6 +3595,7 @@ mysql:
           type: string
           min_length: 2
           max_length: 100
+          pattern: ^([-+][\d:]*|[\w/]*)$
           example: "+03:00"
         group_concat_max_len:
           title: group_concat_max_len
@@ -3814,6 +3834,7 @@ mysql:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -3853,6 +3874,7 @@ mysql:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
@@ -4005,6 +4027,7 @@ opensearch:
           type: string
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: ""
         client_secret:
           title: The client secret of the OpenID Connect
@@ -4012,6 +4035,7 @@ opensearch:
           type: string
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: ""
         connect_url:
           title: OpenID Connect metadata/configuration URL
@@ -4031,6 +4055,7 @@ opensearch:
           default: Authorization
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: ""
         jwt_header:
           title: The HTTP header that stores the token
@@ -4040,6 +4065,7 @@ opensearch:
             - "null"
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: preferred_username
         jwt_url_parameter:
           title: URL JWT token.
@@ -4049,6 +4075,7 @@ opensearch:
             - "null"
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: preferred_username
         refresh_rate_limit_count:
           title: The maximum number of unknown key IDs in the time frame
@@ -4076,6 +4103,7 @@ opensearch:
             - "null"
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: roles
         scope:
           title: The scope of the identity token issued by the IdP
@@ -4083,6 +4111,7 @@ opensearch:
           type: string
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: ""
         subject_key:
           title: The key in the JSON payload that stores the user’s name
@@ -4092,6 +4121,7 @@ opensearch:
             - "null"
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: preferred_username
     opensearch:
       title: OpenSearch settings
@@ -4527,6 +4557,7 @@ opensearch:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -4570,6 +4601,7 @@ opensearch:
           type: string
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: test-idp-entity-id
         idp_metadata_url:
           title: Identity Provider (IdP) SAML metadata URL
@@ -4597,6 +4629,7 @@ opensearch:
             - "null"
           min_length: 1
           max_length: 256
+          pattern: ^[^\r\n]*$
           example: RoleName
         sp_entity_id:
           title: Service Provider Entity ID
@@ -4604,6 +4637,7 @@ opensearch:
           type: string
           min_length: 1
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: test-sp-entity-id
         subject_key:
           title: SAML response subject attribute
@@ -4613,6 +4647,7 @@ opensearch:
             - "null"
           min_length: 1
           max_length: 256
+          pattern: ^[^\r\n]*$
           example: NameID
     service_log:
       title: Service logging
@@ -4628,6 +4663,7 @@ opensearch:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
@@ -5047,6 +5083,7 @@ pg:
           description: PostgreSQL service timezone
           type: string
           max_length: 64
+          pattern: ^[\w/]*$
           example: Europe/Helsinki
         track_activity_query_size:
           title: track_activity_query_size
@@ -5150,6 +5187,7 @@ pg:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     pg_stat_monitor_enable:
       title: Enable pg_stat_monitor extension if available for the current cluster
@@ -5297,6 +5335,7 @@ pg:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -5336,6 +5375,7 @@ pg:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     shared_buffers_percentage:
       title: shared_buffers_percentage
@@ -5510,6 +5550,7 @@ redis:
         - "null"
       max_length: 63
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherprojectname
     public_access:
       title: Allow access to selected service ports from the public Internet
@@ -5628,6 +5669,7 @@ redis:
         - "null"
       max_length: 64
       create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     static_ips:
       title: Static IP addresses
