@@ -5210,7 +5210,9 @@ pg:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "10"
-        - value: "16"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "16"
     pgbouncer:
       title: PGBouncer connection pooling settings
       description: System-wide settings for pgbouncer.
