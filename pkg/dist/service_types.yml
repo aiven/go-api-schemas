@@ -5621,7 +5621,7 @@ redis:
       type: string
       default: ""
       max_length: 32
-      pattern: ^[KEg\$lshzxeA]*$
+      pattern: ^[KEg\$lshzxentdmA]*$
     redis_number_of_databases:
       title: Number of Redis databases
       description: Set number of Redis databases. Changing this will cause a restart of the Redis service.
