@@ -361,6 +361,13 @@ external_postgresql:
     - port
     - username
   properties:
+    default_database:
+      title: Default database
+      type: string
+      max_length: 63
+      pattern: ^[_A-Za-z0-9][-_A-Za-z0-9]{0,62}$
+      example: testdb
+      user_error: Must consist of alpha-numeric characters, underscores or dashes, may not start with dash, max 63 characters
     host:
       title: Hostname or IP address of the server
       type: string
