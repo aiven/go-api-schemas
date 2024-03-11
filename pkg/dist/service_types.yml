@@ -5216,6 +5216,92 @@ pg:
           deprecation_notice: This value is deprecated.
           value: "10"
         - value: "16"
+    pgaudit:
+      title: PGAudit settings
+      description: System-wide settings for the pgaudit extension
+      type: object
+      properties:
+        feature_enabled:
+          title: Enable pgaudit extension.
+          description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
+          type: boolean
+          default: false
+        log:
+          title: Specifies which classes of statements will be logged by session audit logging.
+          type: array
+          items:
+            type: string
+            enum:
+              - value: all
+              - value: ddl
+              - value: function
+              - value: misc
+              - value: misc_set
+              - value: read
+              - value: role
+              - value: write
+        log_catalog:
+          title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
+          type: boolean
+          default: true
+        log_client:
+          title: Specifies whether log messages will be visible to a client process such as psql.
+          type: boolean
+          default: false
+        log_level:
+          title: Specifies the log level that will be used for log entries.
+          type: string
+          default: log
+          enum:
+            - value: debug1
+            - value: debug2
+            - value: debug3
+            - value: debug4
+            - value: debug5
+            - value: info
+            - value: notice
+            - value: warning
+            - value: log
+        log_max_string_length:
+          title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
+          type: integer
+          default: "-1"
+          minimum: -1
+          maximum: 102400
+        log_nested_statements:
+          title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
+          type: boolean
+          default: true
+        log_parameter:
+          title: Specifies that audit logging should include the parameters that were passed with the statement.
+          type: boolean
+          default: false
+        log_parameter_max_size:
+          title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
+          type: integer
+          default: "0"
+        log_relation:
+          title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          type: boolean
+          default: false
+        log_rows:
+          title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
+          type: boolean
+          default: false
+        log_statement:
+          title: Specifies whether logging will include the statement text and parameters (if enabled).
+          type: boolean
+          default: true
+        log_statement_once:
+          title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
+          type: boolean
+          default: false
+        role:
+          title: Specifies the master role to use for object audit logging.
+          type: string
+          max_length: 64
+          pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
+          user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     pgbouncer:
       title: PGBouncer connection pooling settings
       description: System-wide settings for pgbouncer.
