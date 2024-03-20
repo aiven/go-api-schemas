@@ -282,6 +282,10 @@ datadog:
       title: Datadog Opensearch Options
       type: object
       properties:
+        cluster_stats_enabled:
+          title: Enable Datadog Opensearch Cluster Monitoring
+          type: boolean
+          example: true
         index_stats_enabled:
           title: Enable Datadog Opensearch Index Monitoring
           type: boolean
