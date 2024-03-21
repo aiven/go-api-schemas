@@ -7,7 +7,6 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	"github.com/aiven/go-api-schemas/internal/convert"
-	"github.com/aiven/go-api-schemas/internal/filter"
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
@@ -40,14 +39,9 @@ func serviceTypes() error {
 		return err
 	}
 
-	filtered, err := filter.ServiceTypes(r)
-	if err != nil {
-		return err
-	}
+	out := make(map[string]types.UserConfigSchema, len(r))
 
-	out := map[string]types.UserConfigSchema{}
-
-	for k, v := range filtered {
+	for k, v := range r {
 		cv, err := convert.UserConfigSchema(v.UserConfigSchema)
 		if err != nil {
 			return err
@@ -72,14 +66,9 @@ func integrationTypes() error {
 		return err
 	}
 
-	filtered, err := filter.IntegrationTypes(r)
-	if err != nil {
-		return err
-	}
+	out := make(map[string]types.UserConfigSchema, len(r))
 
-	out := map[string]types.UserConfigSchema{}
-
-	for _, v := range filtered {
+	for _, v := range r {
 		cv, err := convert.UserConfigSchema(v.UserConfigSchema)
 		if err != nil {
 			return err
@@ -104,14 +93,9 @@ func integrationEndpointTypes() error {
 		return err
 	}
 
-	filtered, err := filter.IntegrationEndpointTypes(r)
-	if err != nil {
-		return err
-	}
+	out := make(map[string]types.UserConfigSchema, len(r))
 
-	out := map[string]types.UserConfigSchema{}
-
-	for _, v := range filtered {
+	for _, v := range r {
 		cv, err := convert.UserConfigSchema(v.UserConfigSchema)
 		if err != nil {
 			return err
