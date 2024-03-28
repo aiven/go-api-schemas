@@ -1121,8 +1121,6 @@ grafana:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -3072,8 +3070,6 @@ m3db:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -3885,8 +3881,6 @@ opensearch:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -5520,8 +5514,6 @@ redis:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
