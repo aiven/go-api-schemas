@@ -2518,6 +2518,7 @@ kafka:
         - value: "3.4"
         - value: "3.5"
         - value: "3.6"
+        - value: "3.7"
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -5766,3 +5767,143 @@ redis:
       description: Use static public IP addresses
       type: boolean
       example: true
+thanos:
+  type: object
+  properties:
+    compactor:
+      title: ThanosCompactorUserConfig
+      description: Generic model
+      type: object
+      properties:
+        retention.days:
+          title: Retention time for data in days
+          description: Retention time for data in days for each resolution (5m, 1h, raw)
+          type: integer
+          max_length: 20
+    env:
+      title: Environmental variables
+      type: object
+      default: {}
+    ip_filter:
+      title: IP filter
+      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
+      type: array
+      default:
+        - 0.0.0.0/0
+      items:
+        title: CIDR address block, either as a string, or in a dict with an optional description field
+        type:
+          - string
+          - object
+        required:
+          - network
+        properties:
+          description:
+            title: Description for IP filter list entry
+            type: string
+            max_length: 1024
+            example: Production service IP range
+          network:
+            title: CIDR address block
+            type: string
+            max_length: 43
+            example: 10.20.0.0/16
+        max_length: 43
+        example: 10.20.0.0/16
+      max_items: 1024
+    object_storage_usage_alert_threshold_gb:
+      title: Alert threshold for exceeding object storage usage (GiB)
+      description: After exceeding the limit a service alert is going to be raised (0 means not set)
+      type: integer
+      minimum: 0
+    public_access:
+      title: Allow access to selected service ports from the public Internet
+      type: object
+      properties:
+        compactor:
+          title: Allow clients to connect to compactor from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        query:
+          title: Allow clients to connect to query from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        query_frontend:
+          title: Allow clients to connect to query_frontend from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        receiver_ingesting:
+          title: Allow clients to connect to receiver_ingesting from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        receiver_routing:
+          title: Allow clients to connect to receiver_routing from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        store:
+          title: Allow clients to connect to store from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+    query:
+      title: ThanosQueryUserConfig
+      description: Generic model
+      type: object
+      properties:
+        query.default-evaluation-interval:
+          title: Set the default evaluation interval for subqueries.
+          description: Set the default evaluation interval for subqueries.
+          type: string
+          default: 1m
+          max_length: 20
+        query.lookback-delta:
+          title: Maximum lookback duration for retrieving metrics during expression evaluations in PromQL
+          description: The maximum lookback duration for retrieving metrics during expression evaluations in PromQL. PromQL always evaluates the query for a certain timestamp, and it looks back for the given amount of time to get the latest sample. If it exceeds the maximum lookback delta, it assumes the series is stale and returns none (a gap). The lookback delta should be set to at least 2 times the slowest scrape interval. If unset, it will use the promql default of 5m.
+          type: string
+          default: 5m
+          max_length: 20
+        query.metadata.default-time-range:
+          title: Default metadata time range duration for retrieving labels
+          description: The default metadata time range duration for retrieving labels through Labels and Series API when the range parameters are not specified. The zero value means the range covers the time since the beginning.
+          type: string
+          default: 0s
+          max_length: 20
+        query.timeout:
+          title: Maximum time to process a query by the query node.
+          description: Maximum time to process a query by the query node.
+          type: string
+          default: 2m
+          max_length: 20
+    query-frontend:
+      title: ThanosQueryFrontendUserConfig
+      description: Generic model
+      type: object
+      properties:
+        query-range.align-range-with-step:
+          title: Whether to align the query range boundaries with the step.
+          description: Whether to align the query range boundaries with the step. If enabled, the query range boundaries will be aligned to the step, providing more accurate results for queries with high-resolution data.
+          type: boolean
+          default: true
+    receiver-ingesting:
+      title: CommonReceiveUserConfig
+      description: Generic model
+      type: object
+    receiver-routing:
+      title: ThanosReceiveRoutingUserConfig
+      description: Generic model
+      type: object
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
+    static_ips:
+      title: Static IP addresses
+      description: Use static public IP addresses
+      type: boolean
+      example: true
+    store:
+      title: ThanosStoreUserConfig
+      description: Generic model
+      type: object
