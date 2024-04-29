@@ -5780,10 +5780,6 @@ thanos:
           description: Retention time for data in days for each resolution (5m, 1h, raw)
           type: integer
           max_length: 20
-    env:
-      title: Environmental variables
-      type: object
-      default: {}
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -5883,14 +5879,6 @@ thanos:
           description: Whether to align the query range boundaries with the step. If enabled, the query range boundaries will be aligned to the step, providing more accurate results for queries with high-resolution data.
           type: boolean
           default: true
-    receiver-ingesting:
-      title: CommonReceiveUserConfig
-      description: Generic model
-      type: object
-    receiver-routing:
-      title: ThanosReceiveRoutingUserConfig
-      description: Generic model
-      type: object
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -5903,7 +5891,3 @@ thanos:
       description: Use static public IP addresses
       type: boolean
       example: true
-    store:
-      title: ThanosStoreUserConfig
-      description: Generic model
-      type: object

@@ -39,8 +39,12 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 			return nil, errUnexpected
 		}
 
+		var cv *types.UserConfigSchema
+
 		for k, v := range ap {
-			var cv *types.UserConfigSchema
+			if isImmutableObject(v) {
+				continue
+			}
 
 			cv, err = UserConfigSchema(v)
 			if err != nil {
@@ -77,9 +81,9 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 			return nil, errUnexpected
 		}
 
-		for i, v := range ao {
-			var cv *types.UserConfigSchema
+		var cv *types.UserConfigSchema
 
+		for i, v := range ao {
 			cv, err = UserConfigSchema(v)
 			if err != nil {
 				return nil, err
@@ -151,4 +155,20 @@ func normalizeTypes(t any) []string {
 	}
 
 	return typeList
+}
+
+// isImmutableObject Ignores immutable objects.
+// Returns true if the object has no properties and does not allow additional properties.
+// Ignores `patternProperties`.
+func isImmutableObject(u aiven.UserConfigSchema) bool {
+	// An object with empty properties
+	t, ok := u.Type.(string)
+	if !(ok && t == "object" && len(u.Properties) == 0) {
+		return false
+	}
+
+	// Either no additional properties allowed or it is nil
+	allowed, ok := u.AdditionalProperties.(bool)
+
+	return ok != allowed || u.AdditionalProperties == nil
 }
