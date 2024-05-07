@@ -2944,7 +2944,7 @@ kafka_mirrormaker:
           title: Maximum offset lag before it is resynced
           description: How out-of-sync a remote partition can be before it is resynced.
           type: integer
-          minimum: 1
+          minimum: 0
           example: "100"
         refresh_groups_enabled:
           title: Refresh consumer groups
