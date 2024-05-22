@@ -308,7 +308,6 @@ external_kafka:
         - string
       enum:
         - value: https
-        - value: ""
       example: https
 external_opensearch_logs:
   type: object

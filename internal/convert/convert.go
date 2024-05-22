@@ -96,7 +96,9 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 	e := make([]types.UserConfigSchemaEnumValue, 0, len(v.Enum))
 
 	for _, v := range v.Enum {
-		e = append(e, types.UserConfigSchemaEnumValue{Value: v})
+		if v != "" {
+			e = append(e, types.UserConfigSchemaEnumValue{Value: v})
+		}
 	}
 
 	// YAML uses scientific notation for floats, they won't change that
