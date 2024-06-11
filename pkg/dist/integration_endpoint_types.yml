@@ -1,3 +1,29 @@
+autoscaler:
+  type: object
+  required:
+    - autoscaling
+  properties:
+    autoscaling:
+      title: List of autoscaling configurations
+      description: Configure autoscaling thresholds for a service
+      type: array
+      items:
+        title: AutoscalingProperties
+        description: Generic model
+        type: object
+        required:
+          - type
+          - cap_gb
+        properties:
+          cap_gb:
+            title: The maximum total disk size (in gb) to allow autoscaler to scale up to
+            type: integer
+            minimum: 50
+            maximum: 10000
+            example: "300"
+          type:
+            title: Type of autoscale event
+      max_items: 64
 datadog:
   type: object
   required:

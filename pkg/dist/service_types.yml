@@ -1068,6 +1068,7 @@ flink:
       enum:
         - value: "1.16"
         - value: "1.19"
+      create_only: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -2521,6 +2522,13 @@ kafka:
         - value: "3.5"
         - value: "3.6"
         - value: "3.7"
+    letsencrypt_sasl_privatelink:
+      title: Use Letsencrypt CA for Kafka SASL via Privatelink
+      description: Use Letsencrypt CA for Kafka SASL via Privatelink
+      type:
+        - boolean
+        - "null"
+      example: true
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
