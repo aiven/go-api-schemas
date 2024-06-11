@@ -1,6 +1,6 @@
 module github.com/aiven/go-api-schemas
 
-go 1.19
+go 1.22
 
 require (
 	github.com/aiven/aiven-go-client v1.36.0
