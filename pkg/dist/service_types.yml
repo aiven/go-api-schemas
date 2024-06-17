@@ -2413,6 +2413,24 @@ kafka:
           minimum: 1
           maximum: 2.147483647e+09
           example: "10000"
+    kafka_connect_secret_providers:
+      title: Kafka Connect secret providers
+      description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
+      type: array
+      items:
+        title: SecretProvider
+        description: Generic model
+        type: object
+        required:
+          - name
+        properties:
+          aws:
+            title: AWS config for Secret Provider
+          name:
+            title: Name of the secret provider. Used to reference secrets in connector config.
+            type: string
+          vault:
+            title: Vault Config for Secret Provider
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -2866,6 +2884,24 @@ kafka_connect:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    secret_providers:
+      title: Kafka Connect secret providers
+      description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
+      type: array
+      items:
+        title: SecretProvider
+        description: Generic model
+        type: object
+        required:
+          - name
+        properties:
+          aws:
+            title: AWS config for Secret Provider
+          name:
+            title: Name of the secret provider. Used to reference secrets in connector config.
+            type: string
+          vault:
+            title: Vault Config for Secret Provider
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -5229,16 +5265,22 @@ pg:
           value: "10"
         - value: "16"
     pgaudit:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: PGAudit settings
       description: System-wide settings for the pgaudit extension
       type: object
       properties:
         feature_enabled:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Enable pgaudit extension.
           description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
           type: boolean
           default: false
         log:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies which classes of statements will be logged by session audit logging.
           type: array
           items:
@@ -5253,62 +5295,104 @@ pg:
               - value: role
               - value: write
         log_catalog:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether log messages will be visible to a client process such as psql.
           type: boolean
           default: false
         log_level:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies the log level that will be used for log entries.
           type: string
           default: log
           enum:
-            - value: debug1
-            - value: debug2
-            - value: debug3
-            - value: debug4
-            - value: debug5
-            - value: info
-            - value: notice
-            - value: warning
-            - value: log
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug1
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug2
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug3
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug4
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug5
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: info
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: notice
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: warning
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: log
         log_max_string_length:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that audit logging should include the parameters that were passed with the statement.
           type: boolean
           default: false
         log_parameter_max_size:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
           type: boolean
           default: false
         log_statement:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether logging will include the statement text and parameters (if enabled).
           type: boolean
           default: true
         log_statement_once:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies the master role to use for object audit logging.
           type: string
           max_length: 64
