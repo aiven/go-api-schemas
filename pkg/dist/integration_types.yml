@@ -285,6 +285,17 @@ datadog:
       minimum: 10
       maximum: 100000
       example: "2000"
+    mirrormaker_custom_metrics:
+      title: List of custom metrics
+      type: array
+      items:
+        title: Metric name
+        type: string
+        enum:
+          - value: kafka_mirrormaker_summary.replication_lag
+        max_length: 1024
+        example: kafka_mirrormaker_summary.replication_lag
+      max_items: 1024
     opensearch:
       title: Datadog Opensearch Options
       type: object
