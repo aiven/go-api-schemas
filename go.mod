@@ -6,7 +6,7 @@ require (
 	github.com/aiven/aiven-go-client v1.36.0
 	github.com/google/go-cmp v0.6.0
 	github.com/mitchellh/copystructure v1.2.0
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8
 	golang.org/x/net v0.26.0
