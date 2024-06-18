@@ -72,6 +72,7 @@ clickhouse_kafka:
               - value: TabSeparated
               - value: RawBLOB
               - value: AvroConfluent
+              - value: Parquet
             example: JSONEachRow
           date_time_input_format:
             title: Method to read DateTime from text input formats
@@ -520,6 +521,15 @@ kafka_mirrormaker:
       title: Kafka MirrorMaker configuration values
       type: object
       properties:
+        consumer_auto_offset_reset:
+          title: Set the auto.offset.reset to consumer.
+          description: 'Set where consumer starts to consume data. Value `earliest`: Start replication from the earliest offset. Value `latest`: Start replication from the latest offset. Default is `earliest`.'
+          type:
+            - string
+            - "null"
+          enum:
+            - value: earliest
+            - value: latest
         consumer_fetch_min_bytes:
           title: consumer.fetch.min.bytes
           description: The minimum amount of data the server should return for a fetch request
@@ -527,6 +537,15 @@ kafka_mirrormaker:
           minimum: 1
           maximum: 5.24288e+06
           example: "1024"
+        consumer_max_poll_records:
+          title: Set the max.poll.records to consumer.
+          description: Set consumer max.poll.records. The default is 500.
+          type:
+            - integer
+            - "null"
+          minimum: 100
+          maximum: 20000
+          example: "500"
         producer_batch_size:
           title: producer.batch.size
           description: The batch size in bytes producer will attempt to collect before publishing to broker.

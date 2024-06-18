@@ -2426,11 +2426,63 @@ kafka:
         properties:
           aws:
             title: AWS config for Secret Provider
+            description: Generic model
+            type: object
+            required:
+              - auth_method
+              - region
+            properties:
+              access_key:
+                title: Access key used to authenticate with aws
+                type: string
+                max_length: 128
+              auth_method:
+                title: Auth method of the vault secret provider
+                description: An enumeration.
+                type: string
+                enum:
+                  - value: credentials
+              region:
+                title: Region used to lookup secrets with AWS SecretManager
+                type: string
+                max_length: 64
+              secret_key:
+                title: Secret key used to authenticate with aws
+                type: string
+                max_length: 128
           name:
             title: Name of the secret provider. Used to reference secrets in connector config.
             type: string
           vault:
             title: Vault Config for Secret Provider
+            description: Generic model
+            type: object
+            required:
+              - auth_method
+              - address
+            properties:
+              address:
+                title: Address of the Vault server
+                type: string
+                min_length: 1
+                max_length: 65536
+              auth_method:
+                title: Auth method of the vault secret provider
+                description: An enumeration.
+                type: string
+                enum:
+                  - value: token
+              engine_version:
+                title: KV Secrets Engine version of the Vault server instance
+                description: An enumeration.
+                type: integer
+                enum:
+                  - value: "1"
+                  - value: "2"
+              token:
+                title: Token used to authenticate with vault and auth method `token`.
+                type: string
+                max_length: 256
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -2897,11 +2949,63 @@ kafka_connect:
         properties:
           aws:
             title: AWS config for Secret Provider
+            description: Generic model
+            type: object
+            required:
+              - auth_method
+              - region
+            properties:
+              access_key:
+                title: Access key used to authenticate with aws
+                type: string
+                max_length: 128
+              auth_method:
+                title: Auth method of the vault secret provider
+                description: An enumeration.
+                type: string
+                enum:
+                  - value: credentials
+              region:
+                title: Region used to lookup secrets with AWS SecretManager
+                type: string
+                max_length: 64
+              secret_key:
+                title: Secret key used to authenticate with aws
+                type: string
+                max_length: 128
           name:
             title: Name of the secret provider. Used to reference secrets in connector config.
             type: string
           vault:
             title: Vault Config for Secret Provider
+            description: Generic model
+            type: object
+            required:
+              - auth_method
+              - address
+            properties:
+              address:
+                title: Address of the Vault server
+                type: string
+                min_length: 1
+                max_length: 65536
+              auth_method:
+                title: Auth method of the vault secret provider
+                description: An enumeration.
+                type: string
+                enum:
+                  - value: token
+              engine_version:
+                title: KV Secrets Engine version of the Vault server instance
+                description: An enumeration.
+                type: integer
+                enum:
+                  - value: "1"
+                  - value: "2"
+              token:
+                title: Token used to authenticate with vault and auth method `token`.
+                type: string
+                max_length: 256
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
