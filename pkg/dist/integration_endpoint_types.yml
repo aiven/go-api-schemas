@@ -430,12 +430,19 @@ external_postgresql:
         -----END PRIVATE KEY-----
     ssl_mode:
       title: SSL Mode
+      description: SSL mode to use for the connection.  Please note that Aiven requires TLS for all connections to external PostgreSQL services.
       type: string
       default: verify-full
       enum:
-        - value: disable
-        - value: allow
-        - value: prefer
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: disable
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: allow
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: prefer
         - value: require
         - value: verify-ca
         - value: verify-full
