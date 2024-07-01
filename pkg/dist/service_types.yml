@@ -6089,3 +6089,245 @@ thanos:
       description: Use static public IP addresses
       type: boolean
       example: true
+valkey:
+  type: object
+  properties:
+    additional_backup_regions:
+      title: Additional Cloud Regions for Backup Replication
+      type: array
+      items:
+        title: Target cloud
+        type: string
+        max_length: 256
+        pattern: ^[a-z0-9-]+$
+        example: aws-eu-central-1
+        user_error: Must consist of lower-case alpha-numeric characters or dashes
+      max_items: 1
+    ip_filter:
+      title: IP filter
+      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
+      type: array
+      default:
+        - 0.0.0.0/0
+      items:
+        title: CIDR address block, either as a string, or in a dict with an optional description field
+        type:
+          - string
+          - object
+        required:
+          - network
+        properties:
+          description:
+            title: Description for IP filter list entry
+            type: string
+            max_length: 1024
+            example: Production service IP range
+          network:
+            title: CIDR address block
+            type: string
+            max_length: 43
+            example: 10.20.0.0/16
+        max_length: 43
+        example: 10.20.0.0/16
+      max_items: 1024
+    migration:
+      title: Migrate data from existing server
+      type:
+        - object
+        - "null"
+      required:
+        - host
+        - port
+      properties:
+        dbname:
+          title: Database name for bootstrapping the initial connection
+          type: string
+          max_length: 63
+          example: defaultdb
+        host:
+          title: Hostname or IP address of the server where to migrate data from
+          type: string
+          max_length: 255
+          example: my.server.com
+        ignore_dbs:
+          title: Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: db1,db2
+        method:
+          title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+          type: string
+          enum:
+            - value: dump
+            - value: replication
+          example: dump
+        password:
+          title: Password for authentication with the server where to migrate data from
+          type: string
+          max_length: 256
+          example: jjKk45Nnd
+        port:
+          title: Port number of the server where to migrate data from
+          type: integer
+          minimum: 1
+          maximum: 65535
+          example: "1234"
+        ssl:
+          title: The server where to migrate data from is secured with SSL
+          type: boolean
+          default: true
+        username:
+          title: User name for authentication with the server where to migrate data from
+          type: string
+          max_length: 256
+          example: myname
+    private_access:
+      title: Allow access to selected service ports from private networks
+      type: object
+      properties:
+        prometheus:
+          title: Allow clients to connect to prometheus with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+        valkey:
+          title: Allow clients to connect to valkey with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+    privatelink_access:
+      title: Allow access to selected service components through Privatelink
+      type: object
+      properties:
+        prometheus:
+          title: Enable prometheus
+          type: boolean
+          example: true
+        valkey:
+          title: Enable valkey
+          type: boolean
+          example: true
+    project_to_fork_from:
+      title: Name of another project to fork a service from. This has effect only when a new service is being created.
+      type:
+        - string
+        - "null"
+      max_length: 63
+      create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
+      example: anotherprojectname
+    public_access:
+      title: Allow access to selected service ports from the public Internet
+      type: object
+      properties:
+        prometheus:
+          title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        valkey:
+          title: Allow clients to connect to valkey from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+    recovery_basebackup_name:
+      title: Name of the basebackup to restore in forked service
+      type: string
+      max_length: 128
+      pattern: ^[a-zA-Z0-9-_:.]+$
+      example: backup-20191112t091354293891z
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
+      type:
+        - boolean
+        - "null"
+      example: true
+    service_to_fork_from:
+      title: Name of another service to fork from. This has effect only when a new service is being created.
+      type:
+        - string
+        - "null"
+      max_length: 64
+      create_only: true
+      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
+      example: anotherservicename
+    static_ips:
+      title: Static IP addresses
+      description: Use static public IP addresses
+      type: boolean
+      example: true
+    valkey_acl_channels_default:
+      title: Default ACL for pub/sub channels used when a Valkey user is created
+      description: Determines default pub/sub channels' ACL for new users if ACL is not supplied. When this option is not defined, all_channels is assumed to keep backward compatibility. This option doesn't affect Valkey configuration acl-pubsub-default.
+      type: string
+      enum:
+        - value: allchannels
+        - value: resetchannels
+    valkey_io_threads:
+      title: Valkey IO thread count
+      description: Set Valkey IO thread count. Changing this will cause a restart of the Valkey service.
+      type: integer
+      minimum: 1
+      maximum: 32
+      example: "1"
+    valkey_lfu_decay_time:
+      title: LFU maxmemory-policy counter decay time in minutes
+      type: integer
+      default: "1"
+      minimum: 1
+      maximum: 120
+    valkey_lfu_log_factor:
+      title: Counter logarithm factor for volatile-lfu and allkeys-lfu maxmemory-policies
+      type: integer
+      default: "10"
+      minimum: 0
+      maximum: 100
+    valkey_maxmemory_policy:
+      title: Valkey maxmemory-policy
+      type:
+        - string
+        - "null"
+      default: noeviction
+      enum:
+        - value: noeviction
+        - value: allkeys-lru
+        - value: volatile-lru
+        - value: allkeys-random
+        - value: volatile-random
+        - value: volatile-ttl
+        - value: volatile-lfu
+        - value: allkeys-lfu
+    valkey_notify_keyspace_events:
+      title: Set notify-keyspace-events option
+      type: string
+      default: ""
+      max_length: 32
+      pattern: ^[KEg\$lshzxentdmA]*$
+    valkey_number_of_databases:
+      title: Number of Valkey databases
+      description: Set number of Valkey databases. Changing this will cause a restart of the Valkey service.
+      type: integer
+      minimum: 1
+      maximum: 128
+      example: "16"
+    valkey_persistence:
+      title: Valkey persistence
+      description: When persistence is 'rdb', Valkey does RDB dumps each 10 minutes if any key is changed. Also RDB dumps are done according to backup schedule for backup purposes. When persistence is 'off', no RDB dumps and backups are done, so data can be lost at any moment if service is restarted for any reason, or if service is powered off. Also service can't be forked.
+      type: string
+      enum:
+        - value: "off"
+        - value: rdb
+    valkey_pubsub_client_output_buffer_limit:
+      title: Pub/sub client output buffer hard limit in MB
+      description: Set output buffer limit for pub / sub clients in MB. The value is the hard limit, the soft limit is 1/4 of the hard limit. When setting the limit, be mindful of the available memory in the selected service plan.
+      type: integer
+      minimum: 32
+      maximum: 512
+      example: "64"
+    valkey_ssl:
+      title: Require SSL to access Valkey
+      type: boolean
+      default: true
+    valkey_timeout:
+      title: Valkey idle connection timeout in seconds
+      type: integer
+      default: "300"
+      minimum: 0
+      maximum: 3.1536e+07
