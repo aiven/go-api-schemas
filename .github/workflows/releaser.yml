@@ -17,7 +17,7 @@ jobs:
       - id: sha
         run: echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
       - id: version
-        uses: anothrNick/github-tag-action@1.69.0
+        uses: anothrNick/github-tag-action@1.70.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
