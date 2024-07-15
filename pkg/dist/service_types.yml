@@ -1975,6 +1975,15 @@ kafka:
         - "null"
       max_length: 255
       example: grafana.example.org
+    follower_fetching:
+      title: Enable follower fetching
+      type: object
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the follower fetching functionality
+          type: boolean
+          example: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
