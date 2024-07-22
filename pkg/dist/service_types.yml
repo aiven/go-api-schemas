@@ -368,6 +368,11 @@ dragonfly:
           type: string
           max_length: 2048
           example: db1,db2
+        ignore_roles:
+          title: Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: role1,role2
         method:
           title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
@@ -1975,6 +1980,15 @@ kafka:
         - "null"
       max_length: 255
       example: grafana.example.org
+    follower_fetching:
+      title: Enable follower fetching
+      type: object
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the follower fetching functionality
+          type: boolean
+          example: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -3719,6 +3733,11 @@ mysql:
           type: string
           max_length: 2048
           example: db1,db2
+        ignore_roles:
+          title: Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: role1,role2
         method:
           title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
@@ -4960,6 +4979,11 @@ pg:
           type: string
           max_length: 2048
           example: db1,db2
+        ignore_roles:
+          title: Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: role1,role2
         method:
           title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
@@ -5808,6 +5832,11 @@ redis:
           type: string
           max_length: 2048
           example: db1,db2
+        ignore_roles:
+          title: Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: role1,role2
         method:
           title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
@@ -6181,6 +6210,11 @@ valkey:
           type: string
           max_length: 2048
           example: db1,db2
+        ignore_roles:
+          title: Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
+          type: string
+          max_length: 2048
+          example: role1,role2
         method:
           title: The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
           type: string
