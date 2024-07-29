@@ -132,6 +132,13 @@ clickhouse_kafka:
             minimum: 0
             maximum: 1e+09
             example: "10000"
+          poll_max_timeout_ms:
+            title: Timeout in milliseconds for a single poll from Kafka. Takes the value of the stream_flush_interval_ms server setting by default (500ms).
+            type: integer
+            default: "0"
+            minimum: 0
+            maximum: 30000
+            example: "1000"
           skip_broken_messages:
             title: Skip at least this number of broken messages from Kafka topic per block
             type: integer
@@ -139,6 +146,11 @@ clickhouse_kafka:
             minimum: 0
             maximum: 1e+09
             example: "10000"
+          thread_per_consumer:
+            title: Provide an independent thread for each consumer. All consumers run in the same thread by default.
+            type: boolean
+            default: false
+            example: true
           topics:
             title: Kafka topics
             type: array
