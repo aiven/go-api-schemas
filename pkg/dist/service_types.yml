@@ -2289,7 +2289,7 @@ kafka:
           maximum: 2.097152e+08
         transaction_partition_verification_enable:
           title: transaction.partition.verification.enable
-          description: 'Enable verification that checks that the partition has been added to the transaction before writing transactional records to the partition. (Default: false)'
+          description: 'Enable verification that checks that the partition has been added to the transaction before writing transactional records to the partition. (Default: true)'
           type: boolean
           example: true
         transaction_remove_expired_transaction_cleanup_interval_ms:
@@ -6040,7 +6040,7 @@ thanos:
           title: Retention time for data in days
           description: Retention time for data in days for each resolution (5m, 1h, raw)
           type: integer
-          max_length: 20
+          minimum: 0
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
