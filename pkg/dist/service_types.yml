@@ -2289,7 +2289,7 @@ kafka:
           maximum: 2.097152e+08
         transaction_partition_verification_enable:
           title: transaction.partition.verification.enable
-          description: 'Enable verification that checks that the partition has been added to the transaction before writing transactional records to the partition. (Default: false)'
+          description: 'Enable verification that checks that the partition has been added to the transaction before writing transactional records to the partition. (Default: true)'
           type: boolean
           example: true
         transaction_remove_expired_transaction_cleanup_interval_ms:
@@ -2601,6 +2601,22 @@ kafka:
           default: "25"
           minimum: 10
           maximum: 250
+    kafka_sasl_mechanisms:
+      title: Kafka SASL mechanisms
+      type: object
+      properties:
+        plain:
+          title: Enable PLAIN mechanism
+          type: boolean
+          default: true
+        scram_sha_256:
+          title: Enable SCRAM-SHA-256 mechanism
+          type: boolean
+          default: true
+        scram_sha_512:
+          title: Enable SCRAM-SHA-512 mechanism
+          type: boolean
+          default: true
     kafka_version:
       title: Kafka major version
       type:
@@ -3093,6 +3109,14 @@ kafka_mirrormaker:
       title: Kafka MirrorMaker configuration values
       type: object
       properties:
+        admin_timeout_ms:
+          description: Timeout for administrative tasks, e.g. detecting new topics, loading of consumer group and offsets. Defaults to 60000 milliseconds (1 minute).
+          type:
+            - integer
+            - "null"
+          minimum: 30000
+          maximum: 300000
+          example: "60000"
         emit_checkpoints_enabled:
           title: Emit consumer group offset checkpoints
           description: 'Whether to emit consumer group offset checkpoints to target cluster periodically (default: true)'
@@ -6040,7 +6064,7 @@ thanos:
           title: Retention time for data in days
           description: Retention time for data in days for each resolution (5m, 1h, raw)
           type: integer
-          max_length: 20
+          minimum: 0
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
