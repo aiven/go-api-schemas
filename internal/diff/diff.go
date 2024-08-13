@@ -220,6 +220,8 @@ func diff(
 			nv.Example = gen[k].Example
 
 			nv.UserError = gen[k].UserError
+
+			nv.Secure = gen[k].Secure
 		}
 
 		resultSchema[k] = nv

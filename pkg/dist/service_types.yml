@@ -2478,6 +2478,7 @@ kafka:
                 title: Secret key used to authenticate with aws
                 type: string
                 max_length: 128
+                _secure: true
           name:
             title: Name of the secret provider. Used to reference secrets in connector config.
             type: string
@@ -2511,6 +2512,7 @@ kafka:
                 title: Token used to authenticate with vault and auth method `token`.
                 type: string
                 max_length: 256
+                _secure: true
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -3017,6 +3019,7 @@ kafka_connect:
                 title: Secret key used to authenticate with aws
                 type: string
                 max_length: 128
+                _secure: true
           name:
             title: Name of the secret provider. Used to reference secrets in connector config.
             type: string
@@ -3050,6 +3053,7 @@ kafka_connect:
                 title: Token used to authenticate with vault and auth method `token`.
                 type: string
                 max_length: 256
+                _secure: true
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -4237,7 +4241,6 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
-          example: ""
         client_secret:
           title: The client secret of the OpenID Connect
           description: The client secret of the OpenID Connect client configured in your IdP. Required.
@@ -4245,7 +4248,7 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
-          example: ""
+          _secure: true
         connect_url:
           title: OpenID Connect metadata/configuration URL
           description: The URL of your IdP where the Security plugin can find the OpenID Connect metadata/configuration settings.
@@ -4265,7 +4268,6 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
-          example: ""
         jwt_header:
           title: The HTTP header that stores the token
           description: 'The HTTP header that stores the token. Typically the Authorization header with the Bearer schema: Authorization: Bearer <token>. Optional. Default is Authorization.'
@@ -4321,7 +4323,6 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
-          example: ""
         subject_key:
           title: The key in the JSON payload that stores the user’s name
           description: The key in the JSON payload that stores the user’s name. If not defined, the subject registered claim is used. Most IdP providers use the preferred_username claim. Optional.
