@@ -3,8 +3,9 @@ package convert
 
 import (
 	"errors"
+	"fmt"
 
-	"github.com/aiven/aiven-go-client"
+	"github.com/aiven/aiven-go-client/v2"
 	"github.com/mitchellh/copystructure"
 	"golang.org/x/exp/slices"
 
@@ -113,6 +114,12 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 		}
 	}
 
+	// Removes empty examples
+	var example any
+	if v.Example != nil && fmt.Sprintf("%v", v.Example) != "" {
+		example = v.Example
+	}
+
 	return &types.UserConfigSchema{
 		Title:       v.Title,
 		Description: v.Description,
@@ -130,8 +137,9 @@ func UserConfigSchema(v aiven.UserConfigSchema) (*types.UserConfigSchema, error)
 		MaxItems:    v.MaxItems,
 		CreateOnly:  v.CreateOnly,
 		Pattern:     v.Pattern,
-		Example:     v.Example,
+		Example:     example,
 		UserError:   v.UserError,
+		Secure:      v.Secure,
 	}, nil
 }
 

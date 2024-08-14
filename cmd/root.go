@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aiven/aiven-go-client"
+	"github.com/aiven/aiven-go-client/v2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 

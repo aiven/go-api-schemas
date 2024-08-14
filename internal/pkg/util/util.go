@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/aiven/aiven-go-client"
+	"github.com/aiven/aiven-go-client/v2"
 )
 
 const (

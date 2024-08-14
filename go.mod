@@ -3,7 +3,7 @@ module github.com/aiven/go-api-schemas
 go 1.22
 
 require (
-	github.com/aiven/aiven-go-client v1.36.0
+	github.com/aiven/aiven-go-client/v2 v2.26.0
 	github.com/google/go-cmp v0.6.0
 	github.com/mitchellh/copystructure v1.2.0
 	github.com/spf13/cobra v1.8.1

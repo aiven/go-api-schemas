@@ -2,7 +2,7 @@
 package gen
 
 import (
-	"github.com/aiven/aiven-go-client"
+	"github.com/aiven/aiven-go-client/v2"
 	"golang.org/x/net/context"
 	"golang.org/x/sync/errgroup"
 
@@ -29,12 +29,12 @@ var client *aiven.Client
 var result types.GenerationResult
 
 // serviceTypes generates the service types.
-func serviceTypes() error {
+func serviceTypes(ctx context.Context) error {
 	defer util.MeasureExecutionTime(logger)()
 
 	logger.Info.Printf(generating, "service types")
 
-	r, err := client.Projects.ServiceTypes(env[util.EnvAivenProjectName])
+	r, err := client.Projects.ServiceTypes(ctx, env[util.EnvAivenProjectName])
 	if err != nil {
 		return err
 	}
@@ -56,12 +56,12 @@ func serviceTypes() error {
 }
 
 // integrationTypes generates the integration types.
-func integrationTypes() error {
+func integrationTypes(ctx context.Context) error {
 	defer util.MeasureExecutionTime(logger)()
 
 	logger.Info.Printf(generating, "integration types")
 
-	r, err := client.Projects.IntegrationTypes(env[util.EnvAivenProjectName])
+	r, err := client.Projects.IntegrationTypes(ctx, env[util.EnvAivenProjectName])
 	if err != nil {
 		return err
 	}
@@ -83,12 +83,12 @@ func integrationTypes() error {
 }
 
 // integrationEndpointTypes generates the integration endpoint types.
-func integrationEndpointTypes() error {
+func integrationEndpointTypes(ctx context.Context) error {
 	defer util.MeasureExecutionTime(logger)()
 
 	logger.Info.Printf(generating, "integration endpoint types")
 
-	r, err := client.Projects.IntegrationEndpointTypes(env[util.EnvAivenProjectName])
+	r, err := client.Projects.IntegrationEndpointTypes(ctx, env[util.EnvAivenProjectName])
 	if err != nil {
 		return err
 	}
@@ -127,11 +127,11 @@ func Run(
 ) (types.GenerationResult, error) {
 	setup(logger, env, client)
 
-	errs, _ := errgroup.WithContext(ctx)
+	g, ctx := errgroup.WithContext(ctx)
 
-	errs.Go(serviceTypes)
-	errs.Go(integrationTypes)
-	errs.Go(integrationEndpointTypes)
+	g.Go(func() error { return serviceTypes(ctx) })
+	g.Go(func() error { return integrationTypes(ctx) })
+	g.Go(func() error { return integrationEndpointTypes(ctx) })
 
-	return result, errs.Wait()
+	return result, g.Wait()
 }

@@ -36,6 +36,7 @@ type UserConfigSchema struct {
 	Pattern     string                      `yaml:"pattern,omitempty"`
 	Example     interface{}                 `yaml:"example,omitempty"`
 	UserError   string                      `yaml:"user_error,omitempty"`
+	Secure      bool                        `yaml:"_secure,omitempty"`
 }
 
 // GenerationResult represents the result of a generation.

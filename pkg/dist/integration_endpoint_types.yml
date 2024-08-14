@@ -404,6 +404,7 @@ external_postgresql:
       type: string
       max_length: 256
       example: jjKk45Nnd
+      _secure: true
     port:
       title: Port number of the server
       type: integer
@@ -428,6 +429,7 @@ external_postgresql:
         -----BEGIN PRIVATE KEY-----
         ...
         -----END PRIVATE KEY-----
+      _secure: true
     ssl_mode:
       title: SSL Mode
       description: SSL mode to use for the connection.  Please note that Aiven requires TLS for all connections to external PostgreSQL services.

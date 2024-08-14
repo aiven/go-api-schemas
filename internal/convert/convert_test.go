@@ -4,7 +4,7 @@ package convert
 import (
 	"testing"
 
-	"github.com/aiven/aiven-go-client"
+	"github.com/aiven/aiven-go-client/v2"
 	"github.com/google/go-cmp/cmp"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
