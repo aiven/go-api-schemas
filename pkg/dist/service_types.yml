@@ -1242,6 +1242,7 @@ grafana:
           pattern: ^[\040-\176]+$
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
+          _secure: true
         token_url:
           title: Token URL
           type: string
@@ -1313,6 +1314,7 @@ grafana:
           pattern: ^[\040-\176]+$
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
+          _secure: true
         name:
           title: Name of the OAuth integration
           type: string
@@ -1376,6 +1378,7 @@ grafana:
           pattern: ^[\040-\176]+$
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
+          _secure: true
         skip_org_role_sync:
           title: Stop automatically syncing user roles
           type: boolean
@@ -1437,6 +1440,7 @@ grafana:
           pattern: ^[\040-\176]+$
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
+          _secure: true
         token_url:
           title: Token URL. This only needs to be set when using self hosted GitLab
           type: string
@@ -1477,6 +1481,7 @@ grafana:
           pattern: ^[\040-\176]+$
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
+          _secure: true
     cookie_samesite:
       title: 'Cookie SameSite attribute: ''strict'' prevents sending cookie for cross-site requests, effectively disabling direct linking from other sites to Grafana. ''lax'' is the default value.'
       type: string
@@ -1801,6 +1806,10 @@ grafana:
       example: Viewer
     viewers_can_edit:
       title: Users with view-only permission can edit but not save dashboards
+      type: boolean
+      example: false
+    wal:
+      title: Setting to enable/disable Write-Ahead Logging. The default value is false (disabled).
       type: boolean
       example: false
 influxdb:
@@ -3196,7 +3205,7 @@ kafka_mirrormaker:
           type: integer
           default: "1"
           minimum: 1
-          maximum: 4
+          maximum: 8
           example: "2"
     service_log:
       title: Service logging
@@ -4110,6 +4119,58 @@ opensearch:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    azure_migration:
+      type: object
+      required:
+        - snapshot_name
+        - base_path
+        - container
+        - account
+      properties:
+        account:
+          title: Account name
+          description: Azure account name
+          type: string
+          pattern: ^[^\r\n]*$
+        base_path:
+          title: The path to the repository data within its container
+          description: The path to the repository data within its container. The value of this setting should not start or end with a /
+          type: string
+          pattern: ^[^\r\n]*$
+        chunk_size:
+          title: Chunk size
+          description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
+          type: string
+          pattern: ^[^\r\n]*$
+        compress:
+          title: Metadata files are stored in compressed format
+          description: when set to true metadata files are stored in compressed format
+          type: boolean
+        container:
+          title: Azure container name
+          description: Azure container name
+          type: string
+          pattern: ^[^\r\n]*$
+        endpoint_suffix:
+          title: Endpoint suffix
+          description: Defines the DNS suffix for Azure Storage endpoints.
+          type: string
+          pattern: ^[^\r\n]*$
+        key:
+          title: Account secret key
+          description: Azure account secret key. One of key or sas_token should be specified
+          type: string
+          pattern: ^[^\r\n]*$
+        sas_token:
+          title: SAS token
+          description: A shared access signatures (SAS) token. One of key or sas_token should be specified
+          type: string
+          pattern: ^[^\r\n]*$
+        snapshot_name:
+          title: The snapshot name to restore from
+          description: The snapshot name to restore from
+          type: string
+          pattern: ^[^\r\n]*$
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
@@ -4125,6 +4186,43 @@ opensearch:
         - boolean
         - "null"
       example: false
+    gcs_migration:
+      type: object
+      required:
+        - snapshot_name
+        - base_path
+        - bucket
+        - credentials
+      properties:
+        base_path:
+          title: The path to the repository data within its container
+          description: The path to the repository data within its container. The value of this setting should not start or end with a /
+          type: string
+          pattern: ^[^\r\n]*$
+        bucket:
+          title: The path to the repository data within its container
+          description: Google Cloud Storage bucket name
+          type: string
+          pattern: ^[^\r\n]*$
+        chunk_size:
+          title: Chunk size
+          description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
+          type: string
+          pattern: ^[^\r\n]*$
+        compress:
+          title: Metadata files are stored in compressed format
+          description: when set to true metadata files are stored in compressed format
+          type: boolean
+        credentials:
+          title: Credentials
+          description: Google Cloud Storage credentials file content
+          type: string
+          pattern: ^[^\r\n]*$
+        snapshot_name:
+          title: The snapshot name to restore from
+          description: The snapshot name to restore from
+          type: string
+          pattern: ^[^\r\n]*$
     index_patterns:
       title: Index patterns
       type: array
@@ -4156,6 +4254,32 @@ opensearch:
               - value: alphabetical
               - value: creation_date
       max_items: 512
+    index_rollup:
+      title: Index rollup settings
+      type: object
+      properties:
+        rollup_dashboards_enabled:
+          title: plugins.rollup.dashboards.enabled
+          description: Whether rollups are enabled in OpenSearch Dashboards. Defaults to true.
+          type: boolean
+        rollup_enabled:
+          title: plugins.rollup.enabled
+          description: Whether the rollup plugin is enabled. Defaults to true.
+          type: boolean
+        rollup_search_backoff_count:
+          title: plugins.rollup.search.backoff_count
+          description: How many retries the plugin should attempt for failed rollup jobs. Defaults to 5.
+          type: integer
+          minimum: 1
+        rollup_search_backoff_millis:
+          title: plugins.rollup.search.backoff_millis
+          description: The backoff time between retries for failed rollup jobs. Defaults to 1000ms.
+          type: integer
+          minimum: 1
+        rollup_search_search_all_jobs:
+          title: plugins.rollup.search.all_jobs
+          description: Whether OpenSearch should return all jobs that match all specified search terms. If disabled, OpenSearch returns just one, as opposed to all, of the jobs that matches the search terms. Defaults to false.
+          type: boolean
     index_template:
       title: Template settings for all new indexes
       type: object
@@ -4254,6 +4378,7 @@ opensearch:
           description: The URL of your IdP where the Security plugin can find the OpenID Connect metadata/configuration settings.
           type: string
           max_length: 2048
+          pattern: ^[^\r\n]*$
           example: https://test-account.okta.com/app/exk491jujcVc83LEX697/sso/saml/metadata
         enabled:
           title: Enable or disable OpenSearch OpenID Connect authentication
@@ -4481,6 +4606,7 @@ opensearch:
           max_length: 1024
           pattern: ^[^\x00-\x1F]+$
           example: very-secure-mail-password
+          _secure: true
         email_sender_username:
           title: Sender username for Opensearch alerts
           type: string
@@ -4490,8 +4616,7 @@ opensearch:
         enable_security_audit:
           title: Enable/Disable security audit
           type: boolean
-          default: false
-          example: true
+          example: false
         http_max_content_length:
           title: http.max_content_length
           description: Maximum content length for HTTP requests to the OpenSearch HTTP API, in bytes.
@@ -4565,37 +4690,31 @@ opensearch:
         ism_enabled:
           title: Specifies whether ISM is enabled or not
           type: boolean
-          default: true
           example: true
         ism_history_enabled:
           title: Specifies whether audit history is enabled or not. The logs from ISM are automatically indexed to a logs document.
           type: boolean
-          default: true
           example: true
         ism_history_max_age:
           title: The maximum age before rolling over the audit history index in hours
           type: integer
-          default: "24"
           minimum: 1
           maximum: 2.147483647e+09
           example: "24"
         ism_history_max_docs:
           title: The maximum number of documents before rolling over the audit history index.
           type: integer
-          default: "2500000"
           minimum: 1
           example: "2500000"
         ism_history_rollover_check_period:
           title: The time between rollover checks for the audit history index in hours.
           type: integer
-          default: "8"
           minimum: 1
           maximum: 2.147483647e+09
           example: "8"
         ism_history_rollover_retention_period:
           title: How long audit history indices are kept in days.
           type: integer
-          default: "30"
           minimum: 1
           maximum: 2.147483647e+09
           example: "30"
@@ -4603,14 +4722,14 @@ opensearch:
           title: knn.memory.circuit_breaker.enabled
           description: Enable or disable KNN memory circuit breaker. Defaults to true.
           type: boolean
-          default: true
+          example: true
         knn_memory_circuit_breaker_limit:
           title: knn.memory.circuit_breaker.limit
           description: Maximum amount of memory that can be used for KNN index. Defaults to 50% of the JVM heap size.
           type: integer
-          default: "50"
           minimum: 3
           maximum: 100
+          example: "50"
         override_main_response_version:
           title: compatibility.override_main_response_version
           description: Compatibility mode sets OpenSearch to report its version as 7.10 so clients continue to work. Default is false
@@ -4640,6 +4759,7 @@ opensearch:
           description: Script compilation circuit breaker limits the number of inline script compilations within a period of time. Default is use-context
           type: string
           max_length: 1024
+          pattern: ^[^\r\n]*$
           example: 75/5m
         search_max_buckets:
           title: search.max_buckets
@@ -4808,6 +4928,64 @@ opensearch:
       max_length: 128
       pattern: ^[a-zA-Z0-9-_:.]+$
       example: backup-20191112t091354293891z
+    s3_migration:
+      type: object
+      required:
+        - snapshot_name
+        - base_path
+        - bucket
+        - region
+        - access_key
+        - secret_key
+      properties:
+        access_key:
+          title: AWS Access key
+          description: AWS Access key
+          type: string
+          pattern: ^[^\r\n]*$
+        base_path:
+          title: The path to the repository data within its container
+          description: The path to the repository data within its container. The value of this setting should not start or end with a /
+          type: string
+          pattern: ^[^\r\n]*$
+        bucket:
+          title: S3 bucket name
+          description: S3 bucket name
+          type: string
+          pattern: ^[^\r\n]*$
+        chunk_size:
+          title: Chunk size
+          description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
+          type: string
+          pattern: ^[^\r\n]*$
+        compress:
+          title: Metadata files are stored in compressed format
+          description: when set to true metadata files are stored in compressed format
+          type: boolean
+        endpoint:
+          title: The S3 service endpoint to connect
+          description: The S3 service endpoint to connect to. If you are using an S3-compatible service then you should set this to the service’s endpoint
+          type: string
+          pattern: ^[^\r\n]*$
+        region:
+          title: S3 region
+          description: S3 region
+          type: string
+          pattern: ^[^\r\n]*$
+        secret_key:
+          title: AWS secret key
+          description: AWS secret key
+          type: string
+          pattern: ^[^\r\n]*$
+        server_side_encryption:
+          title: Server side encryption
+          description: When set to true files are encrypted on server side
+          type: boolean
+        snapshot_name:
+          title: The snapshot name to restore from
+          description: The snapshot name to restore from
+          type: string
+          pattern: ^[^\r\n]*$
     saml:
       title: OpenSearch SAML configuration
       type: object
@@ -4836,6 +5014,7 @@ opensearch:
           type: string
           min_length: 1
           max_length: 2048
+          pattern: ^[^\r\n]*$
           example: https://test-account.okta.com/app/exk491jujcVc83LEX697/sso/saml/metadata
         idp_pemtrustedcas_content:
           title: PEM-encoded root CA Content for SAML IdP server verification
