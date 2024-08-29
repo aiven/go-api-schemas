@@ -2517,6 +2517,9 @@ kafka:
                 enum:
                   - value: "1"
                   - value: "2"
+              prefix_path_depth:
+                title: Prefix path depth of the secrets Engine. Default is 1. If the secrets engine path has more than one segment it has to be increased to the number of segments.
+                type: integer
               token:
                 title: Token used to authenticate with vault and auth method `token`.
                 type: string
@@ -3058,6 +3061,9 @@ kafka_connect:
                 enum:
                   - value: "1"
                   - value: "2"
+              prefix_path_depth:
+                title: Prefix path depth of the secrets Engine. Default is 1. If the secrets engine path has more than one segment it has to be increased to the number of segments.
+                type: integer
               token:
                 title: Token used to authenticate with vault and auth method `token`.
                 type: string
@@ -5992,6 +5998,22 @@ redis:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    backup_hour:
+      title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
+      type:
+        - integer
+        - "null"
+      minimum: 0
+      maximum: 23
+      example: "3"
+    backup_minute:
+      title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
+      type:
+        - integer
+        - "null"
+      minimum: 0
+      maximum: 59
+      example: "30"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -6370,6 +6392,22 @@ valkey:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    backup_hour:
+      title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
+      type:
+        - integer
+        - "null"
+      minimum: 0
+      maximum: 23
+      example: "3"
+    backup_minute:
+      title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
+      type:
+        - integer
+        - "null"
+      minimum: 0
+      maximum: 59
+      example: "30"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
