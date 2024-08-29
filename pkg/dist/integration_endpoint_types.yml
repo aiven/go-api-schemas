@@ -163,6 +163,59 @@ external_aws_cloudwatch_metrics:
       type: string
       max_length: 4096
       example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+external_aws_s3:
+  type: object
+  required:
+    - url
+    - access_key_id
+    - secret_access_key
+  properties:
+    access_key_id:
+      title: Access Key Id
+      type: string
+      max_length: 128
+      pattern: ^[A-Z0-9]+$
+      example: AAAAAAAAAAAAAAAAAAA
+    secret_access_key:
+      title: Secret Access Key
+      type: string
+      max_length: 128
+      pattern: ^[A-Za-z0-9/+=]+$
+      example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    url:
+      title: S3-compatible bucket URL
+      type: string
+      max_length: 2048
+      example: https://mybucket.s3-myregion.amazonaws.com/mydataset/
+external_clickhouse:
+  type: object
+  required:
+    - host
+    - port
+    - username
+    - password
+  properties:
+    host:
+      title: Hostname or IP address of the server
+      type: string
+      max_length: 255
+      example: my.server.com
+    password:
+      title: Password
+      type: string
+      max_length: 256
+      example: jjKk45Nnd
+    port:
+      title: Secure TCP server port
+      type: integer
+      minimum: 1
+      maximum: 65535
+      example: "9440"
+    username:
+      title: User name
+      type: string
+      max_length: 64
+      example: default
 external_elasticsearch_logs:
   type: object
   required:
@@ -335,6 +388,51 @@ external_kafka:
       enum:
         - value: https
       example: https
+external_mysql:
+  type: object
+  required:
+    - host
+    - port
+    - username
+    - password
+  properties:
+    host:
+      title: Hostname or IP address of the server
+      type: string
+      max_length: 255
+      example: my.server.com
+    password:
+      title: Password
+      type: string
+      max_length: 256
+      example: jjKk45Nnd
+    port:
+      title: Port number of the server
+      type: integer
+      minimum: 1
+      maximum: 65535
+      example: "5432"
+    ssl_mode:
+      title: SSL Mode
+      type: string
+      default: verify-full
+      enum:
+        - value: verify-full
+      example: verify-full
+    ssl_root_cert:
+      title: SSL Root Cert
+      type: string
+      default: ""
+      max_length: 16384
+      example: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+    username:
+      title: User name
+      type: string
+      max_length: 256
+      example: myname
 external_opensearch_logs:
   type: object
   required:
