@@ -385,6 +385,7 @@ dragonfly:
           type: string
           max_length: 256
           example: jjKk45Nnd
+          _secure: true
         port:
           title: Port number of the server where to migrate data from
           type: integer
@@ -2650,6 +2651,7 @@ kafka:
         - value: "3.5"
         - value: "3.6"
         - value: "3.7"
+        - value: "3.8"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
@@ -3793,6 +3795,7 @@ mysql:
           type: string
           max_length: 256
           example: jjKk45Nnd
+          _secure: true
         port:
           title: Port number of the server where to migrate data from
           type: integer
@@ -4162,6 +4165,12 @@ opensearch:
           description: Defines the DNS suffix for Azure Storage endpoints.
           type: string
           pattern: ^[^\r\n]*$
+        indices:
+          title: Indices to restore
+          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
+          type: string
+          pattern: ^([a-z0-9._-]+\*?)(,[a-z0-9._-]+\*?)*$
+          example: metrics*,logs*,data-20240823
         key:
           title: Account secret key
           description: Azure account secret key. One of key or sas_token should be specified
@@ -4224,6 +4233,12 @@ opensearch:
           description: Google Cloud Storage credentials file content
           type: string
           pattern: ^[^\r\n]*$
+        indices:
+          title: Indices to restore
+          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
+          type: string
+          pattern: ^([a-z0-9._-]+\*?)(,[a-z0-9._-]+\*?)*$
+          example: metrics*,logs*,data-20240823
         snapshot_name:
           title: The snapshot name to restore from
           description: The snapshot name to restore from
@@ -4973,6 +4988,12 @@ opensearch:
           description: The S3 service endpoint to connect to. If you are using an S3-compatible service then you should set this to the service’s endpoint
           type: string
           pattern: ^[^\r\n]*$
+        indices:
+          title: Indices to restore
+          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
+          type: string
+          pattern: ^([a-z0-9._-]+\*?)(,[a-z0-9._-]+\*?)*$
+          example: metrics*,logs*,data-20240823
         region:
           title: S3 region
           description: S3 region
@@ -5086,6 +5107,8 @@ pg:
   type: object
   properties:
     additional_backup_regions:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -5206,6 +5229,7 @@ pg:
           type: string
           max_length: 256
           example: jjKk45Nnd
+          _secure: true
         port:
           title: Port number of the server where to migrate data from
           type: integer
@@ -6082,6 +6106,7 @@ redis:
           type: string
           max_length: 256
           example: jjKk45Nnd
+          _secure: true
         port:
           title: Port number of the server where to migrate data from
           type: integer
@@ -6476,6 +6501,7 @@ valkey:
           type: string
           max_length: 256
           example: jjKk45Nnd
+          _secure: true
         port:
           title: Port number of the server where to migrate data from
           type: integer

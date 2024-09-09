@@ -816,3 +816,6 @@ prometheus:
 rsyslog:
   title: Integration user config
   type: object
+thanos_migrate:
+  title: Integration user config
+  type: object
