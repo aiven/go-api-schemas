@@ -37,6 +37,7 @@ datadog:
       pattern: ^[A-Za-z0-9]{1,256}$
       example: 848f30907c15c55d601fe45487cce9b6
       user_error: Must consist of up to 256 alpha-numeric characters
+      _secure: true
     datadog_tags:
       title: Custom tags provided by user
       type: array
@@ -133,6 +134,7 @@ external_aws_cloudwatch_logs:
       type: string
       max_length: 4096
       example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      _secure: true
 external_aws_cloudwatch_metrics:
   type: object
   required:
@@ -163,6 +165,7 @@ external_aws_cloudwatch_metrics:
       type: string
       max_length: 4096
       example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      _secure: true
 external_aws_s3:
   type: object
   required:
@@ -334,6 +337,7 @@ external_kafka:
       min_length: 1
       max_length: 256
       example: admin
+      _secure: true
     sasl_plain_username:
       title: Username for SASL PLAIN mechanism in the Kafka server.
       type:
@@ -581,6 +585,7 @@ external_schema_registry:
         - "null"
       max_length: 256
       example: Zm9vYg==
+      _secure: true
     basic_auth_username:
       title: Basic authentication user name
       type:
@@ -602,6 +607,7 @@ jolokia:
       min_length: 8
       max_length: 64
       example: yhfBNFii4C
+      _secure: true
     basic_auth_username:
       title: Jolokia basic authentication username
       type: string
@@ -619,6 +625,7 @@ prometheus:
       min_length: 8
       max_length: 64
       example: fhyFNBjj3R
+      _secure: true
     basic_auth_username:
       title: Prometheus basic authentication username
       type: string
