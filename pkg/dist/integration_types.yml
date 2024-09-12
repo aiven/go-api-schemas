@@ -462,6 +462,9 @@ flink_external_bigquery:
 flink_external_kafka:
   title: Integration user config
   type: object
+flink_external_postgresql:
+  title: Integration user config
+  type: object
 jolokia:
   title: Integration user config
   type: object

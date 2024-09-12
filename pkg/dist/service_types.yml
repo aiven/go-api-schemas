@@ -1339,6 +1339,10 @@ grafana:
           type: string
           max_length: 2048
           example: https://yourprovider.com/oauth/token
+        use_refresh_token:
+          title: Set to true to use refresh token and check access token expiration.
+          type: boolean
+          example: true
     auth_github:
       title: Github Auth integration
       type: object
@@ -1626,6 +1630,7 @@ grafana:
           max_length: 4096
           pattern: ^[A-Za-z0-9/+=]+$
           example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          _secure: true
     google_analytics_ua_id:
       title: Google Analytics ID
       type: string
@@ -1758,6 +1763,7 @@ grafana:
           max_length: 255
           pattern: ^[^\x00-\x1F]+$
           example: ein0eemeev5eeth3Ahfu
+          _secure: true
         port:
           title: SMTP server port
           type: integer
@@ -2748,6 +2754,16 @@ kafka:
           description: If true, Karapace / Schema Registry on the service nodes can participate in leader election. It might be needed to disable this when the schemas topic is replicated to a secondary cluster and Karapace / Schema Registry there must not participate in leader election. Defaults to `true`.
           type: boolean
           example: true
+        retriable_errors_silenced:
+          title: retriable_errors_silenced
+          description: If enabled, kafka errors which can be retried or custom errors specified for the service will not be raised, instead, a warning log is emitted. This will denoise issue tracking systems, i.e. sentry. Defaults to `true`.
+          type: boolean
+          example: true
+        schema_reader_strict_mode:
+          title: schema_reader_strict_mode
+          description: If enabled, causes the Karapace schema-registry service to shutdown when there are invalid schema records in the `_schemas` topic. Defaults to `false`.
+          type: boolean
+          example: false
         topic_name:
           title: topic_name
           description: The durable single partition topic that acts as the durable log for the data. This topic must be compacted to avoid losing data due to retention policy. Please note that changing this configuration in an existing Schema Registry / Karapace setup leads to previous schemas being inaccessible, data encoded with them potentially unreadable and schema ID sequence put out of order. It's only possible to do the switch while Schema Registry / Karapace is disabled. Defaults to `_schemas`.
@@ -3695,6 +3711,7 @@ mysql:
       pattern: ^[a-zA-Z0-9-_]+$
       example: z66o9QXqKM
       user_error: Must consist of alpha-numeric characters, underscores or dashes
+      _secure: true
     admin_username:
       title: Custom username for admin user. This must be set only when a new service is being created.
       type:
@@ -5004,6 +5021,7 @@ opensearch:
           description: AWS secret key
           type: string
           pattern: ^[^\r\n]*$
+          _secure: true
         server_side_encryption:
           title: Server side encryption
           description: When set to true files are encrypted on server side
@@ -5130,6 +5148,7 @@ pg:
       pattern: ^[a-zA-Z0-9-_]+$
       example: z66o9QXqKM
       user_error: Must consist of alpha-numeric characters, underscores or dashes
+      _secure: true
     admin_username:
       title: Custom username for admin user. This must be set only when a new service is being created.
       type:
