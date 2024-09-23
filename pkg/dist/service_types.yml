@@ -1163,6 +1163,7 @@ grafana:
       max_items: 1
     alerting_enabled:
       title: Enable or disable Grafana legacy alerting functionality. This should not be enabled with unified_alerting_enabled.
+      description: 'DEPRECATED: setting has no effect with Grafana 11 and onward.'
       type: boolean
       example: true
     alerting_error_or_timeout:
@@ -2653,7 +2654,9 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.1"
-        - value: "3.4"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.4"
         - value: "3.5"
         - value: "3.6"
         - value: "3.7"
@@ -4625,7 +4628,7 @@ opensearch:
           example: "1000"
         cluster_routing_allocation_node_concurrent_recoveries:
           title: Concurrent incoming/outgoing shard recoveries per node
-          description: How many concurrent incoming/outgoing shard recoveries (normally replicas) are allowed to happen on a node. Defaults to 2.
+          description: How many concurrent incoming/outgoing shard recoveries (normally replicas) are allowed to happen on a node. Defaults to node cpu count * 2.
           type: integer
           minimum: 2
           maximum: 16
@@ -6311,6 +6314,9 @@ thanos:
           description: Retention time for data in days for each resolution (5m, 1h, raw)
           type: integer
           minimum: 0
+    env:
+      title: Environmental variables
+      type: object
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -6400,6 +6406,20 @@ thanos:
           type: string
           default: 2m
           max_length: 20
+        store.limits.request-samples:
+          title: Store.Limits.Request-Samples
+          description: 'The maximum samples allowed for a single Series request. The Series call fails if this limit is exceeded. Set to 0 for no limit. NOTE: For efficiency, the limit is internally implemented as ''chunks limit'' considering each chunk contains a maximum of 120 samples. The default value is 100 * store.limits.request-series.'
+          type: integer
+          default: "0"
+          minimum: 0
+          maximum: 1e+08
+        store.limits.request-series:
+          title: Store.Limits.Request-Series
+          description: The maximum series allowed for a single Series request. The Series call fails if this limit is exceeded. Set to 0 for no limit. The default value is 1000 * cpu_count.
+          type: integer
+          default: "0"
+          minimum: 0
+          maximum: 1e+08
     query-frontend:
       title: ThanosQueryFrontendUserConfig
       description: Generic model
