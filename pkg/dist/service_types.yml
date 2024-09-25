@@ -277,6 +277,12 @@ clickhouse:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    recovery_basebackup_name:
+      title: Name of the basebackup to restore in forked service
+      type: string
+      max_length: 128
+      pattern: ^[a-zA-Z0-9-_:.+]+$
+      example: backup-20191112t091354293891z
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -2783,6 +2789,15 @@ kafka:
         - boolean
         - "null"
       example: true
+    single_zone:
+      title: Single-zone configuration
+      type: object
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to allocate nodes on the same Availability Zone or spread across zones available.
+          type: boolean
+          example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -4149,6 +4164,7 @@ opensearch:
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
     azure_migration:
+      description: Azure migration settings
       type: object
       required:
         - snapshot_name
@@ -4189,7 +4205,7 @@ opensearch:
           title: Indices to restore
           description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
           type: string
-          pattern: ^([a-z0-9._-]+\*?)(,[a-z0-9._-]+\*?)*$
+          pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
         key:
           title: Account secret key
@@ -4222,6 +4238,7 @@ opensearch:
         - "null"
       example: false
     gcs_migration:
+      description: Google Cloud Storage migration settings
       type: object
       required:
         - snapshot_name
@@ -4257,7 +4274,7 @@ opensearch:
           title: Indices to restore
           description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
           type: string
-          pattern: ^([a-z0-9._-]+\*?)(,[a-z0-9._-]+\*?)*$
+          pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
         snapshot_name:
           title: The snapshot name to restore from
@@ -4970,6 +4987,7 @@ opensearch:
       pattern: ^[a-zA-Z0-9-_:.]+$
       example: backup-20191112t091354293891z
     s3_migration:
+      description: AWS S3 / AWS S3 compatible migration settings
       type: object
       required:
         - snapshot_name
@@ -5012,7 +5030,7 @@ opensearch:
           title: Indices to restore
           description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
           type: string
-          pattern: ^([a-z0-9._-]+\*?)(,[a-z0-9._-]+\*?)*$
+          pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
         region:
           title: S3 region
@@ -6371,6 +6389,10 @@ thanos:
           example: true
         receiver_routing:
           title: Allow clients to connect to receiver_routing from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        ruler:
+          title: Allow clients to connect to ruler from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
         store:
