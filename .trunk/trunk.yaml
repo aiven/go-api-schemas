@@ -8,12 +8,12 @@ plugins:
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
-    - actionlint@1.7.1
+    - actionlint@1.7.2
     - git-diff-check
-    - gitleaks@8.19.2
+    - gitleaks@8.19.3
     - gofmt@1.20.4
     - golangci-lint@1.61.0
-    - markdownlint@0.41.0
+    - markdownlint@0.42.0
     - prettier@3.3.3
     - yamllint@1.35.1
   ignore:
