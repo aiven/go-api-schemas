@@ -208,6 +208,7 @@ external_clickhouse:
       type: string
       max_length: 256
       example: jjKk45Nnd
+      _secure: true
     port:
       title: Secure TCP server port
       type: integer
@@ -410,6 +411,7 @@ external_mysql:
       type: string
       max_length: 256
       example: jjKk45Nnd
+      _secure: true
     port:
       title: Port number of the server
       type: integer
