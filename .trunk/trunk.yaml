@@ -1,16 +1,16 @@
 version: 0.1
 cli:
-  version: 1.22.5
+  version: 1.22.6
 plugins:
   sources:
     - id: trunk
-      ref: v1.6.2
+      ref: v1.6.3
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
-    - actionlint@1.7.2
+    - actionlint@1.7.3
     - git-diff-check
-    - gitleaks@8.19.3
+    - gitleaks@8.20.0
     - gofmt@1.20.4
     - golangci-lint@1.61.0
     - markdownlint@0.42.0
