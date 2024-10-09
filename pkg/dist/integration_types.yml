@@ -465,6 +465,14 @@ flink_external_kafka:
 flink_external_postgresql:
   title: Integration user config
   type: object
+  properties:
+    stringtype:
+      title: The parameter stringtype in the JDBC URL
+      description: If stringtype is set to unspecified, parameters will be sent to the server as untyped values
+      type: string
+      enum:
+        - value: unspecified
+      example: unspecified
 jolokia:
   title: Integration user config
   type: object

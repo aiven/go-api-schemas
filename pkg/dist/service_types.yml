@@ -1804,6 +1804,14 @@ flink:
           title: Enable prometheus
           type: boolean
           example: true
+    public_access:
+      title: Allow access to selected service ports from the public Internet
+      type: object
+      properties:
+        flink:
+          title: Allow clients to connect to flink from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -3458,7 +3466,7 @@ kafka:
       properties:
         enabled:
           title: Enabled
-          description: Whether to allocate nodes on the same Availability Zone or spread across zones available.
+          description: Whether to allocate nodes on the same Availability Zone or spread across zones available. By default service nodes are spread across different AZs. The single AZ support is best-effort and may temporarily allocate nodes in different AZs e.g. in case of capacity limitations in one AZ.
           type: boolean
           example: true
     static_ips:
@@ -3833,7 +3841,7 @@ kafka_mirrormaker:
             - integer
             - "null"
           minimum: 30000
-          maximum: 300000
+          maximum: 1.8e+06
           example: "60000"
         emit_checkpoints_enabled:
           title: Emit consumer group offset checkpoints
@@ -4638,9 +4646,19 @@ mysql:
             - value: TempTable
             - value: MEMORY
           example: TempTable
+        log_output:
+          title: log_output
+          description: The slow log output destination when slow_query_log is ON. To enable MySQL AI Insights, choose INSIGHTS. To use MySQL AI Insights and the mysql.slow_log table at the same time, choose INSIGHTS,TABLE. To only use the mysql.slow_log table, choose TABLE. To silence slow logs, choose NONE.
+          type: string
+          enum:
+            - value: INSIGHTS
+            - value: NONE
+            - value: TABLE
+            - value: INSIGHTS,TABLE
+          example: INSIGHTS
         long_query_time:
           title: long_query_time
-          description: The slow_query_logs work as SQL statements that take more than long_query_time seconds to execute. Default is 10s
+          description: The slow_query_logs work as SQL statements that take more than long_query_time seconds to execute.
           type: number
           minimum: 0
           maximum: 3600
@@ -4682,7 +4700,7 @@ mysql:
           example: "30"
         slow_query_log:
           title: slow_query_log
-          description: Slow query log enables capturing of slow queries. Setting slow_query_log to false also truncates the mysql.slow_log table. Default is off
+          description: Slow query log enables capturing of slow queries. Setting slow_query_log to false also truncates the mysql.slow_log table.
           type: boolean
           example: true
         sort_buffer_size:
