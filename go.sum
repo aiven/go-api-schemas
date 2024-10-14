@@ -1,5 +1,5 @@
-github.com/aiven/aiven-go-client/v2 v2.27.0 h1:iTr85xDpD8td3Okj2+djUOfGLlVvngvUwaz/bla3Hzc=
-github.com/aiven/aiven-go-client/v2 v2.27.0/go.mod h1:KdHfLIlIRZIfCSEBd39j1Q81jlSb6Nd+oCQKqERfnuA=
+github.com/aiven/aiven-go-client/v2 v2.28.0 h1:P2UgIeUCwtDEgeeQkC1sdcWJHat1ViDc03QHS0OrUgQ=
+github.com/aiven/aiven-go-client/v2 v2.28.0/go.mod h1:KdHfLIlIRZIfCSEBd39j1Q81jlSb6Nd+oCQKqERfnuA=
 github.com/cpuguy83/go-md2man/v2 v2.0.4/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
