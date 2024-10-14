@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/aiven/aiven-go-client/v2"
+	avngen "github.com/aiven/go-client-codegen"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
@@ -29,6 +30,9 @@ var env = util.EnvMap{
 
 // client is a pointer to the Aiven client.
 var client = &aiven.Client{}
+
+// genClient is the avngen client.
+var genClient avngen.Client
 
 // NewCmdRoot returns a pointer to the root command.
 func NewCmdRoot(l *util.Logger) *cobra.Command {
@@ -84,25 +88,28 @@ func setupOutputDir(flags *pflag.FlagSet) error {
 }
 
 // setup sets up the application.
+// nolint:wsl
 func setup(flags *pflag.FlagSet) {
 	logger.Info.Println("go-api-schemas tool started")
 
 	logger.Info.Println("setting up output directory")
-
 	if err := setupOutputDir(flags); err != nil {
 		logger.Error.Fatalf("error setting up output directory: %s", err)
 	}
 
 	logger.Info.Println("setting up environment variables")
-
 	if err := util.SetupEnv(env); err != nil {
 		logger.Error.Fatalf("error setting up environment variables: %s", err)
 	}
 
 	logger.Info.Println("setting up client")
-
 	if err := util.SetupClient(client); err != nil {
 		logger.Error.Fatalf("error setting up client: %s", err)
+	}
+
+	logger.Info.Println("setting up avngen client")
+	if err := util.SetupGenClient(&genClient); err != nil {
+		logger.Error.Fatalf("error setting up avngen client: %s", err)
 	}
 }
 
@@ -121,7 +128,7 @@ func run(cmd *cobra.Command, _ []string) {
 
 	logger.Info.Println("generating")
 
-	gr, err := gen.Run(ctx, logger, env, client)
+	gr, err := gen.Run(ctx, logger, env, client, genClient)
 	if err != nil {
 		logger.Error.Fatalf("error generating: %s", err)
 	}

@@ -4,6 +4,7 @@ go 1.22
 
 require (
 	github.com/aiven/aiven-go-client/v2 v2.27.0
+	github.com/aiven/go-client-codegen v0.44.0
 	github.com/google/go-cmp v0.6.0
 	github.com/mitchellh/copystructure v1.2.0
 	github.com/spf13/cobra v1.8.1
@@ -16,8 +17,15 @@ require (
 
 require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/kelseyhightower/envconfig v1.4.0 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
+	github.com/rs/zerolog v1.33.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
 )

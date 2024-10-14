@@ -3,6 +3,7 @@ package gen
 
 import (
 	"github.com/aiven/aiven-go-client/v2"
+	avngen "github.com/aiven/go-client-codegen"
 	"golang.org/x/net/context"
 	"golang.org/x/sync/errgroup"
 
@@ -24,6 +25,9 @@ var env util.EnvMap
 
 // client is a pointer to the Aiven client.
 var client *aiven.Client
+
+// genClient is the avngen client.
+var genClient avngen.Client
 
 // result is the result of the generation process.
 var result types.GenerationResult
@@ -110,10 +114,11 @@ func integrationEndpointTypes(ctx context.Context) error {
 }
 
 // setup sets up the generation process.
-func setup(l *util.Logger, e util.EnvMap, c *aiven.Client) {
+func setup(l *util.Logger, e util.EnvMap, c *aiven.Client, cg avngen.Client) {
 	logger = l
 	env = e
 	client = c
+	genClient = cg
 
 	result = types.GenerationResult{}
 }
@@ -124,8 +129,9 @@ func Run(
 	logger *util.Logger,
 	env util.EnvMap,
 	client *aiven.Client,
+	genClient avngen.Client,
 ) (types.GenerationResult, error) {
-	setup(logger, env, client)
+	setup(logger, env, client, genClient)
 
 	g, ctx := errgroup.WithContext(ctx)
 
