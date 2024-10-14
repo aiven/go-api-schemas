@@ -18,25 +18,27 @@ type UserConfigSchemaEnumValue struct {
 type UserConfigSchema struct {
 	UserConfigSchemaDeprecationInfo `yaml:",inline"`
 
-	Title       string                      `yaml:"title,omitempty"`
-	Description string                      `yaml:"description,omitempty"`
-	Type        interface{}                 `yaml:"type,omitempty"`
-	Default     interface{}                 `yaml:"default,omitempty"`
-	Required    []string                    `yaml:"required,omitempty"`
-	Properties  map[string]UserConfigSchema `yaml:"properties,omitempty"`
-	Items       *UserConfigSchema           `yaml:"items,omitempty"`
-	OneOf       []UserConfigSchema          `yaml:"one_of,omitempty"`
-	Enum        []UserConfigSchemaEnumValue `yaml:"enum,omitempty"`
-	Minimum     *float64                    `yaml:"minimum,omitempty"`
-	Maximum     *float64                    `yaml:"maximum,omitempty"`
-	MinLength   *int                        `yaml:"min_length,omitempty"`
-	MaxLength   *int                        `yaml:"max_length,omitempty"`
-	MaxItems    *int                        `yaml:"max_items,omitempty"`
-	CreateOnly  bool                        `yaml:"create_only,omitempty"`
-	Pattern     string                      `yaml:"pattern,omitempty"`
-	Example     interface{}                 `yaml:"example,omitempty"`
-	UserError   string                      `yaml:"user_error,omitempty"`
-	Secure      bool                        `yaml:"_secure,omitempty"`
+	// `json` tag identifies fields in API responses. Field casing is inconsistent,
+	// e.g., minLength (camelCase) and user_error (snake_case).
+	Title       string                      `json:"title" yaml:"title,omitempty"`
+	Description string                      `json:"description" yaml:"description,omitempty"`
+	Type        interface{}                 `json:"type,omitempty" yaml:"type,omitempty"`
+	Default     interface{}                 `json:"default,omitempty" yaml:"default,omitempty"`
+	Required    []string                    `json:"required" yaml:"required,omitempty"`
+	Properties  map[string]UserConfigSchema `json:"properties" yaml:"properties,omitempty"`
+	Items       *UserConfigSchema           `json:"items,omitempty" yaml:"items,omitempty"`
+	OneOf       []UserConfigSchema          `json:"oneOf" yaml:"one_of,omitempty"`
+	Enum        []UserConfigSchemaEnumValue `json:"enum" yaml:"enum,omitempty"`
+	Minimum     *float64                    `json:"minimum,omitempty" yaml:"minimum,omitempty"`
+	Maximum     *float64                    `json:"maximum,omitempty" yaml:"maximum,omitempty"`
+	MinLength   *int                        `json:"minLength,omitempty" yaml:"min_length,omitempty"`
+	MaxLength   *int                        `json:"maxLength,omitempty" yaml:"max_length,omitempty"`
+	MaxItems    *int                        `json:"maxItems,omitempty" yaml:"max_items,omitempty"`
+	CreateOnly  bool                        `json:"createOnly" yaml:"create_only,omitempty"`
+	Pattern     string                      `json:"pattern" yaml:"pattern,omitempty"`
+	Example     interface{}                 `json:"example,omitempty" yaml:"example,omitempty"`
+	UserError   string                      `json:"user_error" yaml:"user_error,omitempty"`
+	Secure      bool                        `json:"_secure" yaml:"_secure,omitempty"`
 }
 
 // GenerationResult represents the result of a generation.

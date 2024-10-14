@@ -2,8 +2,13 @@
 package gen
 
 import (
+	"fmt"
+	"reflect"
+	"strings"
+
 	"github.com/aiven/aiven-go-client/v2"
 	avngen "github.com/aiven/go-client-codegen"
+	"github.com/ettle/strcase"
 	"golang.org/x/net/context"
 	"golang.org/x/sync/errgroup"
 
@@ -38,20 +43,40 @@ func serviceTypes(ctx context.Context) error {
 
 	logger.Info.Printf(generating, "service types")
 
-	r, err := client.Projects.ServiceTypes(ctx, env[util.EnvAivenProjectName])
+	r, err := genClient.ListProjectServiceTypes(ctx, env[util.EnvAivenProjectName])
 	if err != nil {
 		return err
 	}
 
-	out := make(map[string]types.UserConfigSchema, len(r))
+	out := make(map[string]types.UserConfigSchema)
 
-	for k, v := range r {
-		cv, err := convert.UserConfigSchema(v.UserConfigSchema)
-		if err != nil {
-			return err
+	// Use reflection to iterate over the fields of the struct
+	val := reflect.ValueOf(r).Elem()
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Field(i)
+		if !field.IsNil() {
+			// Get the UserConfigSchema from the field
+			schemaField := field.Elem().FieldByName("UserConfigSchema")
+			if !schemaField.IsValid() {
+				return fmt.Errorf("field %s does not have UserConfigSchema", val.Type().Field(i).Name)
+			}
+
+			cv, err := convert.UserConfigSchema(schemaField.Interface().(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+
+			// TODO: remove when m3db service types are removed
+			// m3db service types are all lowercase in the backend
+			fieldName := val.Type().Field(i).Name
+			if strings.HasPrefix(fieldName, "M3") {
+				fieldName = strings.ToLower(fieldName)
+			} else {
+				fieldName = strcase.ToSnake(fieldName)
+			}
+
+			out[fieldName] = *cv
 		}
-
-		out[k] = *cv
 	}
 
 	result[types.KeyServiceTypes] = out
@@ -65,7 +90,7 @@ func integrationTypes(ctx context.Context) error {
 
 	logger.Info.Printf(generating, "integration types")
 
-	r, err := client.Projects.IntegrationTypes(ctx, env[util.EnvAivenProjectName])
+	r, err := genClient.ServiceIntegrationTypes(ctx, env[util.EnvAivenProjectName])
 	if err != nil {
 		return err
 	}
@@ -92,7 +117,7 @@ func integrationEndpointTypes(ctx context.Context) error {
 
 	logger.Info.Printf(generating, "integration endpoint types")
 
-	r, err := client.Projects.IntegrationEndpointTypes(ctx, env[util.EnvAivenProjectName])
+	r, err := genClient.ServiceIntegrationEndpointTypes(ctx, env[util.EnvAivenProjectName])
 	if err != nil {
 		return err
 	}
