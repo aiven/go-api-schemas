@@ -210,3 +210,5 @@ $RECYCLE.BIN/
 # Project specific
 
 ./go-api-schemas
+.env*
+!.env.example
