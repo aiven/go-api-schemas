@@ -7,7 +7,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aiven/aiven-go-client/v2"
 	avngen "github.com/aiven/go-client-codegen"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -27,9 +26,6 @@ var logger = &util.Logger{}
 var env = util.EnvMap{
 	util.EnvAivenProjectName: "",
 }
-
-// client is a pointer to the Aiven client.
-var client = &aiven.Client{}
 
 // genClient is the avngen client.
 var genClient avngen.Client
@@ -102,11 +98,6 @@ func setup(flags *pflag.FlagSet) {
 		logger.Error.Fatalf("error setting up environment variables: %s", err)
 	}
 
-	logger.Info.Println("setting up client")
-	if err := util.SetupClient(client); err != nil {
-		logger.Error.Fatalf("error setting up client: %s", err)
-	}
-
 	logger.Info.Println("setting up avngen client")
 	if err := util.SetupGenClient(&genClient); err != nil {
 		logger.Error.Fatalf("error setting up avngen client: %s", err)
@@ -128,7 +119,7 @@ func run(cmd *cobra.Command, _ []string) {
 
 	logger.Info.Println("generating")
 
-	gr, err := gen.Run(ctx, logger, env, client, genClient)
+	gr, err := gen.Run(ctx, logger, env, genClient)
 	if err != nil {
 		logger.Error.Fatalf("error generating: %s", err)
 	}

@@ -6,7 +6,6 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/aiven/aiven-go-client/v2"
 	avngen "github.com/aiven/go-client-codegen"
 	"github.com/ettle/strcase"
 	"golang.org/x/net/context"
@@ -27,9 +26,6 @@ var logger *util.Logger
 
 // env is a map of environment variables.
 var env util.EnvMap
-
-// client is a pointer to the Aiven client.
-var client *aiven.Client
 
 // genClient is the avngen client.
 var genClient avngen.Client
@@ -139,10 +135,9 @@ func integrationEndpointTypes(ctx context.Context) error {
 }
 
 // setup sets up the generation process.
-func setup(l *util.Logger, e util.EnvMap, c *aiven.Client, cg avngen.Client) {
+func setup(l *util.Logger, e util.EnvMap, cg avngen.Client) {
 	logger = l
 	env = e
-	client = c
 	genClient = cg
 
 	result = types.GenerationResult{}
@@ -153,10 +148,9 @@ func Run(
 	ctx context.Context,
 	logger *util.Logger,
 	env util.EnvMap,
-	client *aiven.Client,
 	genClient avngen.Client,
 ) (types.GenerationResult, error) {
-	setup(logger, env, client, genClient)
+	setup(logger, env, genClient)
 
 	g, ctx := errgroup.WithContext(ctx)
 

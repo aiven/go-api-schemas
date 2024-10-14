@@ -3,7 +3,6 @@ module github.com/aiven/go-api-schemas
 go 1.22
 
 require (
-	github.com/aiven/aiven-go-client/v2 v2.27.0
 	github.com/aiven/go-client-codegen v0.44.0
 	github.com/ettle/strcase v0.2.0
 	github.com/google/go-cmp v0.6.0
@@ -18,7 +17,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
