@@ -185,6 +185,7 @@ external_aws_s3:
       max_length: 128
       pattern: ^[A-Za-z0-9/+=]+$
       example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      _secure: true
     url:
       title: S3-compatible bucket URL
       type: string
@@ -284,6 +285,7 @@ external_google_cloud_bigquery:
       type: string
       max_length: 4096
       example: '{"type": "service_account", ...'
+      _secure: true
 external_google_cloud_logging:
   title: User configuration for Google Cloud Logging integration
   type: object
@@ -309,6 +311,7 @@ external_google_cloud_logging:
       type: string
       max_length: 4096
       example: '{"type": "service_account", ...'
+      _secure: true
 external_kafka:
   type: object
   required:
@@ -386,6 +389,7 @@ external_kafka:
         -----BEGIN PRIVATE KEY-----
         ...
         -----END PRIVATE KEY-----
+      _secure: true
     ssl_endpoint_identification_algorithm:
       title: The endpoint identification algorithm to validate server hostname using server certificate.
       type:
@@ -683,6 +687,7 @@ rsyslog:
         -----BEGIN PRIVATE KEY-----
         ...
         -----END PRIVATE KEY-----
+      _secure: true
     logline:
       title: Custom syslog message format
       type: string
