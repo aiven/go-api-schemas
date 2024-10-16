@@ -48,7 +48,7 @@ alloydbomni:
         - "null"
       minimum: 0
       maximum: 23
-      example: "3"
+      example: 3
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type:
@@ -56,7 +56,7 @@ alloydbomni:
         - "null"
       minimum: 0
       maximum: 59
-      example: "30"
+      example: 30
     enable_ipv6:
       title: Enable IPv6
       description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
@@ -71,10 +71,10 @@ alloydbomni:
       title: Columnar data store size
       description: Allocate the amount of RAM to store columnar data.
       type: integer
-      default: "10"
+      default: 10
       minimum: 0
       maximum: 50
-      example: "10"
+      example: 10
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -124,7 +124,7 @@ alloydbomni:
           type: integer
           minimum: 2e+08
           maximum: 1.5e+09
-          example: "200000000"
+          example: 2e+08
         autovacuum_max_workers:
           title: autovacuum_max_workers
           description: Specifies the maximum number of autovacuum processes (other than the autovacuum launcher) that may be running at any one time. The default is three. This parameter can only be set at server start.
@@ -167,35 +167,35 @@ alloydbomni:
           type: integer
           minimum: 10
           maximum: 10000
-          example: "200"
+          example: 200
         bgwriter_flush_after:
           title: bgwriter_flush_after
           description: Whenever more than bgwriter_flush_after bytes have been written by the background writer, attempt to force the OS to issue these writes to the underlying storage. Specified in kilobytes, default is 512. Setting of 0 disables forced writeback.
           type: integer
           minimum: 0
           maximum: 2048
-          example: "512"
+          example: 512
         bgwriter_lru_maxpages:
           title: bgwriter_lru_maxpages
           description: In each round, no more than this many buffers will be written by the background writer. Setting this to zero disables background writing. Default is 100.
           type: integer
           minimum: 0
           maximum: 1.073741823e+09
-          example: "100"
+          example: 100
         bgwriter_lru_multiplier:
           title: bgwriter_lru_multiplier
           description: The average recent need for new buffers is multiplied by bgwriter_lru_multiplier to arrive at an estimate of the number that will be needed during the next round, (up to bgwriter_lru_maxpages). 1.0 represents a “just in time” policy of writing exactly the number of buffers predicted to be needed. Larger values provide some cushion against spikes in demand, while smaller values intentionally leave writes to be done by server processes. The default is 2.0.
           type: number
           minimum: 0
           maximum: 10
-          example: "2.0"
+          example: 2
         deadlock_timeout:
           title: deadlock_timeout
           description: This is the amount of time, in milliseconds, to wait on a lock before checking to see if there is a deadlock condition.
           type: integer
           minimum: 500
           maximum: 1.8e+06
-          example: "1000"
+          example: 1000
         default_toast_compression:
           title: default_toast_compression
           description: Specifies the default TOAST compression method for values of compressible columns (the default is lz4).
@@ -340,7 +340,7 @@ alloydbomni:
           type: integer
           minimum: 3600
           maximum: 604800
-          example: "3600"
+          example: 3600
         pg_partman_bgw.role:
           title: pg_partman_bgw.role
           description: Controls which role to use for pg_partman's scheduled background tasks.
@@ -364,7 +364,7 @@ alloydbomni:
           type: integer
           minimum: -1
           maximum: 2.147483647e+09
-          example: "5000000"
+          example: 5e+06
         timezone:
           title: timezone
           description: PostgreSQL service timezone
@@ -378,7 +378,7 @@ alloydbomni:
           type: integer
           minimum: 1024
           maximum: 10240
-          example: "1024"
+          example: 1024
         track_commit_timestamp:
           title: track_commit_timestamp
           description: Record commit time of transactions.
@@ -407,7 +407,7 @@ alloydbomni:
           title: wal_sender_timeout
           description: Terminate replication connections that are inactive for longer than this amount of time, in milliseconds. Setting this value to zero disables the timeout.
           type: integer
-          example: "60000"
+          example: 60000
           user_error: Must be either 0 or between 5000 and 10800000.
         wal_writer_delay:
           title: wal_writer_delay
@@ -415,7 +415,7 @@ alloydbomni:
           type: integer
           minimum: 10
           maximum: 200
-          example: "50"
+          example: 50
     pg_read_replica:
       title: Should the service which is being forked be a read replica (deprecated, use read_replica service integration instead).
       description: This setting is deprecated. Use read_replica service integration instead.
@@ -447,16 +447,16 @@ alloydbomni:
         autodb_idle_timeout:
           title: If the automatically created database pools have been unused this many seconds, they are freed. If 0 then timeout is disabled. [seconds]
           type: integer
-          default: "3600"
+          default: 3600
           minimum: 0
           maximum: 86400
-          example: "3600"
+          example: 3600
         autodb_max_db_connections:
           title: Do not allow more than this many server connections per database (regardless of user). Setting it to 0 means unlimited.
           type: integer
           minimum: 0
           maximum: 2.147483647e+09
-          example: "0"
+          example: 0
         autodb_pool_mode:
           title: PGBouncer pool mode
           type: string
@@ -469,10 +469,10 @@ alloydbomni:
         autodb_pool_size:
           title: If non-zero then create automatically a pool of that size per user when a pool doesn't exist.
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 10000
-          example: "0"
+          example: 0
         ignore_startup_parameters:
           title: List of parameters to ignore when given in startup packet
           type: array
@@ -488,31 +488,31 @@ alloydbomni:
         max_prepared_statements:
           title: PgBouncer tracks protocol-level named prepared statements related commands sent by the client in transaction and statement pooling modes when max_prepared_statements is set to a non-zero value. Setting it to 0 disables prepared statements. max_prepared_statements defaults to 100, and its maximum is 3000.
           type: integer
-          default: "100"
+          default: 100
           minimum: 0
           maximum: 3000
-          example: "100"
+          example: 100
         min_pool_size:
           title: Add more server connections to pool if below this number. Improves behavior when usual load comes suddenly back after period of total inactivity. The value is effectively capped at the pool size.
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 10000
-          example: "0"
+          example: 0
         server_idle_timeout:
           title: If a server connection has been idle more than this many seconds it will be dropped. If 0 then timeout is disabled. [seconds]
           type: integer
-          default: "600"
+          default: 600
           minimum: 0
           maximum: 86400
-          example: "600"
+          example: 600
         server_lifetime:
           title: The pooler will close an unused server connection that has been connected longer than this. [seconds]
           type: integer
-          default: "3600"
+          default: 3600
           minimum: 60
           maximum: 86400
-          example: "3600"
+          example: 3600
         server_reset_query_always:
           title: Run server_reset_query (DISCARD ALL) in all pooling modes
           type: boolean
@@ -523,14 +523,15 @@ alloydbomni:
       description: System-wide settings for pglookout.
       type: object
       default:
-        max_failover_replication_time_lag: "60"
+        max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
           title: max_failover_replication_time_lag
           description: Number of seconds of master unavailability before triggering database failover to standby
           type: integer
-          default: "60"
+          default: 60
           minimum: 10
+          maximum: 9.007199254740991e+15
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -618,7 +619,7 @@ alloydbomni:
       type: number
       minimum: 20
       maximum: 60
-      example: "41.5"
+      example: 41.5
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -646,7 +647,7 @@ alloydbomni:
       type: integer
       minimum: 1
       maximum: 1024
-      example: "4"
+      example: 4
 cassandra:
   type: object
   properties:
@@ -670,7 +671,7 @@ cassandra:
         - "null"
       minimum: 0
       maximum: 23
-      example: "3"
+      example: 3
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type:
@@ -678,7 +679,7 @@ cassandra:
         - "null"
       minimum: 0
       maximum: 59
-      example: "30"
+      example: 30
     cassandra:
       title: cassandra configuration values
       type: object
@@ -689,14 +690,14 @@ cassandra:
           type: integer
           minimum: 1
           maximum: 1e+06
-          example: "50"
+          example: 50
         batch_size_warn_threshold_in_kb:
           title: batch_size_warn_threshold_in_kb
           description: Log a warning message on any multiple-partition batch size exceeding this value.5kb per batch by default.Caution should be taken on increasing the size of this thresholdas it can lead to node instability.
           type: integer
           minimum: 1
           maximum: 1e+06
-          example: "5"
+          example: 5
         datacenter:
           title: Cassandra datacenter name
           description: Name of the datacenter to which nodes of this service belong. Can be set only when creating the service.
@@ -709,14 +710,14 @@ cassandra:
           type: integer
           minimum: 1000
           maximum: 10000
-          example: "5000"
+          example: 5000
         write_request_timeout_in_ms:
           title: write_request_timeout_in_ms
           description: How long the coordinator waits for write requests to complete with at least one node in the local datacenter. 2 seconds by default.
           type: integer
           minimum: 1000
           maximum: 10000
-          example: "2000"
+          example: 2000
     cassandra_version:
       title: Cassandra version
       type:
@@ -1046,7 +1047,7 @@ dragonfly:
           type: integer
           minimum: 1
           maximum: 65535
-          example: "1234"
+          example: 1234
         ssl:
           title: The server where to migrate data from is secured with SSL
           type: boolean
@@ -1777,21 +1778,21 @@ flink:
       type: integer
       minimum: 1
       maximum: 1024
-      example: "1"
+      example: 1
     pekko_ask_timeout_s:
       title: Flink pekko.ask.timeout
       description: Timeout in seconds used for all futures and blocking Pekko requests
       type: integer
       minimum: 5
       maximum: 60
-      example: "10"
+      example: 10
     pekko_framesize_b:
       title: Flink pekko.framesize
       description: Maximum size in bytes for messages exchanged between the JobManager and the TaskManagers
       type: integer
       minimum: 1.048576e+06
       maximum: 5.24288e+07
-      example: "10485760"
+      example: 1.048576e+07
     privatelink_access:
       title: Allow access to selected service components through Privatelink
       type: object
@@ -1855,7 +1856,7 @@ grafana:
       type: integer
       minimum: 0
       maximum: 1e+06
-      example: "0"
+      example: 0
     alerting_nodata_or_nullvalues:
       title: Default value for 'no data or null values' for new alerting rules
       type: string
@@ -2198,7 +2199,7 @@ grafana:
       type: integer
       minimum: 1
       maximum: 100
-      example: "20"
+      example: 20
     dataproxy_send_user_header:
       title: Send 'X-Grafana-User' header to data source
       type: boolean
@@ -2208,7 +2209,7 @@ grafana:
       type: integer
       minimum: 15
       maximum: 90
-      example: "30"
+      example: 30
     date_formats:
       title: Grafana date format specifications
       type: object
@@ -2447,7 +2448,7 @@ grafana:
           type: integer
           minimum: 1
           maximum: 65535
-          example: "25"
+          example: 25
         skip_verify:
           title: Skip verifying server certificate. Defaults to false
           type: boolean
@@ -2746,7 +2747,7 @@ kafka:
           type: integer
           minimum: 1000
           maximum: 3.6e+06
-          example: "540000"
+          example: 540000
         default_replication_factor:
           title: default.replication.factor
           description: 'Replication factor for auto-created topics (Default: 3)'
@@ -2759,45 +2760,47 @@ kafka:
           type: integer
           minimum: 0
           maximum: 300000
-          example: "3000"
+          example: 3000
         group_max_session_timeout_ms:
           title: group.max.session.timeout.ms
           description: 'The maximum allowed session timeout for registered consumers. Longer timeouts give consumers more time to process messages in between heartbeats at the cost of a longer time to detect failures. Default: 1800000 ms (30 minutes)'
           type: integer
           minimum: 0
           maximum: 1.8e+06
-          example: "1800000"
+          example: 1.8e+06
         group_min_session_timeout_ms:
           title: group.min.session.timeout.ms
           description: 'The minimum allowed session timeout for registered consumers. Longer timeouts give consumers more time to process messages in between heartbeats at the cost of a longer time to detect failures. (Default: 6000 ms (6 seconds))'
           type: integer
           minimum: 0
           maximum: 60000
-          example: "6000"
+          example: 6000
         log_cleaner_delete_retention_ms:
           title: log.cleaner.delete.retention.ms
           description: 'How long are delete records retained? (Default: 86400000 (1 day))'
           type: integer
           minimum: 0
           maximum: 3.1556926e+11
-          example: "86400000"
+          example: 8.64e+07
         log_cleaner_max_compaction_lag_ms:
           title: log.cleaner.max.compaction.lag.ms
           description: 'The maximum amount of time message will remain uncompacted. Only applicable for logs that are being compacted. (Default: 9223372036854775807 ms (Long.MAX_VALUE))'
           type: integer
           minimum: 30000
+          maximum: 9.007199254740991e+15
         log_cleaner_min_cleanable_ratio:
           title: log.cleaner.min.cleanable.ratio
           description: 'Controls log compactor frequency. Larger value means more frequent compactions but also more space wasted for logs. Consider setting log.cleaner.max.compaction.lag.ms to enforce compactions sooner, instead of setting a very high value for this option. (Default: 0.5)'
           type: number
           minimum: 0.2
           maximum: 0.9
-          example: "0.5"
+          example: 0.5
         log_cleaner_min_compaction_lag_ms:
           title: log.cleaner.min.compaction.lag.ms
           description: 'The minimum time a message will remain uncompacted in the log. Only applicable for logs that are being compacted. (Default: 0 ms)'
           type: integer
           minimum: 0
+          maximum: 9.007199254740991e+15
         log_cleanup_policy:
           title: log.cleanup.policy
           description: 'The default cleanup policy for segments beyond the retention window (Default: delete)'
@@ -2812,36 +2815,40 @@ kafka:
           description: 'The number of messages accumulated on a log partition before messages are flushed to disk (Default: 9223372036854775807 (Long.MAX_VALUE))'
           type: integer
           minimum: 1
-          example: "9223372036854775807"
+          maximum: 9.007199254740991e+15
+          example: 9.223372036854776e+18
         log_flush_interval_ms:
           title: log.flush.interval.ms
           description: 'The maximum time in ms that a message in any topic is kept in memory (page-cache) before flushed to disk. If not set, the value in log.flush.scheduler.interval.ms is used (Default: null)'
           type: integer
           minimum: 0
+          maximum: 9.007199254740991e+15
         log_index_interval_bytes:
           title: log.index.interval.bytes
           description: 'The interval with which Kafka adds an entry to the offset index (Default: 4096 bytes (4 kibibytes))'
           type: integer
           minimum: 0
           maximum: 1.048576e+08
-          example: "4096"
+          example: 4096
         log_index_size_max_bytes:
           title: log.index.size.max.bytes
           description: 'The maximum size in bytes of the offset index (Default: 10485760 (10 mebibytes))'
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
-          example: "10485760"
+          example: 1.048576e+07
         log_local_retention_bytes:
           title: log.local.retention.bytes
           description: 'The maximum size of local log segments that can grow for a partition before it gets eligible for deletion. If set to -2, the value of log.retention.bytes is used. The effective value should always be less than or equal to log.retention.bytes value. (Default: -2)'
           type: integer
           minimum: -2
+          maximum: 9.007199254740991e+15
         log_local_retention_ms:
           title: log.local.retention.ms
           description: 'The number of milliseconds to keep the local log segments before it gets eligible for deletion. If set to -2, the value of log.retention.ms is used. The effective value should always be less than or equal to log.retention.ms value. (Default: -2)'
           type: integer
           minimum: -2
+          maximum: 9.007199254740991e+15
         log_message_downconversion_enable:
           title: log.message.downconversion.enable
           description: 'This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. (Default: true)'
@@ -2852,6 +2859,7 @@ kafka:
           description: 'The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message (Default: 9223372036854775807 (Long.MAX_VALUE))'
           type: integer
           minimum: 0
+          maximum: 9.007199254740991e+15
         log_message_timestamp_type:
           title: log.message.timestamp.type
           description: 'Define whether the timestamp in the message is message create time or log append time. (Default: CreateTime)'
@@ -2869,6 +2877,7 @@ kafka:
           description: 'The maximum size of the log before deleting messages (Default: -1)'
           type: integer
           minimum: -1
+          maximum: 9.007199254740991e+15
         log_retention_hours:
           title: log.retention.hours
           description: 'The number of hours to keep a log file before deleting it (Default: 168 hours (1 week))'
@@ -2880,16 +2889,19 @@ kafka:
           description: 'The number of milliseconds to keep a log file before deleting it (in milliseconds), If not set, the value in log.retention.minutes is used. If set to -1, no time limit is applied. (Default: null, log.retention.hours applies)'
           type: integer
           minimum: -1
+          maximum: 9.007199254740991e+15
         log_roll_jitter_ms:
           title: log.roll.jitter.ms
           description: 'The maximum jitter to subtract from logRollTimeMillis (in milliseconds). If not set, the value in log.roll.jitter.hours is used (Default: null)'
           type: integer
           minimum: 0
+          maximum: 9.007199254740991e+15
         log_roll_ms:
           title: log.roll.ms
           description: 'The maximum time before a new log segment is rolled out (in milliseconds). (Default: null, log.roll.hours applies (Default: 168, 7 days))'
           type: integer
           minimum: 1
+          maximum: 9.007199254740991e+15
         log_segment_bytes:
           title: log.segment.bytes
           description: 'The maximum size of a single log file (Default: 1073741824 bytes (1 gibibyte))'
@@ -2902,7 +2914,7 @@ kafka:
           type: integer
           minimum: 0
           maximum: 3.6e+06
-          example: "60000"
+          example: 60000
         max_connections_per_ip:
           title: max.connections.per.ip
           description: 'The maximum number of connections allowed from each ip address (Default: 2147483647).'
@@ -2915,21 +2927,21 @@ kafka:
           type: integer
           minimum: 1000
           maximum: 10000
-          example: "1000"
+          example: 1000
         message_max_bytes:
           title: message.max.bytes
           description: 'The maximum size of message that the server can receive. (Default: 1048588 bytes (1 mebibyte + 12 bytes))'
           type: integer
           minimum: 0
           maximum: 1.000012e+08
-          example: "1048588"
+          example: 1.048588e+06
         min_insync_replicas:
           title: min.insync.replicas
           description: 'When a producer sets acks to ''all'' (or ''-1''), min.insync.replicas specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. (Default: 1)'
           type: integer
           minimum: 1
           maximum: 7
-          example: "1"
+          example: 1
         num_partitions:
           title: num.partitions
           description: 'Number of partitions for auto-created topics (Default: 1)'
@@ -2942,7 +2954,7 @@ kafka:
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "10080"
+          example: 10080
         producer_purgatory_purge_interval_requests:
           title: producer.purgatory.purge.interval.requests
           description: 'The purge interval (in number of requests) of the producer request purgatory (Default: 1000).'
@@ -3001,14 +3013,14 @@ kafka:
           type: integer
           minimum: 600000
           maximum: 3.6e+06
-          example: "3600000"
+          example: 3.6e+06
         transaction_state_log_segment_bytes:
           title: transaction.state.log.segment.bytes
           description: 'The transaction topic segment bytes should be kept relatively small in order to facilitate faster log compaction and cache loads (Default: 104857600 bytes (100 mebibytes)).'
           type: integer
           minimum: 1.048576e+06
           maximum: 2.147483647e+09
-          example: "104857600"
+          example: 1.048576e+08
     kafka_authentication_methods:
       title: Kafka authentication methods
       type: object
@@ -3049,7 +3061,7 @@ kafka:
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
-          example: "52428800"
+          example: 5.24288e+07
         consumer_isolation_level:
           title: Consumer isolation level
           description: Transaction read isolation level. read_uncommitted is the default, but read_committed can be used if consume-exactly-once behavior is desired.
@@ -3063,49 +3075,49 @@ kafka:
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
-          example: "1048576"
+          example: 1.048576e+06
         consumer_max_poll_interval_ms:
           title: The maximum delay between polls when using consumer group management
           description: The maximum delay in milliseconds between invocations of poll() when using consumer group management (defaults to 300000).
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "300000"
+          example: 300000
         consumer_max_poll_records:
           title: The maximum number of records returned by a single poll
           description: The maximum number of records returned in a single call to poll() (defaults to 500).
           type: integer
           minimum: 1
           maximum: 10000
-          example: "500"
+          example: 500
         offset_flush_interval_ms:
           title: The interval at which to try committing offsets for tasks
           description: The interval at which to try committing offsets for tasks (defaults to 60000).
           type: integer
           minimum: 1
           maximum: 1e+08
-          example: "60000"
+          example: 60000
         offset_flush_timeout_ms:
           title: Offset flush timeout
           description: Maximum number of milliseconds to wait for records to flush and partition offset data to be committed to offset storage before cancelling the process and restoring the offset data to be committed in a future attempt (defaults to 5000).
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "5000"
+          example: 5000
         producer_batch_size:
           title: The batch size in bytes the producer will attempt to collect for the same partition before publishing to broker
           description: This setting gives the upper bound of the batch size to be sent. If there are fewer than this many bytes accumulated for this partition, the producer will 'linger' for the linger.ms time waiting for more records to show up. A batch size of zero will disable batching entirely (defaults to 16384).
           type: integer
           minimum: 0
           maximum: 5.24288e+06
-          example: "1024"
+          example: 1024
         producer_buffer_memory:
           title: The total bytes of memory the producer can use to buffer records waiting to be sent to the broker
           description: The total bytes of memory the producer can use to buffer records waiting to be sent to the broker (defaults to 33554432).
           type: integer
           minimum: 5.24288e+06
           maximum: 1.34217728e+08
-          example: "8388608"
+          example: 8.388608e+06
         producer_compression_type:
           title: The default compression type for producers
           description: Specify the default compression type for producers. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'none' which is the default and equivalent to no compression.
@@ -3122,28 +3134,28 @@ kafka:
           type: integer
           minimum: 0
           maximum: 5000
-          example: "100"
+          example: 100
         producer_max_request_size:
           title: The maximum size of a request in bytes
           description: This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests.
           type: integer
           minimum: 131072
           maximum: 6.7108864e+07
-          example: "1048576"
+          example: 1.048576e+06
         scheduled_rebalance_max_delay_ms:
           title: The maximum delay of rebalancing connector workers
           description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned. Defaults to 5 minutes.
           type: integer
           minimum: 0
           maximum: 600000
-          example: "300000"
+          example: 300000
         session_timeout_ms:
           title: The timeout used to detect failures when using Kafka’s group management facilities
           description: The timeout in milliseconds used to detect failures when using Kafka’s group management facilities (defaults to 10000).
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "10000"
+          example: 10000
     kafka_connect_secret_providers:
       title: Kafka Connect secret providers
       description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
@@ -3240,14 +3252,14 @@ kafka:
           title: consumer.request.max.bytes
           description: Maximum number of bytes in unencoded message keys and values by a single request
           type: integer
-          default: "67108864"
+          default: 6.7108864e+07
           minimum: 0
           maximum: 6.7108864e+08
         consumer_request_timeout_ms:
           title: consumer.request.timeout.ms
           description: The maximum total time to wait for messages for a request if the maximum number of messages has not yet been reached
           type: integer
-          default: "1000"
+          default: 1000
           enum:
             - value: "1000"
             - value: "15000"
@@ -3292,21 +3304,21 @@ kafka:
           title: producer.linger.ms
           description: Wait for up to the given delay to allow batching records together
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 5000
         producer_max_request_size:
           title: producer.max.request.size
           description: The maximum size of a request in bytes. Note that Kafka broker can also cap the record batch size.
           type: integer
-          default: "1048576"
+          default: 1.048576e+06
           minimum: 0
           maximum: 2.147483647e+09
         simpleconsumer_pool_size_max:
           title: simpleconsumer.pool.size.max
           description: Maximum number of SimpleConsumers that can be instantiated per broker
           type: integer
-          default: "25"
+          default: 25
           minimum: 10
           maximum: 250
     kafka_sasl_mechanisms:
@@ -3575,7 +3587,7 @@ kafka_connect:
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
-          example: "52428800"
+          example: 5.24288e+07
         consumer_isolation_level:
           title: Consumer isolation level
           description: Transaction read isolation level. read_uncommitted is the default, but read_committed can be used if consume-exactly-once behavior is desired.
@@ -3589,49 +3601,49 @@ kafka_connect:
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
-          example: "1048576"
+          example: 1.048576e+06
         consumer_max_poll_interval_ms:
           title: The maximum delay between polls when using consumer group management
           description: The maximum delay in milliseconds between invocations of poll() when using consumer group management (defaults to 300000).
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "300000"
+          example: 300000
         consumer_max_poll_records:
           title: The maximum number of records returned by a single poll
           description: The maximum number of records returned in a single call to poll() (defaults to 500).
           type: integer
           minimum: 1
           maximum: 10000
-          example: "500"
+          example: 500
         offset_flush_interval_ms:
           title: The interval at which to try committing offsets for tasks
           description: The interval at which to try committing offsets for tasks (defaults to 60000).
           type: integer
           minimum: 1
           maximum: 1e+08
-          example: "60000"
+          example: 60000
         offset_flush_timeout_ms:
           title: Offset flush timeout
           description: Maximum number of milliseconds to wait for records to flush and partition offset data to be committed to offset storage before cancelling the process and restoring the offset data to be committed in a future attempt (defaults to 5000).
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "5000"
+          example: 5000
         producer_batch_size:
           title: The batch size in bytes the producer will attempt to collect for the same partition before publishing to broker
           description: This setting gives the upper bound of the batch size to be sent. If there are fewer than this many bytes accumulated for this partition, the producer will 'linger' for the linger.ms time waiting for more records to show up. A batch size of zero will disable batching entirely (defaults to 16384).
           type: integer
           minimum: 0
           maximum: 5.24288e+06
-          example: "1024"
+          example: 1024
         producer_buffer_memory:
           title: The total bytes of memory the producer can use to buffer records waiting to be sent to the broker
           description: The total bytes of memory the producer can use to buffer records waiting to be sent to the broker (defaults to 33554432).
           type: integer
           minimum: 5.24288e+06
           maximum: 1.34217728e+08
-          example: "8388608"
+          example: 8.388608e+06
         producer_compression_type:
           title: The default compression type for producers
           description: Specify the default compression type for producers. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'none' which is the default and equivalent to no compression.
@@ -3648,28 +3660,28 @@ kafka_connect:
           type: integer
           minimum: 0
           maximum: 5000
-          example: "100"
+          example: 100
         producer_max_request_size:
           title: The maximum size of a request in bytes
           description: This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests.
           type: integer
           minimum: 131072
           maximum: 6.7108864e+07
-          example: "1048576"
+          example: 1.048576e+06
         scheduled_rebalance_max_delay_ms:
           title: The maximum delay of rebalancing connector workers
           description: The maximum delay that is scheduled in order to wait for the return of one or more departed workers before rebalancing and reassigning their connectors and tasks to the group. During this period the connectors and tasks of the departed workers remain unassigned. Defaults to 5 minutes.
           type: integer
           minimum: 0
           maximum: 600000
-          example: "300000"
+          example: 300000
         session_timeout_ms:
           title: The timeout used to detect failures when using Kafka’s group management facilities
           description: The timeout in milliseconds used to detect failures when using Kafka’s group management facilities (defaults to 10000).
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "10000"
+          example: 10000
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -3851,7 +3863,7 @@ kafka_mirrormaker:
             - "null"
           minimum: 30000
           maximum: 1.8e+06
-          example: "60000"
+          example: 60000
         emit_checkpoints_enabled:
           title: Emit consumer group offset checkpoints
           description: 'Whether to emit consumer group offset checkpoints to target cluster periodically (default: true)'
@@ -3862,7 +3874,8 @@ kafka_mirrormaker:
           description: 'Frequency at which consumer group offset checkpoints are emitted (default: 60, every minute)'
           type: integer
           minimum: 1
-          example: "60"
+          maximum: 9.007199254740991e+15
+          example: 60
         groups:
           title: Comma-separated list of consumer groups to replicate
           description: Consumer groups to replicate. Supports comma-separated group IDs and regexes.
@@ -3882,7 +3895,8 @@ kafka_mirrormaker:
           description: How out-of-sync a remote partition can be before it is resynced.
           type: integer
           minimum: 0
-          example: "100"
+          maximum: 9.007199254740991e+15
+          example: 100
         refresh_groups_enabled:
           title: Refresh consumer groups
           description: Whether to periodically check for new consumer groups. Defaults to 'true'.
@@ -3893,7 +3907,8 @@ kafka_mirrormaker:
           description: Frequency of consumer group refresh in seconds. Defaults to 600 seconds (10 minutes).
           type: integer
           minimum: 1
-          example: "600"
+          maximum: 9.007199254740991e+15
+          example: 600
         refresh_topics_enabled:
           title: Refresh topics and partitions
           description: Whether to periodically check for new topics and partitions. Defaults to 'true'.
@@ -3904,7 +3919,8 @@ kafka_mirrormaker:
           description: Frequency of topic and partitions refresh in seconds. Defaults to 600 seconds (10 minutes).
           type: integer
           minimum: 1
-          example: "600"
+          maximum: 9.007199254740991e+15
+          example: 600
         sync_group_offsets_enabled:
           title: Sync consumer group offsets
           description: Whether to periodically write the translated offsets of replicated consumer groups (in the source cluster) to __consumer_offsets topic in target cluster, as long as no active consumers in that group are connected to the target cluster
@@ -3915,7 +3931,8 @@ kafka_mirrormaker:
           description: 'Frequency at which consumer group offsets are synced (default: 60, every minute)'
           type: integer
           minimum: 1
-          example: "60"
+          maximum: 9.007199254740991e+15
+          example: 60
         sync_topic_configs_enabled:
           title: Sync remote topics
           description: Whether to periodically configure remote topics to match their corresponding upstream topics.
@@ -3925,10 +3942,10 @@ kafka_mirrormaker:
           title: Maximum number of MirrorMaker tasks (of each type) per service CPU
           description: '''tasks.max'' is set to this multiplied by the number of CPUs in the service.'
           type: integer
-          default: "1"
+          default: 1
           minimum: 1
           maximum: 8
-          example: "2"
+          example: 2
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -4068,12 +4085,14 @@ m3db:
           title: The maximum number of blocks that can be read in a given lookback period.
           type: integer
           minimum: 0
-          example: "20000"
+          maximum: 9.007199254740991e+15
+          example: 20000
         max_recently_queried_series_disk_bytes_read:
           title: The maximum number of disk bytes that can be read in a given lookback period.
           type: integer
           minimum: 0
-          example: "104857600"
+          maximum: 9.007199254740991e+15
+          example: 1.048576e+08
         max_recently_queried_series_lookback:
           title: The lookback period for 'max_recently_queried_series_blocks' and 'max_recently_queried_series_disk_bytes_read'.
           type: string
@@ -4084,7 +4103,8 @@ m3db:
           title: The maximum number of docs fetched in single query.
           type: integer
           minimum: 0
-          example: "100000"
+          maximum: 9.007199254740991e+15
+          example: 100000
         query_require_exhaustive:
           title: Require exhaustive result
           description: When query limits are exceeded, whether to return error or return partial results.
@@ -4094,7 +4114,8 @@ m3db:
           title: The maximum number of series fetched in single query.
           type: integer
           minimum: 10000
-          example: "100000"
+          maximum: 9.007199254740991e+15
+          example: 100000
     m3:
       title: M3 specific configuration options
       type: object
@@ -4427,7 +4448,7 @@ mysql:
         - "null"
       minimum: 0
       maximum: 23
-      example: "3"
+      example: 3
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type:
@@ -4435,13 +4456,13 @@ mysql:
         - "null"
       minimum: 0
       maximum: 59
-      example: "30"
+      example: 30
     binlog_retention_period:
       title: The minimum amount of time in seconds to keep binlog entries before deletion. This may be extended for services that require binlog entries for longer than the default for example if using the MySQL Debezium Kafka connector.
       type: integer
       minimum: 600
       maximum: 86400
-      example: "600"
+      example: 600
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -4516,7 +4537,7 @@ mysql:
           type: integer
           minimum: 1
           maximum: 65535
-          example: "1234"
+          example: 1234
         ssl:
           title: The server where to migrate data from is secured with SSL
           type: boolean
@@ -4536,7 +4557,7 @@ mysql:
           type: integer
           minimum: 2
           maximum: 3600
-          example: "10"
+          example: 10
         default_time_zone:
           title: default_time_zone
           description: Default server time zone as an offset from UTC (from -12:00 to +12:00), a time zone name, or 'SYSTEM' to use the MySQL server default.
@@ -4550,35 +4571,36 @@ mysql:
           description: The maximum permitted result length in bytes for the GROUP_CONCAT() function.
           type: integer
           minimum: 4
-          example: "1024"
+          maximum: 9.007199254740991e+15
+          example: 1024
         information_schema_stats_expiry:
           title: information_schema_stats_expiry
           description: The time, in seconds, before cached statistics expire
           type: integer
           minimum: 900
           maximum: 3.1536e+07
-          example: "86400"
+          example: 86400
         innodb_change_buffer_max_size:
           title: innodb_change_buffer_max_size
           description: Maximum size for the InnoDB change buffer, as a percentage of the total size of the buffer pool. Default is 25
           type: integer
           minimum: 0
           maximum: 50
-          example: "30"
+          example: 30
         innodb_flush_neighbors:
           title: innodb_flush_neighbors
           description: 'Specifies whether flushing a page from the InnoDB buffer pool also flushes other dirty pages in the same extent (default is 1): 0 - dirty pages in the same extent are not flushed, 1 - flush contiguous dirty pages in the same extent, 2 - flush dirty pages in the same extent'
           type: integer
           minimum: 0
           maximum: 2
-          example: "0"
+          example: 0
         innodb_ft_min_token_size:
           title: innodb_ft_min_token_size
           description: Minimum length of words that are stored in an InnoDB FULLTEXT index. Changing this parameter will lead to a restart of the MySQL service.
           type: integer
           minimum: 0
           maximum: 16
-          example: "3"
+          example: 3
         innodb_ft_server_stopword_table:
           title: innodb_ft_server_stopword_table
           description: This option is used to specify your own InnoDB FULLTEXT index stopword list for all InnoDB tables.
@@ -4594,21 +4616,21 @@ mysql:
           type: integer
           minimum: 1
           maximum: 3600
-          example: "50"
+          example: 50
         innodb_log_buffer_size:
           title: innodb_log_buffer_size
           description: The size in bytes of the buffer that InnoDB uses to write to the log files on disk.
           type: integer
           minimum: 1.048576e+06
           maximum: 4.294967295e+09
-          example: "16777216"
+          example: 1.6777216e+07
         innodb_online_alter_log_max_size:
           title: innodb_online_alter_log_max_size
           description: The upper limit in bytes on the size of the temporary log files used during online DDL operations for InnoDB tables.
           type: integer
           minimum: 65536
           maximum: 1.099511627776e+12
-          example: "134217728"
+          example: 1.34217728e+08
         innodb_print_all_deadlocks:
           title: innodb_print_all_deadlocks
           description: When enabled, information about all deadlocks in InnoDB user transactions is recorded in the error log. Disabled by default.
@@ -4620,7 +4642,7 @@ mysql:
           type: integer
           minimum: 1
           maximum: 64
-          example: "10"
+          example: 10
         innodb_rollback_on_timeout:
           title: innodb_rollback_on_timeout
           description: When enabled a transaction timeout causes InnoDB to abort and roll back the entire transaction. Changing this parameter will lead to a restart of the MySQL service.
@@ -4632,21 +4654,21 @@ mysql:
           type: integer
           minimum: 0
           maximum: 1000
-          example: "10"
+          example: 10
         innodb_write_io_threads:
           title: innodb_write_io_threads
           description: The number of I/O threads for write operations in InnoDB. Default is 4. Changing this parameter will lead to a restart of the MySQL service.
           type: integer
           minimum: 1
           maximum: 64
-          example: "10"
+          example: 10
         interactive_timeout:
           title: interactive_timeout
           description: The number of seconds the server waits for activity on an interactive connection before closing it.
           type: integer
           minimum: 30
           maximum: 604800
-          example: "3600"
+          example: 3600
         internal_tmp_mem_storage_engine:
           title: internal_tmp_mem_storage_engine
           description: The storage engine for in-memory internal temporary tables.
@@ -4671,42 +4693,42 @@ mysql:
           type: number
           minimum: 0
           maximum: 3600
-          example: "10"
+          example: 10
         max_allowed_packet:
           title: max_allowed_packet
           description: Size of the largest message in bytes that can be received by the server. Default is 67108864 (64M)
           type: integer
           minimum: 102400
           maximum: 1.073741824e+09
-          example: "67108864"
+          example: 6.7108864e+07
         max_heap_table_size:
           title: max_heap_table_size
           description: Limits the size of internal in-memory tables. Also set tmp_table_size. Default is 16777216 (16M)
           type: integer
           minimum: 1.048576e+06
           maximum: 1.073741824e+09
-          example: "16777216"
+          example: 1.6777216e+07
         net_buffer_length:
           title: net_buffer_length
           description: Start sizes of connection buffer and result buffer. Default is 16384 (16K). Changing this parameter will lead to a restart of the MySQL service.
           type: integer
           minimum: 1024
           maximum: 1.048576e+06
-          example: "16384"
+          example: 16384
         net_read_timeout:
           title: net_read_timeout
           description: The number of seconds to wait for more data from a connection before aborting the read.
           type: integer
           minimum: 1
           maximum: 3600
-          example: "30"
+          example: 30
         net_write_timeout:
           title: net_write_timeout
           description: The number of seconds to wait for a block to be written to a connection before aborting the write.
           type: integer
           minimum: 1
           maximum: 3600
-          example: "30"
+          example: 30
         slow_query_log:
           title: slow_query_log
           description: Slow query log enables capturing of slow queries. Setting slow_query_log to false also truncates the mysql.slow_log table.
@@ -4718,7 +4740,7 @@ mysql:
           type: integer
           minimum: 32768
           maximum: 1.073741824e+09
-          example: "262144"
+          example: 262144
         sql_mode:
           title: sql_mode
           description: Global SQL mode. Set to empty to use MySQL server defaults. When creating a new service and not setting this field Aiven default SQL mode (strict, SQL standard compliant) will be assigned.
@@ -4738,14 +4760,14 @@ mysql:
           type: integer
           minimum: 1.048576e+06
           maximum: 1.073741824e+09
-          example: "16777216"
+          example: 1.6777216e+07
         wait_timeout:
           title: wait_timeout
           description: The number of seconds the server waits for activity on a noninteractive connection before closing it.
           type: integer
           minimum: 1
           maximum: 2.147483e+06
-          example: "28800"
+          example: 28800
     mysql_version:
       title: MySQL major version
       type:
@@ -5043,7 +5065,7 @@ opensearch:
             - "null"
           minimum: 0
           maximum: 100000
-          example: "10000"
+          example: 10000
         number_of_replicas:
           title: index.number_of_replicas
           description: The number of replicas each primary shard has.
@@ -5052,7 +5074,7 @@ opensearch:
             - "null"
           minimum: 0
           maximum: 29
-          example: "1"
+          example: 1
         number_of_shards:
           title: index.number_of_shards
           description: The number of primary shards that an index should have.
@@ -5061,7 +5083,7 @@ opensearch:
             - "null"
           minimum: 1
           maximum: 1024
-          example: "1"
+          example: 1
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -5098,8 +5120,9 @@ opensearch:
       title: Maximum index count
       description: 'DEPRECATED: use index_patterns instead'
       type: integer
-      default: "0"
+      default: 0
       minimum: 0
+      maximum: 9.007199254740991e+15
     openid:
       title: OpenSearch OpenID Connect Configuration
       type: object
@@ -5116,6 +5139,7 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
+          example: ""
         client_secret:
           title: The client secret of the OpenID Connect
           description: The client secret of the OpenID Connect client configured in your IdP. Required.
@@ -5123,6 +5147,7 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
+          example: ""
           _secure: true
         connect_url:
           title: OpenID Connect metadata/configuration URL
@@ -5144,6 +5169,7 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
+          example: ""
         jwt_header:
           title: The HTTP header that stores the token
           description: 'The HTTP header that stores the token. Typically the Authorization header with the Bearer schema: Authorization: Bearer <token>. Optional. Default is Authorization.'
@@ -5170,8 +5196,9 @@ opensearch:
           type:
             - integer
             - "null"
-          default: "10"
+          default: 10
           minimum: 10
+          maximum: 9.007199254740991e+15
           example: preferred_username
         refresh_rate_limit_time_window_ms:
           title: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds
@@ -5179,8 +5206,9 @@ opensearch:
           type:
             - integer
             - "null"
-          default: "10000"
+          default: 10000
           minimum: 10000
+          maximum: 9.007199254740991e+15
           example: preferred_username
         roles_key:
           title: The key in the JSON payload that stores the user’s roles
@@ -5199,6 +5227,7 @@ opensearch:
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
+          example: ""
         subject_key:
           title: The key in the JSON payload that stores the user’s name
           description: The key in the JSON payload that stores the user’s name. If not defined, the subject registered claim is used. Most IdP providers use the preferred_username claim. Optional.
@@ -5237,7 +5266,7 @@ opensearch:
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "10"
+                  example: 10
                 authentication_backend:
                   title: internal_authentication_backend_limiting.authentication_backend
                   description: The internal backend. Enter `internal`
@@ -5252,28 +5281,28 @@ opensearch:
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "600"
+                  example: 600
                 max_blocked_clients:
                   title: internal_authentication_backend_limiting.max_blocked_clients
                   description: The maximum number of blocked IP addresses
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "100000"
+                  example: 100000
                 max_tracked_clients:
                   title: internal_authentication_backend_limiting.max_tracked_clients
                   description: The maximum number of tracked IP addresses that have failed login
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "100000"
+                  example: 100000
                 time_window_seconds:
                   title: internal_authentication_backend_limiting.time_window_seconds
                   description: The window of time in which the value for `allowed_tries` is enforced
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "3600"
+                  example: 3600
                 type:
                   title: internal_authentication_backend_limiting.type
                   description: The type of rate limiting
@@ -5292,35 +5321,35 @@ opensearch:
                   type: integer
                   minimum: 1
                   maximum: 2.147483647e+09
-                  example: "10"
+                  example: 10
                 block_expiry_seconds:
                   title: ip_rate_limiting.block_expiry_seconds
                   description: The duration of time that login remains blocked after a failed login
                   type: integer
                   minimum: 1
                   maximum: 36000
-                  example: "600"
+                  example: 600
                 max_blocked_clients:
                   title: ip_rate_limiting.max_blocked_clients
                   description: The maximum number of blocked IP addresses
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "100000"
+                  example: 100000
                 max_tracked_clients:
                   title: ip_rate_limiting.max_tracked_clients
                   description: The maximum number of tracked IP addresses that have failed login
                   type: integer
                   minimum: 0
                   maximum: 2.147483647e+09
-                  example: "100000"
+                  example: 100000
                 time_window_seconds:
                   title: ip_rate_limiting.time_window_seconds
                   description: The window of time in which the value for `allowed_tries` is enforced
                   type: integer
                   minimum: 1
                   maximum: 36000
-                  example: "3600"
+                  example: 3600
                 type:
                   title: ip_rate_limiting.type
                   description: The type of rate limiting
@@ -5335,7 +5364,7 @@ opensearch:
           type: integer
           minimum: 100
           maximum: 10000
-          example: "1000"
+          example: 1000
         cluster_routing_allocation_node_concurrent_recoveries:
           title: Concurrent incoming/outgoing shard recoveries per node
           description: How many concurrent incoming/outgoing shard recoveries (normally replicas) are allowed to happen on a node. Defaults to node cpu count * 2.
@@ -5380,14 +5409,14 @@ opensearch:
           type: integer
           minimum: 1024
           maximum: 262144
-          example: "8192"
+          example: 8192
         http_max_initial_line_length:
           title: http.max_initial_line_length
           description: The max length of an HTTP URL, in bytes
           type: integer
           minimum: 1024
           maximum: 65536
-          example: "4096"
+          example: 4096
         indices_fielddata_cache_size:
           title: indices.fielddata.cache.size
           description: Relative amount. Maximum amount of heap memory used for field data cache. This is an expert setting; decreasing the value too much will increase overhead of loading field data; too much memory used for field data cache will decrease amount of heap available for other operations.
@@ -5451,24 +5480,25 @@ opensearch:
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "24"
+          example: 24
         ism_history_max_docs:
           title: The maximum number of documents before rolling over the audit history index.
           type: integer
           minimum: 1
-          example: "2500000"
+          maximum: 9.007199254740991e+15
+          example: 2.5e+06
         ism_history_rollover_check_period:
           title: The time between rollover checks for the audit history index in hours.
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "8"
+          example: 8
         ism_history_rollover_retention_period:
           title: How long audit history indices are kept in days.
           type: integer
           minimum: 1
           maximum: 2.147483647e+09
-          example: "30"
+          example: 30
         knn_memory_circuit_breaker_enabled:
           title: knn.memory.circuit_breaker.enabled
           description: Enable or disable KNN memory circuit breaker. Defaults to true.
@@ -5480,7 +5510,7 @@ opensearch:
           type: integer
           minimum: 3
           maximum: 100
-          example: "50"
+          example: 50
         override_main_response_version:
           title: compatibility.override_main_response_version
           description: Compatibility mode sets OpenSearch to report its version as 7.10 so clients continue to work. Default is false
@@ -5657,7 +5687,7 @@ opensearch:
             - "null"
           minimum: 1
           maximum: 1e+06
-          example: "10000"
+          example: 10000
         shard_indexing_pressure:
           title: Shard indexing back pressure settings
           type: object
@@ -5811,13 +5841,13 @@ opensearch:
           title: max_old_space_size
           description: 'Limits the maximum amount of memory (in MiB) the OpenSearch Dashboards process can use. This sets the max_old_space_size option of the nodejs running the OpenSearch Dashboards. Note: the memory reserved by OpenSearch Dashboards is not available for OpenSearch.'
           type: integer
-          default: "128"
+          default: 128
           minimum: 64
           maximum: 2048
         opensearch_request_timeout:
           title: Timeout in milliseconds for requests made by OpenSearch Dashboards towards OpenSearch
           type: integer
-          default: "30000"
+          default: 30000
           minimum: 5000
           maximum: 120000
     opensearch_version:
@@ -6092,7 +6122,7 @@ pg:
         - "null"
       minimum: 0
       maximum: 23
-      example: "3"
+      example: 3
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type:
@@ -6100,7 +6130,7 @@ pg:
         - "null"
       minimum: 0
       maximum: 59
-      example: "30"
+      example: 30
     enable_ipv6:
       title: Enable IPv6
       description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
@@ -6180,7 +6210,7 @@ pg:
           type: integer
           minimum: 1
           maximum: 65535
-          example: "1234"
+          example: 1234
         ssl:
           title: The server where to migrate data from is secured with SSL
           type: boolean
@@ -6212,7 +6242,7 @@ pg:
           type: integer
           minimum: 2e+08
           maximum: 1.5e+09
-          example: "200000000"
+          example: 2e+08
         autovacuum_max_workers:
           title: autovacuum_max_workers
           description: Specifies the maximum number of autovacuum processes (other than the autovacuum launcher) that may be running at any one time. The default is three. This parameter can only be set at server start.
@@ -6255,35 +6285,35 @@ pg:
           type: integer
           minimum: 10
           maximum: 10000
-          example: "200"
+          example: 200
         bgwriter_flush_after:
           title: bgwriter_flush_after
           description: Whenever more than bgwriter_flush_after bytes have been written by the background writer, attempt to force the OS to issue these writes to the underlying storage. Specified in kilobytes, default is 512. Setting of 0 disables forced writeback.
           type: integer
           minimum: 0
           maximum: 2048
-          example: "512"
+          example: 512
         bgwriter_lru_maxpages:
           title: bgwriter_lru_maxpages
           description: In each round, no more than this many buffers will be written by the background writer. Setting this to zero disables background writing. Default is 100.
           type: integer
           minimum: 0
           maximum: 1.073741823e+09
-          example: "100"
+          example: 100
         bgwriter_lru_multiplier:
           title: bgwriter_lru_multiplier
           description: The average recent need for new buffers is multiplied by bgwriter_lru_multiplier to arrive at an estimate of the number that will be needed during the next round, (up to bgwriter_lru_maxpages). 1.0 represents a “just in time” policy of writing exactly the number of buffers predicted to be needed. Larger values provide some cushion against spikes in demand, while smaller values intentionally leave writes to be done by server processes. The default is 2.0.
           type: number
           minimum: 0
           maximum: 10
-          example: "2.0"
+          example: 2
         deadlock_timeout:
           title: deadlock_timeout
           description: This is the amount of time, in milliseconds, to wait on a lock before checking to see if there is a deadlock condition.
           type: integer
           minimum: 500
           maximum: 1.8e+06
-          example: "1000"
+          example: 1000
         default_toast_compression:
           title: default_toast_compression
           description: Specifies the default TOAST compression method for values of compressible columns (the default is lz4).
@@ -6428,7 +6458,7 @@ pg:
           type: integer
           minimum: 3600
           maximum: 604800
-          example: "3600"
+          example: 3600
         pg_partman_bgw.role:
           title: pg_partman_bgw.role
           description: Controls which role to use for pg_partman's scheduled background tasks.
@@ -6448,7 +6478,7 @@ pg:
           type: integer
           minimum: 1
           maximum: 10
-          example: "10"
+          example: 10
         pg_stat_statements.track:
           title: pg_stat_statements.track
           description: Controls which statements are counted. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable statement statistics collection. The default value is top.
@@ -6464,7 +6494,7 @@ pg:
           type: integer
           minimum: -1
           maximum: 2.147483647e+09
-          example: "5000000"
+          example: 5e+06
         timezone:
           title: timezone
           description: PostgreSQL service timezone
@@ -6478,7 +6508,7 @@ pg:
           type: integer
           minimum: 1024
           maximum: 10240
-          example: "1024"
+          example: 1024
         track_commit_timestamp:
           title: track_commit_timestamp
           description: Record commit time of transactions.
@@ -6507,7 +6537,7 @@ pg:
           title: wal_sender_timeout
           description: Terminate replication connections that are inactive for longer than this amount of time, in milliseconds. Setting this value to zero disables the timeout.
           type: integer
-          example: "60000"
+          example: 60000
           user_error: Must be either 0 or between 5000 and 10800000.
         wal_writer_delay:
           title: wal_writer_delay
@@ -6515,7 +6545,7 @@ pg:
           type: integer
           minimum: 10
           maximum: 200
-          example: "50"
+          example: 50
     pg_qualstats:
       is_deprecated: true
       deprecation_notice: This property is deprecated.
@@ -6740,16 +6770,16 @@ pg:
         autodb_idle_timeout:
           title: If the automatically created database pools have been unused this many seconds, they are freed. If 0 then timeout is disabled. [seconds]
           type: integer
-          default: "3600"
+          default: 3600
           minimum: 0
           maximum: 86400
-          example: "3600"
+          example: 3600
         autodb_max_db_connections:
           title: Do not allow more than this many server connections per database (regardless of user). Setting it to 0 means unlimited.
           type: integer
           minimum: 0
           maximum: 2.147483647e+09
-          example: "0"
+          example: 0
         autodb_pool_mode:
           title: PGBouncer pool mode
           type: string
@@ -6762,10 +6792,10 @@ pg:
         autodb_pool_size:
           title: If non-zero then create automatically a pool of that size per user when a pool doesn't exist.
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 10000
-          example: "0"
+          example: 0
         ignore_startup_parameters:
           title: List of parameters to ignore when given in startup packet
           type: array
@@ -6781,31 +6811,31 @@ pg:
         max_prepared_statements:
           title: PgBouncer tracks protocol-level named prepared statements related commands sent by the client in transaction and statement pooling modes when max_prepared_statements is set to a non-zero value. Setting it to 0 disables prepared statements. max_prepared_statements defaults to 100, and its maximum is 3000.
           type: integer
-          default: "100"
+          default: 100
           minimum: 0
           maximum: 3000
-          example: "100"
+          example: 100
         min_pool_size:
           title: Add more server connections to pool if below this number. Improves behavior when usual load comes suddenly back after period of total inactivity. The value is effectively capped at the pool size.
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 10000
-          example: "0"
+          example: 0
         server_idle_timeout:
           title: If a server connection has been idle more than this many seconds it will be dropped. If 0 then timeout is disabled. [seconds]
           type: integer
-          default: "600"
+          default: 600
           minimum: 0
           maximum: 86400
-          example: "600"
+          example: 600
         server_lifetime:
           title: The pooler will close an unused server connection that has been connected longer than this. [seconds]
           type: integer
-          default: "3600"
+          default: 3600
           minimum: 60
           maximum: 86400
-          example: "3600"
+          example: 3600
         server_reset_query_always:
           title: Run server_reset_query (DISCARD ALL) in all pooling modes
           type: boolean
@@ -6816,14 +6846,15 @@ pg:
       description: System-wide settings for pglookout.
       type: object
       default:
-        max_failover_replication_time_lag: "60"
+        max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
           title: max_failover_replication_time_lag
           description: Number of seconds of master unavailability before triggering database failover to standby
           type: integer
-          default: "60"
+          default: 60
           minimum: 10
+          maximum: 9.007199254740991e+15
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -6911,7 +6942,7 @@ pg:
       type: number
       minimum: 20
       maximum: 60
-      example: "41.5"
+      example: 41.5
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
@@ -6933,10 +6964,10 @@ pg:
           title: timescaledb.max_background_workers
           description: The number of background workers for timescaledb operations. You should configure this setting to the sum of your number of databases and the total number of concurrent background workers you want running at any given point in time.
           type: integer
-          default: "16"
+          default: 16
           minimum: 1
           maximum: 4096
-          example: "8"
+          example: 8
     variant:
       title: Variant of the PostgreSQL service, may affect the features that are exposed by default
       type:
@@ -6952,7 +6983,7 @@ pg:
       type: integer
       minimum: 1
       maximum: 1024
-      example: "4"
+      example: 4
 redis:
   type: object
   properties:
@@ -6974,7 +7005,7 @@ redis:
         - "null"
       minimum: 0
       maximum: 23
-      example: "3"
+      example: 3
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type:
@@ -6982,7 +7013,7 @@ redis:
         - "null"
       minimum: 0
       maximum: 59
-      example: "30"
+      example: 30
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -7057,7 +7088,7 @@ redis:
           type: integer
           minimum: 1
           maximum: 65535
-          example: "1234"
+          example: 1234
         ssl:
           title: The server where to migrate data from is secured with SSL
           type: boolean
@@ -7131,17 +7162,17 @@ redis:
       type: integer
       minimum: 1
       maximum: 32
-      example: "1"
+      example: 1
     redis_lfu_decay_time:
       title: LFU maxmemory-policy counter decay time in minutes
       type: integer
-      default: "1"
+      default: 1
       minimum: 1
       maximum: 120
     redis_lfu_log_factor:
       title: Counter logarithm factor for volatile-lfu and allkeys-lfu maxmemory-policies
       type: integer
-      default: "10"
+      default: 10
       minimum: 0
       maximum: 100
     redis_maxmemory_policy:
@@ -7171,7 +7202,7 @@ redis:
       type: integer
       minimum: 1
       maximum: 128
-      example: "16"
+      example: 16
     redis_persistence:
       title: Redis persistence
       description: When persistence is 'rdb', Redis does RDB dumps each 10 minutes if any key is changed. Also RDB dumps are done according to the backup schedule for backup purposes. When persistence is 'off', no RDB dumps or backups are done, so data can be lost at any moment if the service is restarted for any reason, or if the service is powered off. Also, the service can't be forked.
@@ -7185,7 +7216,7 @@ redis:
       type: integer
       minimum: 32
       maximum: 512
-      example: "64"
+      example: 64
     redis_ssl:
       title: Require SSL to access Redis
       type: boolean
@@ -7193,7 +7224,7 @@ redis:
     redis_timeout:
       title: Redis idle connection timeout in seconds
       type: integer
-      default: "300"
+      default: 300
       minimum: 0
       maximum: 2.0736e+06
     redis_version:
@@ -7339,14 +7370,14 @@ thanos:
           title: Store.Limits.Request-Samples
           description: 'The maximum samples allowed for a single Series request. The Series call fails if this limit is exceeded. Set to 0 for no limit. NOTE: For efficiency, the limit is internally implemented as ''chunks limit'' considering each chunk contains a maximum of 120 samples. The default value is 100 * store.limits.request-series.'
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 1e+08
         store.limits.request-series:
           title: Store.Limits.Request-Series
           description: The maximum series allowed for a single Series request. The Series call fails if this limit is exceeded. Set to 0 for no limit. The default value is 1000 * cpu_count.
           type: integer
-          default: "0"
+          default: 0
           minimum: 0
           maximum: 1e+08
     query-frontend:
@@ -7359,6 +7390,18 @@ thanos:
           description: Whether to align the query range boundaries with the step. If enabled, the query range boundaries will be aligned to the step, providing more accurate results for queries with high-resolution data.
           type: boolean
           default: true
+    receiver-ingesting:
+      title: CommonReceiveUserConfig
+      description: Generic model
+      type: object
+    receiver-routing:
+      title: ThanosReceiveRoutingUserConfig
+      description: Generic model
+      type: object
+    ruler:
+      title: ThanosRulerUserConfig
+      description: Generic model
+      type: object
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -7371,6 +7414,10 @@ thanos:
       description: Use static public IP addresses
       type: boolean
       example: true
+    store:
+      title: ThanosStoreUserConfig
+      description: Generic model
+      type: object
 valkey:
   type: object
   properties:
@@ -7392,7 +7439,7 @@ valkey:
         - "null"
       minimum: 0
       maximum: 23
-      example: "3"
+      example: 3
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type:
@@ -7400,7 +7447,7 @@ valkey:
         - "null"
       minimum: 0
       maximum: 59
-      example: "30"
+      example: 30
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -7475,7 +7522,7 @@ valkey:
           type: integer
           minimum: 1
           maximum: 65535
-          example: "1234"
+          example: 1234
         ssl:
           title: The server where to migrate data from is secured with SSL
           type: boolean
@@ -7570,17 +7617,17 @@ valkey:
       type: integer
       minimum: 1
       maximum: 32
-      example: "1"
+      example: 1
     valkey_lfu_decay_time:
       title: LFU maxmemory-policy counter decay time in minutes
       type: integer
-      default: "1"
+      default: 1
       minimum: 1
       maximum: 120
     valkey_lfu_log_factor:
       title: Counter logarithm factor for volatile-lfu and allkeys-lfu maxmemory-policies
       type: integer
-      default: "10"
+      default: 10
       minimum: 0
       maximum: 100
     valkey_maxmemory_policy:
@@ -7610,7 +7657,7 @@ valkey:
       type: integer
       minimum: 1
       maximum: 128
-      example: "16"
+      example: 16
     valkey_persistence:
       title: Valkey persistence
       description: When persistence is 'rdb', Valkey does RDB dumps each 10 minutes if any key is changed. Also RDB dumps are done according to backup schedule for backup purposes. When persistence is 'off', no RDB dumps and backups are done, so data can be lost at any moment if service is restarted for any reason, or if service is powered off. Also service can't be forked.
@@ -7624,7 +7671,7 @@ valkey:
       type: integer
       minimum: 32
       maximum: 512
-      example: "64"
+      example: 64
     valkey_ssl:
       title: Require SSL to access Valkey
       type: boolean
@@ -7632,6 +7679,6 @@ valkey:
     valkey_timeout:
       title: Valkey idle connection timeout in seconds
       type: integer
-      default: "300"
+      default: 300
       minimum: 0
       maximum: 2.0736e+06

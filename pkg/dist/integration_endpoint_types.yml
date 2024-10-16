@@ -81,19 +81,19 @@ datadog:
       type: integer
       minimum: 1
       maximum: 100
-      example: "8"
+      example: 8
     kafka_consumer_stats_timeout:
       title: Number of seconds that datadog will wait to get consumer statistics from brokers
       type: integer
       minimum: 2
       maximum: 300
-      example: "60"
+      example: 60
     max_partition_contexts:
       title: Maximum number of partition contexts to send
       type: integer
       minimum: 200
       maximum: 200000
-      example: "32000"
+      example: 32000
     site:
       title: Datadog intake site. Defaults to datadoghq.com
       type: string
@@ -215,7 +215,7 @@ external_clickhouse:
       type: integer
       minimum: 1
       maximum: 65535
-      example: "9440"
+      example: 9440
     username:
       title: User name
       type: string
@@ -240,10 +240,10 @@ external_elasticsearch_logs:
     index_days_max:
       title: Maximum number of days of logs to keep
       type: integer
-      default: "3"
+      default: 3
       minimum: 1
       maximum: 10000
-      example: "3"
+      example: 3
     index_prefix:
       title: Elasticsearch index prefix
       type: string
@@ -256,10 +256,10 @@ external_elasticsearch_logs:
     timeout:
       title: Elasticsearch request timeout limit
       type: number
-      default: "10.0"
+      default: 10
       minimum: 10
       maximum: 120
-      example: "10.0"
+      example: 10
     url:
       title: Elasticsearch connection URL
       type: string
@@ -396,6 +396,7 @@ external_kafka:
         - string
       enum:
         - value: https
+        - value: ""
       example: https
 external_mysql:
   type: object
@@ -421,7 +422,7 @@ external_mysql:
       type: integer
       minimum: 1
       maximum: 65535
-      example: "5432"
+      example: 5432
     ssl_mode:
       title: SSL Mode
       type: string
@@ -462,10 +463,10 @@ external_opensearch_logs:
     index_days_max:
       title: Maximum number of days of logs to keep
       type: integer
-      default: "3"
+      default: 3
       minimum: 1
       maximum: 10000
-      example: "3"
+      example: 3
     index_prefix:
       title: OpenSearch index prefix
       type: string
@@ -478,10 +479,10 @@ external_opensearch_logs:
     timeout:
       title: OpenSearch request timeout limit
       type: number
-      default: "10.0"
+      default: 10
       minimum: 10
       maximum: 120
-      example: "10.0"
+      example: 10
     url:
       title: OpenSearch connection URL
       type: string
@@ -518,7 +519,7 @@ external_postgresql:
       type: integer
       minimum: 1
       maximum: 65535
-      example: "5432"
+      example: 5432
     ssl_client_certificate:
       title: Client certificate
       type: string
@@ -721,17 +722,17 @@ rsyslog:
     max_message_size:
       title: Rsyslog max message size
       type: integer
-      default: "8192"
+      default: 8192
       minimum: 2048
       maximum: 2.147483647e+09
-      example: "8192"
+      example: 8192
     port:
       title: Rsyslog server port
       type: integer
-      default: "514"
+      default: 514
       minimum: 1
       maximum: 65535
-      example: "514"
+      example: 514
     sd:
       title: Structured data block for log message
       type:
