@@ -571,6 +571,29 @@ external_postgresql:
       type: string
       max_length: 256
       example: myname
+external_prometheus:
+  type: object
+  properties:
+    basic_auth_password:
+      title: Prometheus basic authentication password
+      type: string
+      min_length: 8
+      max_length: 64
+      example: fhyFNBjj3R
+      _secure: true
+    basic_auth_username:
+      title: Prometheus basic authentication username
+      type: string
+      min_length: 5
+      max_length: 32
+      pattern: ^[a-z0-9\-@_]{5,32}$
+      example: prom4851
+      user_error: Must be 5-32 characters long and may contain only lower case letters and numbers.
+    service_uri:
+      title: Prometheus enabled write endpoint
+      type: string
+      max_length: 2048
+      example: https://write.example.com/
 external_schema_registry:
   type: object
   required:
