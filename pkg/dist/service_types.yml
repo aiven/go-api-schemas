@@ -2559,6 +2559,15 @@ influxdb:
           type: integer
           minimum: 0
           maximum: 3600
+    influxdb_version:
+      title: InfluxDB major version
+      type:
+        - string
+        - "null"
+      default: "1.8"
+      enum:
+        - value: "1.8"
+      example: "1.8"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
