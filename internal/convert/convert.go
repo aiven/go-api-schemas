@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"slices"
@@ -9,6 +10,28 @@ import (
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
+
+// ConversionError represents a detailed error during conversion.
+type ConversionError struct {
+	Path        string
+	FullPath    []string
+	Expected    string
+	ActualValue interface{}
+	ActualType  string
+}
+
+func (e *ConversionError) Error() string {
+	fullPath := strings.Join(e.FullPath, ".")
+
+	return fmt.Sprintf(
+		"error '%s': expected %s, got value: '%v' type: '%s'",
+		fullPath, e.Expected, e.ActualValue, e.ActualType,
+	)
+}
+
+func (e *ConversionError) appendPath(segment string) {
+	e.FullPath = append([]string{segment}, e.FullPath...)
+}
 
 // UserConfigSchema converts a map[string]interface{} to UserConfigSchema.
 // nolint:lll,nestif,goconst,funlen // This function is long, but it's a conversion function.
@@ -59,15 +82,25 @@ func extractSchemaTypes(v map[string]interface{}) ([]string, error) {
 		case string:
 			schemaTypes = []string{t}
 		case []interface{}:
-			for _, item := range t {
+			for idx, item := range t {
 				if str, ok := item.(string); ok {
 					schemaTypes = append(schemaTypes, str)
 				} else {
-					return nil, fmt.Errorf("error converting type: expected string in slice, got %T", item)
+					return nil, &ConversionError{
+						Expected:    "string",
+						ActualValue: item,
+						ActualType:  fmt.Sprintf("%T", item),
+						FullPath:    []string{fmt.Sprintf("type[%d]", idx)},
+					}
 				}
 			}
 		default:
-			return nil, fmt.Errorf("error converting type: expected string or []interface{}, got %T", typeValue)
+			return nil, &ConversionError{
+				Expected:    "string or []interface{}",
+				ActualValue: typeValue,
+				ActualType:  fmt.Sprintf("%T", typeValue),
+				FullPath:    []string{"type"},
+			}
 		}
 	}
 
@@ -82,14 +115,19 @@ func setStringField(_ map[string]interface{}, elem reflect.Value, i int, value i
 		return nil
 	}
 
-	return fmt.Errorf("error converting %s: expected string, got %T", fieldName, value)
+	return &ConversionError{
+		Expected:    "string",
+		ActualValue: value,
+		ActualType:  fmt.Sprintf("%T", value),
+		FullPath:    []string{fieldName},
+	}
 }
 
 // maxSafeNumber the last number in double precision floating point that can make valid comparison
 const maxSafeNumber = float64(1<<53 - 1)
 
 // setPointerField sets the value of a pointer field in the UserConfigSchema struct.
-func setPointerField(input map[string]interface{}, elem reflect.Value, i int, value interface{}, fieldName string) error {
+func setPointerField(input map[string]interface{}, elem reflect.Value, i int, value interface{}, fieldName string) error { // nolint:lll
 	// Extract and process the schema types
 	schemaTypes, err := extractSchemaTypes(input)
 	if err != nil {
@@ -98,7 +136,7 @@ func setPointerField(input map[string]interface{}, elem reflect.Value, i int, va
 
 	if f, ok := value.(float64); ok {
 		switch fieldName {
-		case "minimum", "maximum":
+		case "minimum", "maximum": // nolint:goconst
 			if fieldName == "maximum" && slices.Contains(schemaTypes, "integer") && f >= maxSafeNumber {
 				f = maxSafeNumber
 			}
@@ -107,21 +145,81 @@ func setPointerField(input map[string]interface{}, elem reflect.Value, i int, va
 		case "minLength", "maxLength", "maxItems":
 			elem.Field(i).Set(reflect.ValueOf(util.Ref(int(f))))
 		default:
-			return fmt.Errorf("unsupported pointer field: %s", fieldName)
+			return &ConversionError{
+				Expected:    "float64",
+				ActualValue: value,
+				ActualType:  fmt.Sprintf("%T", value),
+				FullPath:    []string{fieldName},
+			}
 		}
 
 		return nil
 	} else if _, ok := value.(string); ok {
-		return fmt.Errorf("error converting %s: expected float64, got %T", fieldName, value)
+		return &ConversionError{
+			Expected:    "float64",
+			ActualValue: value,
+			ActualType:  fmt.Sprintf("%T", value),
+			FullPath:    []string{fieldName},
+		}
 	}
 
 	return nil
 }
 
+func isValidType(s string) bool {
+	// Valid JSON schema types: https://json-schema.org/understanding-json-schema/reference/type
+	validTypes := []string{"string", "number", "integer", "object", "array", "boolean", "null"}
+	for _, t := range validTypes {
+		if s == t {
+			return true
+		}
+	}
+
+	return false
+}
+
 // setInterfaceField sets the value of an interface field in the UserConfigSchema struct.
 func setInterfaceField(_ map[string]interface{}, elem reflect.Value, i int, value interface{}, fieldName string) error {
 	switch fieldName {
-	case "type", "default", "example":
+	case "type":
+		switch v := value.(type) {
+		case string:
+			elem.Field(i).Set(reflect.ValueOf(v))
+		case []interface{}:
+			typeSlice := make([]string, len(v))
+
+			for idx, item := range v {
+				if s, ok := item.(string); ok {
+					if isValidType(s) {
+						typeSlice[idx] = s
+					} else {
+						return &ConversionError{
+							Expected:    "valid type",
+							ActualValue: s,
+							ActualType:  "string",
+							FullPath:    []string{fmt.Sprintf("%s[%d]", fieldName, idx)},
+						}
+					}
+				} else {
+					return &ConversionError{
+						Expected:    "string",
+						ActualValue: item,
+						ActualType:  fmt.Sprintf("%T", item),
+						FullPath:    []string{fmt.Sprintf("%s[%d]", fieldName, idx)},
+					}
+				}
+			}
+
+			elem.Field(i).Set(reflect.ValueOf(typeSlice))
+		default:
+			return &ConversionError{
+				Expected:    "string or []interface{}",
+				ActualValue: value,
+				ActualType:  fmt.Sprintf("%T", value),
+				FullPath:    []string{fieldName},
+			}
+		}
+	case "default", "example":
 		elem.Field(i).Set(reflect.ValueOf(value))
 	}
 
@@ -129,20 +227,30 @@ func setInterfaceField(_ map[string]interface{}, elem reflect.Value, i int, valu
 }
 
 // setMapField sets the value of a map field in the UserConfigSchema struct.
-func setMapField(_ map[string]interface{}, elem reflect.Value, i int, value interface{}, _ string) error {
-	if m, ok := value.(map[string]interface{}); ok {
+func setMapField(_ map[string]interface{}, elem reflect.Value, i int, value interface{}, fieldName string) error {
+	if m, ok := value.(map[string]interface{}); ok { //nolint:nestif
 		properties := make(map[string]types.UserConfigSchema)
 
 		for k, v := range m {
 			if subMap, ok := v.(map[string]interface{}); ok {
 				propSchema, err := UserConfigSchema(subMap)
 				if err != nil {
-					return fmt.Errorf("error converting property %s: %w", k, err)
+					var convErr *ConversionError
+					if errors.As(err, &convErr) {
+						convErr.FullPath = append([]string{fieldName, k}, convErr.FullPath...)
+					}
+
+					return err
 				}
 
 				properties[k] = *propSchema
 			} else {
-				return fmt.Errorf("error converting property %s: expected map[string]interface{}, got %T", k, v)
+				return &ConversionError{
+					Expected:    "map[string]interface{}",
+					ActualValue: v,
+					ActualType:  fmt.Sprintf("%T", v),
+					FullPath:    []string{fieldName, k},
+				}
 			}
 		}
 
@@ -151,7 +259,12 @@ func setMapField(_ map[string]interface{}, elem reflect.Value, i int, value inte
 		return nil
 	}
 
-	return fmt.Errorf("error converting properties: expected map[string]interface{}, got %T", value)
+	return &ConversionError{
+		Expected:    "map[string]interface{}",
+		ActualValue: value,
+		ActualType:  fmt.Sprintf("%T", value),
+		FullPath:    []string{fieldName},
+	}
 }
 
 // setSliceField sets the value of a slice field in the UserConfigSchema struct.
@@ -164,7 +277,12 @@ func setSliceField(_ map[string]interface{}, elem reflect.Value, i int, value in
 	case "enum":
 		return setEnumField(elem, i, value)
 	default:
-		return fmt.Errorf("unsupported slice field: %s", fieldName)
+		return &ConversionError{
+			Expected:    "slice",
+			ActualValue: value,
+			ActualType:  fmt.Sprintf("%T", value),
+			FullPath:    []string{fieldName},
+		}
 	}
 }
 
@@ -174,54 +292,91 @@ func setRequiredField(elem reflect.Value, i int, value interface{}) error {
 		elem.Field(i).Set(reflect.ValueOf(s))
 	case []interface{}:
 		required := make([]string, len(s))
-		for i, v := range s {
+
+		for idx, v := range s {
 			if str, ok := v.(string); ok {
-				required[i] = str
+				required[idx] = str
 			} else {
-				return fmt.Errorf("error converting required field at index %d: expected string, got %T", i, v)
+				return &ConversionError{
+					Expected:    "string",
+					ActualValue: v,
+					ActualType:  fmt.Sprintf("%T", v),
+					FullPath:    []string{fmt.Sprintf("required[%d]", idx)},
+				}
 			}
 		}
+
 		elem.Field(i).Set(reflect.ValueOf(required))
 	default:
-		return fmt.Errorf("error converting required fields: expected []interface{} or []string, got %T", value)
+		return &ConversionError{
+			Expected:    "[]interface{} or []string",
+			ActualValue: value,
+			ActualType:  fmt.Sprintf("%T", value),
+			FullPath:    []string{"required"},
+		}
 	}
+
 	return nil
 }
 
 func setOneOfField(elem reflect.Value, i int, value interface{}) error {
-	if s, ok := value.([]interface{}); ok {
+	if s, ok := value.([]interface{}); ok { //nolint:nestif
 		var slice []types.UserConfigSchema
-		for i, v := range s {
+
+		for idx, v := range s {
 			if itemMap, ok := v.(map[string]interface{}); ok {
 				itemSchema, err := UserConfigSchema(itemMap)
 				if err != nil {
-					return fmt.Errorf("error converting slice item at index %d: %w", i, err)
+					var convErr *ConversionError
+					if errors.As(err, &convErr) {
+						convErr.appendPath(fmt.Sprintf("oneOf[%d]", idx))
+
+						return convErr
+					}
+
+					return err
 				}
+
 				slice = append(slice, *itemSchema)
 			} else {
-				return fmt.Errorf("error converting slice item at index %d: expected map[string]interface{}, got %T", i, v)
+				return &ConversionError{
+					Expected:    "map[string]interface{}",
+					ActualValue: v,
+					ActualType:  fmt.Sprintf("%T", v),
+					FullPath:    []string{fmt.Sprintf("oneOf[%d]", idx)},
+				}
 			}
 		}
+
 		elem.Field(i).Set(reflect.ValueOf(slice))
 	}
+
 	return nil
 }
 
 func setEnumField(elem reflect.Value, i int, value interface{}) error {
 	if s, ok := value.([]interface{}); ok {
 		var enumValues []types.UserConfigSchemaEnumValue
-		for _, v := range s {
+
+		for idx, v := range s {
 			switch enumValue := v.(type) {
 			case string:
 				enumValues = append(enumValues, types.UserConfigSchemaEnumValue{Value: enumValue})
 			case int, int64, float64:
 				enumValues = append(enumValues, types.UserConfigSchemaEnumValue{Value: enumValue})
 			default:
-				return fmt.Errorf("error converting enum value: expected string or number, got %T", v)
+				return &ConversionError{
+					Expected:    "string or number",
+					ActualValue: v,
+					ActualType:  fmt.Sprintf("%T", v),
+					FullPath:    []string{fmt.Sprintf("enum[%d]", idx)},
+				}
 			}
 		}
+
 		elem.Field(i).Set(reflect.ValueOf(enumValues))
 	}
+
 	return nil
 }
 
@@ -233,5 +388,10 @@ func setBoolField(_ map[string]interface{}, elem reflect.Value, i int, value int
 		return nil
 	}
 
-	return fmt.Errorf("error converting %s: expected bool, got %T", fieldName, value)
+	return &ConversionError{
+		Expected:    "bool",
+		ActualValue: value,
+		ActualType:  fmt.Sprintf("%T", value),
+		FullPath:    []string{fieldName},
+	}
 }

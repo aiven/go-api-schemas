@@ -457,119 +457,175 @@ func TestUserConfigSchema(t *testing.T) {
 	}
 }
 
-type args struct {
-	v map[string]any
-}
-
-// Helper function to create a test case for TestUserConfigSchemaErrors
-func createTestCase(name string, specificFields map[string]interface{}, wantErr string) struct {
-	name    string
-	args    args
-	wantErr string
-} {
-	// Shared fields
-	fields := map[string]interface{}{
-		"title":       "Test",
-		"description": "Test description",
-	}
-
-	// Override shared fields with specific fields
-	for k, v := range specificFields {
-		fields[k] = v
-	}
-
-	return struct {
-		name    string
-		args    args
-		wantErr string
-	}{
-		name: name,
-		args: args{
-			v: fields,
-		},
-		wantErr: wantErr,
-	}
-}
-
-// TestUserConfigSchemaErrors tests the UserConfigSchema function for error cases.
 // nolint:funlen,lll // This function is long, but it's a test function.
 func TestUserConfigSchemaErrors(t *testing.T) {
-	type testCase struct {
+	tests := []struct {
 		name    string
-		args    args
+		input   map[string]interface{}
 		wantErr string
-	}
-
-	tests := []testCase{
-		createTestCase("invalid property item type", map[string]interface{}{
-			"type": "object",
-			"properties": map[string]interface{}{
-				"invalid_property": "invalid",
+	}{
+		{
+			name: "invalid properties type",
+			input: map[string]interface{}{
+				"type":       "object",
+				"properties": "invalid",
 			},
-		}, "error converting property invalid_property: expected map[string]interface{}, got string"),
-		createTestCase("invalid oneOf item type", map[string]interface{}{
-			"type": "object",
-			"oneOf": []interface{}{
-				"invalid",
+			wantErr: "error 'properties': expected map[string]interface{}, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid property item type",
+			input: map[string]interface{}{
+				"type": "object",
+				"properties": map[string]interface{}{
+					"invalid_property": "invalid",
+				},
 			},
-		}, "error converting slice item at index 0: expected map[string]interface{}, got string"),
-		createTestCase("error converting oneOf item", map[string]interface{}{
-			"type": "object",
-			"oneOf": []interface{}{
-				map[string]interface{}{
-					"type": "object",
-					"properties": map[string]interface{}{
-						"invalid_nested_oneOf_item": "invalid",
+			wantErr: "error 'properties.invalid_property': expected map[string]interface{}, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid oneOf item type",
+			input: map[string]interface{}{
+				"type": "object",
+				"oneOf": []interface{}{
+					"invalid",
+				},
+			},
+			wantErr: "error 'oneOf[0]': expected map[string]interface{}, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "error converting oneOf item",
+			input: map[string]interface{}{
+				"type": "object",
+				"oneOf": []interface{}{
+					map[string]interface{}{
+						"type": "object",
+						"properties": map[string]interface{}{
+							"invalid_nested_oneOf_item": "invalid",
+						},
 					},
 				},
 			},
-		}, "error converting slice item at index 0: error converting property invalid_nested_oneOf_item: expected map[string]interface{}, got string"),
-		createTestCase("invalid maximum type", map[string]interface{}{
-			"type":    "integer",
-			"maximum": "invalid",
-		}, "error converting maximum: expected float64, got string"),
-		createTestCase("error converting nested property", map[string]interface{}{
-			"type": "object",
-			"properties": map[string]interface{}{
-				"nested_property": map[string]interface{}{
-					"type": "object",
-					"properties": map[string]interface{}{
-						"invalid_nested_property": "invalid",
+			wantErr: "error 'oneOf[0].properties.invalid_nested_oneOf_item': expected map[string]interface{}, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid maximum type",
+			input: map[string]interface{}{
+				"type":    "integer",
+				"maximum": "invalid",
+			},
+			wantErr: "error 'maximum': expected float64, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "error converting nested property",
+			input: map[string]interface{}{
+				"type": "object",
+				"properties": map[string]interface{}{
+					"nested_property": map[string]interface{}{
+						"type": "object",
+						"properties": map[string]interface{}{
+							"invalid_nested_property": "invalid",
+						},
 					},
 				},
 			},
-		}, "error converting property nested_property: error converting property invalid_nested_property: expected map[string]interface{}, got string"),
-		createTestCase("invalid required type", map[string]interface{}{
-			"type":     "object",
-			"required": "invalid",
-		}, "error converting required fields: expected []interface{} or []string, got string"),
-		createTestCase("invalid enum type", map[string]interface{}{
-			"type": "string",
-			"enum": []interface{}{
-				map[string]interface{}{},
+			wantErr: "error 'properties.nested_property.properties.invalid_nested_property': expected map[string]interface{}, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid required type",
+			input: map[string]interface{}{
+				"type":     "object",
+				"required": "invalid",
 			},
-		}, "error converting enum value: expected string or number, got map[string]interface {}"),
-		createTestCase("invalid minLength type", map[string]interface{}{
-			"type":      "string",
-			"minLength": "invalid",
-		}, "error converting minLength: expected float64, got string"),
-		createTestCase("invalid pattern type", map[string]interface{}{
-			"type":    "string",
-			"pattern": 123,
-		}, "error converting pattern: expected string, got int"),
-		createTestCase("invalid secure type", map[string]interface{}{
-			"type":    "string",
-			"_secure": "invalid",
-		}, "error converting _secure: expected bool, got string"),
+			wantErr: "error 'required': expected []interface{} or []string, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid enum type",
+			input: map[string]interface{}{
+				"type": "string",
+				"enum": []interface{}{
+					map[string]interface{}{},
+				},
+			},
+			wantErr: "error 'enum[0]': expected string or number, got value: 'map[]' type: 'map[string]interface {}'",
+		},
+		{
+			name: "invalid minLength type",
+			input: map[string]interface{}{
+				"type":      "string",
+				"minLength": "invalid",
+			},
+			wantErr: "error 'minLength': expected float64, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid pattern type",
+			input: map[string]interface{}{
+				"type":    "string",
+				"pattern": 123,
+			},
+			wantErr: "error 'pattern': expected string, got value: '123' type: 'int'",
+		},
+		{
+			name: "invalid secure type",
+			input: map[string]interface{}{
+				"type":    "string",
+				"_secure": "invalid",
+			},
+			wantErr: "error '_secure': expected bool, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid type",
+			input: map[string]interface{}{
+				"type": 123,
+			},
+			wantErr: "error 'type': expected string or []interface{}, got value: '123' type: 'int'",
+		},
+		{
+			name: "invalid type 2",
+			input: map[string]interface{}{
+				"type": []interface{}{"invalid_json_schema_type", "null"},
+			},
+			wantErr: "error 'type[0]': expected valid type, got value: 'invalid_json_schema_type' type: 'string'",
+		},
+		{
+			name: "invalid type 3",
+			input: map[string]interface{}{
+				"type": []interface{}{"null", 1234},
+			},
+			wantErr: "error 'type[1]': expected string, got value: '1234' type: 'int'",
+		},
+		{
+			name: "invalid items type",
+			input: map[string]interface{}{
+				"type":  "array",
+				"items": "invalid",
+			},
+			wantErr: "error 'items': expected float64, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid createOnly type",
+			input: map[string]interface{}{
+				"type":       "string",
+				"createOnly": "invalid",
+			},
+			wantErr: "error 'createOnly': expected bool, got value: 'invalid' type: 'string'",
+		},
+		{
+			name: "invalid maxItems type",
+			input: map[string]interface{}{
+				"type":     "array",
+				"maxItems": "invalid",
+			},
+			wantErr: "error 'maxItems': expected float64, got value: 'invalid' type: 'string'",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := UserConfigSchema(tt.args.v)
-			if err != nil {
-				assert.EqualError(t, err, tt.wantErr)
-			} else {
+			_, err := UserConfigSchema(tt.input)
+			if err == nil {
 				t.Errorf("expected error but got none")
+			} else {
+				assert.EqualError(t, err, tt.wantErr)
 			}
 		})
 	}
