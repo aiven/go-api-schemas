@@ -11,7 +11,7 @@ import (
 )
 
 // logger is a pointer to the logger.
-var logger *util.Logger
+var logger *util.Logger // nolint // Used in setup function.
 
 // genResult is the result of the generation process.
 var genResult types.GenerationResult
@@ -238,8 +238,6 @@ func diff(
 
 // diffServiceTypes diffs the service types.
 func diffServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	schema, err := diff(genResult[types.KeyServiceTypes], readResult[types.KeyServiceTypes])
 	if err != nil {
 		return err
@@ -252,8 +250,6 @@ func diffServiceTypes() error {
 
 // diffIntegrationTypes diffs the integration types.
 func diffIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	schema, err := diff(genResult[types.KeyIntegrationTypes], readResult[types.KeyIntegrationTypes])
 	if err != nil {
 		return err
@@ -265,8 +261,6 @@ func diffIntegrationTypes() error {
 }
 
 func diffIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	schema, err := diff(genResult[types.KeyIntegrationEndpointTypes], readResult[types.KeyIntegrationEndpointTypes])
 	if err != nil {
 		return err
