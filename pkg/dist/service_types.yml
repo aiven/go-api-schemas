@@ -352,8 +352,7 @@ alloydbomni:
         pg_stat_statements.track:
           title: pg_stat_statements.track
           description: Controls which statements are counted. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable statement statistics collection. The default value is top.
-          type:
-            - string
+          type: string
           enum:
             - value: all
             - value: top
@@ -416,6 +415,38 @@ alloydbomni:
           minimum: 10
           maximum: 200
           example: "50"
+    pg_qualstats:
+      title: pg_qualstats settings
+      description: System-wide settings for the pg_qualstats extension
+      type: object
+      properties:
+        enabled:
+          title: Enable pg_qualstats
+          description: Enable / Disable pg_qualstats
+          type: boolean
+          default: false
+        min_err_estimate_num:
+          title: Min error estimation number
+          description: Error estimation num threshold to save quals
+          type: integer
+          default: "0"
+          minimum: 0
+        min_err_estimate_ratio:
+          title: Min error estimation ratio
+          description: Error estimation ratio threshold to save quals
+          type: integer
+          default: "0"
+          minimum: 0
+        track_constants:
+          title: Track constants
+          description: Enable / Disable pg_qualstats constants tracking
+          type: boolean
+          default: true
+        track_pg_catalog:
+          title: Track pg_catalog
+          description: Track quals on system catalogs too.
+          type: boolean
+          default: false
     pg_read_replica:
       title: Should the service which is being forked be a read replica (deprecated, use read_replica service integration instead).
       description: This setting is deprecated. Use read_replica service integration instead.
@@ -439,6 +470,92 @@ alloydbomni:
         - "null"
       enum:
         - value: "15"
+    pgaudit:
+      title: PGAudit settings
+      description: System-wide settings for the pgaudit extension
+      type: object
+      properties:
+        feature_enabled:
+          title: Enable pgaudit extension.
+          description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
+          type: boolean
+          default: false
+        log:
+          title: Specifies which classes of statements will be logged by session audit logging.
+          type: array
+          items:
+            type: string
+            enum:
+              - value: all
+              - value: ddl
+              - value: function
+              - value: misc
+              - value: misc_set
+              - value: read
+              - value: role
+              - value: write
+        log_catalog:
+          title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
+          type: boolean
+          default: true
+        log_client:
+          title: Specifies whether log messages will be visible to a client process such as psql.
+          type: boolean
+          default: false
+        log_level:
+          title: Specifies the log level that will be used for log entries.
+          type: string
+          default: log
+          enum:
+            - value: debug1
+            - value: debug2
+            - value: debug3
+            - value: debug4
+            - value: debug5
+            - value: info
+            - value: notice
+            - value: warning
+            - value: log
+        log_max_string_length:
+          title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
+          type: integer
+          default: "-1"
+          minimum: -1
+          maximum: 102400
+        log_nested_statements:
+          title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
+          type: boolean
+          default: true
+        log_parameter:
+          title: Specifies that audit logging should include the parameters that were passed with the statement.
+          type: boolean
+          default: false
+        log_parameter_max_size:
+          title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
+          type: integer
+          default: "0"
+        log_relation:
+          title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          type: boolean
+          default: false
+        log_rows:
+          title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
+          type: boolean
+          default: false
+        log_statement:
+          title: Specifies whether logging will include the statement text and parameters (if enabled).
+          type: boolean
+          default: true
+        log_statement_once:
+          title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
+          type: boolean
+          default: false
+        role:
+          title: Specifies the master role to use for object audit logging.
+          type: string
+          max_length: 64
+          pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
+          user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     pgbouncer:
       title: PGBouncer connection pooling settings
       description: System-wide settings for pgbouncer.
@@ -523,7 +640,7 @@ alloydbomni:
       description: System-wide settings for pglookout.
       type: object
       default:
-        max_failover_replication_time_lag: "60"
+        max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
           title: max_failover_replication_time_lag
@@ -1735,6 +1852,11 @@ flink:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    custom_code:
+      title: Custom code enabled
+      description: Enable to upload Custom JARs for Flink applications
+      type: boolean
+      example: false
     flink_version:
       title: Flink major version
       type:
@@ -2497,164 +2619,6 @@ grafana:
       title: Setting to enable/disable Write-Ahead Logging. The default value is false (disabled).
       type: boolean
       example: false
-influxdb:
-  type: object
-  properties:
-    additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Additional Cloud Regions for Backup Replication
-      type: array
-      items:
-        title: Target cloud
-        type: string
-        max_length: 256
-        pattern: ^[a-z0-9-]+$
-        example: aws-eu-central-1
-        user_error: Must consist of lower-case alpha-numeric characters or dashes
-      max_items: 1
-    custom_domain:
-      title: Custom domain
-      description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
-      max_length: 255
-      example: grafana.example.org
-    influxdb:
-      title: influxdb.conf configuration values
-      type: object
-      properties:
-        log_queries_after:
-          title: The maximum duration in seconds before a query is logged as a slow query. Setting this to 0 (the default) will never log slow queries.
-          type: integer
-          minimum: 0
-          maximum: 3600
-        max_connection_limit:
-          title: Maximum number of connections to InfluxDB. Setting this to 0 (default) means no limit. If using max_connection_limit, it is recommended to set the value to be large enough in order to not block clients unnecessarily.
-          type: integer
-          minimum: 0
-          maximum: 1e+06
-        max_row_limit:
-          title: The maximum number of rows returned in a non-chunked query. Setting this to 0 (the default) allows an unlimited number to be returned.
-          type: integer
-          minimum: 0
-          maximum: 1e+07
-        max_select_buckets:
-          title: The maximum number of `GROUP BY time()` buckets that can be processed in a query. Setting this to 0 (the default) allows an unlimited number to be processed.
-          type: integer
-          minimum: 0
-          maximum: 100000
-        max_select_point:
-          title: The maximum number of points that can be processed in a SELECT statement. Setting this to 0 (the default) allows an unlimited number to be processed.
-          type: integer
-          minimum: 0
-          maximum: 1e+07
-        query_log_enabled:
-          title: Whether queries should be logged before execution. May log sensitive data contained within a query.
-          type: boolean
-          example: true
-        query_timeout:
-          title: The maximum duration in seconds before a query is killed. Setting this to 0 (the default) will never kill slow queries.
-          type: integer
-          minimum: 0
-          maximum: 3600
-    influxdb_version:
-      title: InfluxDB major version
-      type:
-        - string
-        - "null"
-      default: "1.8"
-      enum:
-        - value: "1.8"
-      example: "1.8"
-    ip_filter:
-      title: IP filter
-      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
-      type: array
-      default:
-        - 0.0.0.0/0
-      items:
-        title: CIDR address block, either as a string, or in a dict with an optional description field
-        type:
-          - string
-          - object
-        required:
-          - network
-        properties:
-          description:
-            title: Description for IP filter list entry
-            type: string
-            max_length: 1024
-            example: Production service IP range
-          network:
-            title: CIDR address block
-            type: string
-            max_length: 43
-            example: 10.20.0.0/16
-        max_length: 43
-        example: 10.20.0.0/16
-      max_items: 1024
-    private_access:
-      title: Allow access to selected service ports from private networks
-      type: object
-      properties:
-        influxdb:
-          title: Allow clients to connect to influxdb with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
-          type: boolean
-          example: true
-    privatelink_access:
-      title: Allow access to selected service components through Privatelink
-      type: object
-      properties:
-        influxdb:
-          title: Enable influxdb
-          type: boolean
-          example: true
-    project_to_fork_from:
-      title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
-      max_length: 63
-      create_only: true
-      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
-      example: anotherprojectname
-    public_access:
-      title: Allow access to selected service ports from the public Internet
-      type: object
-      properties:
-        influxdb:
-          title: Allow clients to connect to influxdb from the public internet for service nodes that are in a project VPC or another type of private network
-          type: boolean
-          example: true
-    recovery_basebackup_name:
-      title: Name of the basebackup to restore in forked service
-      type: string
-      max_length: 128
-      pattern: ^[a-zA-Z0-9-_:.]+$
-      example: backup-20191112t091354293891z
-    service_log:
-      title: Service logging
-      description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
-      example: true
-    service_to_fork_from:
-      title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
-      max_length: 64
-      create_only: true
-      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
-      example: anotherservicename
-    static_ips:
-      title: Static IP addresses
-      description: Use static public IP addresses
-      type: boolean
-      example: true
 kafka:
   type: object
   properties:
@@ -2812,7 +2776,6 @@ kafka:
           description: 'The number of messages accumulated on a log partition before messages are flushed to disk (Default: 9223372036854775807 (Long.MAX_VALUE))'
           type: integer
           minimum: 1
-          example: "9223372036854775807"
         log_flush_interval_ms:
           title: log.flush.interval.ms
           description: 'The maximum time in ms that a message in any topic is kept in memory (page-cache) before flushed to disk. If not set, the value in log.flush.scheduler.interval.ms is used (Default: null)'
@@ -3207,7 +3170,9 @@ kafka:
               engine_version:
                 title: KV Secrets Engine version of the Vault server instance
                 description: An enumeration.
-                type: integer
+                type:
+                  - integer
+                  - "null"
                 enum:
                   - value: "1"
                   - value: "2"
@@ -3219,6 +3184,41 @@ kafka:
                 type: string
                 max_length: 256
                 _secure: true
+    kafka_lag_predictor:
+      title: Kafka Lag Predictor configuration
+      type: object
+      properties:
+        enabled:
+          title: Enable Kafka lag predictor service
+          description: Kafka lag predictor emits metrics of predicted time lag of consumer groups to catch the latest produced offset. Metric data scraping requires the Prometheus integration for Kafka service.
+          type: boolean
+          default: false
+        group_filters:
+          title: Consumer group filters
+          description: Filter consumer groups by the pattern.If configuration is not set or has an empty value no filtering is applied and all consumer groups are included in lag prediction.If one of the patterns matches consumer group name the consumer group is included in lag prediction.
+          type:
+            - array
+            - "null"
+          items:
+            title: Filter pattern
+            description: Single filter pattern. Pattern can contain wildcard '*' and '?'. Question mark matches any valid character for consumer group name.
+            type: string
+            pattern: ^[-_.*?A-Za-z0-9]+$
+            example: group?-*match
+          max_items: 32
+        topics:
+          title: List of topics and/or patterns to include in lag prediction
+          description: Include only topics matched by a pattern.If configuration is not set or has an empty value all topics are included in lag prediction. If one of the patterns matches topic name the topic is included in lag prediction.
+          type:
+            - array
+            - "null"
+          items:
+            title: Filter pattern
+            description: Single filter pattern. Pattern can contain wildcard '*' and '?'. Question mark matches any valid character for topic name.
+            type: string
+            pattern: ^[-_.*?A-Za-z0-9]+$
+            example: topic?-*match
+          max_items: 32
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -3347,6 +3347,7 @@ kafka:
         - value: "3.6"
         - value: "3.7"
         - value: "3.8"
+        - value: "3.9"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
@@ -3773,7 +3774,9 @@ kafka_connect:
               engine_version:
                 title: KV Secrets Engine version of the Vault server instance
                 description: An enumeration.
-                type: integer
+                type:
+                  - integer
+                  - "null"
                 enum:
                   - value: "1"
                   - value: "2"
@@ -4312,6 +4315,7 @@ m3db:
                 description: This rule will be used to store the metrics in the given namespace(s). If a namespace is target of rules, the global default aggregation will be automatically disabled. Note that specifying filters that match no namespaces whatsoever will be returned as an error.
                 type: array
                 items:
+                  type: string
                   one_of:
                     - title: Namespaces matched by this glob
                       description: Filter the namespace by glob (=wildcards)
@@ -4583,8 +4587,8 @@ mysql:
           title: innodb_ft_server_stopword_table
           description: This option is used to specify your own InnoDB FULLTEXT index stopword list for all InnoDB tables.
           type:
-            - "null"
             - string
+            - "null"
           max_length: 1024
           pattern: ^.+/.+$
           example: db_name/table_name
@@ -4671,7 +4675,7 @@ mysql:
           type: number
           minimum: 0
           maximum: 3600
-          example: "10"
+          example: "10.0"
         max_allowed_packet:
           title: max_allowed_packet
           description: Size of the largest message in bytes that can be received by the server. Default is 67108864 (64M)
@@ -4903,6 +4907,10 @@ opensearch:
           type: string
           pattern: ^[^\r\n]*$
           _secure: true
+        restore_global_state:
+          title: Restore the cluster state or not
+          description: If true, restore the cluster state. Defaults to false
+          type: boolean
         sas_token:
           title: SAS token
           description: A shared access signatures (SAS) token. One of key or sas_token should be specified
@@ -4969,6 +4977,10 @@ opensearch:
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
+        restore_global_state:
+          title: Restore the cluster state or not
+          description: If true, restore the cluster state. Defaults to false
+          type: boolean
         snapshot_name:
           title: The snapshot name to restore from
           description: The snapshot name to restore from
@@ -5172,7 +5184,6 @@ opensearch:
             - "null"
           default: "10"
           minimum: 10
-          example: preferred_username
         refresh_rate_limit_time_window_ms:
           title: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds
           description: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds. Optional.Default is 10000 (10 seconds).
@@ -5181,7 +5192,6 @@ opensearch:
             - "null"
           default: "10000"
           minimum: 10000
-          example: preferred_username
         roles_key:
           title: The key in the JSON payload that stores the user’s roles
           description: The key in the JSON payload that stores the user’s roles. The value of this key must be a comma-separated list of roles. Required only if you want to use roles in the JWT
@@ -5942,6 +5952,10 @@ opensearch:
           description: S3 region
           type: string
           pattern: ^[^\r\n]*$
+        restore_global_state:
+          title: Restore the cluster state or not
+          description: If true, restore the cluster state. Defaults to false
+          type: boolean
         secret_key:
           title: AWS secret key
           description: AWS secret key
@@ -6452,8 +6466,7 @@ pg:
         pg_stat_statements.track:
           title: pg_stat_statements.track
           description: Controls which statements are counted. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable statement statistics collection. The default value is top.
-          type:
-            - string
+          type: string
           enum:
             - value: all
             - value: top
@@ -6598,6 +6611,7 @@ pg:
           deprecation_notice: This value is deprecated.
           value: "10"
         - value: "16"
+        - value: "17"
     pgaudit:
       is_deprecated: true
       deprecation_notice: This property is deprecated.
@@ -6816,7 +6830,7 @@ pg:
       description: System-wide settings for pglookout.
       type: object
       default:
-        max_failover_replication_time_lag: "60"
+        max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
           title: max_failover_replication_time_lag
@@ -7162,7 +7176,6 @@ redis:
     redis_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
-      default: ""
       max_length: 32
       pattern: ^[KEg\$lshzxentdmA]*$
     redis_number_of_databases:
@@ -7359,6 +7372,18 @@ thanos:
           description: Whether to align the query range boundaries with the step. If enabled, the query range boundaries will be aligned to the step, providing more accurate results for queries with high-resolution data.
           type: boolean
           default: true
+    receiver-ingesting:
+      title: CommonReceiveUserConfig
+      description: Generic model
+      type: object
+    receiver-routing:
+      title: ThanosReceiveRoutingUserConfig
+      description: Generic model
+      type: object
+    ruler:
+      title: ThanosRulerUserConfig
+      description: Generic model
+      type: object
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -7371,6 +7396,10 @@ thanos:
       description: Use static public IP addresses
       type: boolean
       example: true
+    store:
+      title: ThanosStoreUserConfig
+      description: Generic model
+      type: object
 valkey:
   type: object
   properties:
@@ -7601,7 +7630,6 @@ valkey:
     valkey_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
-      default: ""
       max_length: 32
       pattern: ^[KEg\$lshzxentdmA]*$
     valkey_number_of_databases:

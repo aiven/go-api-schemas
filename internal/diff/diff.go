@@ -2,18 +2,16 @@
 package diff
 
 import (
-	"context"
 	"fmt"
 
 	"golang.org/x/exp/maps"
-	"golang.org/x/sync/errgroup"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
 // logger is a pointer to the logger.
-var logger *util.Logger
+var logger *util.Logger // nolint // Used in setup function.
 
 // genResult is the result of the generation process.
 var genResult types.GenerationResult
@@ -240,8 +238,6 @@ func diff(
 
 // diffServiceTypes diffs the service types.
 func diffServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	schema, err := diff(genResult[types.KeyServiceTypes], readResult[types.KeyServiceTypes])
 	if err != nil {
 		return err
@@ -254,8 +250,6 @@ func diffServiceTypes() error {
 
 // diffIntegrationTypes diffs the integration types.
 func diffIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	schema, err := diff(genResult[types.KeyIntegrationTypes], readResult[types.KeyIntegrationTypes])
 	if err != nil {
 		return err
@@ -267,8 +261,6 @@ func diffIntegrationTypes() error {
 }
 
 func diffIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	schema, err := diff(genResult[types.KeyIntegrationEndpointTypes], readResult[types.KeyIntegrationEndpointTypes])
 	if err != nil {
 		return err
@@ -290,21 +282,21 @@ func setup(l *util.Logger, gr types.GenerationResult, rr types.ReadResult) {
 
 // Run runs the diff.
 func Run(
-	ctx context.Context,
 	logger *util.Logger,
 	genResult types.GenerationResult,
 	readResult types.ReadResult,
 ) (types.DiffResult, error) {
 	setup(logger, genResult, readResult)
 
-	errs, _ := errgroup.WithContext(ctx)
+	if err := diffServiceTypes(); err != nil {
+		return nil, err
+	}
 
-	errs.Go(diffServiceTypes)
-	errs.Go(diffIntegrationTypes)
-	errs.Go(diffIntegrationEndpointTypes)
+	if err := diffIntegrationTypes(); err != nil {
+		return nil, err
+	}
 
-	err := errs.Wait()
-	if err != nil {
+	if err := diffIntegrationEndpointTypes(); err != nil {
 		return nil, err
 	}
 

@@ -1,6 +1,3 @@
-autoscaler:
-  title: Integration user config
-  type: object
 clickhouse_credentials:
   title: Integration user config
   type: object
