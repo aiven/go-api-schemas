@@ -4317,17 +4317,13 @@ m3db:
                 items:
                   type: string
                   one_of:
-                    - is_deprecated: true
-                      deprecation_notice: This item is deprecated.
-                      title: Namespaces matched by this glob
+                    - title: Namespaces matched by this glob
                       description: Filter the namespace by glob (=wildcards)
                       type: string
                       max_length: 256
                       pattern: ^[a-zA-Z_0-9*]+$
                       example: aggregated_*
-                    - is_deprecated: true
-                      deprecation_notice: This item is deprecated.
-                      title: Namespaces matching this storage policy
+                    - title: Namespaces matching this storage policy
                       description: Filter the namespace by exact match of retention period and resolution
                       type: object
                       required:

@@ -13,8 +13,7 @@ import (
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-// logger is a pointer to the logger.
-var logger *util.Logger
+var logger *util.Logger // nolint // Used in the setup function
 
 type doc struct {
 	Components struct {
@@ -121,11 +120,6 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		Default:     formatValue(src.Type, src.Default),
 	}
 
-	if src.OneOf != nil {
-		// todo: replace logger, this one is useless
-		logger.Error.Printf("oneOf is not supported")
-	}
-
 	if src.Maximum != nil {
 		if isSafeInt(*src.Maximum) {
 			uc.Maximum = src.Maximum
@@ -179,6 +173,14 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 			return nil, err
 		}
 		uc.Properties[k] = *child
+	}
+
+	for _, v := range src.OneOf {
+		child, err := toUserConfig(v)
+		if err != nil {
+			return nil, err
+		}
+		uc.OneOf = append(uc.OneOf, *child)
 	}
 
 	return &uc, nil
