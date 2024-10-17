@@ -210,3 +210,4 @@ $RECYCLE.BIN/
 # Project specific
 
 ./go-api-schemas
+*.json
