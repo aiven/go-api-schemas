@@ -14,14 +14,14 @@ import (
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-// logger is a pointer to the logger.
-var logger *util.Logger
-
-// flags is a pointer to the flags.
-var flags *pflag.FlagSet
-
-// result is the result of the read process.
-var result types.ReadResult
+var (
+	// logger is a pointer to the logger.
+	logger *util.Logger
+	// flags is a pointer to the flags.
+	flags *pflag.FlagSet
+	// result is the result of the read process.
+	result types.ReadResult
+)
 
 // read is a function that reads a file and returns the contents as a map[string]types.UserConfigSchema.
 func read(filename string, schema map[string]types.UserConfigSchema) error {

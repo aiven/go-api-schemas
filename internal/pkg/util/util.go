@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/aiven/aiven-go-client/v2"
+	avngen "github.com/aiven/go-client-codegen"
 )
 
 const (
@@ -65,14 +65,21 @@ func SetupEnv(env EnvMap) error {
 	return nil
 }
 
-// SetupClient sets up the Aiven client.
-func SetupClient(client *aiven.Client) error {
-	c, err := aiven.SetupEnvClient("go-api-schemas")
+// SetupGenClient sets up the Aiven generated client.
+func SetupGenClient(genClient *avngen.Client) error {
+	token := os.Getenv("AIVEN_TOKEN")
+	if token == "" {
+		return fmt.Errorf("AIVEN_TOKEN environment variable is required")
+	}
+
+	userAgent := fmt.Sprintf("go-api-schemas/%s", "dev")
+
+	client, err := avngen.NewClient(avngen.TokenOpt(token), avngen.UserAgentOpt(userAgent))
 	if err != nil {
 		return err
 	}
 
-	*client = *c
+	*genClient = client
 
 	return nil
 }
