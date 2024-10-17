@@ -14,9 +14,6 @@ const (
 	logFlag = log.LstdFlags | log.LUTC | log.Lmsgprefix
 )
 
-// EnvAivenProjectName is the environment variable for the Aiven project name.
-const EnvAivenProjectName = "AIVEN_PROJECT_NAME"
-
 const (
 	// ServiceTypesFilename is the name of the service types file.
 	ServiceTypesFilename = "service_types.yml"
