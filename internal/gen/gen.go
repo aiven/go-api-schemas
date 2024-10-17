@@ -21,17 +21,16 @@ const (
 	generating = "generating %s"
 )
 
-// logger is a pointer to the logger.
-var logger *util.Logger
-
-// env is a map of environment variables.
-var env util.EnvMap
-
-// genClient is the avngen client.
-var genClient avngen.Client
-
-// result is the result of the generation process.
-var result types.GenerationResult
+var (
+	// logger is a pointer to the logger.
+	logger *util.Logger
+	// env is a map of environment variables.
+	env util.EnvMap
+	// genClient is the avngen client.
+	genClient avngen.Client
+	// result is the result of the generation process.
+	result types.GenerationResult
+)
 
 // serviceTypes generates the service types.
 func serviceTypes(ctx context.Context) error {
