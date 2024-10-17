@@ -7,8 +7,6 @@ import (
 	"os"
 	"runtime"
 	"time"
-
-	"github.com/aiven/aiven-go-client/v2"
 )
 
 const (
@@ -61,18 +59,6 @@ func SetupEnv(env EnvMap) error {
 
 		env[k] = ev
 	}
-
-	return nil
-}
-
-// SetupClient sets up the Aiven client.
-func SetupClient(client *aiven.Client) error {
-	c, err := aiven.SetupEnvClient("go-api-schemas")
-	if err != nil {
-		return err
-	}
-
-	*client = *c
 
 	return nil
 }

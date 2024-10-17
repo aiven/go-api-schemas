@@ -2,12 +2,10 @@
 package writer
 
 import (
-	"context"
 	"os"
 	"strings"
 
 	"github.com/spf13/pflag"
-	"golang.org/x/sync/errgroup"
 	"gopkg.in/yaml.v3"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
@@ -88,14 +86,20 @@ func setup(l *util.Logger, f *pflag.FlagSet, r types.DiffResult) {
 }
 
 // Run runs the writer.
-func Run(ctx context.Context, logger *util.Logger, flags *pflag.FlagSet, result types.DiffResult) error {
+func Run(logger *util.Logger, flags *pflag.FlagSet, result types.DiffResult) error {
 	setup(logger, flags, result)
 
-	errs, _ := errgroup.WithContext(ctx)
+	if err := writeServiceTypes(); err != nil {
+		return err
+	}
 
-	errs.Go(writeServiceTypes)
-	errs.Go(writeIntegrationTypes)
-	errs.Go(writeIntegrationEndpointTypes)
+	if err := writeIntegrationTypes(); err != nil {
+		return err
+	}
 
-	return errs.Wait()
+	if err := writeIntegrationEndpointTypes(); err != nil {
+		return err
+	}
+
+	return nil
 }

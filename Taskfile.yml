@@ -1,9 +1,20 @@
 version: "3"
 
 tasks:
+  curlSpec:
+    requires:
+      vars:
+        - AIVEN_TOKEN
+    cmds:
+      - 'curl -s -o openapi.json https://api.aiven.io/doc/openapi-uc.json --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
+    silent: true
+  generate:
+    cmds:
+      - go run main.go openapi.json
   run:
     cmds:
-      - go run main.go
+      - task: curlSpec
+      - task: generate
   build:
     cmds:
       - go build
