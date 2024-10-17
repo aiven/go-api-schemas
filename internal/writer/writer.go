@@ -59,22 +59,16 @@ func write(filename string, schema map[string]types.UserConfigSchema) error {
 
 // writeServiceTypes writes the service types to a file.
 func writeServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return write(util.ServiceTypesFilename, result[types.KeyServiceTypes])
 }
 
 // writeIntegrationTypes writes the integration types to a file.
 func writeIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return write(util.IntegrationTypesFilename, result[types.KeyIntegrationTypes])
 }
 
 // writeIntegrationEndpointTypes writes the integration endpoint types to a file.
 func writeIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return write(util.IntegrationEndpointTypesFilename, result[types.KeyIntegrationEndpointTypes])
 }
 

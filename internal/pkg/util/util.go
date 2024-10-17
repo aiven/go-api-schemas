@@ -2,11 +2,8 @@
 package util
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"runtime"
-	"time"
 )
 
 const (
@@ -47,36 +44,6 @@ type EnvMap map[string]string
 func SetupLogger(logger *Logger) {
 	logger.Info = log.New(os.Stdout, "[INFO]"+logSeparator, logFlag)
 	logger.Error = log.New(os.Stderr, "[ERROR]"+logSeparator, logFlag)
-}
-
-// SetupEnv populates the provided environment variables map.
-func SetupEnv(env EnvMap) error {
-	for k := range env {
-		ev, ok := os.LookupEnv(k)
-		if !ok {
-			return fmt.Errorf("environment variable is not set: %s", k)
-		}
-
-		env[k] = ev
-	}
-
-	return nil
-}
-
-// MeasureExecutionTime prints the execution time of the caller when deferred.
-func MeasureExecutionTime(logger *Logger) func() {
-	start := time.Now()
-
-	pc, _, _, ok := runtime.Caller(1)
-	if !ok {
-		panic("runtime.Caller failed")
-	}
-
-	fn := runtime.FuncForPC(pc)
-
-	return func() {
-		logger.Info.Printf("%s took %dms", fn.Name(), time.Since(start).Milliseconds())
-	}
 }
 
 // Ref returns the reference (pointer) of the provided value.

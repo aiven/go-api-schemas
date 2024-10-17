@@ -50,22 +50,16 @@ func read(filename string, schema map[string]types.UserConfigSchema) error {
 
 // readServiceTypes reads the service types from a file.
 func readServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return read(util.ServiceTypesFilename, result[types.KeyServiceTypes])
 }
 
 // readIntegrationTypes reads the integration types from a file.
 func readIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return read(util.IntegrationTypesFilename, result[types.KeyIntegrationTypes])
 }
 
 // readIntegrationEndpointTypes reads the integration endpoint types from a file.
 func readIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return read(util.IntegrationEndpointTypesFilename, result[types.KeyIntegrationEndpointTypes])
 }
 
