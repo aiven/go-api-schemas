@@ -12,17 +12,16 @@ import (
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-// logger is a pointer to the logger.
-var logger *util.Logger
-
-// genResult is the result of the generation process.
-var genResult types.GenerationResult
-
-// readResult is the result of the read process.
-var readResult types.ReadResult
-
-// result is the result of the diff process.
-var result types.DiffResult
+var (
+	// logger is a pointer to the logger.
+	logger *util.Logger
+	// genResult is the result of the generation process.
+	genResult types.GenerationResult
+	// readResult is the result of the read process.
+	readResult types.ReadResult
+	// result is the result of the diff process.
+	result types.DiffResult
+)
 
 // diff is a function that diffs two maps.
 // nolint:funlen,nestif,gocognit,gocyclo // This function is long, but it's not complex.
