@@ -4903,6 +4903,10 @@ opensearch:
           type: string
           pattern: ^[^\r\n]*$
           _secure: true
+        restore_global_state:
+          title: Restore the cluster state or not
+          description: If true, restore the cluster state. Defaults to false
+          type: boolean
         sas_token:
           title: SAS token
           description: A shared access signatures (SAS) token. One of key or sas_token should be specified
@@ -4969,6 +4973,10 @@ opensearch:
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
+        restore_global_state:
+          title: Restore the cluster state or not
+          description: If true, restore the cluster state. Defaults to false
+          type: boolean
         snapshot_name:
           title: The snapshot name to restore from
           description: The snapshot name to restore from
@@ -5942,6 +5950,10 @@ opensearch:
           description: S3 region
           type: string
           pattern: ^[^\r\n]*$
+        restore_global_state:
+          title: Restore the cluster state or not
+          description: If true, restore the cluster state. Defaults to false
+          type: boolean
         secret_key:
           title: AWS secret key
           description: AWS secret key
