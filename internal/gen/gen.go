@@ -10,21 +10,22 @@ import (
 	"strings"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
-	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-var logger *util.Logger // nolint // Used in the setup function
-
 type doc struct {
+	// openapi-uc.json
 	Components struct {
 		Schemas map[string]*schema `json:"schemas"`
 	} `json:"components"`
+
+	// Legacy user config files
+	legacyDoc
 }
 
 type schema struct {
 	Title       string             `json:"title,omitempty"`
 	Description string             `json:"description,omitempty"`
-	Type        string             `json:"type,omitempty"`
+	Type        any                `json:"type,omitempty"`
 	Default     interface{}        `json:"default,omitempty"`
 	Required    []string           `json:"required,omitempty"`
 	Properties  map[string]*schema `json:"properties,omitempty"`
@@ -40,11 +41,18 @@ type schema struct {
 	Pattern     string             `json:"pattern,omitempty"`
 	Example     any                `json:"example,omitempty"`
 	Nullable    bool               `json:"nullable,omitempty"`
-	UserError   string             `json:"x-user_error,omitempty"`
-	CreateOnly  bool               `json:"x-createOnly,omitempty"`
-	Secure      bool               `json:"x-_secure,omitempty"`
+	UserError   string             `json:"user_error,omitempty"`
+	CreateOnly  bool               `json:"createOnly,omitempty"`
+	Secure      bool               `json:"_secure,omitempty"`
+
+	// Openapi-uc
+	XUserError  string `json:"x-user_error,omitempty"`
+	XCreateOnly bool   `json:"x-createOnly,omitempty"`
+	XSecure     bool   `json:"x-_secure,omitempty"`
 }
 
+// maxSafeInteger
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
 const maxSafeInteger = 9007199254740991.0
 
 func isSafeInt(v float64) bool {
@@ -56,7 +64,7 @@ func isSafeInt(v float64) bool {
 // reUserConfigKey finds user config keys.
 var reUserConfigKey = regexp.MustCompile(`^(Service|IntegrationEndpoint|Integration)([0-9a-zA-Z_]+)UserConfig$`)
 
-func fromSpec(fileName string) (types.GenerationResult, error) {
+func fromFile(fileName string) (types.GenerationResult, error) {
 	b, err := os.ReadFile(filepath.Clean(fileName))
 	if err != nil {
 		return nil, err
@@ -68,12 +76,15 @@ func fromSpec(fileName string) (types.GenerationResult, error) {
 		return nil, err
 	}
 
+	legacyToComponents(d)
+
 	kinds := map[string]int{
 		"Service":             types.KeyServiceTypes,
 		"Integration":         types.KeyIntegrationTypes,
 		"IntegrationEndpoint": types.KeyIntegrationEndpointTypes,
 	}
 
+	// New openapi-uc schema file
 	result := make(types.GenerationResult)
 	for _, v := range kinds {
 		result[v] = make(map[string]types.UserConfigSchema)
@@ -103,6 +114,11 @@ func fromSpec(fileName string) (types.GenerationResult, error) {
 }
 
 func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: funlen
+	normTypes, err := normalizeType(src)
+	if err != nil {
+		return nil, err
+	}
+
 	uc := types.UserConfigSchema{
 		Properties:  make(map[string]types.UserConfigSchema),
 		Title:       src.Title,
@@ -112,12 +128,12 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		MinLength:   src.MinLength,
 		MaxLength:   src.MaxLength,
 		MaxItems:    src.MaxItems,
-		CreateOnly:  src.CreateOnly,
 		Pattern:     src.Pattern,
-		UserError:   src.UserError,
-		Secure:      src.Secure,
-		Example:     formatValue(src.Type, src.Example),
-		Default:     formatValue(src.Type, src.Default),
+		UserError:   or(src.XUserError, src.UserError),
+		Secure:      or(src.XSecure, src.Secure),
+		CreateOnly:  or(src.XCreateOnly, src.CreateOnly),
+		Example:     formatValue(normTypes[0], src.Example),
+		Default:     formatValue(normTypes[0], src.Default),
 	}
 
 	if src.Maximum != nil {
@@ -128,27 +144,13 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 
 	// Collects all the types
 	kinds := make([]string, 0, 1)
-	if src.Type != "" {
-		kinds = append(kinds, src.Type)
-	}
-
-	if src.Nullable {
-		kinds = append(kinds, "null")
-		uc.Type = kinds
-	}
-
-	for _, v := range src.AnyOf {
-		if v.Type != "" {
-			kinds = append(kinds, v.Type)
-		}
+	if normTypes != nil {
+		kinds = append(kinds, normTypes...)
 	}
 
 	switch len(kinds) {
 	case 1:
 		uc.Type = kinds[0]
-	case 0:
-		// fixme: why it has empty type?
-		uc.Type = "string"
 	default:
 		uc.Type = kinds
 	}
@@ -175,6 +177,11 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		uc.Properties[k] = *child
 	}
 
+	if len(src.OneOf) != 0 {
+		// Must remove the type if there is a oneOf
+		uc.Type = nil
+	}
+
 	for _, v := range src.OneOf {
 		child, err := toUserConfig(v)
 		if err != nil {
@@ -184,6 +191,69 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 	}
 
 	return &uc, nil
+}
+
+func distinct[T comparable](list []T) []T {
+	seen := make(map[T]bool)
+	result := make([]T, 0, len(list))
+	for _, v := range list {
+		if !seen[v] {
+			seen[v] = true
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
+// or returns the first non-zero value.
+func or[T comparable](args ...T) T {
+	var zero T
+	for _, a := range args {
+		if a != zero {
+			return a
+		}
+	}
+	return zero
+}
+
+func normalizeType(s *schema) ([]string, error) {
+	result := make([]string, 0)
+	switch t := s.Type.(type) {
+	case string:
+		return []string{t}, nil
+	case []any:
+		for _, v := range t {
+			if v == "null" {
+				s.Nullable = true
+			} else {
+				result = append(result, fmt.Sprintf("%v", v))
+			}
+		}
+	case nil:
+	default:
+		return nil, fmt.Errorf("unknown type %T", s.Type)
+	}
+
+	if s.Nullable {
+		result = append(result, "null")
+	}
+
+	for _, v := range s.AnyOf {
+		if v.Type != nil {
+			vType, err := normalizeType(v)
+			if err != nil {
+				return nil, err
+			}
+
+			result = append(result, vType...)
+		}
+	}
+
+	if len(result) == 0 {
+		result = append(result, "string")
+	}
+
+	return distinct(result), nil
 }
 
 func formatValue(t string, v any) any {
@@ -209,11 +279,33 @@ func formatValue(t string, v any) any {
 }
 
 // Run executes the generation process.
-func Run(l *util.Logger, fileName string) (types.GenerationResult, error) {
-	logger = l
-	return fromSpec(fileName)
+func Run(fileNames ...string) (types.GenerationResult, error) {
+	result := make(types.GenerationResult)
+	for _, fileName := range fileNames {
+		subResult, err := fromFile(fileName)
+		if err != nil {
+			return nil, err
+		}
+
+		for kind, value := range subResult {
+			if len(value) == 0 {
+				continue
+			}
+
+			if _, ok := result[kind]; !ok {
+				result[kind] = value
+				continue
+			}
+
+			for k, v := range value {
+				result[kind][k] = v
+			}
+		}
+	}
+	return result, nil
 }
 
+// reUnderscore finds multiple underscores.
 var reUnderscore = regexp.MustCompile(`_+`)
 
 // toSnakeCase converts a string to snake case.
@@ -226,5 +318,5 @@ func toSnakeCase(s string) string {
 		}
 		r += string(v)
 	}
-	return reUnderscore.ReplaceAllString(strings.ToLower(r), "_")
+	return strings.Trim(reUnderscore.ReplaceAllString(strings.ToLower(r), "_"), "_")
 }

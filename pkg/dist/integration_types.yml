@@ -1,3 +1,6 @@
+autoscaler:
+  title: Integration user config
+  type: object
 clickhouse_credentials:
   title: Integration user config
   type: object
@@ -551,9 +554,7 @@ kafka_mirrormaker:
         consumer_auto_offset_reset:
           title: Set the auto.offset.reset to consumer.
           description: 'Set where consumer starts to consume data. Value `earliest`: Start replication from the earliest offset. Value `latest`: Start replication from the latest offset. Default is `earliest`.'
-          type:
-            - string
-            - "null"
+          type: string
           enum:
             - value: earliest
             - value: latest
@@ -567,9 +568,7 @@ kafka_mirrormaker:
         consumer_max_poll_records:
           title: Set the max.poll.records to consumer.
           description: Set consumer max.poll.records. The default is 500.
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 100
           maximum: 20000
           example: "500"

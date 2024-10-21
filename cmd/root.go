@@ -27,7 +27,7 @@ func NewCmdRoot(l *util.Logger) *cobra.Command {
 		Short: "go-api-schemas is a tool for generating and persisting user configuration option schemas from " +
 			"Aiven APIs.",
 		Run:  run,
-		Args: cobra.ExactArgs(1),
+		Args: cobra.MinimumNArgs(1),
 	}
 
 	cmd.Flags().StringP("output-dir", "o", "", "the output directory for the generated files")
@@ -100,7 +100,7 @@ func run(cmd *cobra.Command, args []string) {
 
 	logger.Info.Println("generating")
 
-	gr, err := gen.Run(logger, args[0])
+	gr, err := gen.Run(args...)
 	if err != nil {
 		logger.Error.Fatalf("error generating: %s", err)
 	}

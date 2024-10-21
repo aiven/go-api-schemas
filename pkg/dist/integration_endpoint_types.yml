@@ -233,9 +233,7 @@ external_elasticsearch_logs:
   properties:
     ca:
       title: PEM encoded CA certificate
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -330,8 +328,7 @@ external_kafka:
       example: 10.0.0.1:9092,10.0.0.2:9092
     sasl_mechanism:
       title: SASL mechanism used for connections to the Kafka server.
-      type:
-        - string
+      type: string
       enum:
         - value: PLAIN
         - value: SCRAM-SHA-256
@@ -339,18 +336,14 @@ external_kafka:
       example: PLAIN
     sasl_plain_password:
       title: Password for SASL PLAIN mechanism in the Kafka server.
-      type:
-        - string
-        - "null"
+      type: string
       min_length: 1
       max_length: 256
       example: admin
       _secure: true
     sasl_plain_username:
       title: Username for SASL PLAIN mechanism in the Kafka server.
-      type:
-        - string
-        - "null"
+      type: string
       min_length: 1
       max_length: 256
       example: admin
@@ -365,9 +358,7 @@ external_kafka:
       example: PLAINTEXT
     ssl_ca_cert:
       title: PEM-encoded CA certificate
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -375,9 +366,7 @@ external_kafka:
         -----END CERTIFICATE-----
     ssl_client_cert:
       title: PEM-encoded client certificate
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -385,9 +374,7 @@ external_kafka:
         -----END CERTIFICATE-----
     ssl_client_key:
       title: PEM-encoded client key
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN PRIVATE KEY-----
@@ -396,8 +383,7 @@ external_kafka:
       _secure: true
     ssl_endpoint_identification_algorithm:
       title: The endpoint identification algorithm to validate server hostname using server certificate.
-      type:
-        - string
+      type: string
       enum:
         - value: https
       example: https
@@ -436,7 +422,6 @@ external_mysql:
     ssl_root_cert:
       title: SSL Root Cert
       type: string
-      default: ""
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -455,9 +440,7 @@ external_opensearch_logs:
   properties:
     ca:
       title: PEM encoded CA certificate
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -526,7 +509,6 @@ external_postgresql:
     ssl_client_certificate:
       title: Client certificate
       type: string
-      default: ""
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -535,7 +517,6 @@ external_postgresql:
     ssl_client_key:
       title: Client key
       type: string
-      default: ""
       max_length: 16384
       example: |-
         -----BEGIN PRIVATE KEY-----
@@ -564,7 +545,6 @@ external_postgresql:
     ssl_root_cert:
       title: SSL Root Cert
       type: string
-      default: ""
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -613,17 +593,13 @@ external_schema_registry:
       example: basic
     basic_auth_password:
       title: Basic authentication password
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 256
       example: Zm9vYg==
       _secure: true
     basic_auth_username:
       title: Basic authentication user name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 256
       example: avnadmin
     url:
@@ -677,9 +653,7 @@ rsyslog:
   properties:
     ca:
       title: PEM encoded CA certificate
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -687,9 +661,7 @@ rsyslog:
         -----END CERTIFICATE-----
     cert:
       title: PEM encoded client certificate
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN CERTIFICATE-----
@@ -706,9 +678,7 @@ rsyslog:
       example: rfc5424
     key:
       title: PEM encoded client key
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 16384
       example: |
         -----BEGIN PRIVATE KEY-----
@@ -738,9 +708,7 @@ rsyslog:
       example: "514"
     sd:
       title: Structured data block for log message
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 1024
       example: TOKEN tag="LiteralValue"
     server:

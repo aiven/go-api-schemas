@@ -2,18 +2,25 @@ version: "3"
 
 tasks:
   curlSpec:
+    cmds:
+      - curl -s -o openapi-uc.json https://api.aiven.io/doc/openapi-uc.json
+      - curl -s -o service_types.json https://api.aiven.io/v1/service_types
+  curlSpecSensitive:
     requires:
       vars:
         - AIVEN_TOKEN
+        - AIVEN_PROJECT_NAME
     cmds:
-      - 'curl -s -o openapi.json https://api.aiven.io/doc/openapi-uc.json --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
+      - for: [integration_types, integration_endpoint_types]
+        cmd: 'curl -s -o {{.ITEM}}.json https://api.aiven.io/v1/project/{{.AIVEN_PROJECT_NAME}}/{{.ITEM}} --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
     silent: true
   generate:
     cmds:
-      - go run main.go openapi.json
+      - go run main.go service_types.json integration_types.json integration_endpoint_types.json openapi-uc.json
   run:
     cmds:
       - task: curlSpec
+      - task: curlSpecSensitive
       - task: generate
   build:
     cmds:
