@@ -23,6 +23,10 @@ autoscaler:
             example: "300"
           type:
             title: Type of autoscale event
+            description: An enumeration.
+            type: string
+            enum:
+              - value: autoscale_disk
       max_items: 64
 datadog:
   type: object
