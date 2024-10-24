@@ -4891,6 +4891,10 @@ opensearch:
           description: Defines the DNS suffix for Azure Storage endpoints.
           type: string
           pattern: ^[^\r\n]*$
+        include_aliases:
+          title: Include aliases
+          description: Whether to restore aliases alongside their associated indexes. Default is true.
+          type: boolean
         indices:
           title: Indices to restore
           description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
@@ -4967,6 +4971,10 @@ opensearch:
           type: string
           pattern: ^[^\r\n]*$
           _secure: true
+        include_aliases:
+          title: Include aliases
+          description: Whether to restore aliases alongside their associated indexes. Default is true.
+          type: boolean
         indices:
           title: Indices to restore
           description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
@@ -5939,6 +5947,10 @@ opensearch:
           description: The S3 service endpoint to connect to. If you are using an S3-compatible service then you should set this to the service’s endpoint
           type: string
           pattern: ^[^\r\n]*$
+        include_aliases:
+          title: Include aliases
+          description: Whether to restore aliases alongside their associated indexes. Default is true.
+          type: boolean
         indices:
           title: Indices to restore
           description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
