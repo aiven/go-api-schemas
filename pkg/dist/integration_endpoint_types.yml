@@ -102,12 +102,12 @@ datadog:
       title: Datadog intake site. Defaults to datadoghq.com
       type: string
       enum:
+        - value: ap1.datadoghq.com
         - value: datadoghq.com
         - value: datadoghq.eu
+        - value: ddog-gov.com
         - value: us3.datadoghq.com
         - value: us5.datadoghq.com
-        - value: ddog-gov.com
-        - value: ap1.datadoghq.com
       example: datadoghq.com
 external_aws_cloudwatch_logs:
   type: object
@@ -359,9 +359,9 @@ external_kafka:
       type: string
       enum:
         - value: PLAINTEXT
-        - value: SSL
         - value: SASL_PLAINTEXT
         - value: SASL_SSL
+        - value: SSL
       example: PLAINTEXT
     ssl_ca_cert:
       title: PEM-encoded CA certificate
@@ -550,10 +550,10 @@ external_postgresql:
       enum:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
-          value: disable
+          value: allow
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
-          value: allow
+          value: disable
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: prefer
@@ -608,8 +608,8 @@ external_schema_registry:
       title: Authentication method
       type: string
       enum:
-        - value: none
         - value: basic
+        - value: none
       example: basic
     basic_auth_password:
       title: Basic authentication password
@@ -700,9 +700,9 @@ rsyslog:
       type: string
       default: rfc5424
       enum:
-        - value: rfc5424
-        - value: rfc3164
         - value: custom
+        - value: rfc3164
+        - value: rfc5424
       example: rfc5424
     key:
       title: PEM encoded client key

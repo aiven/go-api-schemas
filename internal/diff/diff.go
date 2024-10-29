@@ -1,312 +1,140 @@
-// Package diff is the package that contains the diff functionality.
+// Package diff is the package that contains the diffMaps functionality.
 package diff
 
 import (
-	"context"
 	"fmt"
 
-	"golang.org/x/exp/maps"
-	"golang.org/x/sync/errgroup"
+	"golang.org/x/exp/slices"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
-	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-// logger is a pointer to the logger.
-var logger *util.Logger
-
-// genResult is the result of the generation process.
-var genResult types.GenerationResult
-
-// readResult is the result of the read process.
-var readResult types.ReadResult
-
-// result is the result of the diff process.
-var result types.DiffResult
-
-// diff is a function that diffs two maps.
-// nolint:funlen,nestif,gocognit,gocyclo // This function is long, but it's not complex.
-// // This function is nested, but it's not complex.
-// // This function is complex, but it's a diff function.
-func diff(
-	gen map[string]types.UserConfigSchema,
-	read map[string]types.UserConfigSchema,
-) (map[string]types.UserConfigSchema, error) {
-	if len(read) == 0 {
-		return gen, nil
-	}
-
-	resultSchema := map[string]types.UserConfigSchema{}
-
-	for k, v := range read {
-		nv := v
-
-		d, err := diff(gen[k].Properties, nv.Properties)
-		if err != nil {
-			return nil, err
-		}
-
-		nv.Properties = d
-
-		if nv.Items != nil && gen[k].Items != nil {
-			nv.Items.Title = gen[k].Items.Title
-
-			nv.Items.Description = gen[k].Items.Description
-
-			nv.Items.Type = gen[k].Items.Type
-
-			nv.Items.Required = gen[k].Items.Required
-
-			d, err = diff(gen[k].Items.Properties, nv.Items.Properties)
-			if err != nil {
-				return nil, err
-			}
-
-			nv.Items.Properties = d
-
-			if len(nv.Items.OneOf) != 0 {
-				for kn, vn := range nv.Items.OneOf {
-					if len(gen[k].Items.OneOf) > kn {
-						d, err = diff(gen[k].Items.OneOf[kn].Properties, vn.Properties)
-						if err != nil {
-							return nil, err
-						}
-
-						nv.Items.OneOf[kn].Properties = d
-					}
-
-					genExists := false
-
-					for _, vg := range gen[k].Items.OneOf {
-						if vn.Title == vg.Title {
-							genExists = true
-
-							break
-						}
-					}
-
-					if !genExists {
-						nv.Items.OneOf[kn].IsDeprecated = true
-
-						if nv.Items.OneOf[kn].DeprecationNotice == "" {
-							nv.Items.OneOf[kn].DeprecationNotice = "This item is deprecated."
-						}
-					}
-				}
-
-				if len(gen[k].Items.OneOf) != 0 {
-					for _, vn := range gen[k].Items.OneOf {
-						readExists := false
-
-						for k, vr := range nv.Items.OneOf {
-							if vn.Title == vr.Title {
-								nv.Items.OneOf[k].Description = vn.Description
-
-								nv.Items.OneOf[k].Type = vn.Type
-
-								nv.Items.OneOf[k].Required = vn.Required
-
-								nv.Items.OneOf[k].MaxLength = vn.MaxLength
-
-								nv.Items.OneOf[k].Pattern = vn.Pattern
-
-								nv.Items.OneOf[k].Example = vn.Example
-
-								readExists = true
-
-								break
-							}
-						}
-
-						if !readExists {
-							nv.Items.OneOf = append(nv.Items.OneOf, vn)
-						}
-					}
-				}
-			}
-		}
-
-		for kn, vn := range nv.Enum {
-			genExists := false
-
-			vnv := fmt.Sprintf("%v", vn.Value)
-
-			for _, vg := range gen[k].Enum {
-				vgv := fmt.Sprintf("%v", vg.Value)
-
-				if vnv == vgv {
-					genExists = true
-
-					break
-				}
-			}
-
-			if !genExists {
-				nv.Enum[kn].IsDeprecated = true
-
-				if nv.Enum[kn].DeprecationNotice == "" {
-					nv.Enum[kn].DeprecationNotice = "This value is deprecated."
-				}
-			}
-
-			for _, vn := range gen[k].Enum {
-				readExists := false
-
-				vnv := fmt.Sprintf("%v", vn.Value)
-
-				for _, vr := range nv.Enum {
-					vrv := fmt.Sprintf("%v", vr.Value)
-
-					if vnv == vrv {
-						readExists = true
-
-						break
-					}
-				}
-
-				if !readExists {
-					nv.Enum = append(nv.Enum, vn)
-				}
-			}
-		}
-
-		if _, ok := gen[k]; !ok {
-			nv.IsDeprecated = true
-
-			if nv.DeprecationNotice == "" {
-				nv.DeprecationNotice = "This property is deprecated."
-			}
-		} else {
-			nv.Title = gen[k].Title
-
-			nv.Description = gen[k].Description
-
-			nv.Type = gen[k].Type
-
-			nv.Default = gen[k].Default
-
-			nv.Required = gen[k].Required
-
-			if len(nv.Properties) == 0 {
-				nv.Properties = gen[k].Properties
-			}
-
-			if nv.Items == nil {
-				nv.Items = gen[k].Items
-			}
-
-			if len(nv.OneOf) == 0 {
-				nv.OneOf = gen[k].OneOf
-			}
-
-			if len(nv.Enum) == 0 {
-				nv.Enum = gen[k].Enum
-			}
-
-			nv.Minimum = gen[k].Minimum
-
-			nv.Maximum = gen[k].Maximum
-
-			nv.MinLength = gen[k].MinLength
-
-			nv.MaxLength = gen[k].MaxLength
-
-			nv.MaxItems = gen[k].MaxItems
-
-			nv.CreateOnly = gen[k].CreateOnly
-
-			nv.Pattern = gen[k].Pattern
-
-			nv.Example = gen[k].Example
-
-			nv.UserError = gen[k].UserError
-
-			nv.Secure = gen[k].Secure
-		}
-
-		resultSchema[k] = nv
-	}
-
-	kg := maps.Keys(gen)
-
-	for _, k := range kg {
-		if _, ok := read[k]; !ok {
-			resultSchema[k] = gen[k]
-		}
-	}
-
-	return resultSchema, nil
-}
-
-// diffServiceTypes diffs the service types.
-func diffServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
-	schema, err := diff(genResult[types.KeyServiceTypes], readResult[types.KeyServiceTypes])
-	if err != nil {
-		return err
-	}
-
-	result[types.KeyServiceTypes] = schema
-
-	return nil
-}
-
-// diffIntegrationTypes diffs the integration types.
-func diffIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
-	schema, err := diff(genResult[types.KeyIntegrationTypes], readResult[types.KeyIntegrationTypes])
-	if err != nil {
-		return err
-	}
-
-	result[types.KeyIntegrationTypes] = schema
-
-	return nil
-}
-
-func diffIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
-	schema, err := diff(genResult[types.KeyIntegrationEndpointTypes], readResult[types.KeyIntegrationEndpointTypes])
-	if err != nil {
-		return err
-	}
-
-	result[types.KeyIntegrationEndpointTypes] = schema
-
-	return nil
-}
-
-// setup sets up the diff.
-func setup(l *util.Logger, gr types.GenerationResult, rr types.ReadResult) {
-	logger = l
-	genResult = gr
-	readResult = rr
-
-	result = types.DiffResult{}
-}
-
-// Run runs the diff.
-func Run(
-	ctx context.Context,
-	logger *util.Logger,
-	genResult types.GenerationResult,
-	readResult types.ReadResult,
-) (types.DiffResult, error) {
-	setup(logger, genResult, readResult)
-
-	errs, _ := errgroup.WithContext(ctx)
-
-	errs.Go(diffServiceTypes)
-	errs.Go(diffIntegrationTypes)
-	errs.Go(diffIntegrationEndpointTypes)
-
-	err := errs.Wait()
-	if err != nil {
-		return nil, err
+// Run runs the diffMaps.
+func Run(was types.ReadResult, have types.GenerationResult) (types.DiffResult, error) {
+	result := make(types.DiffResult)
+	for _, k := range types.GetTypeKeys() {
+		result[k] = diffMaps(was[k], have[k])
 	}
 
 	return result, nil
+}
+
+func diffTwo(was, have *types.UserConfigSchema) *types.UserConfigSchema {
+	switch {
+	case was == nil:
+		return have
+	case have == nil:
+		was.Deprecate("This property is deprecated.")
+		return was
+	}
+
+	// Properties
+	have.Properties = diffMaps(was.Properties, have.Properties)
+	have.Items = diffTwo(was.Items, have.Items)
+	have.OneOf = diffArrays(was.OneOf, have.OneOf)
+	have.Enum = diffEnums(was.Enum, have.Enum)
+	return have
+}
+
+func diffEnums(was, have []types.UserConfigSchemaEnumValue) []types.UserConfigSchemaEnumValue {
+	r := make(map[string]types.UserConfigSchemaEnumValue)
+	for _, v := range have {
+		r[stringify(v.Value)] = v
+	}
+
+	for _, v := range was {
+		k := stringify(v.Value)
+		if _, ok := r[k]; !ok {
+			v.Deprecate("This value is deprecated.")
+			r[k] = v
+		}
+	}
+
+	return mapValues(r)
+}
+
+func diffArrays(was []types.UserConfigSchema, have []types.UserConfigSchema) []types.UserConfigSchema {
+	r := make(map[string]types.UserConfigSchema)
+	for _, v := range have {
+		r[stringify(v.Type)] = v
+	}
+
+	for _, w := range was {
+		k := stringify(w.Type)
+		h, ok := r[k]
+		if !ok {
+			w.Deprecate("This item is deprecated.")
+			r[k] = w
+			continue
+		}
+
+		r[k] = *diffTwo(&w, &h)
+	}
+
+	return mapValues(r)
+}
+
+// diffMaps returns the difference between the two maps.
+// WARNING: Mutates the input maps.
+func diffMaps(was, have map[string]types.UserConfigSchema) map[string]types.UserConfigSchema {
+	keys := mergeKeys(was, have)
+	if len(keys) == 0 {
+		return nil
+	}
+
+	r := make(map[string]types.UserConfigSchema)
+	for _, k := range keys {
+		var w, h *types.UserConfigSchema
+		if v, ok := was[k]; ok {
+			w = &v
+		}
+
+		if v, ok := have[k]; ok {
+			h = &v
+		}
+
+		r[k] = *diffTwo(w, h)
+	}
+
+	return r
+}
+
+func stringify(v any) string {
+	return fmt.Sprintf("%v", v)
+}
+
+// mergeKeys merges the keys of the given maps and returns them sorted.
+func mergeKeys[T any](args ...map[string]T) []string {
+	if len(args) == 0 {
+		return nil
+	}
+
+	seen := make(map[string]bool)
+	for _, m := range args {
+		for k := range m {
+			seen[k] = true
+		}
+	}
+
+	keys := make([]string, 0, len(seen))
+	for k := range seen {
+		keys = append(keys, k)
+	}
+
+	slices.Sort(keys)
+	return keys
+}
+
+// mapValues returns the values of the given map sorted by the keys.
+func mapValues[T any](m map[string]T) []T {
+	if len(m) == 0 {
+		return nil
+	}
+
+	list := make([]T, 0, len(m))
+	for _, k := range mergeKeys(m) {
+		list = append(list, m[k])
+	}
+
+	return list
 }
