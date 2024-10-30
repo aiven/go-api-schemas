@@ -27,12 +27,12 @@ clickhouse_kafka:
             type: string
             default: earliest
             enum:
-              - value: smallest
-              - value: earliest
               - value: beginning
+              - value: earliest
+              - value: end
               - value: largest
               - value: latest
-              - value: end
+              - value: smallest
             example: latest
           columns:
             title: Table columns
@@ -63,6 +63,7 @@ clickhouse_kafka:
             default: JSONEachRow
             enum:
               - value: Avro
+              - value: AvroConfluent
               - value: CSV
               - value: JSONAsString
               - value: JSONCompactEachRow
@@ -70,12 +71,11 @@ clickhouse_kafka:
               - value: JSONEachRow
               - value: JSONStringsEachRow
               - value: MsgPack
+              - value: Parquet
+              - value: RawBLOB
               - value: TSKV
               - value: TSV
               - value: TabSeparated
-              - value: RawBLOB
-              - value: AvroConfluent
-              - value: Parquet
             example: JSONEachRow
           date_time_input_format:
             title: Method to read DateTime from text input formats
@@ -292,6 +292,10 @@ datadog:
       items:
         title: Metric name
         type: string
+        enum:
+          - value: kafka.log.log_end_offset
+          - value: kafka.log.log_size
+          - value: kafka.log.log_start_offset
         max_length: 1024
         example: kafka.log.log_size
       max_items: 1024
@@ -359,8 +363,8 @@ external_aws_cloudwatch_logs:
           - value: HOSTNAME
           - value: PRIORITY
           - value: REALTIME_TIMESTAMP
-          - value: service_name
           - value: SYSTEMD_UNIT
+          - value: service_name
       max_items: 5
 external_aws_cloudwatch_metrics:
   title: External AWS CloudWatch Metrics integration user config
@@ -429,8 +433,8 @@ external_elasticsearch_logs:
           - value: HOSTNAME
           - value: PRIORITY
           - value: REALTIME_TIMESTAMP
-          - value: service_name
           - value: SYSTEMD_UNIT
+          - value: service_name
       max_items: 5
 external_google_cloud_logging:
   title: Integration user config
@@ -450,8 +454,8 @@ external_opensearch_logs:
           - value: HOSTNAME
           - value: PRIORITY
           - value: REALTIME_TIMESTAMP
-          - value: service_name
           - value: SYSTEMD_UNIT
+          - value: service_name
       max_items: 5
 flink:
   title: Integration user config
@@ -528,8 +532,8 @@ kafka_logs:
           - value: HOSTNAME
           - value: PRIORITY
           - value: REALTIME_TIMESTAMP
-          - value: service_name
           - value: SYSTEMD_UNIT
+          - value: service_name
       max_items: 5
 kafka_mirrormaker:
   title: Integration user config
@@ -592,10 +596,10 @@ kafka_mirrormaker:
           type: string
           enum:
             - value: gzip
-            - value: snappy
             - value: lz4
-            - value: zstd
             - value: none
+            - value: snappy
+            - value: zstd
         producer_linger_ms:
           title: producer.linger.ms
           description: The linger time (ms) for waiting new data to arrive for publishing.
@@ -638,8 +642,8 @@ logs:
           - value: HOSTNAME
           - value: PRIORITY
           - value: REALTIME_TIMESTAMP
-          - value: service_name
           - value: SYSTEMD_UNIT
+          - value: service_name
       max_items: 5
 m3aggregator:
   title: Integration user config

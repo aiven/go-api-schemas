@@ -139,7 +139,7 @@ func run(cmd *cobra.Command, _ []string) {
 
 	logger.Info.Println("diffing")
 
-	dr, err := diff.Run(ctx, logger, gr, rr)
+	dr, err := diff.Run(rr, gr)
 	if err != nil {
 		logger.Error.Fatalf("error diffing: %s", err)
 	}

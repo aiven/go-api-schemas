@@ -1,16 +1,18 @@
-// Package diff is the package that contains the diff functionality.
+// Package diffMaps is the package that contains the diffMaps functionality.
 package diff
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
 	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-// TestDiff tests the diff function.
+// TestDiff tests the diff functions.
 // nolint:funlen,lll // This function is long, but it's a test function.
 // // These lines are long, but they're test data.
 func TestDiff(t *testing.T) {
@@ -20,10 +22,9 @@ func TestDiff(t *testing.T) {
 	}
 
 	tests := []struct {
-		name    string
-		args    args
-		want    map[string]types.UserConfigSchema
-		wantErr error
+		name string
+		args args
+		want map[string]types.UserConfigSchema
 	}{
 		{
 			name: "no read schema",
@@ -74,7 +75,6 @@ func TestDiff(t *testing.T) {
 					UserError:                       "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "equal schemas",
@@ -146,7 +146,6 @@ func TestDiff(t *testing.T) {
 					UserError:                       "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "different schemas",
@@ -430,7 +429,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "bar",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "gen new property",
@@ -605,7 +603,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "read new property",
@@ -783,7 +780,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "gen new item property",
@@ -1078,7 +1074,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "read new item property",
@@ -1376,7 +1371,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "gen new item one of property",
@@ -1409,7 +1403,7 @@ func TestDiff(t *testing.T) {
 											UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
 											Title:                           "qux",
 											Description:                     "",
-											Type:                            nil,
+											Type:                            "string",
 											Default:                         nil,
 											Properties:                      nil,
 											Items:                           nil,
@@ -1429,7 +1423,7 @@ func TestDiff(t *testing.T) {
 											UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
 											Title:                           "quux",
 											Description:                     "",
-											Type:                            nil,
+											Type:                            "object",
 											Default:                         nil,
 											Properties:                      nil,
 											Items:                           nil,
@@ -1512,7 +1506,7 @@ func TestDiff(t *testing.T) {
 											UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
 											Title:                           "qux",
 											Description:                     "",
-											Type:                            nil,
+											Type:                            "string",
 											Default:                         nil,
 											Properties:                      nil,
 											Items:                           nil,
@@ -1594,9 +1588,9 @@ func TestDiff(t *testing.T) {
 								OneOf: []types.UserConfigSchema{
 									{
 										UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
-										Title:                           "qux",
+										Title:                           "quux",
 										Description:                     "",
-										Type:                            nil,
+										Type:                            "object",
 										Default:                         nil,
 										Properties:                      nil,
 										Items:                           nil,
@@ -1614,9 +1608,9 @@ func TestDiff(t *testing.T) {
 									},
 									{
 										UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
-										Title:                           "quux",
+										Title:                           "qux",
 										Description:                     "",
-										Type:                            nil,
+										Type:                            "string",
 										Default:                         nil,
 										Properties:                      nil,
 										Items:                           nil,
@@ -1671,7 +1665,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "read new item one of property",
@@ -1704,7 +1697,7 @@ func TestDiff(t *testing.T) {
 											UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
 											Title:                           "qux",
 											Description:                     "",
-											Type:                            nil,
+											Type:                            "string",
 											Default:                         nil,
 											Properties:                      nil,
 											Items:                           nil,
@@ -1787,7 +1780,7 @@ func TestDiff(t *testing.T) {
 											UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
 											Title:                           "qux",
 											Description:                     "",
-											Type:                            nil,
+											Type:                            "string",
 											Default:                         nil,
 											Properties:                      nil,
 											Items:                           nil,
@@ -1807,7 +1800,7 @@ func TestDiff(t *testing.T) {
 											UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
 											Title:                           "quux",
 											Description:                     "",
-											Type:                            nil,
+											Type:                            "object",
 											Default:                         nil,
 											Properties:                      nil,
 											Items:                           nil,
@@ -1888,33 +1881,13 @@ func TestDiff(t *testing.T) {
 								Items:                           nil,
 								OneOf: []types.UserConfigSchema{
 									{
-										UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
-										Title:                           "qux",
-										Description:                     "",
-										Type:                            nil,
-										Default:                         nil,
-										Properties:                      nil,
-										Items:                           nil,
-										OneOf:                           nil,
-										Enum:                            nil,
-										Minimum:                         util.Ref(0.0),
-										Maximum:                         util.Ref(0.0),
-										MinLength:                       util.Ref(0),
-										MaxLength:                       util.Ref(0),
-										MaxItems:                        util.Ref(0),
-										CreateOnly:                      false,
-										Pattern:                         "",
-										Example:                         nil,
-										UserError:                       "",
-									},
-									{
 										UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{
 											IsDeprecated:      true,
 											DeprecationNotice: "This item is deprecated.",
 										},
 										Title:       "quux",
 										Description: "",
-										Type:        nil,
+										Type:        "object",
 										Default:     nil,
 										Properties:  nil,
 										Items:       nil,
@@ -1929,6 +1902,26 @@ func TestDiff(t *testing.T) {
 										Pattern:     "",
 										Example:     nil,
 										UserError:   "",
+									},
+									{
+										UserConfigSchemaDeprecationInfo: types.UserConfigSchemaDeprecationInfo{},
+										Title:                           "qux",
+										Description:                     "",
+										Type:                            "string",
+										Default:                         nil,
+										Properties:                      nil,
+										Items:                           nil,
+										OneOf:                           nil,
+										Enum:                            nil,
+										Minimum:                         util.Ref(0.0),
+										Maximum:                         util.Ref(0.0),
+										MinLength:                       util.Ref(0),
+										MaxLength:                       util.Ref(0),
+										MaxItems:                        util.Ref(0),
+										CreateOnly:                      false,
+										Pattern:                         "",
+										Example:                         nil,
+										UserError:                       "",
 									},
 								},
 								Enum:       nil,
@@ -1969,7 +1962,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "gen new enum value",
@@ -2049,7 +2041,6 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 		{
 			name: "read new enum value",
@@ -2135,22 +2126,15 @@ func TestDiff(t *testing.T) {
 					UserError:  "",
 				},
 			},
-			wantErr: nil,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := diff(tt.args.g, tt.args.r)
-			if !cmp.Equal(err, tt.wantErr) {
-				t.Errorf("diff() error = %v, wantErr %v", err, tt.wantErr)
-
-				return
-			}
-
-			if !cmp.Equal(got, tt.want) {
-				t.Errorf("diff() = %v, want %v", got, tt.want)
-			}
+			got := diffMaps(tt.args.r, tt.args.g)
+			bGot, _ := json.MarshalIndent(&got, "", "  ")
+			bWant, _ := json.MarshalIndent(&tt.want, "", "  ")
+			assert.Empty(t, cmp.Diff(bWant, bGot))
 		})
 	}
 }

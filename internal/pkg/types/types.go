@@ -7,6 +7,12 @@ type UserConfigSchemaDeprecationInfo struct {
 	DeprecationNotice string `yaml:"deprecation_notice,omitempty"`
 }
 
+// Deprecate sets the deprecation info for a user config schema entry.
+func (u *UserConfigSchemaDeprecationInfo) Deprecate(msg string) {
+	u.IsDeprecated = true
+	u.DeprecationNotice = msg
+}
+
 // UserConfigSchemaEnumValue is a struct that contains the enum value for a user config schema entry.
 type UserConfigSchemaEnumValue struct {
 	UserConfigSchemaDeprecationInfo `yaml:",inline"`
@@ -58,3 +64,12 @@ const (
 	// KeyIntegrationEndpointTypes is the key for the integration endpoint types.
 	KeyIntegrationEndpointTypes
 )
+
+// GetTypeKeys returns the type keys.
+func GetTypeKeys() []int {
+	return []int{
+		KeyServiceTypes,
+		KeyIntegrationTypes,
+		KeyIntegrationEndpointTypes,
+	}
+}

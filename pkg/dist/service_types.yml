@@ -226,18 +226,18 @@ alloydbomni:
           description: Controls the amount of detail written in the server log for each message that is logged.
           type: string
           enum:
-            - value: TERSE
             - value: DEFAULT
+            - value: TERSE
             - value: VERBOSE
         log_line_prefix:
           title: log_line_prefix
           description: Choose from one of the available log formats.
           type: string
           enum:
+            - value: '''%m [%p] %q[user=%u,db=%d,app=%a] '''
+            - value: '''%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '''
             - value: '''pid=%p,user=%u,db=%d,app=%a,client=%h '''
             - value: '''pid=%p,user=%u,db=%d,app=%a,client=%h,txid=%x,qid=%Q '''
-            - value: '''%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '''
-            - value: '''%m [%p] %q[user=%u,db=%d,app=%a] '''
         log_min_duration_statement:
           title: log_min_duration_statement
           description: Log statements that take more than this number of milliseconds to run, -1 disables
@@ -356,8 +356,8 @@ alloydbomni:
             - string
           enum:
             - value: all
-            - value: top
             - value: none
+            - value: top
         temp_file_limit:
           title: temp_file_limit
           description: PostgreSQL temporary file limit in KiB, -1 for unlimited
@@ -393,8 +393,8 @@ alloydbomni:
           type: string
           enum:
             - value: all
-            - value: pl
             - value: none
+            - value: pl
         track_io_timing:
           title: track_io_timing
           description: Enables timing of database I/O calls. This parameter is off by default, because it will repeatedly query the operating system for the current time, which may cause significant overhead on some platforms.
@@ -462,9 +462,9 @@ alloydbomni:
           type: string
           default: transaction
           enum:
-            - value: transaction
             - value: session
             - value: statement
+            - value: transaction
           example: session
         autodb_pool_size:
           title: If non-zero then create automatically a pool of that size per user when a pool doesn't exist.
@@ -628,8 +628,8 @@ alloydbomni:
       title: Synchronous replication type. Note that the service plan also needs to support synchronous replication.
       type: string
       enum:
-        - value: quorum
         - value: "off"
+        - value: quorum
       example: "off"
     variant:
       title: Variant of the PostgreSQL service, may affect the features that are exposed by default
@@ -651,8 +651,6 @@ cassandra:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -723,10 +721,10 @@ cassandra:
         - string
         - "null"
       enum:
-        - value: "4"
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3"
+        - value: "4"
         - value: "4.1"
       pattern: ^[0-9]+(\.[0-9]+)?$
     ip_filter:
@@ -965,9 +963,9 @@ dragonfly:
       description: When persistence is 'rdb' or 'dfs', Dragonfly does RDB or DFS dumps every 10 minutes. Dumps are done according to the backup schedule for backup purposes. When persistence is 'off', no RDB/DFS dumps or backups are done, so data can be lost at any moment if the service is restarted for any reason, or if the service is powered off. Also, the service can't be forked.
       type: string
       enum:
+        - value: dfs
         - value: "off"
         - value: rdb
-        - value: dfs
     dragonfly_ssl:
       title: Require SSL to access Dragonfly
       type: boolean
@@ -1861,8 +1859,8 @@ grafana:
       type: string
       enum:
         - value: alerting
-        - value: no_data
         - value: keep_state
+        - value: no_data
         - value: ok
       example: ok
     allow_embedding:
@@ -2073,7 +2071,6 @@ grafana:
             title: Team ID
             type: integer
             minimum: 1
-            maximum: 9.223372036854776e+18
             example: "150"
           max_items: 50
     auth_gitlab:
@@ -2170,8 +2167,8 @@ grafana:
       type: string
       enum:
         - value: lax
-        - value: strict
         - value: none
+        - value: strict
       example: lax
     custom_domain:
       title: Custom domain
@@ -2456,9 +2453,9 @@ grafana:
           title: Either OpportunisticStartTLS, MandatoryStartTLS or NoStartTLS. Default is OpportunisticStartTLS.
           type: string
           enum:
-            - value: OpportunisticStartTLS
             - value: MandatoryStartTLS
             - value: NoStartTLS
+            - value: OpportunisticStartTLS
           example: NoStartTLS
         username:
           title: Username for SMTP authentication
@@ -2485,9 +2482,9 @@ grafana:
       title: Set role for new signups. Defaults to Viewer
       type: string
       enum:
-        - value: Viewer
         - value: Admin
         - value: Editor
+        - value: Viewer
       example: Viewer
     viewers_can_edit:
       title: Users with view-only permission can edit but not save dashboards
@@ -2735,11 +2732,11 @@ kafka:
           type: string
           enum:
             - value: gzip
-            - value: snappy
             - value: lz4
-            - value: zstd
-            - value: uncompressed
             - value: producer
+            - value: snappy
+            - value: uncompressed
+            - value: zstd
         connections_max_idle_ms:
           title: connections.max.idle.ms
           description: 'Idle connections timeout: the server socket processor threads close the connections that idle for longer than this. (Default: 600000 ms (10 minutes))'
@@ -2803,9 +2800,9 @@ kafka:
           description: 'The default cleanup policy for segments beyond the retention window (Default: delete)'
           type: string
           enum:
-            - value: delete
             - value: compact
             - value: compact,delete
+            - value: delete
           example: delete
         log_flush_interval_messages:
           title: log.flush.interval.messages
@@ -3034,8 +3031,8 @@ kafka:
           description: Defines what client configurations can be overridden by the connector. Default is None
           type: string
           enum:
-            - value: None
             - value: All
+            - value: None
         consumer_auto_offset_reset:
           title: Consumer auto offset reset
           description: What to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server. Default is earliest
@@ -3055,8 +3052,8 @@ kafka:
           description: Transaction read isolation level. read_uncommitted is the default, but read_committed can be used if consume-exactly-once behavior is desired.
           type: string
           enum:
-            - value: read_uncommitted
             - value: read_committed
+            - value: read_uncommitted
         consumer_max_partition_fetch_bytes:
           title: The maximum amount of data per-partition the server will return.
           description: 'Records are fetched in batches by the consumer.If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. '
@@ -3112,10 +3109,10 @@ kafka:
           type: string
           enum:
             - value: gzip
-            - value: snappy
             - value: lz4
-            - value: zstd
             - value: none
+            - value: snappy
+            - value: zstd
         producer_linger_ms:
           title: Wait for up to the given delay to allow batching records together
           description: 'This setting gives the upper bound on the delay for batching: once there is batch.size worth of records for a partition it will be sent immediately regardless of this setting, however if there are fewer than this many bytes accumulated for this partition the producer will ''linger'' for the specified time waiting for more records to show up. Defaults to 0.'
@@ -3260,8 +3257,8 @@ kafka:
           type: string
           default: topic_name
           enum:
-            - value: topic_name
             - value: record_name
+            - value: topic_name
             - value: topic_record_name
         name_strategy_validation:
           title: name.strategy.validation
@@ -3274,20 +3271,20 @@ kafka:
           type: string
           default: "1"
           enum:
-            - value: all
             - value: "-1"
             - value: "0"
             - value: "1"
+            - value: all
         producer_compression_type:
           title: producer.compression.type
           description: Specify the default compression type for producers. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'none' which is the default and equivalent to no compression.
           type: string
           enum:
             - value: gzip
-            - value: snappy
             - value: lz4
-            - value: zstd
             - value: none
+            - value: snappy
+            - value: zstd
         producer_linger_ms:
           title: producer.linger.ms
           description: Wait for up to the given delay to allow batching records together
@@ -3333,13 +3330,13 @@ kafka:
       enum:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
+          value: "3.1"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
           value: "3.2"
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.3"
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "3.1"
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.4"
@@ -3560,8 +3557,8 @@ kafka_connect:
           description: Defines what client configurations can be overridden by the connector. Default is None
           type: string
           enum:
-            - value: None
             - value: All
+            - value: None
         consumer_auto_offset_reset:
           title: Consumer auto offset reset
           description: What to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server. Default is earliest
@@ -3581,8 +3578,8 @@ kafka_connect:
           description: Transaction read isolation level. read_uncommitted is the default, but read_committed can be used if consume-exactly-once behavior is desired.
           type: string
           enum:
-            - value: read_uncommitted
             - value: read_committed
+            - value: read_uncommitted
         consumer_max_partition_fetch_bytes:
           title: The maximum amount of data per-partition the server will return.
           description: 'Records are fetched in batches by the consumer.If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. '
@@ -3638,10 +3635,10 @@ kafka_connect:
           type: string
           enum:
             - value: gzip
-            - value: snappy
             - value: lz4
-            - value: zstd
             - value: none
+            - value: snappy
+            - value: zstd
         producer_linger_ms:
           title: Wait for up to the given delay to allow batching records together
           description: 'This setting gives the upper bound on the delay for batching: once there is batch.size worth of records for a partition it will be sent immediately regardless of this setting, however if there are fewer than this many bytes accumulated for this partition the producer will ''linger'' for the specified time waiting for more records to show up. Defaults to 0.'
@@ -4313,12 +4310,6 @@ m3db:
                 type: array
                 items:
                   one_of:
-                    - title: Namespaces matched by this glob
-                      description: Filter the namespace by glob (=wildcards)
-                      type: string
-                      max_length: 256
-                      pattern: ^[a-zA-Z_0-9*]+$
-                      example: aggregated_*
                     - title: Namespaces matching this storage policy
                       description: Filter the namespace by exact match of retention period and resolution
                       type: object
@@ -4338,6 +4329,12 @@ m3db:
                           max_length: 16
                           pattern: ^[0-9]+[smhd]$
                           example: 48h
+                    - title: Namespaces matched by this glob
+                      description: Filter the namespace by glob (=wildcards)
+                      type: string
+                      max_length: 256
+                      pattern: ^[a-zA-Z_0-9*]+$
+                      example: aggregated_*
                 max_items: 10
               tags:
                 title: List of tags to be appended to matching metrics
@@ -4652,8 +4649,8 @@ mysql:
           description: The storage engine for in-memory internal temporary tables.
           type: string
           enum:
-            - value: TempTable
             - value: MEMORY
+            - value: TempTable
           example: TempTable
         log_output:
           title: log_output
@@ -4661,9 +4658,9 @@ mysql:
           type: string
           enum:
             - value: INSIGHTS
+            - value: INSIGHTS,TABLE
             - value: NONE
             - value: TABLE
-            - value: INSIGHTS,TABLE
           example: INSIGHTS
         long_query_time:
           title: long_query_time
@@ -5519,6 +5516,7 @@ opensearch:
               - string
               - "null"
             max_length: 261
+            pattern: ^[^\r\n]*$
             example: anotherservice.aivencloud.com:12398
           max_items: 32
         script_max_compilations_rate:
@@ -5537,9 +5535,9 @@ opensearch:
               description: The search backpressure mode. Valid values are monitor_only, enforced, or disabled. Default is monitor_only
               type: string
               enum:
-                - value: monitor_only
-                - value: enforced
                 - value: disabled
+                - value: enforced
+                - value: monitor_only
             node_duress:
               title: Node duress settings
               type: object
@@ -6338,17 +6336,17 @@ pg:
           description: Controls the amount of detail written in the server log for each message that is logged.
           type: string
           enum:
-            - value: TERSE
             - value: DEFAULT
+            - value: TERSE
             - value: VERBOSE
         log_line_prefix:
           title: log_line_prefix
           description: Choose from one of the available log formats.
           type: string
           enum:
-            - value: '''pid=%p,user=%u,db=%d,app=%a,client=%h '''
-            - value: '''%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '''
             - value: '''%m [%p] %q[user=%u,db=%d,app=%a] '''
+            - value: '''%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '''
+            - value: '''pid=%p,user=%u,db=%d,app=%a,client=%h '''
             - value: '''pid=%p,user=%u,db=%d,app=%a,client=%h,txid=%x,qid=%Q '''
         log_min_duration_statement:
           title: log_min_duration_statement
@@ -6480,8 +6478,8 @@ pg:
             - string
           enum:
             - value: all
-            - value: top
             - value: none
+            - value: top
         temp_file_limit:
           title: temp_file_limit
           description: PostgreSQL temporary file limit in KiB, -1 for unlimited
@@ -6517,8 +6515,8 @@ pg:
           type: string
           enum:
             - value: all
-            - value: pl
             - value: none
+            - value: pl
         track_io_timing:
           title: track_io_timing
           description: Enables timing of database I/O calls. This parameter is off by default, because it will repeatedly query the operating system for the current time, which may cause significant overhead on some platforms.
@@ -6613,14 +6611,14 @@ pg:
       enum:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
+          value: "10"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
           value: "11"
         - value: "12"
         - value: "13"
         - value: "14"
         - value: "15"
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "10"
         - value: "16"
     pgaudit:
       is_deprecated: true
@@ -6780,8 +6778,8 @@ pg:
           default: transaction
           enum:
             - value: session
-            - value: transaction
             - value: statement
+            - value: transaction
           example: session
         autodb_pool_size:
           title: If non-zero then create automatically a pool of that size per user when a pool doesn't exist.
@@ -6945,8 +6943,8 @@ pg:
       title: Synchronous replication type. Note that the service plan also needs to support synchronous replication.
       type: string
       enum:
-        - value: quorum
         - value: "off"
+        - value: quorum
       example: "off"
     timescaledb:
       title: TimescaleDB extension configuration values
@@ -7175,14 +7173,14 @@ redis:
         - "null"
       default: noeviction
       enum:
-        - value: noeviction
+        - value: allkeys-lfu
         - value: allkeys-lru
-        - value: volatile-lru
         - value: allkeys-random
+        - value: noeviction
+        - value: volatile-lfu
+        - value: volatile-lru
         - value: volatile-random
         - value: volatile-ttl
-        - value: volatile-lfu
-        - value: allkeys-lfu
     redis_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
@@ -7614,14 +7612,14 @@ valkey:
         - "null"
       default: noeviction
       enum:
-        - value: noeviction
+        - value: allkeys-lfu
         - value: allkeys-lru
-        - value: volatile-lru
         - value: allkeys-random
+        - value: noeviction
+        - value: volatile-lfu
+        - value: volatile-lru
         - value: volatile-random
         - value: volatile-ttl
-        - value: volatile-lfu
-        - value: allkeys-lfu
     valkey_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
