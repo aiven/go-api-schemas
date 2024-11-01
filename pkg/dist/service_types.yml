@@ -1837,25 +1837,28 @@ grafana:
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
     alerting_enabled:
-      title: Enable or disable Grafana legacy alerting functionality. This should not be enabled with unified_alerting_enabled.
-      description: 'DEPRECATED: setting has no effect with Grafana 11 and onward.'
+      title: (DEPRECATED) Alerting enabled
+      description: 'DEPRECATED: setting has no effect with Grafana 11 and onward. Enable or disable Grafana legacy alerting functionality. This should not be enabled with unified_alerting_enabled.'
       type: boolean
       example: true
     alerting_error_or_timeout:
-      title: Default error or timeout setting for new alerting rules
+      title: Default error or timeout setting
+      description: Default error or timeout setting for new alerting rules
       type: string
       enum:
         - value: alerting
         - value: keep_state
       example: alerting
     alerting_max_annotations_to_keep:
-      title: Max number of alert annotations that Grafana stores. 0 (default) keeps all alert annotations.
+      title: Max alert annotations to keep
+      description: Max number of alert annotations that Grafana stores. 0 (default) keeps all alert annotations.
       type: integer
       minimum: 0
       maximum: 1e+06
       example: "0"
     alerting_nodata_or_nullvalues:
-      title: Default value for 'no data or null values' for new alerting rules
+      title: Default no data or null values setting
+      description: Default value for 'no data or null values' for new alerting rules
       type: string
       enum:
         - value: alerting
@@ -1864,7 +1867,8 @@ grafana:
         - value: ok
       example: ok
     allow_embedding:
-      title: Allow embedding Grafana dashboards with iframe/frame/object/embed tags. Disabled by default to limit impact of clickjacking
+      title: Allow embedding
+      description: Allow embedding Grafana dashboards with iframe/frame/object/embed tags. Disabled by default to limit impact of clickjacking
       type: boolean
       example: false
     auth_azuread:
@@ -1877,7 +1881,8 @@ grafana:
         - token_url
       properties:
         allow_sign_up:
-          title: Automatically sign-up users on successful sign-in
+          title: Allow sign-up
+          description: Automatically sign-up users on successful sign-in
           type: boolean
           example: false
         allowed_domains:
@@ -1890,7 +1895,8 @@ grafana:
             example: mycompany.com
           max_items: 50
         allowed_groups:
-          title: Require users to belong to one of given groups
+          title: Allowed groups
+          description: Require users to belong to one of given groups
           type: array
           items:
             title: Group Object ID from Azure AD
@@ -1906,14 +1912,16 @@ grafana:
           max_length: 2048
           example: https://login.microsoftonline.com/<AZURE_TENANT_ID>/oauth2/v2.0/authorize
         client_id:
-          title: Client ID from provider
+          title: Client ID
+          description: Client ID from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
           example: b1ba0bf54a4c2c0a1c29
           user_error: Must be a valid client ID string
         client_secret:
-          title: Client secret from provider
+          title: Client secret
+          description: Client secret from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
@@ -1926,7 +1934,8 @@ grafana:
           max_length: 2048
           example: https://login.microsoftonline.com/<AZURE_TENANT_ID>/oauth2/v2.0/token
     auth_basic_enabled:
-      title: Enable or disable basic authentication form, used by Grafana built-in login
+      title: Basic authentication enabled
+      description: Enable or disable basic authentication form, used by Grafana built-in login
       type: boolean
       example: true
     auth_generic_oauth:
@@ -1940,7 +1949,8 @@ grafana:
         - token_url
       properties:
         allow_sign_up:
-          title: Automatically sign-up users on successful sign-in
+          title: Allow sign-up
+          description: Automatically sign-up users on successful sign-in
           type: boolean
           example: false
         allowed_domains:
@@ -1953,7 +1963,8 @@ grafana:
             example: mycompany.com
           max_items: 50
         allowed_organizations:
-          title: Require user to be member of one of the listed organizations
+          title: Allowed organizations
+          description: Require user to be member of one of the listed organizations
           type: array
           items:
             title: Allowed organization
@@ -1974,18 +1985,21 @@ grafana:
           max_length: 2048
           example: https://yourprovider.com/oauth/authorize
         auto_login:
-          title: Allow users to bypass the login screen and automatically log in
+          title: Auto login
+          description: Allow users to bypass the login screen and automatically log in
           type: boolean
           example: false
         client_id:
-          title: Client ID from provider
+          title: Client ID
+          description: Client ID from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
           example: b1ba0bf54a4c2c0a1c29
           user_error: Must be a valid client ID string
         client_secret:
-          title: Client secret from provider
+          title: Client secret
+          description: Client secret from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
@@ -2016,7 +2030,8 @@ grafana:
           max_length: 2048
           example: https://yourprovider.com/oauth/token
         use_refresh_token:
-          title: Set to true to use refresh token and check access token expiration.
+          title: Use refresh token
+          description: Set to true to use refresh token and check access token expiration.
           type: boolean
           example: true
     auth_github:
@@ -2027,14 +2042,16 @@ grafana:
         - client_secret
       properties:
         allow_sign_up:
-          title: Automatically sign-up users on successful sign-in
+          title: Allow sign-up
+          description: Automatically sign-up users on successful sign-in
           type: boolean
           example: false
         allowed_organizations:
-          title: Require users to belong to one of given organizations
+          title: Allowed organizations
+          description: Require users to belong to one of given organizations
           type: array
           items:
-            title: Organization name
+            description: Organization name
             type: string
             max_length: 256
             pattern: ^[A-Za-z0-9-]+$
@@ -2042,18 +2059,21 @@ grafana:
             user_error: Must consist of alpha-numeric characters and dashes
           max_items: 50
         auto_login:
-          title: Allow users to bypass the login screen and automatically log in
+          title: Auto login
+          description: Allow users to bypass the login screen and automatically log in
           type: boolean
           example: false
         client_id:
-          title: Client ID from provider
+          title: Client ID
+          description: Client ID from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
           example: b1ba0bf54a4c2c0a1c29
           user_error: Must be a valid client ID string
         client_secret:
-          title: Client secret from provider
+          title: Client secret
+          description: Client secret from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
@@ -2061,14 +2081,15 @@ grafana:
           user_error: Must be a valid client secret string
           _secure: true
         skip_org_role_sync:
-          title: Stop automatically syncing user roles
+          title: Skip organization role sync
+          description: Stop automatically syncing user roles
           type: boolean
           example: false
         team_ids:
-          title: Require users to belong to one of given team IDs
+          description: Require users to belong to one of given team IDs
           type: array
           items:
-            title: Team ID
+            description: Team ID
             type: integer
             minimum: 1
             example: "150"
@@ -2082,14 +2103,16 @@ grafana:
         - allowed_groups
       properties:
         allow_sign_up:
-          title: Automatically sign-up users on successful sign-in
+          title: Allow sign-up
+          description: Automatically sign-up users on successful sign-in
           type: boolean
           example: false
         allowed_groups:
-          title: Require users to belong to one of given groups
+          title: Allowed groups
+          description: Require users to belong to one of given groups
           type: array
           items:
-            title: Group or subgroup name
+            description: Group or subgroup name
             type: string
             max_length: 256
             pattern: ^[a-z0-9-_/]+$
@@ -2097,24 +2120,28 @@ grafana:
             user_error: Must consist of alpha-numeric characters, dashes, underscores and slashes
           max_items: 50
         api_url:
-          title: API URL. This only needs to be set when using self hosted GitLab
+          title: API URL
+          description: This only needs to be set when using self hosted GitLab
           type: string
           max_length: 2048
           example: https://gitlab.com/api/v4
         auth_url:
-          title: Authorization URL. This only needs to be set when using self hosted GitLab
+          title: Authorization URL
+          description: This only needs to be set when using self hosted GitLab
           type: string
           max_length: 2048
           example: https://gitlab.com/oauth/authorize
         client_id:
-          title: Client ID from provider
+          title: Client ID
+          description: Client ID from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
           example: b1ba0bf54a4c2c0a1c29
           user_error: Must be a valid client ID string
         client_secret:
-          title: Client secret from provider
+          title: Client secret
+          description: Client secret from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
@@ -2122,7 +2149,8 @@ grafana:
           user_error: Must be a valid client secret string
           _secure: true
         token_url:
-          title: Token URL. This only needs to be set when using self hosted GitLab
+          title: Token URL
+          description: This only needs to be set when using self hosted GitLab
           type: string
           max_length: 2048
           example: https://gitlab.com/oauth/token
@@ -2135,27 +2163,30 @@ grafana:
         - allowed_domains
       properties:
         allow_sign_up:
-          title: Automatically sign-up users on successful sign-in
+          title: Allow sign-up
+          description: Automatically sign-up users on successful sign-in
           type: boolean
           example: false
         allowed_domains:
-          title: Domains allowed to sign-in to this Grafana
+          description: Domains allowed to sign-in to this Grafana
           type: array
           items:
-            title: Domain
+            description: Domain
             type: string
             max_length: 255
             example: example.com
           max_items: 64
         client_id:
-          title: Client ID from provider
+          title: Client ID
+          description: Client ID from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
           example: b1ba0bf54a4c2c0a1c29
           user_error: Must be a valid client ID string
         client_secret:
-          title: Client secret from provider
+          title: Client secret
+          description: Client secret from provider
           type: string
           max_length: 1024
           pattern: ^[\040-\176]+$
@@ -2163,7 +2194,8 @@ grafana:
           user_error: Must be a valid client secret string
           _secure: true
     cookie_samesite:
-      title: 'Cookie SameSite attribute: ''strict'' prevents sending cookie for cross-site requests, effectively disabling direct linking from other sites to Grafana. ''lax'' is the default value.'
+      title: Cookie SameSite attribute
+      description: 'Cookie SameSite attribute: ''strict'' prevents sending cookie for cross-site requests, effectively disabling direct linking from other sites to Grafana. ''lax'' is the default value.'
       type: string
       enum:
         - value: lax
@@ -2179,8 +2211,8 @@ grafana:
       max_length: 255
       example: grafana.example.org
     dashboard_previews_enabled:
-      title: Enable browsing of dashboards in grid (pictures) mode
-      description: This feature is new in Grafana 9 and is quite resource intensive. It may cause low-end plans to work more slowly while the dashboard previews are rendering.
+      title: Enable dashboard previews
+      description: Enable browsing of dashboards in grid (pictures) mode. This feature is new in Grafana 9 and is quite resource intensive. It may cause low-end plans to work more slowly while the dashboard previews are rendering.
       type: boolean
       example: false
     dashboards_min_refresh_interval:
@@ -2191,17 +2223,20 @@ grafana:
       pattern: ^[0-9]+(ms|s|m|h|d)$
       example: 5s
     dashboards_versions_to_keep:
-      title: Dashboard versions to keep per dashboard
+      title: Dashboard versions to keep
+      description: Dashboard versions to keep per dashboard
       type: integer
       minimum: 1
       maximum: 100
       example: "20"
     dataproxy_send_user_header:
-      title: Send 'X-Grafana-User' header to data source
+      title: Send user header to data source
+      description: Send 'X-Grafana-User' header to data source
       type: boolean
       example: false
     dataproxy_timeout:
-      title: Timeout for data proxy requests in seconds
+      title: Data proxy timeout
+      description: Timeout for data proxy requests in seconds
       type: integer
       minimum: 15
       maximum: 90
@@ -2211,67 +2246,77 @@ grafana:
       type: object
       properties:
         default_timezone:
-          title: Default time zone for user preferences. Value 'browser' uses browser local time zone.
+          title: Default time zone
+          description: Default time zone for user preferences. Value 'browser' uses browser local time zone.
           type: string
           max_length: 64
           pattern: (?i)^([a-zA-Z_]+/){1,2}[a-zA-Z_-]+$|^(Etc/)?(UTC|GMT)([+-](\d){1,2})?$|^(Factory)$|^(browser)$
           example: Europe/Helsinki
           user_error: Value must be either 'browser' or timezone name in IANA timezone name format (Continent/City, e.g. Europe/Helsinki).
         full_date:
-          title: Moment.js style format string for cases where full date is shown
+          title: Full date format
+          description: Moment.js style format string for cases where full date is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: YYYY MM DD
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
         interval_day:
-          title: Moment.js style format string used when a time requiring day accuracy is shown
+          title: Interval day format
+          description: Moment.js style format string used when a time requiring day accuracy is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: MM/DD
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
         interval_hour:
-          title: Moment.js style format string used when a time requiring hour accuracy is shown
+          title: Interval hour format
+          description: Moment.js style format string used when a time requiring hour accuracy is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: MM/DD HH:mm
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
         interval_minute:
-          title: Moment.js style format string used when a time requiring minute accuracy is shown
+          title: Interval minute format
+          description: Moment.js style format string used when a time requiring minute accuracy is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: HH:mm
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
         interval_month:
-          title: Moment.js style format string used when a time requiring month accuracy is shown
+          title: Interval month format
+          description: Moment.js style format string used when a time requiring month accuracy is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: YYYY-MM
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
         interval_second:
-          title: Moment.js style format string used when a time requiring second accuracy is shown
+          title: Interval second format
+          description: Moment.js style format string used when a time requiring second accuracy is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: HH:mm:ss
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
         interval_year:
-          title: Moment.js style format string used when a time requiring year accuracy is shown
+          title: Interval year format
+          description: Moment.js style format string used when a time requiring year accuracy is shown
           type: string
           max_length: 128
           pattern: '^(([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|LTS|LT|LL?L?L?|l{1,4}|[-+/T,;.: ]?)*)$'
           example: YYYY
           user_error: 'Value must consist of moment.js style formatting tokens (see https://momentjs.com/docs/#/displaying/format/ for a complete list of formatting tokens) or the following delimiters: ''-'', ''+'', ''/'', ''T'', '',''(comma), '';'', ''.'', '':'' and '' ''(space) '
     disable_gravatar:
-      title: Set to true to disable gravatar. Defaults to false (gravatar is enabled)
+      title: Disable Gravatar
+      description: Set to true to disable gravatar. Defaults to false (gravatar is enabled)
       type: boolean
       example: false
     editors_can_admin:
-      title: Editors can manage folders, teams and dashboards created by them
+      title: Editors can admin
+      description: Editors can manage folders, teams and dashboards created by them
       type: boolean
       example: false
     external_image_storage:
@@ -2284,23 +2329,27 @@ grafana:
         - secret_key
       properties:
         access_key:
-          title: S3 access key. Requires permissions to the S3 bucket for the s3:PutObject and s3:PutObjectAcl actions
+          title: S3 access key
+          description: S3 access key. Requires permissions to the S3 bucket for the s3:PutObject and s3:PutObjectAcl actions
           type: string
           max_length: 4096
           pattern: ^[A-Z0-9]+$
           example: AAAAAAAAAAAAAAAAAAA
         bucket_url:
-          title: Bucket URL for S3
+          title: Bucket URL
+          description: Bucket URL for S3
           type: string
           max_length: 2048
           example: https://grafana.s3-ap-southeast-2.amazonaws.com/
         provider:
           title: Provider type
+          description: External image store provider
           type: string
           enum:
             - value: s3
         secret_key:
           title: S3 secret key
+          description: S3 secret key
           type: string
           max_length: 4096
           pattern: ^[A-Za-z0-9/+=]+$
@@ -2340,11 +2389,13 @@ grafana:
         example: 10.20.0.0/16
       max_items: 1024
     metrics_enabled:
-      title: Enable Grafana /metrics endpoint
+      title: Metrics enabled
+      description: Enable Grafana's /metrics endpoint
       type: boolean
       example: true
     oauth_allow_insecure_email_lookup:
-      title: Enforce user lookup based on email instead of the unique ID provided by the IdP
+      title: Allow insecure email lookup
+      description: Enforce user lookup based on email instead of the unique ID provided by the IdP
       type: boolean
       example: false
     private_access:
@@ -2411,14 +2462,16 @@ grafana:
         - from_address
       properties:
         from_address:
-          title: Address used for sending emails
+          title: From address
+          description: Address used for sending emails
           type: string
           max_length: 319
           pattern: ^[A-Za-z0-9_\-\.+\'&]+@(([\da-zA-Z])([_\w-]{,62})\.){,127}(([\da-zA-Z])[_\w-]{,61})?([\da-zA-Z]\.((xn\-\-[a-zA-Z\d]+)|([a-zA-Z\d]{2,})))$
           example: yourgrafanauser@yourdomain.example.com
           user_error: Must be a valid email address
         from_name:
-          title: Name used in outgoing emails, defaults to Grafana
+          title: From name
+          description: Name used in outgoing emails, defaults to Grafana
           type:
             - string
             - "null"
@@ -2426,7 +2479,8 @@ grafana:
           pattern: ^[^\x00-\x1F]+$
           example: Company Grafana
         host:
-          title: Server hostname or IP
+          title: SMTP server hostname
+          description: Server hostname or IP
           type: string
           max_length: 255
           example: smtp.example.com
@@ -2446,11 +2500,13 @@ grafana:
           maximum: 65535
           example: "25"
         skip_verify:
-          title: Skip verifying server certificate. Defaults to false
+          title: Skip certificate verification
+          description: Skip verifying server certificate. Defaults to false
           type: boolean
           example: "false"
         starttls_policy:
-          title: Either OpportunisticStartTLS, MandatoryStartTLS or NoStartTLS. Default is OpportunisticStartTLS.
+          title: StartTLS policy
+          description: Either OpportunisticStartTLS, MandatoryStartTLS or NoStartTLS. Default is OpportunisticStartTLS.
           type: string
           enum:
             - value: MandatoryStartTLS
@@ -2471,15 +2527,18 @@ grafana:
       type: boolean
       example: true
     unified_alerting_enabled:
-      title: Enable or disable Grafana unified alerting functionality. By default this is enabled and any legacy alerts will be migrated on upgrade to Grafana 9+. To stay on legacy alerting, set unified_alerting_enabled to false and alerting_enabled to true. See https://grafana.com/docs/grafana/latest/alerting/set-up/migrating-alerts/ for more details.
+      title: Unified alerting enabled
+      description: Enable or disable Grafana unified alerting functionality. By default this is enabled and any legacy alerts will be migrated on upgrade to Grafana 9+. To stay on legacy alerting, set unified_alerting_enabled to false and alerting_enabled to true. See https://grafana.com/docs/grafana/latest/alerting/ for more details.
       type: boolean
       example: true
     user_auto_assign_org:
-      title: Auto-assign new users on signup to main organization. Defaults to false
+      title: Auto-assign new users to main organization
+      description: Auto-assign new users on signup to main organization. Defaults to false
       type: boolean
       example: false
     user_auto_assign_org_role:
-      title: Set role for new signups. Defaults to Viewer
+      title: Auto-assign role for new users
+      description: Set role for new signups. Defaults to Viewer
       type: string
       enum:
         - value: Admin
@@ -2487,11 +2546,13 @@ grafana:
         - value: Viewer
       example: Viewer
     viewers_can_edit:
-      title: Users with view-only permission can edit but not save dashboards
+      title: Viewers can edit
+      description: Users with view-only permission can edit but not save dashboards
       type: boolean
       example: false
     wal:
-      title: Setting to enable/disable Write-Ahead Logging. The default value is false (disabled).
+      title: Write-Ahead Logging
+      description: Setting to enable/disable Write-Ahead Logging. The default value is false (disabled).
       type: boolean
       example: false
 influxdb:
@@ -5248,7 +5309,7 @@ opensearch:
                   title: internal_authentication_backend_limiting.allowed_tries
                   description: The number of login attempts allowed before login is blocked
                   type: integer
-                  minimum: 0
+                  minimum: 1
                   maximum: 2.147483647e+09
                   example: "10"
                 authentication_backend:
@@ -5310,7 +5371,7 @@ opensearch:
                   title: ip_rate_limiting.block_expiry_seconds
                   description: The duration of time that login remains blocked after a failed login
                   type: integer
-                  minimum: 1
+                  minimum: 0
                   maximum: 36000
                   example: "600"
                 max_blocked_clients:
@@ -5331,7 +5392,7 @@ opensearch:
                   title: ip_rate_limiting.time_window_seconds
                   description: The window of time in which the value for `allowed_tries` is enforced
                   type: integer
-                  minimum: 1
+                  minimum: 0
                   maximum: 36000
                   example: "3600"
                 type:
