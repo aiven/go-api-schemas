@@ -2613,9 +2613,7 @@ influxdb:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     influxdb:
@@ -2658,9 +2656,7 @@ influxdb:
           maximum: 3600
     influxdb_version:
       title: InfluxDB major version
-      type:
-        - string
-        - "null"
+      type: string
       default: "1.8"
       enum:
         - value: "1.8"
@@ -2710,9 +2706,7 @@ influxdb:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -2734,15 +2728,11 @@ influxdb:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$

@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
@@ -49,6 +50,9 @@ type schema struct {
 	XUserError  string `json:"x-user_error,omitempty"`
 	XCreateOnly bool   `json:"x-createOnly,omitempty"`
 	XSecure     bool   `json:"x-_secure,omitempty"`
+
+	// Internal
+	isRequired bool // true, when a field is on the parent's Required list
 }
 
 // maxSafeInteger
@@ -170,6 +174,7 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 	}
 
 	for k, v := range src.Properties {
+		v.isRequired = slices.Contains(src.Required, k)
 		child, err := toUserConfig(v)
 		if err != nil {
 			return nil, err
@@ -234,7 +239,8 @@ func normalizeType(s *schema) ([]string, error) {
 		return nil, fmt.Errorf("unknown type %T", s.Type)
 	}
 
-	if s.Nullable {
+	// Golang supports null for required fields only
+	if s.isRequired && s.Nullable {
 		result = append(result, "null")
 	}
 
