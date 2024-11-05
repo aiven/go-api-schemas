@@ -3,7 +3,6 @@ version: "3"
 tasks:
   curlSpec:
     cmds:
-      - curl -s -o openapi-uc.json https://api.aiven.io/doc/openapi-uc.json
       - curl -s -o service_types.json https://api.aiven.io/v1/service_types
   curlSpecSensitive:
     requires:
@@ -16,7 +15,7 @@ tasks:
     silent: true
   generate:
     cmds:
-      - go run main.go service_types.json integration_types.json integration_endpoint_types.json openapi-uc.json
+      - go run main.go service_types.json integration_types.json integration_endpoint_types.json
   run:
     cmds:
       - task: curlSpec

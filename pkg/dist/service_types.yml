@@ -405,38 +405,6 @@ alloydbomni:
           minimum: 10
           maximum: 200
           example: "50"
-    pg_qualstats:
-      title: pg_qualstats settings
-      description: System-wide settings for the pg_qualstats extension
-      type: object
-      properties:
-        enabled:
-          title: Enable pg_qualstats
-          description: Enable / Disable pg_qualstats
-          type: boolean
-          default: false
-        min_err_estimate_num:
-          title: Min error estimation number
-          description: Error estimation num threshold to save quals
-          type: integer
-          default: "0"
-          minimum: 0
-        min_err_estimate_ratio:
-          title: Min error estimation ratio
-          description: Error estimation ratio threshold to save quals
-          type: integer
-          default: "0"
-          minimum: 0
-        track_constants:
-          title: Track constants
-          description: Enable / Disable pg_qualstats constants tracking
-          type: boolean
-          default: true
-        track_pg_catalog:
-          title: Track pg_catalog
-          description: Track quals on system catalogs too.
-          type: boolean
-          default: false
     pg_read_replica:
       title: Should the service which is being forked be a read replica (deprecated, use read_replica service integration instead).
       description: This setting is deprecated. Use read_replica service integration instead.
@@ -454,92 +422,6 @@ alloydbomni:
       type: string
       enum:
         - value: "15"
-    pgaudit:
-      title: PGAudit settings
-      description: System-wide settings for the pgaudit extension
-      type: object
-      properties:
-        feature_enabled:
-          title: Enable pgaudit extension.
-          description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
-          type: boolean
-          default: false
-        log:
-          title: Specifies which classes of statements will be logged by session audit logging.
-          type: array
-          items:
-            type: string
-            enum:
-              - value: all
-              - value: ddl
-              - value: function
-              - value: misc
-              - value: misc_set
-              - value: read
-              - value: role
-              - value: write
-        log_catalog:
-          title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
-          type: boolean
-          default: true
-        log_client:
-          title: Specifies whether log messages will be visible to a client process such as psql.
-          type: boolean
-          default: false
-        log_level:
-          title: Specifies the log level that will be used for log entries.
-          type: string
-          default: log
-          enum:
-            - value: debug1
-            - value: debug2
-            - value: debug3
-            - value: debug4
-            - value: debug5
-            - value: info
-            - value: log
-            - value: notice
-            - value: warning
-        log_max_string_length:
-          title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
-          type: integer
-          default: "-1"
-          minimum: -1
-          maximum: 102400
-        log_nested_statements:
-          title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
-          type: boolean
-          default: true
-        log_parameter:
-          title: Specifies that audit logging should include the parameters that were passed with the statement.
-          type: boolean
-          default: false
-        log_parameter_max_size:
-          title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
-          type: integer
-          default: "0"
-        log_relation:
-          title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
-          type: boolean
-          default: false
-        log_rows:
-          title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
-          type: boolean
-          default: false
-        log_statement:
-          title: Specifies whether logging will include the statement text and parameters (if enabled).
-          type: boolean
-          default: true
-        log_statement_once:
-          title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
-          type: boolean
-          default: false
-        role:
-          title: Specifies the master role to use for object audit logging.
-          type: string
-          max_length: 64
-          pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
-          user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     pgbouncer:
       title: PGBouncer connection pooling settings
       description: System-wide settings for pgbouncer.
@@ -809,7 +691,9 @@ cassandra:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3"
-        - value: "4"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "4"
         - value: "4.1"
       pattern: ^[0-9]+(\.[0-9]+)?$
     ip_filter:
@@ -1798,16 +1682,13 @@ flink:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
-    custom_code:
-      title: Custom code enabled
-      description: Enable to upload Custom JARs for Flink applications
-      type: boolean
-      example: false
     flink_version:
       title: Flink major version
       type: string
       enum:
-        - value: "1.16"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "1.16"
         - value: "1.19"
       create_only: true
     ip_filter:
@@ -2610,6 +2491,19 @@ grafana:
 influxdb:
   type: object
   properties:
+    additional_backup_regions:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
+      title: Additional Cloud Regions for Backup Replication
+      type: array
+      items:
+        title: Target cloud
+        type: string
+        max_length: 256
+        pattern: ^[a-z0-9-]+$
+        example: aws-eu-central-1
+        user_error: Must consist of lower-case alpha-numeric characters or dashes
+      max_items: 1
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
@@ -3303,37 +3197,6 @@ kafka:
                 type: string
                 max_length: 256
                 _secure: true
-    kafka_lag_predictor:
-      title: Kafka Lag Predictor configuration
-      type: object
-      properties:
-        enabled:
-          title: Enable Kafka lag predictor service
-          description: Kafka lag predictor emits metrics of predicted time lag of consumer groups to catch the latest produced offset. Metric data scraping requires the Prometheus integration for Kafka service.
-          type: boolean
-          default: false
-        group_filters:
-          title: Consumer group filters
-          description: Filter consumer groups by the pattern.If configuration is not set or has an empty value no filtering is applied and all consumer groups are included in lag prediction.If one of the patterns matches consumer group name the consumer group is included in lag prediction.
-          type: array
-          items:
-            title: Filter pattern
-            description: Single filter pattern. Pattern can contain wildcard '*' and '?'. Question mark matches any valid character for consumer group name.
-            type: string
-            pattern: ^[-_.*?A-Za-z0-9]+$
-            example: group?-*match
-          max_items: 32
-        topics:
-          title: List of topics and/or patterns to include in lag prediction
-          description: Include only topics matched by a pattern.If configuration is not set or has an empty value all topics are included in lag prediction. If one of the patterns matches topic name the topic is included in lag prediction.
-          type: array
-          items:
-            title: Filter pattern
-            description: Single filter pattern. Pattern can contain wildcard '*' and '?'. Question mark matches any valid character for topic name.
-            type: string
-            pattern: ^[-_.*?A-Za-z0-9]+$
-            example: topic?-*match
-          max_items: 32
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -3456,11 +3319,14 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.4"
-        - value: "3.5"
-        - value: "3.6"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.5"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.6"
         - value: "3.7"
         - value: "3.8"
-        - value: "3.9"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
@@ -6090,6 +5956,8 @@ pg:
   type: object
   properties:
     additional_backup_regions:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -6543,33 +6411,45 @@ pg:
           maximum: 200
           example: "50"
     pg_qualstats:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: pg_qualstats settings
       description: System-wide settings for the pg_qualstats extension
       type: object
       properties:
         enabled:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Enable pg_qualstats
           description: Enable / Disable pg_qualstats
           type: boolean
           default: false
         min_err_estimate_num:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Min error estimation number
           description: Error estimation num threshold to save quals
           type: integer
           default: "0"
           minimum: 0
         min_err_estimate_ratio:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Min error estimation ratio
           description: Error estimation ratio threshold to save quals
           type: integer
           default: "0"
           minimum: 0
         track_constants:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Track constants
           description: Enable / Disable pg_qualstats constants tracking
           type: boolean
           default: true
         track_pg_catalog:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Track pg_catalog
           description: Track quals on system catalogs too.
           type: boolean
@@ -6601,23 +6481,30 @@ pg:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "11"
-        - value: "12"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "12"
         - value: "13"
         - value: "14"
         - value: "15"
         - value: "16"
-        - value: "17"
     pgaudit:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: PGAudit settings
       description: System-wide settings for the pgaudit extension
       type: object
       properties:
         feature_enabled:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Enable pgaudit extension.
           description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
           type: boolean
           default: false
         log:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies which classes of statements will be logged by session audit logging.
           type: array
           items:
@@ -6632,62 +6519,104 @@ pg:
               - value: role
               - value: write
         log_catalog:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether log messages will be visible to a client process such as psql.
           type: boolean
           default: false
         log_level:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies the log level that will be used for log entries.
           type: string
           default: log
           enum:
-            - value: debug1
-            - value: debug2
-            - value: debug3
-            - value: debug4
-            - value: debug5
-            - value: info
-            - value: log
-            - value: notice
-            - value: warning
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug1
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug2
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug3
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug4
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: debug5
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: info
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: notice
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: warning
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: log
         log_max_string_length:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that audit logging should include the parameters that were passed with the statement.
           type: boolean
           default: false
         log_parameter_max_size:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
           type: boolean
           default: false
         log_statement:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether logging will include the statement text and parameters (if enabled).
           type: boolean
           default: true
         log_statement_once:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:
+          is_deprecated: true
+          deprecation_notice: This property is deprecated.
           title: Specifies the master role to use for object audit logging.
           type: string
           max_length: 64
