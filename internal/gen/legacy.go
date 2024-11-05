@@ -1,6 +1,8 @@
 package gen
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type legacyDoc struct {
 	ServiceTypes     map[string]legacySchema `json:"service_types"`
@@ -25,17 +27,17 @@ func legacyToComponents(d *doc) {
 	}
 
 	for k, v := range d.ServiceTypes {
-		key := fmt.Sprintf("Service_%s_UserConfig", k)
+		key := fmt.Sprintf("Service%sUserConfig", k)
 		d.Components.Schemas[key] = v.UserConfigSchema
 	}
 
 	for _, v := range d.IntegrationTypes {
-		key := fmt.Sprintf("Integration_%s_UserConfig", v.Key)
+		key := fmt.Sprintf("Integration%sUserConfig", v.Key)
 		d.Components.Schemas[key] = v.UserConfigSchema
 	}
 
 	for _, v := range d.IntegrationEndpointTypes {
-		key := fmt.Sprintf("IntegrationEndpoint_%s_UserConfig", v.Key)
+		key := fmt.Sprintf("IntegrationEndpoint%sUserConfig", v.Key)
 		d.Components.Schemas[key] = v.UserConfigSchema
 	}
 }

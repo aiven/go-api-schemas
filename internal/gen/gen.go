@@ -10,6 +10,8 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/huandu/xstrings"
+
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
 )
 
@@ -57,7 +59,7 @@ type schema struct {
 
 // maxSafeInteger
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-const maxSafeInteger = 9007199254740991.0
+const maxSafeInteger = float64(1<<53 - 1) // Or 9007199254740991.0
 
 func isSafeInt(v float64) bool {
 	// Maximum is float64, it can't fit more that 2^53-1
@@ -101,10 +103,11 @@ func fromFile(fileName string) (types.GenerationResult, error) {
 		}
 
 		kind := kinds[match[1]]
-		name := toSnakeCase(match[2])
-
-		// Handle a special case
-		name = strings.ReplaceAll(name, "m3_", "m3")
+		name := match[2]
+		if !strings.HasPrefix(name, "m3") {
+			// m3 is a special case
+			name = xstrings.ToSnakeCase(match[2])
+		}
 
 		uc, err := toUserConfig(v)
 		if err != nil {
@@ -309,20 +312,4 @@ func Run(fileNames ...string) (types.GenerationResult, error) {
 		}
 	}
 	return result, nil
-}
-
-// reUnderscore finds multiple underscores.
-var reUnderscore = regexp.MustCompile(`_+`)
-
-// toSnakeCase converts a string to snake case.
-// strcase fails with S3 like strings https://github.com/iancoleman/strcase/issues/42
-func toSnakeCase(s string) string {
-	var r string
-	for i, v := range s {
-		if i > 0 && v >= 'A' && v <= 'Z' {
-			r += "_"
-		}
-		r += string(v)
-	}
-	return strings.Trim(reUnderscore.ReplaceAllString(strings.ToLower(r), "_"), "_")
 }

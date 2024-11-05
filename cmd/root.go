@@ -23,7 +23,7 @@ var logger = &util.Logger{}
 // NewCmdRoot returns a pointer to the root command.
 func NewCmdRoot(l *util.Logger) *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "go-api-schemas openapi.json",
+		Use: "go-api-schemas foo.json bar.json baz.json",
 		Short: "go-api-schemas is a tool for generating and persisting user configuration option schemas from " +
 			"Aiven APIs.",
 		Run:  run,

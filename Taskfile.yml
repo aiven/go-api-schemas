@@ -3,7 +3,7 @@ version: "3"
 tasks:
   curlSpec:
     cmds:
-      - curl -s -o service_types.json https://api.aiven.io/v1/service_types
+      - curl -so service_types.json https://api.aiven.io/v1/service_types
   curlSpecSensitive:
     requires:
       vars:
@@ -11,7 +11,7 @@ tasks:
         - AIVEN_PROJECT_NAME
     cmds:
       - for: [integration_types, integration_endpoint_types]
-        cmd: 'curl -s -o {{.ITEM}}.json https://api.aiven.io/v1/project/{{.AIVEN_PROJECT_NAME}}/{{.ITEM}} --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
+        cmd: 'curl -so {{.ITEM}}.json https://api.aiven.io/v1/project/{{.AIVEN_PROJECT_NAME}}/{{.ITEM}} --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
     silent: true
   generate:
     cmds:
@@ -27,3 +27,8 @@ tasks:
   test:
     cmds:
       - go test -v ./...
+  curlDist:
+    desc: During the development, the diff might change multiple times. Downloads files from main
+    cmds:
+      - for: [service_types, integration_types, integration_endpoint_types]
+        cmd: "curl -so ./pkg/dist/{{.ITEM}}.yml https://raw.githubusercontent.com/aiven/go-api-schemas/refs/heads/main/pkg/dist/{{.ITEM}}.yml"
