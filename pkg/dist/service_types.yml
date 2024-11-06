@@ -4500,6 +4500,11 @@ mysql:
       minimum: 600
       maximum: 86400
       example: "600"
+    enable_ipv6:
+      title: Enable IPv6
+      description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
+      type: boolean
+      example: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'

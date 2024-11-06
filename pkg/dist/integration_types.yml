@@ -553,7 +553,7 @@ kafka_mirrormaker:
       properties:
         consumer_auto_offset_reset:
           title: Set the auto.offset.reset to consumer.
-          description: 'Set where consumer starts to consume data. Value `earliest`: Start replication from the earliest offset. Value `latest`: Start replication from the latest offset. Default is `earliest`.'
+          description: 'Set where consumer starts to consume data. Value `earliest`: Start replication from the earliest offset. Value `latest`: Start replication from the latest offset. Default is `latest`.'
           type:
             - string
             - "null"
