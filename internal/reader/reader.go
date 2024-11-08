@@ -2,12 +2,10 @@
 package reader
 
 import (
-	"context"
 	"os"
 	"strings"
 
 	"github.com/spf13/pflag"
-	"golang.org/x/sync/errgroup"
 	"gopkg.in/yaml.v3"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
@@ -52,22 +50,16 @@ func read(filename string, schema map[string]types.UserConfigSchema) error {
 
 // readServiceTypes reads the service types from a file.
 func readServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return read(util.ServiceTypesFilename, result[types.KeyServiceTypes])
 }
 
 // readIntegrationTypes reads the integration types from a file.
 func readIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return read(util.IntegrationTypesFilename, result[types.KeyIntegrationTypes])
 }
 
 // readIntegrationEndpointTypes reads the integration endpoint types from a file.
 func readIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return read(util.IntegrationEndpointTypesFilename, result[types.KeyIntegrationEndpointTypes])
 }
 
@@ -84,17 +76,18 @@ func setup(l *util.Logger, f *pflag.FlagSet) {
 }
 
 // Run runs the reader.
-func Run(ctx context.Context, logger *util.Logger, flags *pflag.FlagSet) (types.ReadResult, error) {
+func Run(logger *util.Logger, flags *pflag.FlagSet) (types.ReadResult, error) {
 	setup(logger, flags)
 
-	errs, _ := errgroup.WithContext(ctx)
+	if err := readServiceTypes(); err != nil {
+		return nil, err
+	}
 
-	errs.Go(readServiceTypes)
-	errs.Go(readIntegrationTypes)
-	errs.Go(readIntegrationEndpointTypes)
+	if err := readIntegrationTypes(); err != nil {
+		return nil, err
+	}
 
-	err := errs.Wait()
-	if err != nil {
+	if err := readIntegrationEndpointTypes(); err != nil {
 		return nil, err
 	}
 

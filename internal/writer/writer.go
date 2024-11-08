@@ -2,12 +2,10 @@
 package writer
 
 import (
-	"context"
 	"os"
 	"strings"
 
 	"github.com/spf13/pflag"
-	"golang.org/x/sync/errgroup"
 	"gopkg.in/yaml.v3"
 
 	"github.com/aiven/go-api-schemas/internal/pkg/types"
@@ -61,22 +59,16 @@ func write(filename string, schema map[string]types.UserConfigSchema) error {
 
 // writeServiceTypes writes the service types to a file.
 func writeServiceTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return write(util.ServiceTypesFilename, result[types.KeyServiceTypes])
 }
 
 // writeIntegrationTypes writes the integration types to a file.
 func writeIntegrationTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return write(util.IntegrationTypesFilename, result[types.KeyIntegrationTypes])
 }
 
 // writeIntegrationEndpointTypes writes the integration endpoint types to a file.
 func writeIntegrationEndpointTypes() error {
-	defer util.MeasureExecutionTime(logger)()
-
 	return write(util.IntegrationEndpointTypesFilename, result[types.KeyIntegrationEndpointTypes])
 }
 
@@ -88,14 +80,20 @@ func setup(l *util.Logger, f *pflag.FlagSet, r types.DiffResult) {
 }
 
 // Run runs the writer.
-func Run(ctx context.Context, logger *util.Logger, flags *pflag.FlagSet, result types.DiffResult) error {
+func Run(logger *util.Logger, flags *pflag.FlagSet, result types.DiffResult) error {
 	setup(logger, flags, result)
 
-	errs, _ := errgroup.WithContext(ctx)
+	if err := writeServiceTypes(); err != nil {
+		return err
+	}
 
-	errs.Go(writeServiceTypes)
-	errs.Go(writeIntegrationTypes)
-	errs.Go(writeIntegrationEndpointTypes)
+	if err := writeIntegrationTypes(); err != nil {
+		return err
+	}
 
-	return errs.Wait()
+	if err := writeIntegrationEndpointTypes(); err != nil {
+		return err
+	}
+
+	return nil
 }

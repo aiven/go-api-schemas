@@ -14,9 +14,7 @@ alloydbomni:
       max_items: 1
     admin_password:
       title: Custom password for admin user. Defaults to random string. This must be set only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       min_length: 8
       max_length: 256
       create_only: true
@@ -26,9 +24,7 @@ alloydbomni:
       _secure: true
     admin_username:
       title: Custom username for admin user. This must be set only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
@@ -36,24 +32,18 @@ alloydbomni:
       user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     alloydbomni_version:
       title: PostgreSQL major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "15"
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 23
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 59
       example: "30"
@@ -352,8 +342,7 @@ alloydbomni:
         pg_stat_statements.track:
           title: pg_stat_statements.track
           description: Controls which statements are counted. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable statement statistics collection. The default value is top.
-          type:
-            - string
+          type: string
           enum:
             - value: all
             - value: none
@@ -419,24 +408,18 @@ alloydbomni:
     pg_read_replica:
       title: Should the service which is being forked be a read replica (deprecated, use read_replica service integration instead).
       description: This setting is deprecated. Use read_replica service integration instead.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     pg_service_to_fork_from:
       title: Name of the PG Service from which to fork (deprecated, use service_to_fork_from). This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
     pg_version:
       title: PostgreSQL major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "15"
     pgbouncer:
@@ -523,7 +506,7 @@ alloydbomni:
       description: System-wide settings for pglookout.
       type: object
       default:
-        max_failover_replication_time_lag: "60"
+        max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
           title: max_failover_replication_time_lag
@@ -565,9 +548,7 @@ alloydbomni:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -590,24 +571,18 @@ alloydbomni:
           example: true
     recovery_target_time:
       title: Recovery target time when forking a service. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 32
       create_only: true
       example: "2019-01-01 23:34:45"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -633,9 +608,7 @@ alloydbomni:
       example: "off"
     variant:
       title: Variant of the PostgreSQL service, may affect the features that are exposed by default
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: aiven
         - value: timescale
@@ -663,17 +636,13 @@ cassandra:
       max_items: 1
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 23
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 59
       example: "30"
@@ -717,14 +686,14 @@ cassandra:
           example: "2000"
     cassandra_version:
       title: Cassandra version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3"
-        - value: "4"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "4"
         - value: "4.1"
       pattern: ^[0-9]+(\.[0-9]+)?$
     ip_filter:
@@ -769,9 +738,7 @@ cassandra:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -787,15 +754,11 @@ cassandra:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -897,9 +860,7 @@ clickhouse:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -933,15 +894,11 @@ clickhouse:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -999,9 +956,7 @@ dragonfly:
       max_items: 1024
     migration:
       title: Migrate data from existing server
-      type:
-        - object
-        - "null"
+      type: object
       required:
         - host
         - port
@@ -1080,9 +1035,7 @@ dragonfly:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -1108,15 +1061,11 @@ dragonfly:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -1735,11 +1684,11 @@ flink:
       max_items: 1
     flink_version:
       title: Flink major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
-        - value: "1.16"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "1.16"
         - value: "1.19"
       create_only: true
     ip_filter:
@@ -1813,9 +1762,7 @@ flink:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     static_ips:
       title: Static IP addresses
@@ -2205,9 +2152,7 @@ grafana:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     dashboard_previews_enabled:
@@ -2416,9 +2361,7 @@ grafana:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -2440,15 +2383,11 @@ grafana:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -2472,9 +2411,7 @@ grafana:
         from_name:
           title: From name
           description: Name used in outgoing emails, defaults to Grafana
-          type:
-            - string
-            - "null"
+          type: string
           max_length: 128
           pattern: ^[^\x00-\x1F]+$
           example: Company Grafana
@@ -2486,9 +2423,7 @@ grafana:
           example: smtp.example.com
         password:
           title: Password for SMTP authentication
-          type:
-            - string
-            - "null"
+          type: string
           max_length: 255
           pattern: ^[^\x00-\x1F]+$
           example: ein0eemeev5eeth3Ahfu
@@ -2515,9 +2450,7 @@ grafana:
           example: NoStartTLS
         username:
           title: Username for SMTP authentication
-          type:
-            - string
-            - "null"
+          type: string
           max_length: 255
           pattern: ^[^\x00-\x1F]+$
           example: smtpuser
@@ -2574,9 +2507,7 @@ influxdb:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     influxdb:
@@ -2619,9 +2550,7 @@ influxdb:
           maximum: 3600
     influxdb_version:
       title: InfluxDB major version
-      type:
-        - string
-        - "null"
+      type: string
       default: "1.8"
       enum:
         - value: "1.8"
@@ -2671,9 +2600,7 @@ influxdb:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -2695,15 +2622,11 @@ influxdb:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -2736,9 +2659,7 @@ kafka:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     follower_fetching:
@@ -2870,7 +2791,6 @@ kafka:
           description: 'The number of messages accumulated on a log partition before messages are flushed to disk (Default: 9223372036854775807 (Long.MAX_VALUE))'
           type: integer
           minimum: 1
-          example: "9223372036854775807"
         log_flush_interval_ms:
           title: log.flush.interval.ms
           description: 'The maximum time in ms that a message in any topic is kept in memory (page-cache) before flushed to disk. If not set, the value in log.flush.scheduler.interval.ms is used (Default: null)'
@@ -3267,8 +3187,8 @@ kafka:
                 description: An enumeration.
                 type: integer
                 enum:
-                  - value: "1"
-                  - value: "2"
+                  - value: 1
+                  - value: 2
               prefix_path_depth:
                 title: Prefix path depth of the secrets Engine. Default is 1. If the secrets engine path has more than one segment it has to be increased to the number of segments.
                 type: integer
@@ -3307,9 +3227,9 @@ kafka:
           type: integer
           default: "1000"
           enum:
-            - value: "1000"
-            - value: "15000"
-            - value: "30000"
+            - value: 1000
+            - value: 15000
+            - value: 30000
           minimum: 1000
           maximum: 30000
         name_strategy:
@@ -3385,9 +3305,7 @@ kafka:
           default: true
     kafka_version:
       title: Kafka major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
@@ -3401,16 +3319,18 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.4"
-        - value: "3.5"
-        - value: "3.6"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.5"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.6"
         - value: "3.7"
         - value: "3.8"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     private_access:
       title: Allow access to selected service ports from private networks
@@ -3523,9 +3443,7 @@ kafka:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     single_zone:
       title: Single-zone configuration
@@ -3833,8 +3751,8 @@ kafka_connect:
                 description: An enumeration.
                 type: integer
                 enum:
-                  - value: "1"
-                  - value: "2"
+                  - value: 1
+                  - value: 2
               prefix_path_depth:
                 title: Prefix path depth of the secrets Engine. Default is 1. If the secrets engine path has more than one segment it has to be increased to the number of segments.
                 type: integer
@@ -3846,9 +3764,7 @@ kafka_connect:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     static_ips:
       title: Static IP addresses
@@ -3904,9 +3820,7 @@ kafka_mirrormaker:
       properties:
         admin_timeout_ms:
           description: Timeout for administrative tasks, e.g. detecting new topics, loading of consumer group and offsets. Defaults to 60000 milliseconds (1 minute).
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 30000
           maximum: 1.8e+06
           example: "60000"
@@ -3990,9 +3904,7 @@ kafka_mirrormaker:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     static_ips:
       title: Static IP addresses
@@ -4005,9 +3917,7 @@ m3aggregator:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     ip_filter:
@@ -4039,9 +3949,7 @@ m3aggregator:
       max_items: 1024
     m3aggregator_version:
       title: M3 major version (the minimum compatible version)
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "1.1"
         - value: "1.2"
@@ -4049,9 +3957,7 @@ m3aggregator:
       example: "1.1"
     m3_version:
       title: M3 major version (deprecated, use m3aggregator_version)
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "1.1"
         - value: "1.2"
@@ -4060,9 +3966,7 @@ m3aggregator:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     static_ips:
       title: Static IP addresses
@@ -4086,9 +3990,7 @@ m3db:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     ip_filter:
@@ -4176,9 +4078,7 @@ m3db:
       example: true
     m3db_version:
       title: M3 major version (the minimum compatible version)
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "1.1"
         - value: "1.2"
@@ -4186,9 +4086,7 @@ m3db:
       example: "1.1"
     m3_version:
       title: M3 major version (deprecated, use m3db_version)
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "1.1"
         - value: "1.2"
@@ -4285,9 +4183,7 @@ m3db:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -4424,15 +4320,11 @@ m3db:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -4458,9 +4350,7 @@ mysql:
       max_items: 1
     admin_password:
       title: Custom password for admin user. Defaults to random string. This must be set only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       min_length: 8
       max_length: 256
       create_only: true
@@ -4470,9 +4360,7 @@ mysql:
       _secure: true
     admin_username:
       title: Custom username for admin user. This must be set only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
@@ -4480,17 +4368,13 @@ mysql:
       user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 23
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 59
       example: "30"
@@ -4529,9 +4413,7 @@ mysql:
       max_items: 1024
     migration:
       title: Migrate data from existing server
-      type:
-        - object
-        - "null"
+      type: object
       required:
         - host
         - port
@@ -4640,9 +4522,7 @@ mysql:
         innodb_ft_server_stopword_table:
           title: innodb_ft_server_stopword_table
           description: This option is used to specify your own InnoDB FULLTEXT index stopword list for all InnoDB tables.
-          type:
-            - "null"
-            - string
+          type: string
           max_length: 1024
           pattern: ^.+/.+$
           example: db_name/table_name
@@ -4729,7 +4609,7 @@ mysql:
           type: number
           minimum: 0
           maximum: 3600
-          example: "10"
+          example: "10.0"
         max_allowed_packet:
           title: max_allowed_packet
           description: Size of the largest message in bytes that can be received by the server. Default is 67108864 (64M)
@@ -4806,9 +4686,7 @@ mysql:
           example: "28800"
     mysql_version:
       title: MySQL major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "8"
     private_access:
@@ -4845,9 +4723,7 @@ mysql:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -4870,24 +4746,18 @@ mysql:
           example: true
     recovery_target_time:
       title: Recovery target time when forking a service. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 32
       create_only: true
       example: "2019-01-01 23:34:45"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -4983,17 +4853,13 @@ opensearch:
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 255
       example: grafana.example.org
     disable_replication_factor_adjustment:
       title: Disable replication factor adjustment
       description: 'DEPRECATED: Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can no longer be activated.'
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: false
     gcs_migration:
       description: Google Cloud Storage migration settings
@@ -5112,27 +4978,21 @@ opensearch:
         mapping_nested_objects_limit:
           title: index.mapping.nested_objects.limit
           description: The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document contains too many nested objects. Default is 10000.
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 0
           maximum: 100000
           example: "10000"
         number_of_replicas:
           title: index.number_of_replicas
           description: The number of replicas each primary shard has.
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 0
           maximum: 29
           example: "1"
         number_of_shards:
           title: index.number_of_shards
           description: The number of primary shards that an index should have.
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 1
           maximum: 1024
           example: "1"
@@ -5221,9 +5081,7 @@ opensearch:
         jwt_header:
           title: The HTTP header that stores the token
           description: 'The HTTP header that stores the token. Typically the Authorization header with the Bearer schema: Authorization: Bearer <token>. Optional. Default is Authorization.'
-          type:
-            - string
-            - "null"
+          type: string
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
@@ -5231,9 +5089,7 @@ opensearch:
         jwt_url_parameter:
           title: URL JWT token.
           description: If the token is not transmitted in the HTTP header, but as an URL parameter, define the name of the parameter here. Optional.
-          type:
-            - string
-            - "null"
+          type: string
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
@@ -5241,27 +5097,19 @@ opensearch:
         refresh_rate_limit_count:
           title: The maximum number of unknown key IDs in the time frame
           description: The maximum number of unknown key IDs in the time frame. Default is 10. Optional.
-          type:
-            - integer
-            - "null"
+          type: integer
           default: "10"
           minimum: 10
-          example: preferred_username
         refresh_rate_limit_time_window_ms:
           title: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds
           description: The time frame to use when checking the maximum number of unknown key IDs, in milliseconds. Optional.Default is 10000 (10 seconds).
-          type:
-            - integer
-            - "null"
+          type: integer
           default: "10000"
           minimum: 10000
-          example: preferred_username
         roles_key:
           title: The key in the JSON payload that stores the user’s roles
           description: The key in the JSON payload that stores the user’s roles. The value of this key must be a comma-separated list of roles. Required only if you want to use roles in the JWT
-          type:
-            - string
-            - "null"
+          type: string
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
@@ -5276,9 +5124,7 @@ opensearch:
         subject_key:
           title: The key in the JSON payload that stores the user’s name
           description: The key in the JSON payload that stores the user’s name. If not defined, the subject registered claim is used. Most IdP providers use the preferred_username claim. Optional.
-          type:
-            - string
-            - "null"
+          type: string
           min_length: 1
           max_length: 1024
           pattern: ^[^\r\n]*$
@@ -5294,9 +5140,7 @@ opensearch:
           example: false
         action_destructive_requires_name:
           title: Require explicit index names when deleting
-          type:
-            - boolean
-            - "null"
+          type: boolean
           example: true
         auth_failure_listeners:
           title: Opensearch Security Plugin Settings
@@ -5465,9 +5309,7 @@ opensearch:
         indices_fielddata_cache_size:
           title: indices.fielddata.cache.size
           description: Relative amount. Maximum amount of heap memory used for field data cache. This is an expert setting; decreasing the value too much will increase overhead of loading field data; too much memory used for field data cache will decrease amount of heap available for other operations.
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 3
           maximum: 100
         indices_memory_index_buffer_size:
@@ -5568,14 +5410,10 @@ opensearch:
         reindex_remote_whitelist:
           title: reindex_remote_whitelist
           description: Whitelisted addresses for reindexing. Changing this value will cause all OpenSearch instances to restart.
-          type:
-            - array
-            - "null"
+          type: array
           items:
             title: Address (hostname:port or IP:port)
-            type:
-              - string
-              - "null"
+            type: string
             max_length: 261
             pattern: ^[^\r\n]*$
             example: anotherservice.aivencloud.com:12398
@@ -5727,9 +5565,7 @@ opensearch:
         search_max_buckets:
           title: search.max_buckets
           description: Maximum number of aggregation buckets allowed in a single response. OpenSearch default value is used when this is not defined.
-          type:
-            - integer
-            - "null"
+          type: integer
           minimum: 1
           maximum: 1e+06
           example: "10000"
@@ -5897,9 +5733,7 @@ opensearch:
           maximum: 120000
     opensearch_version:
       title: OpenSearch major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "1"
         - value: "2"
@@ -5937,9 +5771,7 @@ opensearch:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -6073,9 +5905,7 @@ opensearch:
         idp_pemtrustedcas_content:
           title: PEM-encoded root CA Content for SAML IdP server verification
           description: This parameter specifies the PEM-encoded root certificate authority (CA) content for the SAML identity provider (IdP) server verification. The root CA content is used to verify the SSL/TLS certificate presented by the server.
-          type:
-            - string
-            - "null"
+          type: string
           max_length: 16384
           example: |
             -----BEGIN CERTIFICATE-----
@@ -6084,9 +5914,7 @@ opensearch:
         roles_key:
           title: SAML response role attribute
           description: Optional. Specifies the attribute in the SAML response where role information is stored, if available. Role attributes are not required for SAML authentication, but can be included in SAML assertions by most Identity Providers (IdPs) to determine user access levels or permissions.
-          type:
-            - string
-            - "null"
+          type: string
           min_length: 1
           max_length: 256
           pattern: ^[^\r\n]*$
@@ -6102,9 +5930,7 @@ opensearch:
         subject_key:
           title: SAML response subject attribute
           description: Optional. Specifies the attribute in the SAML response where the subject identifier is stored. If not configured, the NameID attribute is used by default.
-          type:
-            - string
-            - "null"
+          type: string
           min_length: 1
           max_length: 256
           pattern: ^[^\r\n]*$
@@ -6112,15 +5938,11 @@ opensearch:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -6148,9 +5970,7 @@ pg:
       max_items: 1
     admin_password:
       title: Custom password for admin user. Defaults to random string. This must be set only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       min_length: 8
       max_length: 256
       create_only: true
@@ -6160,9 +5980,7 @@ pg:
       _secure: true
     admin_username:
       title: Custom username for admin user. This must be set only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
@@ -6170,17 +5988,13 @@ pg:
       user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 23
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 59
       example: "30"
@@ -6218,9 +6032,7 @@ pg:
       max_items: 1024
     migration:
       title: Migrate data from existing server
-      type:
-        - object
-        - "null"
+      type: object
       required:
         - host
         - port
@@ -6535,8 +6347,7 @@ pg:
         pg_stat_statements.track:
           title: pg_stat_statements.track
           description: Controls which statements are counted. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable statement statistics collection. The default value is top.
-          type:
-            - string
+          type: string
           enum:
             - value: all
             - value: none
@@ -6646,15 +6457,11 @@ pg:
     pg_read_replica:
       title: Should the service which is being forked be a read replica (deprecated, use read_replica service integration instead).
       description: This setting is deprecated. Use read_replica service integration instead.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     pg_service_to_fork_from:
       title: Name of the PG Service from which to fork (deprecated, use service_to_fork_from). This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -6666,9 +6473,7 @@ pg:
       default: false
     pg_version:
       title: PostgreSQL major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
@@ -6676,7 +6481,9 @@ pg:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "11"
-        - value: "12"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "12"
         - value: "13"
         - value: "14"
         - value: "15"
@@ -6899,7 +6706,7 @@ pg:
       description: System-wide settings for pglookout.
       type: object
       default:
-        max_failover_replication_time_lag: "60"
+        max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
           title: max_failover_replication_time_lag
@@ -6941,9 +6748,7 @@ pg:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -6966,24 +6771,18 @@ pg:
           example: true
     recovery_target_time:
       title: Recovery target time when forking a service. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 32
       create_only: true
       example: "2019-01-01 23:34:45"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -7022,9 +6821,7 @@ pg:
           example: "8"
     variant:
       title: Variant of the PostgreSQL service, may affect the features that are exposed by default
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: aiven
         - value: timescale
@@ -7052,17 +6849,13 @@ redis:
       max_items: 1
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 23
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 59
       example: "30"
@@ -7095,9 +6888,7 @@ redis:
       max_items: 1024
     migration:
       title: Migrate data from existing server
-      type:
-        - object
-        - "null"
+      type: object
       required:
         - host
         - port
@@ -7176,9 +6967,7 @@ redis:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -7229,9 +7018,7 @@ redis:
       maximum: 100
     redis_maxmemory_policy:
       title: Redis maxmemory-policy
-      type:
-        - string
-        - "null"
+      type: string
       default: noeviction
       enum:
         - value: allkeys-lfu
@@ -7245,7 +7032,6 @@ redis:
     redis_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
-      default: ""
       max_length: 32
       pattern: ^[KEg\$lshzxentdmA]*$
     redis_number_of_databases:
@@ -7281,23 +7067,17 @@ redis:
       maximum: 2.0736e+06
     redis_version:
       title: Redis major version
-      type:
-        - string
-        - "null"
+      type: string
       enum:
         - value: "7.0"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -7442,18 +7222,32 @@ thanos:
           description: Whether to align the query range boundaries with the step. If enabled, the query range boundaries will be aligned to the step, providing more accurate results for queries with high-resolution data.
           type: boolean
           default: true
+    receiver-ingesting:
+      title: CommonReceiveUserConfig
+      description: Generic model
+      type: object
+    receiver-routing:
+      title: ThanosReceiveRoutingUserConfig
+      description: Generic model
+      type: object
+    ruler:
+      title: ThanosRulerUserConfig
+      description: Generic model
+      type: object
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
       type: boolean
       example: true
+    store:
+      title: ThanosStoreUserConfig
+      description: Generic model
+      type: object
 valkey:
   type: object
   properties:
@@ -7470,17 +7264,13 @@ valkey:
       max_items: 1
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 23
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
-      type:
-        - integer
-        - "null"
+      type: integer
       minimum: 0
       maximum: 59
       example: "30"
@@ -7513,9 +7303,7 @@ valkey:
       max_items: 1024
     migration:
       title: Migrate data from existing server
-      type:
-        - object
-        - "null"
+      type: object
       required:
         - host
         - port
@@ -7594,9 +7382,7 @@ valkey:
           example: true
     project_to_fork_from:
       title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 63
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -7622,15 +7408,11 @@ valkey:
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
-      type:
-        - boolean
-        - "null"
+      type: boolean
       example: true
     service_to_fork_from:
       title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
+      type: string
       max_length: 64
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
@@ -7668,9 +7450,7 @@ valkey:
       maximum: 100
     valkey_maxmemory_policy:
       title: Valkey maxmemory-policy
-      type:
-        - string
-        - "null"
+      type: string
       default: noeviction
       enum:
         - value: allkeys-lfu
@@ -7684,7 +7464,6 @@ valkey:
     valkey_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
-      default: ""
       max_length: 32
       pattern: ^[KEg\$lshzxentdmA]*$
     valkey_number_of_databases:

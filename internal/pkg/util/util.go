@@ -2,13 +2,8 @@
 package util
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"runtime"
-	"time"
-
-	"github.com/aiven/aiven-go-client/v2"
 )
 
 const (
@@ -18,9 +13,6 @@ const (
 	// logFlag is the flag for the log.
 	logFlag = log.LstdFlags | log.LUTC | log.Lmsgprefix
 )
-
-// EnvAivenProjectName is the environment variable for the Aiven project name.
-const EnvAivenProjectName = "AIVEN_PROJECT_NAME"
 
 const (
 	// ServiceTypesFilename is the name of the service types file.
@@ -49,48 +41,6 @@ type EnvMap map[string]string
 func SetupLogger(logger *Logger) {
 	logger.Info = log.New(os.Stdout, "[INFO]"+logSeparator, logFlag)
 	logger.Error = log.New(os.Stderr, "[ERROR]"+logSeparator, logFlag)
-}
-
-// SetupEnv populates the provided environment variables map.
-func SetupEnv(env EnvMap) error {
-	for k := range env {
-		ev, ok := os.LookupEnv(k)
-		if !ok {
-			return fmt.Errorf("environment variable is not set: %s", k)
-		}
-
-		env[k] = ev
-	}
-
-	return nil
-}
-
-// SetupClient sets up the Aiven client.
-func SetupClient(client *aiven.Client) error {
-	c, err := aiven.SetupEnvClient("go-api-schemas")
-	if err != nil {
-		return err
-	}
-
-	*client = *c
-
-	return nil
-}
-
-// MeasureExecutionTime prints the execution time of the caller when deferred.
-func MeasureExecutionTime(logger *Logger) func() {
-	start := time.Now()
-
-	pc, _, _, ok := runtime.Caller(1)
-	if !ok {
-		panic("runtime.Caller failed")
-	}
-
-	fn := runtime.FuncForPC(pc)
-
-	return func() {
-		logger.Info.Printf("%s took %dms", fn.Name(), time.Since(start).Milliseconds())
-	}
 }
 
 // Ref returns the reference (pointer) of the provided value.

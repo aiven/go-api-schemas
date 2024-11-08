@@ -2,12 +2,10 @@
 package cmd
 
 import (
-	"context"
 	"errors"
 	"os"
 	"strings"
 
-	"github.com/aiven/aiven-go-client/v2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
@@ -22,21 +20,14 @@ import (
 // logger is the logger of the application.
 var logger = &util.Logger{}
 
-// env is a map of environment variables.
-var env = util.EnvMap{
-	util.EnvAivenProjectName: "",
-}
-
-// client is a pointer to the Aiven client.
-var client = &aiven.Client{}
-
 // NewCmdRoot returns a pointer to the root command.
 func NewCmdRoot(l *util.Logger) *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "go-api-schemas",
+		Use: "go-api-schemas foo.json bar.json baz.json",
 		Short: "go-api-schemas is a tool for generating and persisting user configuration option schemas from " +
 			"Aiven APIs.",
-		Run: run,
+		Run:  run,
+		Args: cobra.MinimumNArgs(1),
 	}
 
 	cmd.Flags().StringP("output-dir", "o", "", "the output directory for the generated files")
@@ -94,20 +85,10 @@ func setup(flags *pflag.FlagSet) {
 	}
 
 	logger.Info.Println("setting up environment variables")
-
-	if err := util.SetupEnv(env); err != nil {
-		logger.Error.Fatalf("error setting up environment variables: %s", err)
-	}
-
-	logger.Info.Println("setting up client")
-
-	if err := util.SetupClient(client); err != nil {
-		logger.Error.Fatalf("error setting up client: %s", err)
-	}
 }
 
 // run is the function that is called when the rootCmd is executed.
-func run(cmd *cobra.Command, _ []string) {
+func run(cmd *cobra.Command, args []string) {
 	flags := cmd.Flags()
 
 	setup(flags)
@@ -117,11 +98,9 @@ func run(cmd *cobra.Command, _ []string) {
 		logger.Error.Fatalf("error getting regeneration flag: %s", err)
 	}
 
-	ctx := context.Background()
-
 	logger.Info.Println("generating")
 
-	gr, err := gen.Run(ctx, logger, env, client)
+	gr, err := gen.Run(args...)
 	if err != nil {
 		logger.Error.Fatalf("error generating: %s", err)
 	}
@@ -131,22 +110,20 @@ func run(cmd *cobra.Command, _ []string) {
 	if !shouldRegenerate {
 		logger.Info.Println("reading files")
 
-		rr, err = reader.Run(ctx, logger, flags)
+		rr, err = reader.Run(logger, flags)
 		if err != nil && !os.IsNotExist(err) {
 			logger.Error.Fatalf("error reading files: %s", err)
 		}
 	}
 
 	logger.Info.Println("diffing")
-
 	dr, err := diff.Run(rr, gr)
 	if err != nil {
 		logger.Error.Fatalf("error diffing: %s", err)
 	}
 
 	logger.Info.Println("writing files")
-
-	if err = writer.Run(ctx, logger, flags, dr); err != nil {
+	if err = writer.Run(logger, flags, dr); err != nil {
 		logger.Error.Fatalf("error writing files: %s", err)
 	}
 
