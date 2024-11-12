@@ -2590,12 +2590,20 @@ influxdb:
           title: Allow clients to connect to influxdb with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
           type: boolean
           example: true
+        user_backup:
+          title: Allow clients to connect to user_backup with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
     privatelink_access:
       title: Allow access to selected service components through Privatelink
       type: object
       properties:
         influxdb:
           title: Enable influxdb
+          type: boolean
+          example: true
+        user_backup:
+          title: Enable user_backup
           type: boolean
           example: true
     project_to_fork_from:
@@ -2611,6 +2619,10 @@ influxdb:
       properties:
         influxdb:
           title: Allow clients to connect to influxdb from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        user_backup:
+          title: Allow clients to connect to user_backup from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
     recovery_basebackup_name:
@@ -4789,6 +4801,7 @@ opensearch:
         - base_path
         - container
         - account
+        - indices
       properties:
         account:
           title: Account name
@@ -4825,7 +4838,7 @@ opensearch:
           type: boolean
         indices:
           title: Indices to restore
-          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
+          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported.
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
@@ -4858,7 +4871,7 @@ opensearch:
       example: grafana.example.org
     disable_replication_factor_adjustment:
       title: Disable replication factor adjustment
-      description: 'DEPRECATED: Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can no longer be activated.'
+      description: 'Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can not be activated unless specifically allowed for the project.'
       type: boolean
       example: false
     gcs_migration:
@@ -4869,6 +4882,7 @@ opensearch:
         - base_path
         - bucket
         - credentials
+        - indices
       properties:
         base_path:
           title: The path to the repository data within its container
@@ -4901,7 +4915,7 @@ opensearch:
           type: boolean
         indices:
           title: Indices to restore
-          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
+          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported.
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
@@ -5808,6 +5822,7 @@ opensearch:
         - region
         - access_key
         - secret_key
+        - indices
       properties:
         access_key:
           title: AWS Access key
@@ -5844,7 +5859,7 @@ opensearch:
           type: boolean
         indices:
           title: Indices to restore
-          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported. By default, a restore operation includes all data streams and indices in the snapshot. If this argument is provided, the restore operation only includes the data streams and indices that you specify.
+          description: A comma-delimited list of indices to restore from the snapshot. Multi-index syntax is supported.
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
