@@ -4874,6 +4874,13 @@ opensearch:
       description: 'Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can not be activated unless specifically allowed for the project.'
       type: boolean
       example: false
+    elasticsearch_version:
+      title: Elasticsearch major version
+      type: string
+      enum:
+        - value: "7"
+        - value: "1"
+        - value: "2"
     gcs_migration:
       description: Google Cloud Storage migration settings
       type: object
@@ -5439,6 +5446,63 @@ opensearch:
           max_length: 1024
           pattern: ^[^\r\n]*$
           example: 75/5m
+        search.insights.top_queries:
+          type: object
+          properties:
+            cpu:
+              title: Top N queries monitoring by CPU
+              type: object
+              properties:
+                enabled:
+                  title: Enable or disable top N query monitoring by the metric
+                  description: Enable or disable top N query monitoring by the metric
+                  type: boolean
+                  default: false
+                top_n_size:
+                  title: Specify the value of N for the top N queries by the metric
+                  type: integer
+                  minimum: 1
+                window_size:
+                  title: The window size of the top N queries by the metric
+                  description: Configure the window size of the top N queries
+                  type: string
+                  pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
+            latency:
+              title: Top N queries monitoring by latency
+              type: object
+              properties:
+                enabled:
+                  title: Enable or disable top N query monitoring by the metric
+                  description: Enable or disable top N query monitoring by the metric
+                  type: boolean
+                  default: false
+                top_n_size:
+                  title: Specify the value of N for the top N queries by the metric
+                  type: integer
+                  minimum: 1
+                window_size:
+                  title: The window size of the top N queries by the metric
+                  description: Configure the window size of the top N queries
+                  type: string
+                  pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
+            memory:
+              title: Top N queries monitoring by memory
+              type: object
+              properties:
+                enabled:
+                  title: Enable or disable top N query monitoring by the metric
+                  description: Enable or disable top N query monitoring by the metric
+                  type: boolean
+                  default: false
+                top_n_size:
+                  title: Specify the value of N for the top N queries by the metric
+                  type: integer
+                  minimum: 1
+                window_size:
+                  title: The window size of the top N queries by the metric
+                  description: Configure the window size of the top N queries
+                  type: string
+                  pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
         search_backpressure:
           title: Search Backpressure Settings
           type: object
@@ -7152,6 +7216,30 @@ thanos:
       description: After exceeding the limit a service alert is going to be raised (0 means not set)
       type: integer
       minimum: 0
+    private_access:
+      title: Allow access to selected service ports from private networks
+      type: object
+      properties:
+        query_frontend:
+          title: Allow clients to connect to query_frontend with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+        receiver_routing:
+          title: Allow clients to connect to receiver_routing with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
+    privatelink_access:
+      title: Allow access to selected service components through Privatelink
+      type: object
+      properties:
+        query_frontend:
+          title: Enable query_frontend
+          type: boolean
+          example: true
+        receiver_routing:
+          title: Enable receiver_routing
+          type: boolean
+          example: true
     public_access:
       title: Allow access to selected service ports from the public Internet
       type: object
