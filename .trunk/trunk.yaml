@@ -4,15 +4,15 @@ cli:
 plugins:
   sources:
     - id: trunk
-      ref: v1.6.4
+      ref: v1.6.5
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
     - actionlint@1.7.4
     - git-diff-check
-    - gitleaks@8.21.1
+    - gitleaks@8.21.2
     - gofmt@1.20.4
-    - golangci-lint@1.61.0
+    - golangci-lint@1.62.0
     - markdownlint@0.42.0
     - prettier@3.3.3
     - yamllint@1.35.1
