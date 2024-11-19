@@ -1075,597 +1075,6 @@ dragonfly:
       description: Use static public IP addresses
       type: boolean
       example: true
-elasticsearch:
-  is_deprecated: true
-  deprecation_notice: This property is deprecated.
-  type: object
-  properties:
-    additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Additional Cloud Regions for Backup Replication
-      type: array
-      items:
-        title: Target cloud
-        type: string
-        max_length: 256
-        pattern: ^[a-z0-9-]+$
-        example: aws-eu-central-1
-        user_error: Must consist of lower-case alpha-numeric characters or dashes
-      max_items: 1
-    custom_domain:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Custom domain
-      description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name
-      type:
-        - string
-        - "null"
-      max_length: 255
-      example: grafana.example.org
-    disable_replication_factor_adjustment:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Disable replication factor adjustment
-      description: 'DEPRECATED: Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can no longer be activated.'
-      type:
-        - boolean
-        - "null"
-      example: false
-    elasticsearch:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Elasticsearch settings
-      type: object
-      properties:
-        action_auto_create_index_enabled:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: action.auto_create_index
-          description: Explicitly allow or block automatic creation of indices. Defaults to true
-          type: boolean
-          example: false
-        action_destructive_requires_name:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Require explicit index names when deleting
-          type:
-            - boolean
-            - "null"
-          example: true
-        cluster_max_shards_per_node:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: cluster.max_shards_per_node
-          description: Controls the number of shards allowed in the cluster per data node
-          type: integer
-          minimum: 100
-          maximum: 10000
-          example: "1000"
-        cluster_routing_allocation_node_concurrent_recoveries:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Concurrent incoming/outgoing shard recoveries per node
-          description: How many concurrent incoming/outgoing shard recoveries (normally replicas) are allowed to happen on a node. Defaults to 2.
-          type: integer
-          minimum: 2
-          maximum: 16
-        email_sender_name:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Sender email name placeholder to be used in Opensearch Dashboards and Opensearch keystore
-          description: This should be identical to the Sender name defined in Opensearch dashboards
-          type:
-            - string
-          max_length: 40
-          pattern: ^[a-zA-Z0-9-_]+$
-          example: alert-sender
-          user_error: Must consist of lower-case alpha-numeric characters and dashes, max 40 characters
-        email_sender_password:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Sender email password for Opensearch alerts to authenticate with SMTP server
-          description: Sender email password for Opensearch alerts to authenticate with SMTP server
-          type:
-            - string
-          max_length: 1024
-          pattern: ^[^\x00-\x1F]+$
-          example: very-secure-mail-password
-        email_sender_username:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Sender email address for Opensearch alerts
-          type:
-            - string
-          max_length: 320
-          pattern: ^[A-Za-z0-9_\-\.+\'&]+@(([\da-zA-Z])([_\w-]{,62})\.){,127}(([\da-zA-Z])[_\w-]{,61})?([\da-zA-Z]\.((xn\-\-[a-zA-Z\d]+)|([a-zA-Z\d]{2,})))$
-          example: jane@example.com
-          user_error: Must be a valid email address
-        http_max_content_length:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: http.max_content_length
-          description: Maximum content length for HTTP requests to the Elasticsearch HTTP API, in bytes.
-          type: integer
-          minimum: 1
-          maximum: 2.147483647e+09
-        http_max_header_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: http.max_header_size
-          description: The max size of allowed headers, in bytes
-          type: integer
-          minimum: 1024
-          maximum: 262144
-          example: "8192"
-        http_max_initial_line_length:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: http.max_initial_line_length
-          description: The max length of an HTTP URL, in bytes
-          type: integer
-          minimum: 1024
-          maximum: 65536
-          example: "4096"
-        indices_fielddata_cache_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: indices.fielddata.cache.size
-          description: Relative amount. Maximum amount of heap memory used for field data cache. This is an expert setting; decreasing the value too much will increase overhead of loading field data; too much memory used for field data cache will decrease amount of heap available for other operations.
-          type:
-            - integer
-            - "null"
-          minimum: 3
-          maximum: 100
-        indices_memory_index_buffer_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: indices.memory.index_buffer_size
-          description: Percentage value. Default is 10%. Total amount of heap used for indexing buffer, before writing segments to disk. This is an expert setting. Too low value will slow down indexing; too high value will increase indexing performance but causes performance issues for query performance.
-          type: integer
-          minimum: 3
-          maximum: 40
-        indices_queries_cache_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: indices.queries.cache.size
-          description: Percentage value. Default is 10%. Maximum amount of heap used for query cache. This is an expert setting. Too low value will decrease query performance and increase performance for other operations; too high value will cause issues with other Elasticsearch functionality.
-          type: integer
-          minimum: 3
-          maximum: 40
-        indices_query_bool_max_clause_count:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: indices.query.bool.max_clause_count
-          description: Maximum number of clauses Lucene BooleanQuery can have. The default value (1024) is relatively high, and increasing it may cause performance issues. Investigate other approaches first before increasing this value.
-          type: integer
-          minimum: 64
-          maximum: 4096
-        indices_recovery_max_bytes_per_sec:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: indices.recovery.max_bytes_per_sec
-          description: Limits total inbound and outbound recovery traffic for each node. Applies to both peer recoveries as well as snapshot recoveries (i.e., restores from a snapshot). Defaults to 40mb
-          type: integer
-          minimum: 40
-          maximum: 400
-        indices_recovery_max_concurrent_file_chunks:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: indices.recovery.max_concurrent_file_chunks
-          description: Number of file chunks sent in parallel for each recovery. Defaults to 2.
-          type: integer
-          minimum: 2
-          maximum: 5
-        override_main_response_version:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: compatibility.override_main_response_version
-          description: Compatibility mode sets OpenSearch to report its version as 7.10 so clients continue to work. Default is false
-          type: boolean
-          example: true
-        reindex_remote_whitelist:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: reindex_remote_whitelist
-          description: Whitelisted addresses for reindexing. Changing this value will cause all Elasticsearch instances to restart.
-          type:
-            - array
-            - "null"
-          items:
-            title: Address (hostname:port or IP:port)
-            type:
-              - string
-              - "null"
-            max_length: 261
-            example: anotherservice.aivencloud.com:12398
-          max_items: 32
-        script_max_compilations_rate:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Script max compilation rate - circuit breaker to prevent/minimize OOMs
-          description: Script compilation circuit breaker limits the number of inline script compilations within a period of time. Default is use-context
-          type: string
-          max_length: 1024
-          example: 75/5m
-        search_max_buckets:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: search.max_buckets
-          description: Maximum number of aggregation buckets allowed in a single response. Elasticsearch default value is used when this is not defined.
-          type:
-            - integer
-            - "null"
-          minimum: 1
-          maximum: 20000
-          example: "10000"
-        thread_pool_analyze_queue_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: analyze thread pool queue size
-          description: Size for the thread pool queue. See documentation for exact details.
-          type: integer
-          minimum: 10
-          maximum: 2000
-        thread_pool_analyze_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: analyze thread pool size
-          description: Size for the thread pool. See documentation for exact details. Do note this may have maximum value depending on CPU count - value is automatically lowered if set to higher than maximum value.
-          type: integer
-          minimum: 1
-          maximum: 128
-        thread_pool_force_merge_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: force_merge thread pool size
-          description: Size for the thread pool. See documentation for exact details. Do note this may have maximum value depending on CPU count - value is automatically lowered if set to higher than maximum value.
-          type: integer
-          minimum: 1
-          maximum: 128
-        thread_pool_get_queue_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: get thread pool queue size
-          description: Size for the thread pool queue. See documentation for exact details.
-          type: integer
-          minimum: 10
-          maximum: 2000
-        thread_pool_get_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: get thread pool size
-          description: Size for the thread pool. See documentation for exact details. Do note this may have maximum value depending on CPU count - value is automatically lowered if set to higher than maximum value.
-          type: integer
-          minimum: 1
-          maximum: 128
-        thread_pool_search_queue_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: search thread pool queue size
-          description: Size for the thread pool queue. See documentation for exact details.
-          type: integer
-          minimum: 10
-          maximum: 2000
-        thread_pool_search_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: search thread pool size
-          description: Size for the thread pool. See documentation for exact details. Do note this may have maximum value depending on CPU count - value is automatically lowered if set to higher than maximum value.
-          type: integer
-          minimum: 1
-          maximum: 128
-        thread_pool_search_throttled_queue_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: search_throttled thread pool queue size
-          description: Size for the thread pool queue. See documentation for exact details.
-          type: integer
-          minimum: 10
-          maximum: 2000
-        thread_pool_search_throttled_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: search_throttled thread pool size
-          description: Size for the thread pool. See documentation for exact details. Do note this may have maximum value depending on CPU count - value is automatically lowered if set to higher than maximum value.
-          type: integer
-          minimum: 1
-          maximum: 128
-        thread_pool_write_queue_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: write thread pool queue size
-          description: Size for the thread pool queue. See documentation for exact details.
-          type: integer
-          minimum: 10
-          maximum: 2000
-        thread_pool_write_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: write thread pool size
-          description: Size for the thread pool. See documentation for exact details. Do note this may have maximum value depending on CPU count - value is automatically lowered if set to higher than maximum value.
-          type: integer
-          minimum: 1
-          maximum: 128
-    elasticsearch_version:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Elasticsearch major version
-      type:
-        - string
-        - "null"
-      enum:
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "1"
-    index_patterns:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Index patterns
-      type: array
-      items:
-        title: Glob pattern and number of indexes matching that pattern to be kept
-        description: 'Allows you to create glob style patterns and set a max number of indexes matching this pattern you want to keep. Creating indexes exceeding this value will cause the oldest one to get deleted. You could for example create a pattern looking like ''logs.?'' and then create index logs.1, logs.2 etc, it will delete logs.1 once you create logs.6. Do note ''logs.?'' does not apply to logs.10. Note: Setting max_index_count to 0 will do nothing and the pattern gets ignored.'
-        type: object
-        required:
-          - pattern
-          - max_index_count
-        properties:
-          max_index_count:
-            title: Maximum number of indexes to keep
-            type: integer
-            minimum: 0
-            maximum: 9.223372036854776e+18
-            example: "3"
-          pattern:
-            title: fnmatch pattern
-            type: string
-            max_length: 1024
-            pattern: ^[A-Za-z0-9-_.*?]+$
-            example: logs_*_foo_*
-            user_error: Must consist of alpha-numeric characters, dashes, underscores, dots and glob characters (* and ?)
-          sorting_algorithm:
-            title: Deletion sorting algorithm
-            type: string
-            default: creation_date
-            enum:
-              - value: alphabetical
-              - value: creation_date
-      max_items: 512
-    index_template:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Template settings for all new indexes
-      type: object
-      properties:
-        mapping_nested_objects_limit:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: index.mapping.nested_objects.limit
-          description: The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document contains too many nested objects. Default is 10000.
-          type:
-            - integer
-            - "null"
-          minimum: 0
-          maximum: 100000
-          example: "10000"
-        number_of_replicas:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: index.number_of_replicas
-          description: The number of replicas each primary shard has.
-          type:
-            - integer
-            - "null"
-          minimum: 0
-          maximum: 29
-          example: "1"
-        number_of_shards:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: index.number_of_shards
-          description: The number of primary shards that an index should have.
-          type:
-            - integer
-            - "null"
-          minimum: 1
-          maximum: 1024
-          example: "1"
-    ip_filter:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: IP filter
-      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
-      type: array
-      default:
-        - 0.0.0.0/0
-      items:
-        title: CIDR address block, either as a string, or in a dict with an optional description field
-        type:
-          - string
-          - object
-        required:
-          - network
-        properties:
-          description:
-            title: Description for IP filter list entry
-            type: string
-            max_length: 1024
-            example: Production service IP range
-          network:
-            title: CIDR address block
-            type: string
-            max_length: 43
-            example: 10.20.0.0/16
-        max_length: 43
-        example: 10.20.0.0/16
-      max_items: 1024
-    keep_index_refresh_interval:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Don't reset index.refresh_interval to the default value
-      description: Aiven automation resets index.refresh_interval to default value for every index to be sure that indices are always visible to search. If it doesn't fit your case, you can disable this by setting up this flag to true.
-      type: boolean
-      example: true
-    kibana:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Kibana settings
-      type: object
-      properties:
-        elasticsearch_request_timeout:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Timeout in milliseconds for requests made by Kibana towards Elasticsearch
-          type: integer
-          default: "30000"
-          minimum: 5000
-          maximum: 120000
-        enabled:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Enable or disable Kibana
-          type: boolean
-          default: true
-        max_old_space_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: max_old_space_size
-          description: 'Limits the maximum amount of memory (in MiB) the Kibana process can use. This sets the max_old_space_size option of the nodejs running the Kibana. Note: the memory reserved by Kibana is not available for Elasticsearch.'
-          type: integer
-          default: "128"
-          minimum: 64
-          maximum: 2048
-    max_index_count:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Maximum index count
-      description: 'DEPRECATED: use index_patterns instead'
-      type: integer
-      default: "0"
-      minimum: 0
-      maximum: 9.223372036854776e+18
-    opensearch_version:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: OpenSearch major version
-      type:
-        - string
-        - "null"
-      enum:
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "1"
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "2"
-    private_access:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Allow access to selected service ports from private networks
-      type: object
-      properties:
-        elasticsearch:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Allow clients to connect to elasticsearch with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
-          type: boolean
-          example: true
-        kibana:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Allow clients to connect to kibana with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
-          type: boolean
-          example: true
-        prometheus:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Allow clients to connect to prometheus with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
-          type: boolean
-          example: true
-    privatelink_access:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Allow access to selected service components through Privatelink
-      type: object
-      properties:
-        elasticsearch:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Enable elasticsearch
-          type: boolean
-          example: true
-        kibana:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Enable kibana
-          type: boolean
-          example: true
-        prometheus:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Enable prometheus
-          type: boolean
-          example: true
-    project_to_fork_from:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Name of another project to fork a service from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
-      max_length: 63
-      create_only: true
-      example: anotherprojectname
-    public_access:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Allow access to selected service ports from the public Internet
-      type: object
-      properties:
-        elasticsearch:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Allow clients to connect to elasticsearch from the public internet for service nodes that are in a project VPC or another type of private network
-          type: boolean
-          example: true
-        kibana:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Allow clients to connect to kibana from the public internet for service nodes that are in a project VPC or another type of private network
-          type: boolean
-          example: true
-        prometheus:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
-          title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
-          type: boolean
-          example: true
-    recovery_basebackup_name:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Name of the basebackup to restore in forked service
-      type: string
-      max_length: 128
-      pattern: ^[a-zA-Z0-9-_:.]+$
-      example: backup-20191112t091354293891z
-    service_to_fork_from:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Name of another service to fork from. This has effect only when a new service is being created.
-      type:
-        - string
-        - "null"
-      max_length: 64
-      create_only: true
-      example: anotherservicename
-    static_ips:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
-      title: Static IP addresses
-      description: Use static public IP addresses
-      type: boolean
-      example: true
 flink:
   type: object
   properties:
@@ -4805,7 +4214,6 @@ opensearch:
       properties:
         account:
           title: Account name
-          description: Azure account name
           type: string
           pattern: ^[^\r\n]*$
         base_path:
@@ -4860,7 +4268,6 @@ opensearch:
           _secure: true
         snapshot_name:
           title: The snapshot name to restore from
-          description: The snapshot name to restore from
           type: string
           pattern: ^[^\r\n]*$
     custom_domain:
@@ -4874,13 +4281,6 @@ opensearch:
       description: 'Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can not be activated unless specifically allowed for the project.'
       type: boolean
       example: false
-    elasticsearch_version:
-      title: Elasticsearch major version
-      type: string
-      enum:
-        - value: "1"
-        - value: "2"
-        - value: "7"
     gcs_migration:
       description: Google Cloud Storage migration settings
       type: object
@@ -4897,8 +4297,8 @@ opensearch:
           type: string
           pattern: ^[^\r\n]*$
         bucket:
-          title: The path to the repository data within its container
-          description: Google Cloud Storage bucket name
+          title: Google Cloud Storage bucket name
+          description: The path to the repository data within its container
           type: string
           pattern: ^[^\r\n]*$
         chunk_size:
@@ -4932,7 +4332,6 @@ opensearch:
           type: boolean
         snapshot_name:
           title: The snapshot name to restore from
-          description: The snapshot name to restore from
           type: string
           pattern: ^[^\r\n]*$
     index_patterns:
@@ -5890,7 +5289,6 @@ opensearch:
       properties:
         access_key:
           title: AWS Access key
-          description: AWS Access key
           type: string
           pattern: ^[^\r\n]*$
         base_path:
@@ -5900,7 +5298,6 @@ opensearch:
           pattern: ^[^\r\n]*$
         bucket:
           title: S3 bucket name
-          description: S3 bucket name
           type: string
           pattern: ^[^\r\n]*$
         chunk_size:
@@ -5929,7 +5326,6 @@ opensearch:
           example: metrics*,logs*,data-20240823
         region:
           title: S3 region
-          description: S3 region
           type: string
           pattern: ^[^\r\n]*$
         restore_global_state:
@@ -5948,7 +5344,6 @@ opensearch:
           type: boolean
         snapshot_name:
           title: The snapshot name to restore from
-          description: The snapshot name to restore from
           type: string
           pattern: ^[^\r\n]*$
     saml:
