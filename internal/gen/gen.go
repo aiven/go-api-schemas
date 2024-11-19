@@ -311,5 +311,16 @@ func Run(fileNames ...string) (types.GenerationResult, error) {
 			}
 		}
 	}
+
+	removeBlockedFields(result)
 	return result, nil
+}
+
+func removeBlockedFields(result types.GenerationResult) {
+	services, ok := result[types.KeyServiceTypes]
+	if ok {
+		if v, ok := services["opensearch"]; ok {
+			delete(v.Properties, "elasticsearch_version")
+		}
+	}
 }
