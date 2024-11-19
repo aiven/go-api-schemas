@@ -3139,15 +3139,15 @@ kafka:
       description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
       type: array
       items:
-        title: SecretProvider
-        description: Generic model
+        title: Kafka Connect secret provider
+        description: Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault and AWS Secrets Manager are supported.
         type: object
         required:
           - name
         properties:
           aws:
             title: AWS config for Secret Provider
-            description: Generic model
+            description: AWS secret provider configuration
             type: object
             required:
               - auth_method
@@ -3177,7 +3177,7 @@ kafka:
             type: string
           vault:
             title: Vault Config for Secret Provider
-            description: Generic model
+            description: Vault secret provider configuration
             type: object
             required:
               - auth_method
@@ -3703,15 +3703,15 @@ kafka_connect:
       description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
       type: array
       items:
-        title: SecretProvider
-        description: Generic model
+        title: Kafka Connect secret provider
+        description: Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault and AWS Secrets Manager are supported.
         type: object
         required:
           - name
         properties:
           aws:
             title: AWS config for Secret Provider
-            description: Generic model
+            description: AWS secret provider configuration
             type: object
             required:
               - auth_method
@@ -3741,7 +3741,7 @@ kafka_connect:
             type: string
           vault:
             title: Vault Config for Secret Provider
-            description: Generic model
+            description: Vault secret provider configuration
             type: object
             required:
               - auth_method
@@ -4878,9 +4878,9 @@ opensearch:
       title: Elasticsearch major version
       type: string
       enum:
-        - value: "7"
         - value: "1"
         - value: "2"
+        - value: "7"
     gcs_migration:
       description: Google Cloud Storage migration settings
       type: object
@@ -7170,8 +7170,8 @@ thanos:
   type: object
   properties:
     compactor:
-      title: ThanosCompactorUserConfig
-      description: Generic model
+      title: Thanos Compactor User Configuration
+      description: Configuration options for Thanos Compactor.
       type: object
       properties:
         retention.days:
@@ -7273,8 +7273,8 @@ thanos:
           type: boolean
           example: true
     query:
-      title: ThanosQueryUserConfig
-      description: Generic model
+      title: Thanos Query User Configuration
+      description: Configuration options for Thanos Query.
       type: object
       properties:
         query.default-evaluation-interval:
@@ -7316,8 +7316,8 @@ thanos:
           minimum: 0
           maximum: 1e+08
     query-frontend:
-      title: ThanosQueryFrontendUserConfig
-      description: Generic model
+      title: Thanos Query Frontend User Configuration
+      description: Configuration options for Thanos Query Frontend.
       type: object
       properties:
         query-range.align-range-with-step:
@@ -7326,16 +7326,16 @@ thanos:
           type: boolean
           default: true
     receiver-ingesting:
-      title: CommonReceiveUserConfig
-      description: Generic model
+      title: Common Thanos Receive User Configuration
+      description: Common configuration options for Thanos Receive.
       type: object
     receiver-routing:
-      title: ThanosReceiveRoutingUserConfig
-      description: Generic model
+      title: Thanos Receive Routing User Configuration
+      description: Configuration options for Thanos Receive Routing.
       type: object
     ruler:
-      title: ThanosRulerUserConfig
-      description: Generic model
+      title: Thanos Ruler User Configuration
+      description: Configuration options for Thanos Ruler.
       type: object
     service_log:
       title: Service logging
@@ -7348,8 +7348,8 @@ thanos:
       type: boolean
       example: true
     store:
-      title: ThanosStoreUserConfig
-      description: Generic model
+      title: Thanos Store User Configuration
+      description: Configuration options for Thanos Store.
       type: object
 valkey:
   type: object

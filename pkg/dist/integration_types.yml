@@ -508,6 +508,9 @@ kafka_connect:
           type: string
           max_length: 249
           example: __connect_status
+kafka_connect_postgresql:
+  title: Integration user config
+  type: object
 kafka_logs:
   type: object
   required:

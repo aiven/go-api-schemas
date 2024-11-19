@@ -8,8 +8,8 @@ autoscaler:
       description: Configure autoscaling thresholds for a service
       type: array
       items:
-        title: AutoscalingProperties
-        description: Generic model
+        title: Autoscaling properties
+        description: Autoscaling properties for a service
         type: object
         required:
           - type
