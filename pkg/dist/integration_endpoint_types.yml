@@ -80,6 +80,14 @@ datadog:
       title: Disable consumer group metrics
       type: boolean
       example: true
+    extra_tags_prefix:
+      title: Extra tags prefix. Defaults to aiven
+      type: string
+      min_length: 0
+      max_length: 64
+      pattern: ^[A-Za-z0-9\-]{0,64}$
+      example: aiven
+      user_error: Must consist of up to 64 alpha-numeric characters
     kafka_consumer_check_instances:
       title: Number of separate instances to fetch kafka consumer statistics with
       type: integer
