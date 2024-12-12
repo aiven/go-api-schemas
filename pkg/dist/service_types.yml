@@ -1099,6 +1099,7 @@ flink:
           deprecation_notice: This value is deprecated.
           value: "1.16"
         - value: "1.19"
+        - value: "1.20"
       create_only: true
     ip_filter:
       title: IP filter
@@ -4203,6 +4204,8 @@ opensearch:
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
     azure_migration:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       description: Azure migration settings
       type: object
       required:
@@ -4277,11 +4280,15 @@ opensearch:
       max_length: 255
       example: grafana.example.org
     disable_replication_factor_adjustment:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       title: Disable replication factor adjustment
       description: 'Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can not be activated unless specifically allowed for the project.'
       type: boolean
       example: false
     gcs_migration:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       description: Google Cloud Storage migration settings
       type: object
       required:
@@ -5202,6 +5209,10 @@ opensearch:
           default: "128"
           minimum: 64
           maximum: 2048
+        multiple_data_source_enabled:
+          title: Enable or disable multiple data sources in OpenSearch Dashboards
+          type: boolean
+          default: true
         opensearch_request_timeout:
           title: Timeout in milliseconds for requests made by OpenSearch Dashboards towards OpenSearch
           type: integer
@@ -5276,6 +5287,8 @@ opensearch:
       pattern: ^[a-zA-Z0-9-_:.]+$
       example: backup-20191112t091354293891z
     s3_migration:
+      is_deprecated: true
+      deprecation_notice: This property is deprecated.
       description: AWS S3 / AWS S3 compatible migration settings
       type: object
       required:
@@ -5430,8 +5443,6 @@ pg:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -5962,6 +5973,7 @@ pg:
         - value: "14"
         - value: "15"
         - value: "16"
+        - value: "17"
     pgaudit:
       is_deprecated: true
       deprecation_notice: This property is deprecated.
