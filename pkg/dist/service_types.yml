@@ -1099,6 +1099,7 @@ flink:
           deprecation_notice: This value is deprecated.
           value: "1.16"
         - value: "1.19"
+        - value: "1.20"
       create_only: true
     ip_filter:
       title: IP filter
@@ -5201,7 +5202,11 @@ opensearch:
           type: integer
           default: "128"
           minimum: 64
-          maximum: 2048
+          maximum: 4096
+        multiple_data_source_enabled:
+          title: Enable or disable multiple data sources in OpenSearch Dashboards
+          type: boolean
+          default: true
         opensearch_request_timeout:
           title: Timeout in milliseconds for requests made by OpenSearch Dashboards towards OpenSearch
           type: integer
@@ -5430,8 +5435,6 @@ pg:
   type: object
   properties:
     additional_backup_regions:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: Additional Cloud Regions for Backup Replication
       type: array
       items:
@@ -5962,6 +5965,7 @@ pg:
         - value: "14"
         - value: "15"
         - value: "16"
+        - value: "17"
     pgaudit:
       is_deprecated: true
       deprecation_notice: This property is deprecated.

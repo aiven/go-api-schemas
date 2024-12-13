@@ -348,6 +348,9 @@ datadog:
 datasource:
   title: Integration user config
   type: object
+disaster_recovery:
+  title: Integration user config
+  type: object
 external_aws_cloudwatch_logs:
   title: Integration user config
   type: object
