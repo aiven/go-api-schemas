@@ -324,6 +324,15 @@ alloydbomni:
           type: integer
           minimum: 8
           maximum: 96
+        password_encryption:
+          title: password_encryption
+          description: Chooses the algorithm for encrypting passwords.
+          type: string
+          default: md5
+          enum:
+            - value: md5
+            - value: scram-sha-256
+          example: scram-sha-256
         pg_partman_bgw.interval:
           title: pg_partman_bgw.interval
           description: Sets the time interval to run pg_partman's scheduled tasks
@@ -5794,6 +5803,15 @@ pg:
           type: integer
           minimum: 8
           maximum: 96
+        password_encryption:
+          title: password_encryption
+          description: Chooses the algorithm for encrypting passwords.
+          type: string
+          default: md5
+          enum:
+            - value: md5
+            - value: scram-sha-256
+          example: scram-sha-256
         pg_partman_bgw.interval:
           title: pg_partman_bgw.interval
           description: Sets the time interval to run pg_partman's scheduled tasks
