@@ -4677,6 +4677,12 @@ opensearch:
                     - value: ip
                   max_length: 1024
                   example: ip
+        cluster.routing.allocation.balance.prefer_primary:
+          title: cluster.routing.allocation.balance.prefer_primary
+          description: When set to true, OpenSearch attempts to evenly distribute the primary shards between the cluster nodes. Enabling this setting does not always guarantee an equal number of primary shards on each node, especially in the event of a failover. Changing this setting to false after it was set to true does not invoke redistribution of primary shards. Default is false.
+          type: boolean
+          default: false
+          example: false
         cluster_max_shards_per_node:
           title: cluster.max_shards_per_node
           description: Controls the number of shards allowed in the cluster per data node
@@ -5056,6 +5062,38 @@ opensearch:
           minimum: 1
           maximum: 1e+06
           example: "10000"
+        segrep:
+          title: Segment Replication Backpressure Settings
+          type: object
+          properties:
+            pressure.checkpoint.limit:
+              title: segrep.pressure.checkpoint.limit
+              description: The maximum number of indexing checkpoints that a replica shard can fall behind when copying from primary. Once `segrep.pressure.checkpoint.limit` is breached along with `segrep.pressure.time.limit`, the segment replication backpressure mechanism is initiated. Default is 4 checkpoints.
+              type: integer
+              default: "4"
+              minimum: 0
+              example: "4"
+            pressure.enabled:
+              title: segrep.pressure.enabled
+              description: Enables the segment replication backpressure mechanism. Default is false.
+              type: boolean
+              default: false
+              example: false
+            pressure.replica.stale.limit:
+              title: segrep.pressure.replica.stale.limit
+              description: The maximum number of stale replica shards that can exist in a replication group. Once `segrep.pressure.replica.stale.limit` is breached, the segment replication backpressure mechanism is initiated. Default is .5, which is 50% of a replication group.
+              type: number
+              default: "0.5"
+              minimum: 0
+              maximum: 1
+              example: "0.5"
+            pressure.time.limit:
+              title: segrep.pressure.time.limit
+              description: The maximum amount of time that a replica shard can take to copy from the primary shard. Once segrep.pressure.time.limit is breached along with segrep.pressure.checkpoint.limit, the segment replication backpressure mechanism is initiated. Default is 5 minutes.
+              type: string
+              default: 5m
+              pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
+              example: 5m
         shard_indexing_pressure:
           title: Shard indexing back pressure settings
           type: object
