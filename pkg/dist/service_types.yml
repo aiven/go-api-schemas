@@ -1100,6 +1100,11 @@ flink:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    custom_code:
+      title: Custom code enabled
+      description: Enable to upload Custom JARs for Flink applications
+      type: boolean
+      example: false
     flink_version:
       title: Flink major version
       type: string
