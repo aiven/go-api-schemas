@@ -1104,6 +1104,7 @@ flink:
       title: Custom code enabled
       description: Enable to upload Custom JARs for Flink applications
       type: boolean
+      create_only: true
       example: false
     flink_version:
       title: Flink major version
@@ -1582,6 +1583,11 @@ grafana:
     dashboard_previews_enabled:
       title: Enable dashboard previews
       description: Enable browsing of dashboards in grid (pictures) mode. This feature is new in Grafana 9 and is quite resource intensive. It may cause low-end plans to work more slowly while the dashboard previews are rendering.
+      type: boolean
+      example: false
+    dashboard_scenes_enabled:
+      title: Enable scenes renderer for dashboards
+      description: Enable use of the Grafana Scenes Library as the dashboard engine. i.e. the `dashboardScene` feature flag. Upstream blog post at https://grafana.com/blog/2024/10/31/grafana-dashboards-are-now-powered-by-scenes-big-changes-same-ui/
       type: boolean
       example: false
     dashboards_min_refresh_interval:
@@ -3082,6 +3088,31 @@ kafka_connect:
           minimum: 1
           maximum: 2.147483647e+09
           example: "10000"
+    plugin_versions:
+      title: Kafka Connect plugins
+      description: The plugin selected by the user
+      type: array
+      items:
+        title: A Kafka Connect plugin
+        type: object
+        required:
+          - plugin_name
+          - version
+        properties:
+          plugin_name:
+            title: Plugin name
+            description: The name of the plugin
+            type: string
+            max_length: 128
+            pattern: ^[^\r\n]*$
+            example: debezium-connector
+          version:
+            title: Plugin version
+            description: The version of the plugin
+            type: string
+            max_length: 128
+            pattern: ^[^\r\n]*$
+            example: 2.5.0
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
