@@ -203,6 +203,30 @@ external_aws_s3:
       type: string
       max_length: 2048
       example: https://mybucket.s3-myregion.amazonaws.com/mydataset/
+external_azure_blob_storage:
+  type: object
+  required:
+    - connection_string
+    - container
+  properties:
+    blob_path:
+      title: Blob path
+      type: string
+      max_length: 1024
+      pattern: ^(?!.{1025})/?[^/\n]*[^/.\n](?:/[^\n/]*[^/.\n]){0,253}$
+      example: path/to/blob/file.csv
+    connection_string:
+      title: Azure Blob Storage connection string
+      type: string
+      max_length: 4096
+      pattern: ^([a-zA-Z0-9]+)=([^;]+)(?:;([a-zA-Z0-9]+)=([^;]+))*(;)?$
+      example: AccountName=IDENT;AccountKey=SECRET
+      _secure: true
+    container:
+      title: Container
+      type: string
+      max_length: 256
+      example: container-dev
 external_clickhouse:
   type: object
   required:
