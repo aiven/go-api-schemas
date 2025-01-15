@@ -1104,6 +1104,7 @@ flink:
       title: Custom code enabled
       description: Enable to upload Custom JARs for Flink applications
       type: boolean
+      create_only: true
       example: false
     flink_version:
       title: Flink major version
@@ -1582,6 +1583,11 @@ grafana:
     dashboard_previews_enabled:
       title: Enable dashboard previews
       description: Enable browsing of dashboards in grid (pictures) mode. This feature is new in Grafana 9 and is quite resource intensive. It may cause low-end plans to work more slowly while the dashboard previews are rendering.
+      type: boolean
+      example: false
+    dashboard_scenes_enabled:
+      title: Enable scenes renderer for dashboards
+      description: Enable use of the Grafana Scenes Library as the dashboard engine. i.e. the `dashboardScene` feature flag. Upstream blog post at https://grafana.com/blog/2024/10/31/grafana-dashboards-are-now-powered-by-scenes-big-changes-same-ui/
       type: boolean
       example: false
     dashboards_min_refresh_interval:
@@ -3082,6 +3088,31 @@ kafka_connect:
           minimum: 1
           maximum: 2.147483647e+09
           example: "10000"
+    plugin_versions:
+      title: Kafka Connect plugins
+      description: The plugin selected by the user
+      type: array
+      items:
+        title: A Kafka Connect plugin
+        type: object
+        required:
+          - plugin_name
+          - version
+        properties:
+          plugin_name:
+            title: Plugin name
+            description: The name of the plugin
+            type: string
+            max_length: 128
+            pattern: ^[^\r\n]*$
+            example: debezium-connector
+          version:
+            title: Plugin version
+            description: The version of the plugin
+            type: string
+            max_length: 128
+            pattern: ^[^\r\n]*$
+            example: 2.5.0
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -4688,6 +4719,37 @@ opensearch:
           type: boolean
           default: false
           example: false
+        cluster.search.request.slowlog:
+          type: object
+          properties:
+            level:
+              title: Log level
+              type: string
+              default: trace
+              enum:
+                - value: debug
+                - value: info
+                - value: trace
+                - value: warn
+            threshold:
+              type: object
+              properties:
+                debug:
+                  title: Debug threshold for total request took time. The value should be in the form count and unit, where unit one of (s,m,h,d,nanos,ms,micros) or -1. Default is -1
+                  type: string
+                  pattern: ^[^\r\n]*$
+                info:
+                  title: Info threshold for total request took time. The value should be in the form count and unit, where unit one of (s,m,h,d,nanos,ms,micros) or -1. Default is -1
+                  type: string
+                  pattern: ^[^\r\n]*$
+                trace:
+                  title: Trace threshold for total request took time. The value should be in the form count and unit, where unit one of (s,m,h,d,nanos,ms,micros) or -1. Default is -1
+                  type: string
+                  pattern: ^[^\r\n]*$
+                warn:
+                  title: Warning threshold for total request took time. The value should be in the form count and unit, where unit one of (s,m,h,d,nanos,ms,micros) or -1. Default is -1
+                  type: string
+                  pattern: ^[^\r\n]*$
         cluster_max_shards_per_node:
           title: cluster.max_shards_per_node
           description: Controls the number of shards allowed in the cluster per data node
@@ -4723,6 +4785,10 @@ opensearch:
           max_length: 320
           pattern: ^[^\x00-\x1F]+$
           example: jane@example.com
+        enable_remote_backed_storage:
+          title: Enable remote-backed storage
+          type: boolean
+          example: true
         enable_security_audit:
           title: Enable/Disable security audit
           type: boolean
