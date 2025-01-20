@@ -2767,7 +2767,9 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.6"
-        - value: "3.7"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "3.7"
         - value: "3.8"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
