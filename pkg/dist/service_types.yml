@@ -91,7 +91,7 @@ alloydbomni:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     pg:
       title: postgresql.conf configuration values
       type: object
@@ -731,7 +731,7 @@ cassandra:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     migrate_sstableloader:
       title: Migration mode for the sstableloader utility
       description: Sets the service into migration mode enabling the sstableloader utility to be used to upload Cassandra data files. Available only on service create.
@@ -826,7 +826,7 @@ clickhouse:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -962,7 +962,7 @@ dragonfly:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     migration:
       title: Migrate data from existing server
       type: object
@@ -1142,7 +1142,7 @@ flink:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     number_of_task_slots:
       title: Flink taskmanager.numberOfTaskSlots
       description: Task slots per node. For a 3 node plan, total number of task slots is 3x this value
@@ -1762,7 +1762,7 @@ grafana:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     metrics_enabled:
       title: Metrics enabled
       description: Enable Grafana's /metrics endpoint
@@ -2011,7 +2011,7 @@ influxdb:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -2139,7 +2139,7 @@ kafka:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     kafka:
       title: Kafka broker configuration values
       type: object
@@ -2970,7 +2970,7 @@ kafka_connect:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     kafka_connect:
       title: Kafka Connect configuration values
       type: object
@@ -3282,7 +3282,7 @@ kafka_mirrormaker:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     kafka_mirrormaker:
       title: Kafka MirrorMaker configuration values
       type: object
@@ -3415,7 +3415,7 @@ m3aggregator:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     m3aggregator_version:
       title: M3 major version (the minimum compatible version)
       type: string
@@ -3488,7 +3488,7 @@ m3db:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     limits:
       title: M3 limits
       type: object
@@ -3879,7 +3879,7 @@ mysql:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     migration:
       title: Migrate data from existing server
       type: object
@@ -4490,7 +4490,7 @@ opensearch:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     keep_index_refresh_interval:
       title: Don't reset index.refresh_interval to the default value
       description: Aiven automation resets index.refresh_interval to default value for every index to be sure that indices are always visible to search. If it doesn't fit your case, you can disable this by setting up this flag to true.
@@ -5626,7 +5626,7 @@ pg:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     migration:
       title: Migrate data from existing server
       type: object
@@ -6492,7 +6492,7 @@ redis:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     migration:
       title: Migrate data from existing server
       type: object
@@ -6738,7 +6738,7 @@ thanos:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     object_storage_usage_alert_threshold_gb:
       title: Alert threshold for exceeding object storage usage (GiB)
       description: After exceeding the limit a service alert is going to be raised (0 means not set)
@@ -6931,7 +6931,7 @@ valkey:
             example: 10.20.0.0/16
         max_length: 43
         example: 10.20.0.0/16
-      max_items: 1024
+      max_items: 2048
     migration:
       title: Migrate data from existing server
       type: object
