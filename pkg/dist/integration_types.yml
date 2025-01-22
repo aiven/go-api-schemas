@@ -632,7 +632,9 @@ logs:
       default: logs
       min_length: 1
       max_length: 1024
+      pattern: ^[a-z0-9][a-z0-9-_.]+$
       example: logs
+      user_error: Must start with alpha-numeric character, and only contain alpha-numeric characters, dashes, underscores and dots
     selected_log_fields:
       title: List of logging fields to include
       description: The list of logging fields that will be sent to the integration logging service. The MESSAGE and timestamp fields are always sent.
