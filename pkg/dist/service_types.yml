@@ -6905,6 +6905,11 @@ valkey:
       minimum: 0
       maximum: 59
       example: "30"
+    frequent_snapshots:
+      title: Frequent RDB snapshots
+      description: When enabled, Valkey will create frequent local RDB snapshots. When disabled, Valkey will only take RDB snapshots when a backup is created, based on the backup schedule. This setting is ignored when `valkey_persistence` is set to `off`.
+      type: boolean
+      default: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
