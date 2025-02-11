@@ -71,6 +71,7 @@ alloydbomni:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -711,6 +712,7 @@ cassandra:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -806,6 +808,7 @@ clickhouse:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -942,6 +945,7 @@ dragonfly:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -1122,6 +1126,7 @@ flink:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -1742,6 +1747,7 @@ grafana:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -1991,6 +1997,7 @@ influxdb:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -2119,6 +2126,7 @@ kafka:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -2950,6 +2958,7 @@ kafka_connect:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -3262,6 +3271,7 @@ kafka_mirrormaker:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -3395,6 +3405,7 @@ m3aggregator:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -3468,6 +3479,7 @@ m3db:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -3859,6 +3871,7 @@ mysql:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -4470,6 +4483,7 @@ opensearch:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -4622,7 +4636,7 @@ opensearch:
                   description: The number of login attempts allowed before login is blocked
                   type: integer
                   minimum: 1
-                  maximum: 2.147483647e+09
+                  maximum: 32767
                   example: "10"
                 authentication_backend:
                   title: internal_authentication_backend_limiting.authentication_backend
@@ -4669,6 +4683,8 @@ opensearch:
                   max_length: 1024
                   example: username
             ip_rate_limiting:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: IP address rate limiting settings
               type: object
               properties:
@@ -5606,6 +5622,7 @@ pg:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -6472,6 +6489,7 @@ redis:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -6718,6 +6736,7 @@ thanos:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
@@ -6916,6 +6935,7 @@ valkey:
       type: array
       default:
         - 0.0.0.0/0
+        - ::/0
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
