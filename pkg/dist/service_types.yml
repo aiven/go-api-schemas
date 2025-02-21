@@ -2664,6 +2664,13 @@ kafka:
           description: If true the consumer's offset will be periodically committed to Kafka in the background
           type: boolean
           default: true
+        consumer_idle_disconnect_timeout:
+          title: consumer.idle.disconnect.timeout
+          description: Specifies the maximum duration (in seconds) a client can remain idle before it is deleted. If a consumer is inactive, it will exit the consumer group, and its state will be discarded. A value of 0 (default) indicates that the consumer will not be disconnected automatically due to inactivity.
+          type: integer
+          default: "0"
+          minimum: 0
+          maximum: 2.147483647e+09
         consumer_request_max_bytes:
           title: consumer.request.max.bytes
           description: Maximum number of bytes in unencoded message keys and values by a single request
@@ -6924,6 +6931,11 @@ valkey:
       minimum: 0
       maximum: 59
       example: "30"
+    enable_ipv6:
+      title: Enable IPv6
+      description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
+      type: boolean
+      example: true
     frequent_snapshots:
       title: Frequent RDB snapshots
       description: When enabled, Valkey will create frequent local RDB snapshots. When disabled, Valkey will only take RDB snapshots when a backup is created, based on the backup schedule. This setting is ignored when `valkey_persistence` is set to `off`.
@@ -7085,6 +7097,13 @@ valkey:
       enum:
         - value: allchannels
         - value: resetchannels
+    valkey_active_expire_effort:
+      title: Active expire effort
+      description: Valkey reclaims expired keys both when accessed and in the background. The background process scans for expired keys to free memory. Increasing the active-expire-effort setting (default 1, max 10) uses more CPU to reclaim expired keys faster, reducing memory usage but potentially increasing latency.
+      type: integer
+      default: "1"
+      minimum: 1
+      maximum: 10
     valkey_io_threads:
       title: Valkey IO thread count
       description: Set Valkey IO thread count. Changing this will cause a restart of the Valkey service.

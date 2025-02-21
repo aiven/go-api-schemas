@@ -172,7 +172,7 @@ clickhouse_kafka:
                   example: topic_name
                   user_error: Must consist of alpha-numeric characters, underscores, dashes or dots, max 249 characters
             max_items: 100
-      max_items: 100
+      max_items: 400
 clickhouse_postgresql:
   title: Integration user config
   type: object
