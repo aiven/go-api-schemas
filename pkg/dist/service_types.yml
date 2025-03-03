@@ -4788,6 +4788,29 @@ opensearch:
           type: integer
           minimum: 2
           maximum: 16
+        disk_watermarks:
+          title: Watermark settings
+          type: object
+          required:
+            - low
+            - high
+            - flood_stage
+          properties:
+            flood_stage:
+              title: Flood stage watermark (percentage)
+              description: The flood stage watermark for disk usage.
+              type: integer
+              example: "95"
+            high:
+              title: High watermark (percentage)
+              description: The high watermark for disk usage.
+              type: integer
+              example: "90"
+            low:
+              title: Low watermark (percentage)
+              description: The low watermark for disk usage.
+              type: integer
+              example: "85"
         email_sender_name:
           title: Sender name placeholder to be used in Opensearch Dashboards and Opensearch keystore
           description: This should be identical to the Sender name defined in Opensearch dashboards
