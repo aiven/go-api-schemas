@@ -4324,6 +4324,10 @@ opensearch:
           type: string
           pattern: ^[^\r\n]*$
           _secure: true
+        readonly:
+          title: Whether the repository is read-only.
+          type: boolean
+          default: false
         restore_global_state:
           title: Restore the cluster state or not
           description: If true, restore the cluster state. Defaults to false
@@ -4394,6 +4398,10 @@ opensearch:
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
+        readonly:
+          title: Whether the repository is read-only.
+          type: boolean
+          default: false
         restore_global_state:
           title: Restore the cluster state or not
           description: If true, restore the cluster state. Defaults to false
@@ -5495,6 +5503,10 @@ opensearch:
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
+        readonly:
+          title: Whether the repository is read-only.
+          type: boolean
+          default: false
         region:
           title: S3 region
           type: string
