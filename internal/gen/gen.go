@@ -4,6 +4,7 @@ package gen
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -112,6 +113,11 @@ func fromFile(fileName string) (types.GenerationResult, error) {
 		uc, err := toUserConfig(v)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert %s %s: %w", match[1], match[2], err)
+		}
+
+		if kind == types.KeyServiceTypes && name == "opensearch" {
+			delete(uc.Properties, "custom_repos")
+			log.Printf("Removed `custom_repos` from opensearch, because of `one_of`")
 		}
 
 		result[kind][name] = *uc
