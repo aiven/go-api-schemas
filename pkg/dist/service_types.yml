@@ -4327,7 +4327,7 @@ opensearch:
         readonly:
           title: Whether the repository is read-only.
           type: boolean
-          default: false
+          default: true
         restore_global_state:
           title: Restore the cluster state or not
           description: If true, restore the cluster state. Defaults to false
@@ -4348,6 +4348,226 @@ opensearch:
       type: string
       max_length: 255
       example: grafana.example.org
+    custom_repos:
+      title: OpenSearch custom repositories
+      description: Allow to register object storage repositories in OpenSearch
+      type: array
+      items:
+        type: object
+        required:
+          - name
+          - type
+          - settings
+        properties:
+          name:
+            type: string
+            pattern: ^[^\r\n]*$
+          settings:
+            one_of:
+              - type: object
+                required:
+                  - account
+                  - base_path
+                  - container
+                properties:
+                  account:
+                    title: Account name
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  base_path:
+                    title: The path to the repository data within its container
+                    description: The path to the repository data within its container. The value of this setting should not start or end with a /
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  chunk_size:
+                    title: Chunk size
+                    description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  compress:
+                    title: Metadata files are stored in compressed format
+                    description: when set to true metadata files are stored in compressed format
+                    type: boolean
+                  container:
+                    title: Azure container name
+                    description: Azure container name
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  endpoint_suffix:
+                    title: Endpoint suffix
+                    description: Defines the DNS suffix for Azure Storage endpoints.
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  key:
+                    title: Account secret key
+                    description: Azure account secret key. One of key or sas_token should be specified
+                    type: string
+                    pattern: ^[^\r\n]*$
+                    _secure: true
+                  readonly:
+                    title: Whether the repository is read-only.
+                    type: boolean
+                    default: false
+                  sas_token:
+                    title: SAS token
+                    description: A shared access signatures (SAS) token. One of key or sas_token should be specified
+                    type: string
+                    pattern: ^[^\r\n]*$
+                    _secure: true
+              - type: object
+                required:
+                  - base_path
+                  - bucket
+                  - credentials
+                properties:
+                  base_path:
+                    title: The path to the repository data within its container
+                    description: The path to the repository data within its container. The value of this setting should not start or end with a /
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  bucket:
+                    title: Google Cloud Storage bucket name
+                    description: The path to the repository data within its container
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  chunk_size:
+                    title: Chunk size
+                    description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  compress:
+                    title: Metadata files are stored in compressed format
+                    description: when set to true metadata files are stored in compressed format
+                    type: boolean
+                  credentials:
+                    title: Google service account credentials map
+                    type: object
+                    required:
+                      - private_key_id
+                      - private_key
+                      - client_email
+                      - client_id
+                    properties:
+                      auth_provider_x509_cert_url:
+                        title: The certificate service of Google
+                        type: string
+                        example: https://www.googleapis.com/oauth2/v1/certs
+                      auth_uri:
+                        title: The authentication endpoint of Google
+                        type: string
+                        example: https://accounts.google.com/o/oauth2/auth
+                      client_email:
+                        title: Email of the service account
+                        type: string
+                        example: my-service-account@some-my-project.iam.gserviceaccount.com
+                      client_id:
+                        title: Numeric client id for this service account
+                        type: string
+                        example: "103654484443722885992"
+                      client_x509_cert_url:
+                        title: Certificate URL for your service account
+                        type: string
+                        example: https://www.googleapis.com/robot/v1/metadata/x509/my-service-account%40some-my-project.iam.gserviceaccount.com
+                      hmac_access_id:
+                        description: The access ID for HMAC authentication with Google Cloud Storage
+                        type: string
+                      hmac_secret:
+                        description: The secret key for HMAC authentication with Google Cloud Storage
+                        type: string
+                      private_key:
+                        title: PEM-encoded private key
+                        type: string
+                        example: |
+                          -----BEGIN PRIVATE KEY-----
+                          ...
+                          -----END PRIVATE KEY-----
+                      private_key_id:
+                        title: Hexadecimal ID number of your private key
+                        type: string
+                        example: 5fdeb02a11ddf081930ac3ac60bf376a0aef8fad
+                      project_id:
+                        title: Gcloud project id
+                        type: string
+                        example: some-my-project
+                      token_uri:
+                        title: The token lease endpoint of Google
+                        type: string
+                        example: https://accounts.google.com/o/oauth2/token
+                      type:
+                        title: Credentials type
+                        description: Always service_account for credentials created in Gcloud console or CLI
+                        type: string
+                        example: service_account
+                      universe_domain:
+                        title: The universe domain
+                        description: The universe domain. The default universe domain is googleapis.com.
+                        type: string
+                        example: '{"universe_domain": "googleapis.com", ...'
+                    _secure: true
+                  readonly:
+                    title: Whether the repository is read-only.
+                    type: boolean
+                    default: false
+              - type: object
+                required:
+                  - base_path
+                  - bucket
+                  - region
+                  - access_key
+                  - secret_key
+                properties:
+                  access_key:
+                    title: AWS Access key
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  base_path:
+                    title: The path to the repository data within its container
+                    description: The path to the repository data within its container. The value of this setting should not start or end with a /
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  bucket:
+                    title: S3 bucket name
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  chunk_size:
+                    title: Chunk size
+                    description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  compress:
+                    title: Metadata files are stored in compressed format
+                    description: when set to true metadata files are stored in compressed format
+                    type: boolean
+                  endpoint:
+                    title: The S3 service endpoint to connect
+                    description: The S3 service endpoint to connect to. If you are using an S3-compatible service then you should set this to the service’s endpoint
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  readonly:
+                    title: Whether the repository is read-only.
+                    type: boolean
+                    default: false
+                  region:
+                    title: S3 region
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  secret_key:
+                    title: AWS secret key
+                    description: AWS secret key
+                    type: string
+                    pattern: ^[^\r\n]*$
+                    _secure: true
+                  server_side_encryption:
+                    title: Server side encryption
+                    description: When set to true files are encrypted on server side
+                    type: boolean
+          type:
+            type: string
+            enum:
+              - value: azure
+              - value: gcs
+              - value: s3
+      max_items: 10
     disable_replication_factor_adjustment:
       title: Disable replication factor adjustment
       description: 'Disable automatic replication factor adjustment for multi-node services. By default, Aiven ensures all indexes are replicated at least to two nodes. Note: Due to potential data loss in case of losing a service node, this setting can not be activated unless specifically allowed for the project.'
@@ -4401,7 +4621,7 @@ opensearch:
         readonly:
           title: Whether the repository is read-only.
           type: boolean
-          default: false
+          default: true
         restore_global_state:
           title: Restore the cluster state or not
           description: If true, restore the cluster state. Defaults to false
@@ -5506,7 +5726,7 @@ opensearch:
         readonly:
           title: Whether the repository is read-only.
           type: boolean
-          default: false
+          default: true
         region:
           title: S3 region
           type: string
