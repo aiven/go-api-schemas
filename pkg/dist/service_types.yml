@@ -2647,6 +2647,33 @@ kafka:
                 type: string
                 max_length: 256
                 _secure: true
+    kafka_inkless:
+      title: Kafka Inkless configuration values
+      type: object
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the Inkless functionality
+          type: boolean
+          example: true
+        pg_connection_string:
+          title: PostgreSQL connection string
+          description: PostgreSQL JDBC connection string without username and password
+          type: string
+          max_length: 256
+          pattern: ^[^\r\n]*$
+        pg_password:
+          title: PostgreSQL password
+          description: PostgreSQL password
+          type: string
+          max_length: 32
+          pattern: ^[^\x00-\x1F]+$
+        pg_username:
+          title: PostgreSQL username
+          description: PostgreSQL username
+          type: string
+          max_length: 16
+          pattern: ^[^\x00-\x1F]+$
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -2786,6 +2813,7 @@ kafka:
           deprecation_notice: This value is deprecated.
           value: "3.7"
         - value: "3.8"
+        - value: "3.9"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
