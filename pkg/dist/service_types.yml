@@ -802,6 +802,18 @@ clickhouse:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    backup_hour:
+      title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
+      type: integer
+      minimum: 0
+      maximum: 23
+      example: "3"
+    backup_minute:
+      title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
+      type: integer
+      minimum: 0
+      maximum: 59
+      example: "30"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -2786,6 +2798,7 @@ kafka:
           deprecation_notice: This value is deprecated.
           value: "3.7"
         - value: "3.8"
+        - value: "3.9"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
