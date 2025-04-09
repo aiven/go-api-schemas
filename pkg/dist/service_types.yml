@@ -432,6 +432,92 @@ alloydbomni:
       type: string
       enum:
         - value: "15"
+    pgaudit:
+      title: PGAudit settings
+      description: System-wide settings for the pgaudit extension
+      type: object
+      properties:
+        feature_enabled:
+          title: Enable pgaudit extension.
+          description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
+          type: boolean
+          default: false
+        log:
+          title: Specifies which classes of statements will be logged by session audit logging.
+          type: array
+          items:
+            type: string
+            enum:
+              - value: all
+              - value: ddl
+              - value: function
+              - value: misc
+              - value: misc_set
+              - value: read
+              - value: role
+              - value: write
+        log_catalog:
+          title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
+          type: boolean
+          default: true
+        log_client:
+          title: Specifies whether log messages will be visible to a client process such as psql.
+          type: boolean
+          default: false
+        log_level:
+          title: Specifies the log level that will be used for log entries.
+          type: string
+          default: log
+          enum:
+            - value: debug1
+            - value: debug2
+            - value: debug3
+            - value: debug4
+            - value: debug5
+            - value: info
+            - value: notice
+            - value: warning
+            - value: log
+        log_max_string_length:
+          title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
+          type: integer
+          default: "-1"
+          minimum: -1
+          maximum: 102400
+        log_nested_statements:
+          title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
+          type: boolean
+          default: true
+        log_parameter:
+          title: Specifies that audit logging should include the parameters that were passed with the statement.
+          type: boolean
+          default: false
+        log_parameter_max_size:
+          title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
+          type: integer
+          default: "0"
+        log_relation:
+          title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          type: boolean
+          default: false
+        log_rows:
+          title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
+          type: boolean
+          default: false
+        log_statement:
+          title: Specifies whether logging will include the statement text and parameters (if enabled).
+          type: boolean
+          default: true
+        log_statement_once:
+          title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
+          type: boolean
+          default: false
+        role:
+          title: Specifies the master role to use for object audit logging.
+          type: string
+          max_length: 64
+          pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
+          user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
     pgbouncer:
       title: PGBouncer connection pooling settings
       description: System-wide settings for pgbouncer.
@@ -2584,6 +2670,31 @@ kafka:
           minimum: 1
           maximum: 2.147483647e+09
           example: "10000"
+    kafka_connect_plugin_versions:
+      title: Kafka Connect plugins
+      description: The plugin selected by the user
+      type: array
+      items:
+        title: A Kafka Connect plugin
+        type: object
+        required:
+          - plugin_name
+          - version
+        properties:
+          plugin_name:
+            title: Plugin name
+            description: The name of the plugin
+            type: string
+            max_length: 128
+            pattern: ^[^\r\n]*$
+            example: debezium-connector
+          version:
+            title: Plugin version
+            description: The version of the plugin
+            type: string
+            max_length: 128
+            pattern: ^[^\r\n]*$
+            example: 2.5.0
     kafka_connect_secret_providers:
       title: Kafka Connect secret providers
       description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
@@ -6168,22 +6279,16 @@ pg:
         - value: "16"
         - value: "17"
     pgaudit:
-      is_deprecated: true
-      deprecation_notice: This property is deprecated.
       title: PGAudit settings
       description: System-wide settings for the pgaudit extension
       type: object
       properties:
         feature_enabled:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Enable pgaudit extension.
           description: Enable pgaudit extension. When enabled, pgaudit extension will be automatically installed.Otherwise, extension will be uninstalled but auditing configurations will be preserved.
           type: boolean
           default: false
         log:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies which classes of statements will be logged by session audit logging.
           type: array
           items:
@@ -6198,104 +6303,62 @@ pg:
               - value: role
               - value: write
         log_catalog:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies whether log messages will be visible to a client process such as psql.
           type: boolean
           default: false
         log_level:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies the log level that will be used for log entries.
           type: string
           default: log
           enum:
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: debug1
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: debug2
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: debug3
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: debug4
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: debug5
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: info
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: notice
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: warning
-            - is_deprecated: true
-              deprecation_notice: This value is deprecated.
-              value: log
+            - value: debug1
+            - value: debug2
+            - value: debug3
+            - value: debug4
+            - value: debug5
+            - value: info
+            - value: log
+            - value: notice
+            - value: warning
         log_max_string_length:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies that audit logging should include the parameters that were passed with the statement.
           type: boolean
           default: false
         log_parameter_max_size:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
           type: boolean
           default: false
         log_statement:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies whether logging will include the statement text and parameters (if enabled).
           type: boolean
           default: true
         log_statement_once:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:
-          is_deprecated: true
-          deprecation_notice: This property is deprecated.
           title: Specifies the master role to use for object audit logging.
           type: string
           max_length: 64
