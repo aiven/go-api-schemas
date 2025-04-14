@@ -475,9 +475,9 @@ alloydbomni:
             - value: debug4
             - value: debug5
             - value: info
+            - value: log
             - value: notice
             - value: warning
-            - value: log
         log_max_string_length:
           title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
           type: integer
