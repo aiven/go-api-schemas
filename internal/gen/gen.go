@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"slices"
+	"sort"
 	"strings"
 
 	"github.com/huandu/xstrings"
@@ -173,6 +174,11 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 			uc.Enum = append(uc.Enum, types.UserConfigSchemaEnumValue{Value: v})
 		}
 	}
+
+	// Sorts enum values for consistent output
+	sort.Slice(uc.Enum, func(i, j int) bool {
+		return fmt.Sprint(uc.Enum[i].Value) < fmt.Sprint(uc.Enum[j].Value)
+	})
 
 	if src.Items != nil {
 		item, err := toUserConfig(src.Items)
