@@ -6277,7 +6277,9 @@ pg:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "12"
-        - value: "13"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "13"
         - value: "14"
         - value: "15"
         - value: "16"
