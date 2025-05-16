@@ -4977,6 +4977,11 @@ opensearch:
           title: Enable/Disable security audit
           type: boolean
           example: false
+        enable_snapshot_api:
+          title: Enable/Disable snapshot API
+          description: Enable/Disable snapshot API for custom repositories, this requires security management to be enabled
+          type: boolean
+          example: false
         http_max_content_length:
           title: http.max_content_length
           description: Maximum content length for HTTP requests to the OpenSearch HTTP API, in bytes.
