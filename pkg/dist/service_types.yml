@@ -4870,11 +4870,45 @@ opensearch:
                     - value: ip
                   max_length: 1024
                   example: ip
+        cluster.filecache.remote_data_ratio:
+          title: The limit of how much total remote data can be referenced
+          description: Defines a limit of how much total remote data can be referenced as a ratio of the size of the disk reserved for the file cache. This is designed to be a safeguard to prevent oversubscribing a cluster. Defaults to 0.
+          type: number
+          minimum: 0
+          maximum: 100
+          example: "5.0"
+        cluster.remote_store:
+          type: object
+          properties:
+            state.global_metadata.upload_timeout:
+              title: The amount of time to wait for the cluster state upload to complete
+              description: The amount of time to wait for the cluster state upload to complete. Defaults to 20s.
+              type: string
+              pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+              example: 20s
+            state.metadata_manifest.upload_timeout:
+              title: The amount of time to wait for the manifest file upload to complete
+              description: The amount of time to wait for the manifest file upload to complete. The manifest file contains the details of each of the files uploaded for a single cluster state, both index metadata files and global metadata files. Defaults to 20s.
+              type: string
+              pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+              example: 20s
+            translog.buffer_interval:
+              title: The default value of the translog buffer interval
+              description: The default value of the translog buffer interval used when performing periodic translog updates. This setting is only effective when the index setting `index.remote_store.translog.buffer_interval` is not present. Defaults to 650ms.
+              type: string
+              pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+              example: 650ms
+            translog.max_readers:
+              title: The maximum number of open translog files for remote-backed indexes
+              description: Sets the maximum number of open translog files for remote-backed indexes. This limits the total number of translog files per shard. After reaching this limit, the remote store flushes the translog files. Default is 1000. The minimum required is 100.
+              type: integer
+              minimum: 100
+              maximum: 2.147483647e+09
+              example: "1000"
         cluster.routing.allocation.balance.prefer_primary:
           title: cluster.routing.allocation.balance.prefer_primary
           description: When set to true, OpenSearch attempts to evenly distribute the primary shards between the cluster nodes. Enabling this setting does not always guarantee an equal number of primary shards on each node, especially in the event of a failover. Changing this setting to false after it was set to true does not invoke redistribution of primary shards. Default is false.
           type: boolean
-          default: false
           example: false
         cluster.search.request.slowlog:
           type: object
@@ -5093,6 +5127,12 @@ opensearch:
           minimum: 3
           maximum: 100
           example: "50"
+        node.search.cache.size:
+          title: The limit of how much total remote data can be referenced
+          description: Defines a limit of how much total remote data can be referenced as a ratio of the size of the disk reserved for the file cache. This is designed to be a safeguard to prevent oversubscribing a cluster. Defaults to 5gb. Requires restarting all OpenSearch nodes.
+          type: string
+          pattern: \d+(?:b|kb|mb|gb|tb)
+          example: 5gb
         override_main_response_version:
           title: compatibility.override_main_response_version
           description: Compatibility mode sets OpenSearch to report its version as 7.10 so clients continue to work. Default is false
@@ -5114,6 +5154,33 @@ opensearch:
             pattern: ^[^\r\n]*$
             example: anotherservice.aivencloud.com:12398
           max_items: 32
+        remote_store:
+          type: object
+          properties:
+            segment.pressure.bytes_lag.variance_factor:
+              title: The variance factor that is used to calculate the dynamic bytes lag threshold
+              description: The variance factor that is used together with the moving average to calculate the dynamic bytes lag threshold for activating remote segment backpressure. Defaults to 10.
+              type: number
+              minimum: 1
+              example: "10.0"
+            segment.pressure.consecutive_failures.limit:
+              title: The minimum consecutive failure count for activating remote segment backpressure
+              description: The minimum consecutive failure count for activating remote segment backpressure. Defaults to 5.
+              type: integer
+              minimum: 1
+              maximum: 2.147483647e+09
+              example: "5"
+            segment.pressure.enabled:
+              title: Enables remote segment backpressure
+              description: Enables remote segment backpressure. Default is `true`
+              type: boolean
+              example: true
+            segment.pressure.time_lag.variance_factor:
+              title: The variance factor that is used to calculate the dynamic bytes lag threshold
+              description: The variance factor that is used together with the moving average to calculate the dynamic time lag threshold for activating remote segment backpressure. Defaults to 10.
+              type: number
+              minimum: 1
+              example: "10.0"
         script_max_compilations_rate:
           title: Script max compilation rate - circuit breaker to prevent/minimize OOMs
           description: Script compilation circuit breaker limits the number of inline script compilations within a period of time. Default is use-context
@@ -6566,7 +6633,7 @@ pg:
       properties:
         max_background_workers:
           title: timescaledb.max_background_workers
-          description: The number of background workers for timescaledb operations. You should configure this setting to the sum of your number of databases and the total number of concurrent background workers you want running at any given point in time.
+          description: The number of background workers for timescaledb operations. You should configure this setting to the sum of your number of databases and the total number of concurrent background workers you want running at any given point in time. Changing this parameter causes a service restart.
           type: integer
           default: "16"
           minimum: 1
