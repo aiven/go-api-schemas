@@ -4,6 +4,23 @@ autoscaler:
 clickhouse_credentials:
   title: Integration user config
   type: object
+  properties:
+    grants:
+      title: Grants to assign.
+      type: array
+      items:
+        title: ClickHouse grant
+        type: object
+        required:
+          - user
+        properties:
+          user:
+            title: User or role to assign the grant to
+            type: string
+            min_length: 1
+            max_length: 64
+            example: alice
+      max_items: 64
 clickhouse_kafka:
   title: Integration user config
   type: object
