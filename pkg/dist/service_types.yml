@@ -318,7 +318,7 @@ alloydbomni:
           description: PostgreSQL maximum WAL senders. The default is `20`. Changing this parameter causes a service restart.
           type: integer
           minimum: 20
-          maximum: 64
+          maximum: 256
         max_worker_processes:
           title: max_worker_processes
           description: Sets the maximum number of background processes that the system can support. The default is `8`. Changing this parameter causes a service restart.
@@ -3037,6 +3037,12 @@ kafka:
       title: Single-zone configuration
       type: object
       properties:
+        availability_zone:
+          title: Availability zone
+          description: 'The availability zone to use for the service. This is only used when enabled is set to true. If not set the service will be allocated in random AZ.The AZ is not guaranteed, and the service may be allocated in a different AZ if the selected AZ is not available. Zones will not be validated and invalid zones will be ignored, falling back to random AZ selection. Common availability zones include: AWS (euc1-az1, euc1-az2, euc1-az3), GCP (europe-west1-a, europe-west1-b, europe-west1-c), Azure (germanywestcentral/1, germanywestcentral/2, germanywestcentral/3).'
+          type: string
+          max_length: 40
+          example: euc1-az1
         enabled:
           title: Enabled
           description: Whether to allocate nodes on the same Availability Zone or spread across zones available. By default service nodes are spread across different AZs. The single AZ support is best-effort and may temporarily allocate nodes in different AZs e.g. in case of capacity limitations in one AZ.
@@ -6171,7 +6177,7 @@ pg:
           description: PostgreSQL maximum WAL senders. The default is `20`. Changing this parameter causes a service restart.
           type: integer
           minimum: 20
-          maximum: 64
+          maximum: 256
         max_worker_processes:
           title: max_worker_processes
           description: Sets the maximum number of background processes that the system can support. The default is `8`. Changing this parameter causes a service restart.
