@@ -75,8 +75,8 @@ alloydbomni:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -802,8 +802,8 @@ cassandra:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -915,8 +915,8 @@ clickhouse:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -1052,8 +1052,8 @@ dragonfly:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -1233,8 +1233,8 @@ flink:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -1854,8 +1854,8 @@ grafana:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -2104,8 +2104,8 @@ influxdb:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -2233,8 +2233,8 @@ kafka:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -3104,8 +3104,8 @@ kafka_connect:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -3417,8 +3417,8 @@ kafka_mirrormaker:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -3551,8 +3551,8 @@ m3aggregator:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -3625,8 +3625,8 @@ m3db:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -4017,8 +4017,8 @@ mysql:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -4637,8 +4637,8 @@ opensearch:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -4884,12 +4884,10 @@ opensearch:
         cluster.filecache.remote_data_ratio:
           title: The limit of how much total remote data can be referenced
           description: Defines a limit of how much total remote data can be referenced as a ratio of the size of the disk reserved for the file cache. This is designed to be a safeguard to prevent oversubscribing a cluster. Defaults to 0.
-          type:
-            - integer
-            - number
+          type: number
           minimum: 0
           maximum: 100
-          example: "5"
+          example: "5.0"
         cluster.remote_store:
           type: object
           properties:
@@ -5881,8 +5879,8 @@ pg:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -6702,8 +6700,8 @@ redis:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -6949,8 +6947,8 @@ thanos:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:
@@ -7153,8 +7151,8 @@ valkey:
       items:
         title: CIDR address block, either as a string, or in a dict with an optional description field
         type:
-          - string
           - object
+          - string
         required:
           - network
         properties:

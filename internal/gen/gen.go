@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"maps"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -133,6 +134,19 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		return nil, err
 	}
 
+	// Convert "null" type to a "nullable" boolean field.
+	// It is easier to ask a bool field and cast a single "type" instead of a list.
+	normTypes = slices.DeleteFunc(normTypes, func(s string) bool {
+		if s != "null" {
+			return false
+		}
+		src.Nullable = true
+		return true
+	})
+
+	// Only mark required fields as nullable since optional fields can't be null in Go.
+	src.Nullable = src.isRequired && src.Nullable
+
 	uc := types.UserConfigSchema{
 		Properties:  make(map[string]types.UserConfigSchema),
 		Title:       src.Title,
@@ -143,6 +157,7 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		MaxLength:   src.MaxLength,
 		MaxItems:    src.MaxItems,
 		Pattern:     src.Pattern,
+		Nullable:    src.Nullable,
 		UserError:   or(src.XUserError, src.UserError),
 		Secure:      or(src.XSecure, src.Secure),
 		CreateOnly:  or(src.XCreateOnly, src.CreateOnly),
@@ -213,18 +228,6 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 	return &uc, nil
 }
 
-func distinct[T comparable](list []T) []T {
-	seen := make(map[T]bool)
-	result := make([]T, 0, len(list))
-	for _, v := range list {
-		if !seen[v] {
-			seen[v] = true
-			result = append(result, v)
-		}
-	}
-	return result
-}
-
 // or returns the first non-zero value.
 func or[T comparable](args ...T) T {
 	var zero T
@@ -237,26 +240,17 @@ func or[T comparable](args ...T) T {
 }
 
 func normalizeType(s *schema) ([]string, error) {
-	result := make([]string, 0)
+	result := make(map[string]bool)
 	switch t := s.Type.(type) {
 	case string:
 		return []string{t}, nil
 	case []any:
 		for _, v := range t {
-			if v == "null" {
-				s.Nullable = true
-			} else {
-				result = append(result, fmt.Sprintf("%v", v))
-			}
+			result[fmt.Sprintf("%v", v)] = true
 		}
 	case nil:
 	default:
 		return nil, fmt.Errorf("unknown type %T", s.Type)
-	}
-
-	// Golang supports null for required fields only
-	if s.isRequired && s.Nullable {
-		result = append(result, "null")
 	}
 
 	for _, v := range s.AnyOf {
@@ -266,15 +260,25 @@ func normalizeType(s *schema) ([]string, error) {
 				return nil, err
 			}
 
-			result = append(result, vType...)
+			for _, t := range vType {
+				result[t] = true
+			}
 		}
 	}
 
+	// Fixes the case when there is no type defined
 	if len(result) == 0 {
-		result = append(result, "string")
+		result["string"] = true
 	}
 
-	return distinct(result), nil
+	// Prioritize number over integer, because number is more general, and Go can't have both.
+	if result["number"] && result["integer"] {
+		delete(result, "integer")
+	}
+
+	keys := slices.Collect(maps.Keys(result))
+	slices.Sort(keys)
+	return keys, nil
 }
 
 func formatValue(t string, v any) any {
