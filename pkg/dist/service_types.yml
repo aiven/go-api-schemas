@@ -4884,10 +4884,12 @@ opensearch:
         cluster.filecache.remote_data_ratio:
           title: The limit of how much total remote data can be referenced
           description: Defines a limit of how much total remote data can be referenced as a ratio of the size of the disk reserved for the file cache. This is designed to be a safeguard to prevent oversubscribing a cluster. Defaults to 0.
-          type: number
+          type:
+            - integer
+            - number
           minimum: 0
           maximum: 100
-          example: "5.0"
+          example: "5"
         cluster.remote_store:
           type: object
           properties:
