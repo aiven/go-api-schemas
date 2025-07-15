@@ -258,7 +258,7 @@ alloydbomni:
           description: PostgreSQL maximum logical replication workers (taken from the pool of max_parallel_workers). The default is `4` (upstream default). Changing this parameter causes a service restart.
           type: integer
           minimum: 4
-          maximum: 64
+          maximum: 256
         max_parallel_workers:
           title: max_parallel_workers
           description: Sets the maximum number of workers that the system can support for parallel queries. The default is `8` (upstream default).
@@ -288,7 +288,7 @@ alloydbomni:
           description: PostgreSQL maximum replication slots. The default is `20`. Changing this parameter causes a service restart.
           type: integer
           minimum: 8
-          maximum: 64
+          maximum: 256
         max_slot_wal_keep_size:
           title: max_slot_wal_keep_size
           description: PostgreSQL maximum WAL size (MB) reserved for replication slots. If `-1` is specified, replication slots may retain an unlimited amount of WAL files. The default is `-1` (upstream default). wal_keep_size minimum WAL size setting takes precedence over this.
@@ -313,6 +313,12 @@ alloydbomni:
           type: integer
           minimum: 1
           maximum: 4.32e+07
+        max_sync_workers_per_subscription:
+          title: max_sync_workers_per_subscription
+          description: Maximum number of synchronization workers per subscription. The default is `2`.
+          type: integer
+          minimum: 2
+          maximum: 8
         max_wal_senders:
           title: max_wal_senders
           description: PostgreSQL maximum WAL senders. The default is `20`. Changing this parameter causes a service restart.
@@ -324,7 +330,7 @@ alloydbomni:
           description: Sets the maximum number of background processes that the system can support. The default is `8`. Changing this parameter causes a service restart.
           type: integer
           minimum: 8
-          maximum: 96
+          maximum: 288
         password_encryption:
           title: password_encryption
           description: Chooses the algorithm for encrypting passwords.
@@ -4308,6 +4314,23 @@ mysql:
           minimum: 1
           maximum: 2.147483e+06
           example: "28800"
+    mysql_incremental_backup:
+      title: MySQL incremental backup configuration
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          title: Enable incremental backups
+          description: Enable periodic incremental backups. When enabled, full_backup_week_schedule must be set. Incremental backups only store changes since the last backup, making them faster and more storage-efficient than full backups. This is particularly useful for large databases where daily full backups would be too time-consuming or expensive.
+          type: boolean
+          example: true
+        full_backup_week_schedule:
+          title: Full backup week schedule
+          description: 'Comma-separated list of days of the week when full backups should be created. Valid values: mon, tue, wed, thu, fri, sat, sun'
+          type: string
+          pattern: ^[a-z]+(,[a-z]+)*$
+          example: sun,wed
     mysql_version:
       title: MySQL major version
       type: string
@@ -6100,6 +6123,11 @@ pg:
           type: integer
           minimum: -1
           maximum: 2.147483647e+09
+        max_connections:
+          title: max_connections
+          description: PostgreSQL maximum number of concurrent connections to the database server. Changing this parameter causes a service restart.
+          type: integer
+          minimum: 25
         max_files_per_process:
           title: max_files_per_process
           description: PostgreSQL maximum number of files that can be open per process. The default is `1000` (upstream default). Changing this parameter causes a service restart.
@@ -6117,7 +6145,7 @@ pg:
           description: PostgreSQL maximum logical replication workers (taken from the pool of max_parallel_workers). The default is `4` (upstream default). Changing this parameter causes a service restart.
           type: integer
           minimum: 4
-          maximum: 64
+          maximum: 256
         max_parallel_workers:
           title: max_parallel_workers
           description: Sets the maximum number of workers that the system can support for parallel queries. The default is `8` (upstream default).
@@ -6147,7 +6175,7 @@ pg:
           description: PostgreSQL maximum replication slots. The default is `20`. Changing this parameter causes a service restart.
           type: integer
           minimum: 8
-          maximum: 64
+          maximum: 256
         max_slot_wal_keep_size:
           title: max_slot_wal_keep_size
           description: PostgreSQL maximum WAL size (MB) reserved for replication slots. If `-1` is specified, replication slots may retain an unlimited amount of WAL files. The default is `-1` (upstream default). wal_keep_size minimum WAL size setting takes precedence over this.
@@ -6172,6 +6200,12 @@ pg:
           type: integer
           minimum: 1
           maximum: 4.32e+07
+        max_sync_workers_per_subscription:
+          title: max_sync_workers_per_subscription
+          description: Maximum number of synchronization workers per subscription. The default is `2`.
+          type: integer
+          minimum: 2
+          maximum: 8
         max_wal_senders:
           title: max_wal_senders
           description: PostgreSQL maximum WAL senders. The default is `20`. Changing this parameter causes a service restart.
@@ -6183,7 +6217,7 @@ pg:
           description: Sets the maximum number of background processes that the system can support. The default is `8`. Changing this parameter causes a service restart.
           type: integer
           minimum: 8
-          maximum: 96
+          maximum: 288
         password_encryption:
           title: password_encryption
           description: Chooses the algorithm for encrypting passwords.
