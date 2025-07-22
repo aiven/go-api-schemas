@@ -440,7 +440,7 @@ alloydbomni:
         - value: "15"
     pgaudit:
       title: PGAudit settings
-      description: System-wide settings for the pgaudit extension
+      description: System-wide settings for the pgaudit extension.
       type: object
       properties:
         feature_enabled:
@@ -449,7 +449,8 @@ alloydbomni:
           type: boolean
           default: false
         log:
-          title: Specifies which classes of statements will be logged by session audit logging.
+          title: Log
+          description: Specifies which classes of statements will be logged by session audit logging.
           type: array
           items:
             type: string
@@ -463,15 +464,20 @@ alloydbomni:
               - value: role
               - value: write
         log_catalog:
-          title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
+          title: Log Catalog
+          description: |-
+            Specifies that session logging should be enabled in the case where all relations
+            in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
-          title: Specifies whether log messages will be visible to a client process such as psql.
+          title: Log Client
+          description: Specifies whether log messages will be visible to a client process such as psql.
           type: boolean
           default: false
         log_level:
-          title: Specifies the log level that will be used for log entries.
+          title: Log level
+          description: Specifies the log level that will be used for log entries.
           type: string
           default: log
           enum:
@@ -485,41 +491,59 @@ alloydbomni:
             - value: notice
             - value: warning
         log_max_string_length:
-          title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
+          title: Log Max String Length
+          description: |-
+            Crop parameters representation and whole statements if they exceed this threshold.
+            A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
-          title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
+          title: Log Nested Statements
+          description: |-
+            This GUC allows to turn off logging nested statements, that is, statements that are
+            executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
-          title: Specifies that audit logging should include the parameters that were passed with the statement.
+          title: Log Parameter
+          description: Specifies that audit logging should include the parameters that were passed with the statement.
           type: boolean
           default: false
         log_parameter_max_size:
-          title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
+          title: Log Parameter Max Size
+          description: |-
+            Specifies that parameter values longer than this setting (in bytes) should not be logged,
+            but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
-          title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          title: Log Relation
+          description: |-
+            Specifies whether session audit logging should create a separate log entry
+            for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
-          title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
+          title: Log Rows
           type: boolean
           default: false
         log_statement:
-          title: Specifies whether logging will include the statement text and parameters (if enabled).
+          title: Log Statement
+          description: Specifies whether logging will include the statement text and parameters (if enabled).
           type: boolean
           default: true
         log_statement_once:
-          title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
+          title: Log Statement Once
+          description: |-
+            Specifies whether logging will include the statement text and parameters with
+            the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:
-          title: Specifies the master role to use for object audit logging.
+          title: Role
+          description: Specifies the master role to use for object audit logging.
           type: string
           max_length: 64
           pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
@@ -611,7 +635,7 @@ alloydbomni:
         max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
-          title: max_failover_replication_time_lag
+          title: Max Failover Replication Time Lag
           description: Number of seconds of master unavailability before triggering database failover to standby
           type: integer
           default: "60"
@@ -6403,7 +6427,7 @@ pg:
         - value: "17"
     pgaudit:
       title: PGAudit settings
-      description: System-wide settings for the pgaudit extension
+      description: System-wide settings for the pgaudit extension.
       type: object
       properties:
         feature_enabled:
@@ -6412,7 +6436,8 @@ pg:
           type: boolean
           default: false
         log:
-          title: Specifies which classes of statements will be logged by session audit logging.
+          title: Log
+          description: Specifies which classes of statements will be logged by session audit logging.
           type: array
           items:
             type: string
@@ -6426,15 +6451,20 @@ pg:
               - value: role
               - value: write
         log_catalog:
-          title: Specifies that session logging should be enabled in the casewhere all relations in a statement are in pg_catalog.
+          title: Log Catalog
+          description: |-
+            Specifies that session logging should be enabled in the case where all relations
+            in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
-          title: Specifies whether log messages will be visible to a client process such as psql.
+          title: Log Client
+          description: Specifies whether log messages will be visible to a client process such as psql.
           type: boolean
           default: false
         log_level:
-          title: Specifies the log level that will be used for log entries.
+          title: Log level
+          description: Specifies the log level that will be used for log entries.
           type: string
           default: log
           enum:
@@ -6448,41 +6478,59 @@ pg:
             - value: notice
             - value: warning
         log_max_string_length:
-          title: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
+          title: Log Max String Length
+          description: |-
+            Crop parameters representation and whole statements if they exceed this threshold.
+            A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
-          title: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
+          title: Log Nested Statements
+          description: |-
+            This GUC allows to turn off logging nested statements, that is, statements that are
+            executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
-          title: Specifies that audit logging should include the parameters that were passed with the statement.
+          title: Log Parameter
+          description: Specifies that audit logging should include the parameters that were passed with the statement.
           type: boolean
           default: false
         log_parameter_max_size:
-          title: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
+          title: Log Parameter Max Size
+          description: |-
+            Specifies that parameter values longer than this setting (in bytes) should not be logged,
+            but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
-          title: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          title: Log Relation
+          description: |-
+            Specifies whether session audit logging should create a separate log entry
+            for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
-          title: Specifies that audit logging should include the rows retrieved or affected by a statement. When enabled the rows field will be included after the parameter field.
+          title: Log Rows
           type: boolean
           default: false
         log_statement:
-          title: Specifies whether logging will include the statement text and parameters (if enabled).
+          title: Log Statement
+          description: Specifies whether logging will include the statement text and parameters (if enabled).
           type: boolean
           default: true
         log_statement_once:
-          title: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
+          title: Log Statement Once
+          description: |-
+            Specifies whether logging will include the statement text and parameters with
+            the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:
-          title: Specifies the master role to use for object audit logging.
+          title: Role
+          description: Specifies the master role to use for object audit logging.
           type: string
           max_length: 64
           pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
@@ -6574,7 +6622,7 @@ pg:
         max_failover_replication_time_lag: 60
       properties:
         max_failover_replication_time_lag:
-          title: max_failover_replication_time_lag
+          title: Max Failover Replication Time Lag
           description: Number of seconds of master unavailability before triggering database failover to standby
           type: integer
           default: "60"
