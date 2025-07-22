@@ -149,8 +149,8 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 
 	uc := types.UserConfigSchema{
 		Properties:  make(map[string]types.UserConfigSchema),
-		Title:       src.Title,
-		Description: src.Description,
+		Title:       normalizeWhitespace(src.Title),
+		Description: normalizeWhitespace(src.Description),
 		Required:    src.Required,
 		Minimum:     src.Minimum,
 		MinLength:   src.MinLength,
@@ -339,4 +339,10 @@ func removeBlockedFields(result types.GenerationResult) {
 			delete(v.Properties, "elasticsearch_version")
 		}
 	}
+}
+
+var reWhitespace = regexp.MustCompile(`\s+`)
+
+func normalizeWhitespace(s string) string {
+	return strings.TrimSpace(reWhitespace.ReplaceAllString(s, " "))
 }
