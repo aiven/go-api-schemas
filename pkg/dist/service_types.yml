@@ -465,9 +465,7 @@ alloydbomni:
               - value: write
         log_catalog:
           title: Log Catalog
-          description: |-
-            Specifies that session logging should be enabled in the case where all relations
-            in a statement are in pg_catalog.
+          description: Specifies that session logging should be enabled in the case where all relations in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
@@ -492,18 +490,14 @@ alloydbomni:
             - value: warning
         log_max_string_length:
           title: Log Max String Length
-          description: |-
-            Crop parameters representation and whole statements if they exceed this threshold.
-            A (default) value of -1 disable the truncation.
+          description: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
           title: Log Nested Statements
-          description: |-
-            This GUC allows to turn off logging nested statements, that is, statements that are
-            executed as part of another ExecutorRun.
+          description: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
@@ -513,16 +507,12 @@ alloydbomni:
           default: false
         log_parameter_max_size:
           title: Log Parameter Max Size
-          description: |-
-            Specifies that parameter values longer than this setting (in bytes) should not be logged,
-            but replaced with <long param suppressed>.
+          description: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
           title: Log Relation
-          description: |-
-            Specifies whether session audit logging should create a separate log entry
-            for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          description: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
@@ -536,9 +526,7 @@ alloydbomni:
           default: true
         log_statement_once:
           title: Log Statement Once
-          description: |-
-            Specifies whether logging will include the statement text and parameters with
-            the first log entry for a statement/substatement combination or with every entry.
+          description: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:
@@ -2620,7 +2608,7 @@ kafka:
             - value: read_uncommitted
         consumer_max_partition_fetch_bytes:
           title: The maximum amount of data per-partition the server will return.
-          description: 'Records are fetched in batches by the consumer.If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. '
+          description: Records are fetched in batches by the consumer.If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress.
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
@@ -3186,7 +3174,7 @@ kafka_connect:
             - value: read_uncommitted
         consumer_max_partition_fetch_bytes:
           title: The maximum amount of data per-partition the server will return.
-          description: 'Records are fetched in batches by the consumer.If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. '
+          description: Records are fetched in batches by the consumer.If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress.
           type: integer
           minimum: 1.048576e+06
           maximum: 1.048576e+08
@@ -5489,13 +5477,7 @@ opensearch:
               type: boolean
             enforced:
               title: Run shard indexing backpressure in shadow mode or enforced mode
-              description: |-
-                Run shard indexing backpressure in shadow mode or enforced mode.
-                            In shadow mode (value set as false), shard indexing backpressure tracks all granular-level metrics,
-                            but it doesn’t actually reject any indexing requests.
-                            In enforced mode (value set as true),
-                            shard indexing backpressure rejects any requests to the cluster that might cause a dip in its performance.
-                            Default is false
+              description: Run shard indexing backpressure in shadow mode or enforced mode. In shadow mode (value set as false), shard indexing backpressure tracks all granular-level metrics, but it doesn’t actually reject any indexing requests. In enforced mode (value set as true), shard indexing backpressure rejects any requests to the cluster that might cause a dip in its performance. Default is false
               type: boolean
             operating_factor:
               title: Operating factor
@@ -5503,29 +5485,17 @@ opensearch:
               properties:
                 lower:
                   title: Lower occupancy limit of the allocated quota of memory for the shard
-                  description: |-
-                    Specify the lower occupancy limit of the allocated quota of memory for the shard.
-                                        If the total memory usage of a shard is below this limit,
-                                        shard indexing backpressure decreases the current allocated memory for that shard.
-                                        Default is 0.75
+                  description: Specify the lower occupancy limit of the allocated quota of memory for the shard. If the total memory usage of a shard is below this limit, shard indexing backpressure decreases the current allocated memory for that shard. Default is 0.75
                   type: number
                   minimum: 0
                 optimal:
                   title: Optimal occupancy of the allocated quota of memory for the shard
-                  description: |-
-                    Specify the optimal occupancy of the allocated quota of memory for the shard.
-                                        If the total memory usage of a shard is at this level,
-                                        shard indexing backpressure doesn’t change the current allocated memory for that shard.
-                                        Default is 0.85
+                  description: Specify the optimal occupancy of the allocated quota of memory for the shard. If the total memory usage of a shard is at this level, shard indexing backpressure doesn’t change the current allocated memory for that shard. Default is 0.85
                   type: number
                   minimum: 0
                 upper:
                   title: Upper occupancy limit of the allocated quota of memory for the shard
-                  description: |-
-                    Specify the upper occupancy limit of the allocated quota of memory for the shard.
-                                        If the total memory usage of a shard is above this limit,
-                                        shard indexing backpressure increases the current allocated memory for that shard.
-                                        Default is 0.95
+                  description: Specify the upper occupancy limit of the allocated quota of memory for the shard. If the total memory usage of a shard is above this limit, shard indexing backpressure increases the current allocated memory for that shard. Default is 0.95
                   type: number
                   minimum: 0
             primary_parameter:
@@ -5537,10 +5507,7 @@ opensearch:
                   properties:
                     soft_limit:
                       title: Node soft limit
-                      description: |-
-                        Define the percentage of the node-level memory
-                                                    threshold that acts as a soft indicator for strain on a node.
-                                                    Default is 0.7
+                      description: Define the percentage of the node-level memory threshold that acts as a soft indicator for strain on a node. Default is 0.7
                       type: number
                       minimum: 0
                 shard:
@@ -5548,10 +5515,7 @@ opensearch:
                   properties:
                     min_limit:
                       title: Shard min limit
-                      description: |-
-                        Specify the minimum assigned quota for a new shard in any role (coordinator, primary, or replica).
-                                                    Shard indexing backpressure increases or decreases this allocated quota based on the inflow of traffic for the shard.
-                                                    Default is 0.001
+                      description: Specify the minimum assigned quota for a new shard in any role (coordinator, primary, or replica). Shard indexing backpressure increases or decreases this allocated quota based on the inflow of traffic for the shard. Default is 0.001
                       type: number
                       minimum: 0
         thread_pool_analyze_queue_size:
@@ -6452,9 +6416,7 @@ pg:
               - value: write
         log_catalog:
           title: Log Catalog
-          description: |-
-            Specifies that session logging should be enabled in the case where all relations
-            in a statement are in pg_catalog.
+          description: Specifies that session logging should be enabled in the case where all relations in a statement are in pg_catalog.
           type: boolean
           default: true
         log_client:
@@ -6479,18 +6441,14 @@ pg:
             - value: warning
         log_max_string_length:
           title: Log Max String Length
-          description: |-
-            Crop parameters representation and whole statements if they exceed this threshold.
-            A (default) value of -1 disable the truncation.
+          description: Crop parameters representation and whole statements if they exceed this threshold. A (default) value of -1 disable the truncation.
           type: integer
           default: "-1"
           minimum: -1
           maximum: 102400
         log_nested_statements:
           title: Log Nested Statements
-          description: |-
-            This GUC allows to turn off logging nested statements, that is, statements that are
-            executed as part of another ExecutorRun.
+          description: This GUC allows to turn off logging nested statements, that is, statements that are executed as part of another ExecutorRun.
           type: boolean
           default: true
         log_parameter:
@@ -6500,16 +6458,12 @@ pg:
           default: false
         log_parameter_max_size:
           title: Log Parameter Max Size
-          description: |-
-            Specifies that parameter values longer than this setting (in bytes) should not be logged,
-            but replaced with <long param suppressed>.
+          description: Specifies that parameter values longer than this setting (in bytes) should not be logged, but replaced with <long param suppressed>.
           type: integer
           default: "0"
         log_relation:
           title: Log Relation
-          description: |-
-            Specifies whether session audit logging should create a separate log entry
-            for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
+          description: Specifies whether session audit logging should create a separate log entry for each relation (TABLE, VIEW, etc.) referenced in a SELECT or DML statement.
           type: boolean
           default: false
         log_rows:
@@ -6523,9 +6477,7 @@ pg:
           default: true
         log_statement_once:
           title: Log Statement Once
-          description: |-
-            Specifies whether logging will include the statement text and parameters with
-            the first log entry for a statement/substatement combination or with every entry.
+          description: Specifies whether logging will include the statement text and parameters with the first log entry for a statement/substatement combination or with every entry.
           type: boolean
           default: false
         role:

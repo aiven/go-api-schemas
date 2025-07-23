@@ -557,7 +557,7 @@ external_postgresql:
       _secure: true
     ssl_mode:
       title: SSL Mode
-      description: SSL mode to use for the connection.  Please note that Aiven requires TLS for all connections to external PostgreSQL services.
+      description: SSL mode to use for the connection. Please note that Aiven requires TLS for all connections to external PostgreSQL services.
       type: string
       default: verify-full
       enum:
