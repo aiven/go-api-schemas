@@ -159,6 +159,74 @@ clickhouse_kafka:
             minimum: 0
             maximum: 30000
             example: "1000"
+          producer_batch_num_messages:
+            title: The maximum number of messages in a batch sent to Kafka
+            description: The maximum number of messages in a batch sent to Kafka. If the number of messages exceeds this value, the batch is sent.
+            type: integer
+            default: "10000"
+            minimum: 1
+            maximum: 1e+06
+            example: "10000"
+          producer_batch_size:
+            title: The maximum size of a batch of messages sent to Kafka
+            description: The maximum size in bytes of a batch of messages sent to Kafka. If the batch size is exceeded, the batch is sent.
+            type: integer
+            default: "1000000"
+            minimum: 0
+            maximum: 2.147483647e+09
+            example: "1000000"
+          producer_compression_codec:
+            title: The compression codec to use for Kafka producer
+            description: The compression codec to use when sending a batch of messages to Kafka.
+            type: string
+            default: none
+            enum:
+              - value: gzip
+              - value: lz4
+              - value: none
+              - value: snappy
+              - value: zstd
+            example: zstd
+          producer_compression_level:
+            title: The compression level to use for Kafka producer
+            description: 'The compression level to use when sending a batch of messages to Kafka. Usable range is algorithm-dependent: [0-9] for gzip; [0-12] for lz4; only 0 for snappy; -1 = codec-dependent default compression level.'
+            type: integer
+            default: "-1"
+            minimum: -1
+            maximum: 12
+            example: "5"
+          producer_linger_ms:
+            title: The time to wait for additional messages before sending a batch
+            description: The time in milliseconds to wait for additional messages before sending a batch. If the time is exceeded, the batch is sent.
+            type: integer
+            default: "5"
+            minimum: 0
+            maximum: 900000
+            example: "5"
+          producer_queue_buffering_max_kbytes:
+            title: The maximum size of the buffer in kilobytes before sending
+            description: The maximum size of the producer queue in kilobytes.
+            type: integer
+            default: "1048576"
+            minimum: 0
+            maximum: 2.147483647e+09
+            example: "1048576"
+          producer_queue_buffering_max_messages:
+            title: The maximum number of messages to buffer before sending
+            description: The maximum number of messages in the producer queue.
+            type: integer
+            default: "100000"
+            minimum: 0
+            maximum: 2.147483647e+09
+            example: "100000"
+          producer_request_required_acks:
+            title: The number of acknowledgments required from Kafka brokers for a message to be considered successful
+            description: 'The number of acknowledgements the leader broker must receive from ISR brokers before responding to the request: 0=Broker does not send any response/ack to client, -1 will block until message is committed by all in sync replicas (ISRs).'
+            type: integer
+            default: "-1"
+            minimum: -1
+            maximum: 1000
+            example: "1"
           skip_broken_messages:
             title: Skip at least this number of broken messages from Kafka topic per block
             type: integer
