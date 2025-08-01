@@ -335,7 +335,6 @@ alloydbomni:
           title: password_encryption
           description: Chooses the algorithm for encrypting passwords.
           type: string
-          default: md5
           enum:
             - value: md5
             - value: scram-sha-256
@@ -6113,7 +6112,7 @@ pg:
           maximum: 2.147483647e+09
         max_connections:
           title: max_connections
-          description: PostgreSQL maximum number of concurrent connections to the database server. Changing this parameter causes a service restart.
+          description: Sets the PostgreSQL maximum number of concurrent connections to the database server. This is a limited-release parameter. Contact your account team to confirm your eligibility. You cannot decrease this parameter value when set. For services with a read replica, first increase the read replica's value. After the change is applied to the replica, you can increase the primary service's value. Changing this parameter causes a service restart.
           type: integer
           minimum: 25
         max_files_per_process:
@@ -6210,7 +6209,6 @@ pg:
           title: password_encryption
           description: Chooses the algorithm for encrypting passwords.
           type: string
-          default: md5
           enum:
             - value: md5
             - value: scram-sha-256
