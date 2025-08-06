@@ -3550,6 +3550,8 @@ kafka_mirrormaker:
       type: boolean
       example: true
 m3aggregator:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     custom_domain:
@@ -3613,6 +3615,8 @@ m3aggregator:
       type: boolean
       example: true
 m3db:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
@@ -4641,22 +4645,22 @@ opensearch:
       type: object
       properties:
         mapping_nested_objects_limit:
-          title: index.mapping.nested_objects.limit
-          description: The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document contains too many nested objects. Default is 10000.
+          title: (DEPRECATED) index.mapping.nested_objects.limit
+          description: The maximum number of nested JSON objects that a single document can contain across all nested types. This limit helps to prevent out of memory errors when a document contains too many nested objects. Default is 10000. Deprecated, use an index template instead.
           type: integer
           minimum: 0
           maximum: 100000
           example: "10000"
         number_of_replicas:
-          title: index.number_of_replicas
-          description: The number of replicas each primary shard has.
+          title: (DEPRECATED) index.number_of_replicas
+          description: The number of replicas each primary shard has. Deprecated, use an index template instead.
           type: integer
           minimum: 0
           maximum: 29
           example: "1"
         number_of_shards:
-          title: index.number_of_shards
-          description: The number of primary shards that an index should have.
+          title: (DEPRECATED) index.number_of_shards
+          description: The number of primary shards that an index should have. Deprecated, use an index template instead.
           type: integer
           minimum: 1
           maximum: 1024
