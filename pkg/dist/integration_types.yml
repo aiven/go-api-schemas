@@ -735,6 +735,8 @@ logs:
           - value: service_name
       max_items: 5
 m3aggregator:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 m3coordinator:
@@ -921,5 +923,7 @@ rsyslog:
   title: Integration user config
   type: object
 thanos_migrate:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
