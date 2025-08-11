@@ -594,7 +594,7 @@ external_prometheus:
       title: Prometheus basic authentication password
       type: string
       min_length: 8
-      max_length: 64
+      max_length: 256
       example: fhyFNBjj3R
       _secure: true
     basic_auth_username:
@@ -664,7 +664,7 @@ prometheus:
       title: Prometheus basic authentication password
       type: string
       min_length: 8
-      max_length: 64
+      max_length: 256
       example: fhyFNBjj3R
       _secure: true
     basic_auth_username:
