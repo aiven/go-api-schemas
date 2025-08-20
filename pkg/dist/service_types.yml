@@ -6959,7 +6959,7 @@ thanos:
   type: object
   properties:
     compactor:
-      title: Thanos Compactor User Configuration
+      title: ThanosCompactorUserConfig
       description: Configuration options for Thanos Compactor.
       type: object
       properties:
@@ -7063,7 +7063,7 @@ thanos:
           type: boolean
           example: true
     query:
-      title: Thanos Query User Configuration
+      title: ThanosQueryUserConfig
       description: Configuration options for Thanos Query.
       type: object
       properties:
@@ -7106,7 +7106,7 @@ thanos:
           minimum: 0
           maximum: 1e+08
     query-frontend:
-      title: Thanos Query Frontend User Configuration
+      title: ThanosQueryFrontendUserConfig
       description: Configuration options for Thanos Query Frontend.
       type: object
       properties:
@@ -7116,15 +7116,15 @@ thanos:
           type: boolean
           default: true
     receiver-ingesting:
-      title: Common Thanos Receive User Configuration
+      title: CommonReceiveUserConfig
       description: Common configuration options for Thanos Receive.
       type: object
     receiver-routing:
-      title: Thanos Receive Routing User Configuration
+      title: ThanosReceiveRoutingUserConfig
       description: Configuration options for Thanos Receive Routing.
       type: object
     ruler:
-      title: Thanos Ruler User Configuration
+      title: ThanosRulerUserConfig
       description: Configuration options for Thanos Ruler.
       type: object
     service_log:
@@ -7138,7 +7138,7 @@ thanos:
       type: boolean
       example: true
     store:
-      title: Thanos Store User Configuration
+      title: ThanosStoreUserConfig
       description: Configuration options for Thanos Store.
       type: object
 valkey:
