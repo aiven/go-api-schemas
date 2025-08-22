@@ -27,6 +27,7 @@ clickhouse_kafka:
   properties:
     tables:
       title: Tables to create
+      description: Array of table configurations that define how Kafka topics are mapped to ClickHouse tables. Each table configuration specifies the table structure, associated Kafka topics, and read/write settings.
       type: array
       default: []
       items:
@@ -41,6 +42,7 @@ clickhouse_kafka:
         properties:
           auto_offset_reset:
             title: Action to take when there is no initial offset in offset store or the desired offset is out of range
+            description: Determines where to start reading from Kafka when no offset is stored or the stored offset is out of range. 'earliest' starts from the beginning, 'latest' starts from the end.
             type: string
             default: earliest
             enum:
@@ -53,6 +55,7 @@ clickhouse_kafka:
             example: latest
           columns:
             title: Table columns
+            description: Array of column definitions that specify the structure of the ClickHouse table. Each column maps to a field in the Kafka messages.
             type: array
             items:
               title: Table column
@@ -63,12 +66,14 @@ clickhouse_kafka:
               properties:
                 name:
                   title: Column name
+                  description: The name of the column in the ClickHouse table. This should match the field names in your Kafka message format.
                   type: string
                   min_length: 1
                   max_length: 40
                   example: key
                 type:
                   title: Column type
+                  description: The ClickHouse data type for this column. Must be a valid ClickHouse data type that can handle the data format.
                   type: string
                   min_length: 1
                   max_length: 1000
@@ -76,6 +81,7 @@ clickhouse_kafka:
             max_items: 100
           data_format:
             title: Message data format
+            description: The format of the messages in the Kafka topics. Determines how ClickHouse parses and serializes the data (e.g., JSON, CSV, Avro).
             type: string
             default: JSONEachRow
             enum:
@@ -96,6 +102,7 @@ clickhouse_kafka:
             example: JSONEachRow
           date_time_input_format:
             title: Method to read DateTime from text input formats
+            description: Specifies how ClickHouse should parse DateTime values from text-based input formats. 'basic' uses simple parsing, 'best_effort' attempts more flexible parsing.
             type: string
             default: basic
             enum:
@@ -105,6 +112,7 @@ clickhouse_kafka:
             example: best_effort
           group_name:
             title: Kafka consumers group
+            description: The Kafka consumer group name. Multiple consumers with the same group name will share the workload and maintain offset positions.
             type: string
             default: clickhouse
             min_length: 1
@@ -112,6 +120,7 @@ clickhouse_kafka:
             example: clickhouse
           handle_error_mode:
             title: How to handle errors for Kafka engine
+            description: Defines how ClickHouse should handle errors when processing Kafka messages. 'default' stops on errors, 'stream' continues processing and logs errors.
             type: string
             default: default
             enum:
@@ -120,6 +129,7 @@ clickhouse_kafka:
             example: stream
           max_block_size:
             title: Number of row collected by poll(s) for flushing data from Kafka
+            description: Maximum number of rows to collect before flushing data between Kafka and ClickHouse.
             type: integer
             default: "0"
             minimum: 0
@@ -127,6 +137,7 @@ clickhouse_kafka:
             example: "100000"
           max_rows_per_message:
             title: The maximum number of rows produced in one kafka message for row-based formats
+            description: Maximum number of rows that can be processed from a single Kafka message for row-based formats. Useful for controlling memory usage.
             type: integer
             default: "1"
             minimum: 1
@@ -134,12 +145,14 @@ clickhouse_kafka:
             example: "100000"
           name:
             title: Name of the table
+            description: The name of the ClickHouse table to be created. This table can consume data from and write data to the specified Kafka topics.
             type: string
             min_length: 1
             max_length: 40
             example: events
           num_consumers:
             title: The number of consumers per table per replica
+            description: Number of Kafka consumers to run per table per replica. Increasing this can improve throughput but may increase resource usage.
             type: integer
             default: "1"
             minimum: 1
@@ -147,6 +160,7 @@ clickhouse_kafka:
             example: "4"
           poll_max_batch_size:
             title: Maximum amount of messages to be polled in a single Kafka poll
+            description: Maximum number of messages to fetch in a single Kafka poll operation for reading.
             type: integer
             default: "0"
             minimum: 0
@@ -154,6 +168,7 @@ clickhouse_kafka:
             example: "10000"
           poll_max_timeout_ms:
             title: Timeout in milliseconds for a single poll from Kafka. Takes the value of the stream_flush_interval_ms server setting by default (500ms).
+            description: Maximum time to wait for messages during a Kafka poll operation for reading.
             type: integer
             default: "0"
             minimum: 0
@@ -229,6 +244,7 @@ clickhouse_kafka:
             example: "1"
           skip_broken_messages:
             title: Skip at least this number of broken messages from Kafka topic per block
+            description: Number of broken messages to skip before stopping processing when reading from Kafka. Useful for handling corrupted data without failing the entire integration.
             type: integer
             default: "0"
             minimum: 0
@@ -236,11 +252,13 @@ clickhouse_kafka:
             example: "10000"
           thread_per_consumer:
             title: Provide an independent thread for each consumer. All consumers run in the same thread by default.
+            description: When enabled, each consumer runs in its own thread, providing better isolation and potentially better performance for high-throughput scenarios.
             type: boolean
             default: false
             example: true
           topics:
             title: Kafka topics
+            description: Array of Kafka topics that this table will read data from or write data to. Messages from all specified topics will be inserted into this table, and data inserted into this table will be published to the topics.
             type: array
             items:
               title: Kafka topic
@@ -250,6 +268,7 @@ clickhouse_kafka:
               properties:
                 name:
                   title: Name of the topic
+                  description: The name of the Kafka topic to read messages from or write messages to. The topic must exist in the Kafka cluster.
                   type: string
                   min_length: 1
                   max_length: 249
