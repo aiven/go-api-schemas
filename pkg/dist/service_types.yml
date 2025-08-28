@@ -5613,7 +5613,7 @@ opensearch:
           minimum: 5000
           maximum: 120000
     opensearch_version:
-      title: OpenSearch major version
+      title: OpenSearch version
       type: string
       enum:
         - value: "1"
