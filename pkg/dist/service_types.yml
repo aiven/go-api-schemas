@@ -34,7 +34,9 @@ alloydbomni:
       title: PostgreSQL major version
       type: string
       enum:
-        - value: "15"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "15"
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
       type: integer
@@ -2395,6 +2397,16 @@ kafka:
           description: 'This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. (Default: true)'
           type: boolean
           example: true
+        log_message_timestamp_after_max_ms:
+          title: log.message.timestamp.after.max.ms
+          description: 'The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. Applies only for messages with timestamps later than the broker''s timestamp. (Default: 9223372036854775807 (Long.MAX_VALUE))'
+          type: integer
+          minimum: 0
+        log_message_timestamp_before_max_ms:
+          title: log.message.timestamp.before.max.ms
+          description: 'The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. Applies only for messages with timestamps earlier than the broker''s timestamp. (Default: 9223372036854775807 (Long.MAX_VALUE))'
+          type: integer
+          minimum: 0
         log_message_timestamp_difference_max_ms:
           title: log.message.timestamp.difference.max.ms
           description: 'The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message (Default: 9223372036854775807 (Long.MAX_VALUE))'
