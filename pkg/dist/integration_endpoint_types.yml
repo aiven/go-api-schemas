@@ -25,7 +25,6 @@ autoscaler:
             description: An enumeration.
             type: string
             enum:
-              - value: autoscale_cpu_fraction
               - value: autoscale_disk
       max_items: 64
 datadog:
