@@ -122,6 +122,21 @@ func fromFile(fileName string) (types.GenerationResult, error) {
 			log.Printf("Removed `custom_repos` from opensearch, because of `one_of`")
 		}
 
+		// autoscale_cpu_fraction is an invalid property, it shouldn't be there.
+		// todo: remove this when the schema is fixed
+		if kind == types.KeyIntegrationEndpointTypes && name == "autoscaler" {
+			if autoscaling, ok := uc.Properties["autoscaling"]; ok && autoscaling.Items != nil {
+				if t, ok := autoscaling.Items.Properties["type"]; ok {
+					t.Enum = filterEnums(t.Enum, func(v any) bool {
+						return fmt.Sprint(v) != "autoscale_cpu_fraction"
+					})
+
+					// fixme: properties are not pointers
+					autoscaling.Items.Properties["type"] = t
+				}
+			}
+		}
+
 		result[kind][name] = *uc
 	}
 
@@ -345,4 +360,14 @@ var reWhitespace = regexp.MustCompile(`\s+`)
 
 func normalizeWhitespace(s string) string {
 	return strings.TrimSpace(reWhitespace.ReplaceAllString(s, " "))
+}
+
+func filterEnums(enums []types.UserConfigSchemaEnumValue, keep func(v any) bool) []types.UserConfigSchemaEnumValue {
+	result := make([]types.UserConfigSchemaEnumValue, 0, len(enums))
+	for _, v := range enums {
+		if keep(v.Value) {
+			result = append(result, v)
+		}
+	}
+	return result
 }
