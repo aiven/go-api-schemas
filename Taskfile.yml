@@ -1,25 +1,33 @@
 version: "3"
 
+vars:
+  AIVEN_WEB_URL: '{{.AIVEN_WEB_URL|default "https://api.aiven.io"}}'
+
 tasks:
   curlSpec:
+    requires:
+      vars:
+        - AIVEN_WEB_URL
     cmds:
-      - curl -so service_types.json https://api.aiven.io/v1/service_types
+      - curl -so service_types.json {{.AIVEN_WEB_URL}}/v1/service_types
   curlSpecSensitive:
     requires:
       vars:
         - AIVEN_TOKEN
         - AIVEN_PROJECT_NAME
+        - AIVEN_WEB_URL
     cmds:
       - for: [integration_types, integration_endpoint_types]
-        cmd: 'curl -so {{.ITEM}}.json https://api.aiven.io/v1/project/{{.AIVEN_PROJECT_NAME}}/{{.ITEM}} --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
+        cmd: 'curl -so {{.ITEM}}.json {{.AIVEN_WEB_URL}}/v1/project/{{.AIVEN_PROJECT_NAME}}/{{.ITEM}} --header "Authorization: aivenv1 {{.AIVEN_TOKEN}}"'
     silent: true
   generate:
     cmds:
       - go run main.go service_types.json integration_types.json integration_endpoint_types.json
   run:
+    deps:
+      - curlSpec
+      - curlSpecSensitive
     cmds:
-      - task: curlSpec
-      - task: curlSpecSensitive
       - task: generate
   build:
     cmds:

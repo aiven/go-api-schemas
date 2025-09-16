@@ -2,7 +2,7 @@
 
 ## Welcome
 
-Contributions are very welcome on go-api-schemas. When contributing please keep this in mind:
+Contributions are very welcome to go-api-schemas. When contributing, please keep the following in mind:
 
 - Open an issue to discuss new bigger features.
 - Write code consistent with the project style and make sure the tests are passing.
@@ -10,15 +10,68 @@ Contributions are very welcome on go-api-schemas. When contributing please keep 
 
 ## Development
 
-### Local Environment
+During development, you might want to see how schemas are generated,
+or use them with the [Aiven Terraform Provider][Aiven Terraform Provider] or [Aiven Kubernetes Operator][Aiven Kubernetes Operator].
 
-- Set `AIVEN_TOKEN` and `AIVEN_PROJECT_NAME` environment variables to your Aiven API token and project name.
+**Note:** Generated files should not be pushed as part of a PR unless specifically requested.
 
-- Run `task run` to generate and persist schemas.
+### Generating schemas
 
-You can also use `task build` to build the binary which you can then run the binary with `./go-api-schemas`.
+To generate schemas with the default URL, run:
 
-Try it and see `./go-api-schemas --help` for more configuration options besides the environment variables.
+```shell
+AIVEN_PROJECT_NAME=my-project AIVEN_TOKEN=abc123 task run
+```
+
+Where `AIVEN_PROJECT_NAME` is the name of your project, and `AIVEN_TOKEN` is your personal token.
+
+To generate schemas with a custom URL, run:
+
+```shell
+AIVEN_WEB_URL=https://custom-api AIVEN_PROJECT_NAME=my-project AIVEN_TOKEN=abc123 task run
+```
+
+This will:
+
+- Download JSON schema files from the Aiven API
+- Generate new schema files in the `pkg/dist` directory
+
+### Using the generated schemas
+
+You can make the Terraform Provider or Kubernetes Operator use the generated `go-api-schemas` repository for development.
+You can test your changes even before committing them.
+
+1. Clone the [Aiven Terraform Provider][Aiven Terraform Provider] or [Aiven Kubernetes Operator][Aiven Kubernetes Operator].
+2. Within the cloned repository, create a `go.work` file with the following content:
+
+   ```go.work
+   go 1.24.0
+
+   use (
+       .
+       ../your-go-api-schemas-repository-path
+   )
+   ```
+
+   The `go 1.24.0` version must match the version in the `go.mod` file,
+   which may have been updated since these instructions were written.
+
+3. Run the following command in the Terraform or Operator directory:
+
+   ```shell
+   task generate
+   ```
+
+   Your changes will now be visible in the [Aiven Terraform Provider][Aiven Terraform Provider] or [Aiven Kubernetes Operator][Aiven Kubernetes Operator] code.
+   Follow each project's documentation for next steps.
+
+### Advanced generation options
+
+For more options, run:
+
+```shell
+go run ./... --help
+```
 
 ### Tests
 
@@ -26,9 +79,9 @@ Try it and see `./go-api-schemas --help` for more configuration options besides 
 task test
 ```
 
-### Static checking and Linting
+### Static checking and linting
 
-We use [Trunk.io](https://trunk.io/) for static checking and linting. Install it locally and you'll be good to go.
+We use [Trunk.io](https://trunk.io/) for static checking and linting. Install it locally and you'll be ready to go.
 
 ## Opening a PR
 
@@ -41,4 +94,7 @@ We use [Trunk.io](https://trunk.io/) for static checking and linting. Install it
 ### Commit Messages
 
 This project adheres to the [Conventional Commits](https://conventionalcommits.org/en/v1.0.0/) specification.
-Please, make sure that your commit messages follow that specification.
+Please ensure that your commit messages follow this specification.
+
+[Aiven Terraform Provider]: https://github.com/aiven/terraform-provider-aiven
+[Aiven Kubernetes Operator]: https://github.com/aiven/aiven-operator
