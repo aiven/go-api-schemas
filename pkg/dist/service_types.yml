@@ -2804,6 +2804,18 @@ kafka:
                 type: string
                 max_length: 256
                 _secure: true
+    kafka_diskless:
+      title: Kafka Diskless configuration values
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the Diskless functionality
+          type: boolean
+          create_only: true
+          example: true
     kafka_rest:
       title: Enable Kafka-REST service
       type: boolean
@@ -2944,6 +2956,7 @@ kafka:
           value: "3.7"
         - value: "3.8"
         - value: "3.9"
+        - value: "4.0"
     letsencrypt_sasl_privatelink:
       title: Use Letsencrypt CA for Kafka SASL via Privatelink
       description: Use Letsencrypt CA for Kafka SASL via Privatelink
@@ -4551,29 +4564,22 @@ opensearch:
             one_of:
               - type: object
                 required:
-                  - account
+                  - access_key
+                  - secret_key
                 properties:
+                  access_key:
+                    title: AWS Access key
+                    type: string
+                    pattern: ^[^\r\n]*$
                   account:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
                     title: Account name
                     type: string
                     pattern: ^[^\r\n]*$
-                  key:
-                    title: Account secret key
-                    description: Azure account secret key. One of key or sas_token should be specified
-                    type: string
-                    pattern: ^[^\r\n]*$
-                    _secure: true
-                  sas_token:
-                    title: SAS token
-                    description: A shared access signatures (SAS) token. One of key or sas_token should be specified
-                    type: string
-                    pattern: ^[^\r\n]*$
-                    _secure: true
-              - type: object
-                required:
-                  - credentials
-                properties:
                   credentials:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
                     title: Google service account credentials map
                     type: object
                     required:
@@ -4639,15 +4645,22 @@ opensearch:
                         type: string
                         example: '{"universe_domain": "googleapis.com", ...'
                     _secure: true
-              - type: object
-                required:
-                  - access_key
-                  - secret_key
-                properties:
-                  access_key:
-                    title: AWS Access key
+                  key:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
+                    title: Account secret key
+                    description: Azure account secret key. One of key or sas_token should be specified
                     type: string
                     pattern: ^[^\r\n]*$
+                    _secure: true
+                  sas_token:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
+                    title: SAS token
+                    description: A shared access signatures (SAS) token. One of key or sas_token should be specified
+                    type: string
+                    pattern: ^[^\r\n]*$
+                    _secure: true
                   secret_key:
                     title: AWS secret key
                     description: AWS secret key
