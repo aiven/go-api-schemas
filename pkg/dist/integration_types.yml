@@ -1,6 +1,27 @@
 autoscaler:
   title: Integration user config
   type: object
+autoscaler_service:
+  title: Service autoscaler user config
+  type: object
+  properties:
+    autoscaling:
+      title: ServiceAutoscalerIntegrationUserConfig
+      description: Configure service autoscaling integration. This is an experimental api and subject to change. For further assistance, contact the Aiven support team mailto:support@aiven.io or your account team.
+      type: object
+      properties:
+        max_plan:
+          title: Max Plan
+          type: string
+          min_length: 3
+          max_length: 64
+          example: business-5
+        min_plan:
+          title: Min Plan
+          type: string
+          min_length: 3
+          max_length: 64
+          example: business-4
 clickhouse_credentials:
   title: Integration user config
   type: object
