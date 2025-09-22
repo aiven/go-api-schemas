@@ -6,7 +6,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/huandu/xstrings v1.5.0
 	github.com/spf13/cobra v1.10.1
-	github.com/spf13/pflag v1.0.9
+	github.com/spf13/pflag v1.0.10
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8
 	gopkg.in/yaml.v3 v3.0.1
