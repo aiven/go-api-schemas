@@ -18,7 +18,8 @@ autoscaler:
           cap_gb:
             title: The maximum total disk size (in gb) to allow autoscaler to scale up to
             type: integer
-            minimum: 50
+            minimum: "50"
+            maximum: "9007199254740991"
             example: "300"
           type:
             title: Type of autoscale event
@@ -94,20 +95,20 @@ datadog:
     kafka_consumer_check_instances:
       title: Number of separate instances to fetch kafka consumer statistics with
       type: integer
-      minimum: 1
-      maximum: 100
+      minimum: "1"
+      maximum: "100"
       example: "8"
     kafka_consumer_stats_timeout:
       title: Number of seconds that datadog will wait to get consumer statistics from brokers
       type: integer
-      minimum: 2
-      maximum: 300
+      minimum: "2"
+      maximum: "300"
       example: "60"
     max_partition_contexts:
       title: Maximum number of partition contexts to send
       type: integer
-      minimum: 200
-      maximum: 200000
+      minimum: "200"
+      maximum: "200000"
       example: "32000"
     site:
       title: Datadog intake site. Defaults to datadoghq.com
@@ -252,8 +253,8 @@ external_clickhouse:
     port:
       title: Secure TCP server port
       type: integer
-      minimum: 1
-      maximum: 65535
+      minimum: "1"
+      maximum: "65535"
       example: "9440"
     username:
       title: User name
@@ -278,8 +279,8 @@ external_elasticsearch_logs:
       title: Maximum number of days of logs to keep
       type: integer
       default: "3"
-      minimum: 1
-      maximum: 10000
+      minimum: "1"
+      maximum: "10000"
       example: "3"
     index_prefix:
       title: Elasticsearch index prefix
@@ -293,10 +294,10 @@ external_elasticsearch_logs:
     timeout:
       title: Elasticsearch request timeout limit
       type: number
-      default: "10.0"
-      minimum: 10
-      maximum: 120
-      example: "10.0"
+      default: "10"
+      minimum: "10.0"
+      maximum: "120.0"
+      example: "10"
     url:
       title: Elasticsearch connection URL
       type: string
@@ -444,8 +445,8 @@ external_mysql:
     port:
       title: Port number of the server
       type: integer
-      minimum: 1
-      maximum: 65535
+      minimum: "1"
+      maximum: "65535"
       example: "5432"
     ssl_mode:
       title: SSL Mode
@@ -485,8 +486,8 @@ external_opensearch_logs:
       title: Maximum number of days of logs to keep
       type: integer
       default: "3"
-      minimum: 1
-      maximum: 10000
+      minimum: "1"
+      maximum: "10000"
       example: "3"
     index_prefix:
       title: OpenSearch index prefix
@@ -500,10 +501,10 @@ external_opensearch_logs:
     timeout:
       title: OpenSearch request timeout limit
       type: number
-      default: "10.0"
-      minimum: 10
-      maximum: 120
-      example: "10.0"
+      default: "10"
+      minimum: "10.0"
+      maximum: "120.0"
+      example: "10"
     url:
       title: OpenSearch connection URL
       type: string
@@ -538,8 +539,8 @@ external_postgresql:
     port:
       title: Port number of the server
       type: integer
-      minimum: 1
-      maximum: 65535
+      minimum: "1"
+      maximum: "65535"
       example: "5432"
     ssl_client_certificate:
       title: Client certificate
@@ -731,15 +732,15 @@ rsyslog:
       title: Rsyslog max message size
       type: integer
       default: "8192"
-      minimum: 2048
-      maximum: 2.147483647e+09
+      minimum: "2048"
+      maximum: "2147483647"
       example: "8192"
     port:
       title: Rsyslog server port
       type: integer
       default: "514"
-      minimum: 1
-      maximum: 65535
+      minimum: "1"
+      maximum: "65535"
       example: "514"
     sd:
       title: Structured data block for log message
