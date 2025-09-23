@@ -153,16 +153,16 @@ clickhouse_kafka:
             description: Maximum number of rows to collect before flushing data between Kafka and ClickHouse.
             type: integer
             default: "0"
-            minimum: 0
-            maximum: 1e+09
+            minimum: "0"
+            maximum: "1000000000"
             example: "100000"
           max_rows_per_message:
             title: The maximum number of rows produced in one kafka message for row-based formats
             description: Maximum number of rows that can be processed from a single Kafka message for row-based formats. Useful for controlling memory usage.
             type: integer
             default: "1"
-            minimum: 1
-            maximum: 1e+09
+            minimum: "1"
+            maximum: "1000000000"
             example: "100000"
           name:
             title: Name of the table
@@ -176,41 +176,39 @@ clickhouse_kafka:
             description: Number of Kafka consumers to run per table per replica. Increasing this can improve throughput but may increase resource usage.
             type: integer
             default: "1"
-            minimum: 1
-            maximum: 10
+            minimum: "1"
+            maximum: "10"
             example: "4"
           poll_max_batch_size:
             title: Maximum amount of messages to be polled in a single Kafka poll
             description: Maximum number of messages to fetch in a single Kafka poll operation for reading.
             type: integer
             default: "0"
-            minimum: 0
-            maximum: 1e+09
+            minimum: "0"
+            maximum: "1000000000"
             example: "10000"
           poll_max_timeout_ms:
             title: Timeout in milliseconds for a single poll from Kafka. Takes the value of the stream_flush_interval_ms server setting by default (500ms).
             description: Maximum time to wait for messages during a Kafka poll operation for reading.
             type: integer
             default: "0"
-            minimum: 0
-            maximum: 30000
+            minimum: "0"
+            maximum: "30000"
             example: "1000"
           producer_batch_num_messages:
             title: The maximum number of messages in a batch sent to Kafka
             description: The maximum number of messages in a batch sent to Kafka. If the number of messages exceeds this value, the batch is sent.
             type: integer
             default: "10000"
-            minimum: 1
-            maximum: 1e+06
+            minimum: "1"
+            maximum: "1000000"
             example: "10000"
           producer_batch_size:
             title: The maximum size of a batch of messages sent to Kafka
             description: The maximum size in bytes of a batch of messages sent to Kafka. If the batch size is exceeded, the batch is sent.
             type: integer
-            default: "1000000"
-            minimum: 0
-            maximum: 2.147483647e+09
-            example: "1000000"
+            minimum: "0"
+            maximum: "2147483647"
           producer_compression_codec:
             title: The compression codec to use for Kafka producer
             description: The compression codec to use when sending a batch of messages to Kafka.
@@ -228,48 +226,46 @@ clickhouse_kafka:
             description: 'The compression level to use when sending a batch of messages to Kafka. Usable range is algorithm-dependent: [0-9] for gzip; [0-12] for lz4; only 0 for snappy; -1 = codec-dependent default compression level.'
             type: integer
             default: "-1"
-            minimum: -1
-            maximum: 12
+            minimum: "-1"
+            maximum: "12"
             example: "5"
           producer_linger_ms:
             title: The time to wait for additional messages before sending a batch
             description: The time in milliseconds to wait for additional messages before sending a batch. If the time is exceeded, the batch is sent.
             type: integer
             default: "5"
-            minimum: 0
-            maximum: 900000
+            minimum: "0"
+            maximum: "900000"
             example: "5"
           producer_queue_buffering_max_kbytes:
             title: The maximum size of the buffer in kilobytes before sending
             description: The maximum size of the producer queue in kilobytes.
             type: integer
-            default: "1048576"
-            minimum: 0
-            maximum: 2.147483647e+09
-            example: "1048576"
+            minimum: "0"
+            maximum: "2147483647"
           producer_queue_buffering_max_messages:
             title: The maximum number of messages to buffer before sending
             description: The maximum number of messages in the producer queue.
             type: integer
             default: "100000"
-            minimum: 0
-            maximum: 2.147483647e+09
+            minimum: "0"
+            maximum: "2147483647"
             example: "100000"
           producer_request_required_acks:
             title: The number of acknowledgments required from Kafka brokers for a message to be considered successful
             description: 'The number of acknowledgements the leader broker must receive from ISR brokers before responding to the request: 0=Broker does not send any response/ack to client, -1 will block until message is committed by all in sync replicas (ISRs).'
             type: integer
             default: "-1"
-            minimum: -1
-            maximum: 1000
+            minimum: "-1"
+            maximum: "1000"
             example: "1"
           skip_broken_messages:
             title: Skip at least this number of broken messages from Kafka topic per block
             description: Number of broken messages to skip before stopping processing when reading from Kafka. Useful for handling corrupted data without failing the entire integration.
             type: integer
             default: "0"
-            minimum: 0
-            maximum: 1e+09
+            minimum: "0"
+            maximum: "1000000000"
             example: "10000"
           thread_per_consumer:
             title: Provide an independent thread for each consumer. All consumers run in the same thread by default.
@@ -427,8 +423,8 @@ datadog:
     max_jmx_metrics:
       title: Maximum number of JMX metrics to send
       type: integer
-      minimum: 10
-      maximum: 100000
+      minimum: "10"
+      maximum: "100000"
       example: "2000"
     mirrormaker_custom_metrics:
       title: List of custom metrics
@@ -693,30 +689,29 @@ kafka_mirrormaker:
           title: consumer.fetch.min.bytes
           description: The minimum amount of data the server should return for a fetch request
           type: integer
-          minimum: 1
-          maximum: 5.24288e+06
+          minimum: "1"
+          maximum: "5242880"
           example: "1024"
         consumer_max_poll_records:
           title: Set the max.poll.records to consumer.
           description: Set consumer max.poll.records. The default is 500.
           type: integer
-          minimum: 100
-          maximum: 20000
+          minimum: "100"
+          maximum: "20000"
           example: "500"
         producer_batch_size:
           title: producer.batch.size
           description: The batch size in bytes producer will attempt to collect before publishing to broker.
           type: integer
-          minimum: 0
-          maximum: 5.24288e+06
+          minimum: "0"
+          maximum: "5242880"
           example: "1024"
         producer_buffer_memory:
           title: producer.buffer.memory
           description: The amount of bytes producer can use for buffering data before publishing to broker.
           type: integer
-          minimum: 5.24288e+06
-          maximum: 1.34217728e+08
-          example: "8388608"
+          minimum: "5242880"
+          maximum: "134217728"
         producer_compression_type:
           title: producer.compression.type
           description: Specify the default compression type for producers. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'none' which is the default and equivalent to no compression.
@@ -731,16 +726,15 @@ kafka_mirrormaker:
           title: producer.linger.ms
           description: The linger time (ms) for waiting new data to arrive for publishing.
           type: integer
-          minimum: 0
-          maximum: 5000
+          minimum: "0"
+          maximum: "5000"
           example: "100"
         producer_max_request_size:
           title: producer.max.request.size
           description: The maximum request size in bytes.
           type: integer
-          minimum: 0
-          maximum: 2.68435456e+08
-          example: "1048576"
+          minimum: "0"
+          maximum: "268435456"
 logs:
   type: object
   properties:
@@ -748,8 +742,8 @@ logs:
       title: Elasticsearch index retention limit
       type: integer
       default: "3"
-      minimum: 1
-      maximum: 10000
+      minimum: "1"
+      maximum: "10000"
       example: "5"
     elasticsearch_index_prefix:
       title: Elasticsearch index prefix
@@ -798,8 +792,8 @@ metrics:
     retention_days:
       title: Number of days to keep old metrics. Only affects PostgreSQL destinations. Set to 0 for no automatic cleanup. Defaults to 30 days.
       type: integer
-      minimum: 0
-      maximum: 10000
+      minimum: "0"
+      maximum: "10000"
       example: "30"
     ro_username:
       title: Name of a user that can be used to read metrics. This will be used for Grafana integration (if enabled) to prevent Grafana users from making undesired changes. Only affects PostgreSQL destinations. Defaults to 'metrics_reader'. Note that this must be the same for all metrics integrations that write data to the same PostgreSQL service.
@@ -863,20 +857,20 @@ metrics:
             perf_events_statements_digest_text_limit:
               title: Truncates digest text from perf_events_statements into this many characters
               type: integer
-              minimum: 1
-              maximum: 2048
+              minimum: "1"
+              maximum: "2048"
               example: "120"
             perf_events_statements_limit:
               title: Limits metrics from perf_events_statements
               type: integer
-              minimum: 1
-              maximum: 4000
+              minimum: "1"
+              maximum: "4000"
               example: "250"
             perf_events_statements_time_limit:
               title: Only include perf_events_statements whose last seen is less than this many seconds
               type: integer
-              minimum: 1
-              maximum: 2.592e+06
+              minimum: "1"
+              maximum: "2592000"
               example: "86400"
     username:
       title: Name of the user used to write metrics. Only affects PostgreSQL destinations. Defaults to 'metrics_writer'. Note that this must be the same for all metrics integrations that write data to the same PostgreSQL service.
@@ -944,20 +938,20 @@ prometheus:
             perf_events_statements_digest_text_limit:
               title: Truncates digest text from perf_events_statements into this many characters
               type: integer
-              minimum: 1
-              maximum: 2048
+              minimum: "1"
+              maximum: "2048"
               example: "120"
             perf_events_statements_limit:
               title: Limits metrics from perf_events_statements
               type: integer
-              minimum: 1
-              maximum: 4000
+              minimum: "1"
+              maximum: "4000"
               example: "250"
             perf_events_statements_time_limit:
               title: Only include perf_events_statements whose last seen is less than this many seconds
               type: integer
-              minimum: 1
-              maximum: 2.592e+06
+              minimum: "1"
+              maximum: "2592000"
               example: "86400"
 rsyslog:
   title: Integration user config
