@@ -39,8 +39,8 @@ type schema struct {
 	AnyOf       []*schema          `json:"anyOf,omitempty"`
 	OneOf       []*schema          `json:"oneOf,omitempty"`
 	Enum        []any              `json:"enum,omitempty"`
-	Minimum     *float64           `json:"minimum,omitempty"`
-	Maximum     *float64           `json:"maximum,omitempty"`
+	Minimum     *json.Number       `json:"minimum,omitempty"`
+	Maximum     *json.Number       `json:"maximum,omitempty"`
 	MinLength   *int               `json:"minLength,omitempty"`
 	MaxLength   *int               `json:"maxLength,omitempty"`
 	MaxItems    *int               `json:"maxItems,omitempty"`
@@ -58,16 +58,6 @@ type schema struct {
 
 	// Internal
 	isRequired bool // true, when a field is on the parent's Required list
-}
-
-// maxSafeInteger
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-const maxSafeInteger = float64(1<<53 - 1) // Or 9007199254740991.0
-
-func isSafeInt(v float64) bool {
-	// Maximum is float64, it can't fit more that 2^53-1
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-	return v < maxSafeInteger
 }
 
 // reUserConfigKey finds user config keys.
@@ -168,6 +158,7 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		Description: normalizeWhitespace(src.Description),
 		Required:    src.Required,
 		Minimum:     src.Minimum,
+		Maximum:     src.Maximum,
 		MinLength:   src.MinLength,
 		MaxLength:   src.MaxLength,
 		MaxItems:    src.MaxItems,
@@ -178,12 +169,6 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		CreateOnly:  or(src.XCreateOnly, src.CreateOnly),
 		Example:     formatValue(normTypes[0], src.Example),
 		Default:     formatValue(normTypes[0], src.Default),
-	}
-
-	if src.Maximum != nil {
-		if isSafeInt(*src.Maximum) {
-			uc.Maximum = src.Maximum
-		}
 	}
 
 	// Collects all the types
@@ -297,20 +282,30 @@ func normalizeType(s *schema) ([]string, error) {
 }
 
 func formatValue(t string, v any) any {
+	if v == nil {
+		return nil
+	}
+
 	s := fmt.Sprintf("%v", v)
-	if v == nil || s == "" {
+	if s == "" {
 		return nil
 	}
 
 	switch t {
 	case "integer":
-		i, ok := v.(float64)
-		if ok && isSafeInt(i) {
-			return fmt.Sprintf("%d", int(i))
+		n := json.Number(s)
+		_, err := n.Int64()
+		if err != nil {
+			return nil
 		}
-		return nil
+		return n.String()
 	case "number":
-		return fmt.Sprintf("%.1f", v)
+		n := json.Number(s)
+		_, err := n.Float64()
+		if err != nil {
+			return nil
+		}
+		return n.String()
 	case "boolean", "array", "object":
 		return v
 	}
