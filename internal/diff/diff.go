@@ -1,4 +1,3 @@
-// Package diff is the package that contains the diffMaps functionality.
 package diff
 
 import (
@@ -6,13 +5,12 @@ import (
 
 	"golang.org/x/exp/slices"
 
-	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/types"
 )
 
-// Run runs the diffMaps.
-func Run(was types.ReadResult, have types.GenerationResult) (types.DiffResult, error) {
+func Diff(was types.ReadResult, have types.GenerationResult) (types.DiffResult, error) {
 	result := make(types.DiffResult)
-	for _, k := range types.GetTypeKeys() {
+	for _, k := range types.GetSchemaTypes() {
 		result[k] = diffMaps(was[k], have[k])
 	}
 
@@ -36,14 +34,14 @@ func diffTwo(was, have *types.UserConfigSchema) *types.UserConfigSchema {
 	return have
 }
 
-func diffEnums(was, have []types.UserConfigSchemaEnumValue) []types.UserConfigSchemaEnumValue {
-	r := make(map[string]types.UserConfigSchemaEnumValue)
+func diffEnums(was, have []*types.UserConfigSchemaEnumValue) []*types.UserConfigSchemaEnumValue {
+	r := make(map[string]*types.UserConfigSchemaEnumValue)
 	for _, v := range have {
-		r[stringify(v.Value)] = v
+		r[fmt.Sprint(v.Value)] = v
 	}
 
 	for _, v := range was {
-		k := stringify(v.Value)
+		k := fmt.Sprint(v.Value)
 		if _, ok := r[k]; !ok {
 			v.Deprecate("This value is deprecated.")
 			r[k] = v
@@ -53,14 +51,14 @@ func diffEnums(was, have []types.UserConfigSchemaEnumValue) []types.UserConfigSc
 	return mapValues(r)
 }
 
-func diffArrays(was []types.UserConfigSchema, have []types.UserConfigSchema) []types.UserConfigSchema {
-	r := make(map[string]types.UserConfigSchema)
+func diffArrays(was []*types.UserConfigSchema, have []*types.UserConfigSchema) []*types.UserConfigSchema {
+	r := make(map[string]*types.UserConfigSchema)
 	for _, v := range have {
-		r[stringify(v.Type)] = v
+		r[fmt.Sprint(v.Type)] = v
 	}
 
 	for _, w := range was {
-		k := stringify(w.Type)
+		k := fmt.Sprint(w.Type)
 		h, ok := r[k]
 		if !ok {
 			w.Deprecate("This item is deprecated.")
@@ -68,39 +66,34 @@ func diffArrays(was []types.UserConfigSchema, have []types.UserConfigSchema) []t
 			continue
 		}
 
-		r[k] = *diffTwo(&w, &h)
+		r[k] = diffTwo(w, h)
 	}
 
 	return mapValues(r)
 }
 
-// diffMaps returns the difference between the two maps.
 // WARNING: Mutates the input maps.
-func diffMaps(was, have map[string]types.UserConfigSchema) map[string]types.UserConfigSchema {
+func diffMaps(was, have map[string]*types.UserConfigSchema) map[string]*types.UserConfigSchema {
 	keys := mergeKeys(was, have)
 	if len(keys) == 0 {
 		return nil
 	}
 
-	r := make(map[string]types.UserConfigSchema)
+	r := make(map[string]*types.UserConfigSchema)
 	for _, k := range keys {
 		var w, h *types.UserConfigSchema
 		if v, ok := was[k]; ok {
-			w = &v
+			w = v
 		}
 
 		if v, ok := have[k]; ok {
-			h = &v
+			h = v
 		}
 
-		r[k] = *diffTwo(w, h)
+		r[k] = diffTwo(w, h)
 	}
 
 	return r
-}
-
-func stringify(v any) string {
-	return fmt.Sprintf("%v", v)
 }
 
 // mergeKeys merges the keys of the given maps and returns them sorted.

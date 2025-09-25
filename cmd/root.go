@@ -1,131 +1,140 @@
-// Package cmd is the package that contains the commands of the application.
 package cmd
 
 import (
-	"errors"
+	"fmt"
+	"log"
 	"os"
-	"strings"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
+	"gopkg.in/yaml.v3"
 
 	"github.com/aiven/go-api-schemas/internal/diff"
 	"github.com/aiven/go-api-schemas/internal/gen"
-	"github.com/aiven/go-api-schemas/internal/pkg/types"
-	"github.com/aiven/go-api-schemas/internal/pkg/util"
-	"github.com/aiven/go-api-schemas/internal/reader"
-	"github.com/aiven/go-api-schemas/internal/writer"
+	"github.com/aiven/go-api-schemas/internal/types"
 )
 
-// logger is the logger of the application.
-var logger = &util.Logger{}
-
-// NewCmdRoot returns a pointer to the root command.
-func NewCmdRoot(l *util.Logger) *cobra.Command {
+func NewCmdRoot() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: "go-api-schemas foo.json bar.json baz.json",
 		Short: "go-api-schemas is a tool for generating and persisting user configuration option schemas from " +
 			"Aiven APIs.",
-		Run:  run,
+		RunE: run,
 		Args: cobra.MinimumNArgs(1),
 	}
 
-	cmd.Flags().StringP("output-dir", "o", "", "the output directory for the generated files")
-
-	cmd.Flags().BoolP("regenerate", "r", false, "regenerates the files in the output directory")
-
-	logger = l
-
+	cmd.Flags().StringP("output-dir", "o", "pkg/dist", "the output directory for the generated files")
+	cmd.Flags().BoolP(
+		"regenerate", "r", false,
+		"regenerate files without comparing against existing files (useful for removing deprecations)",
+	)
 	return cmd
 }
 
-// setupOutputDir sets up the output directory.
-func setupOutputDir(flags *pflag.FlagSet) error {
-	outputDir, err := flags.GetString("output-dir")
+func run(cmd *cobra.Command, fileNames []string) error {
+	outputDir, err := cmd.Flags().GetString("output-dir")
+	if err != nil {
+		return fmt.Errorf("error getting output directory: %w", err)
+	}
+
+	regenerate, err := cmd.Flags().GetBool("regenerate")
+	if err != nil {
+		return fmt.Errorf("error getting regeneration flag: %w", err)
+	}
+
+	generationResult, err := gen.Run(fileNames...)
+	if err != nil {
+		return fmt.Errorf("error generating: %w", err)
+	}
+
+	readResult := make(types.ReadResult)
+	if !regenerate {
+		readResult, err = read(outputDir)
+		if err != nil {
+			return fmt.Errorf("error reading files: %w", err)
+		}
+	}
+
+	diffResult, err := diff.Diff(readResult, generationResult)
+	if err != nil {
+		return fmt.Errorf("error diffing schemas: %w", err)
+	}
+
+	err = write(outputDir, diffResult)
+	if err != nil {
+		return fmt.Errorf("error writing files: %w", err)
+	}
+	return nil
+}
+
+func read(outputDir string) (types.ReadResult, error) {
+	result := make(types.ReadResult)
+	for k, v := range getSchemaFilenames() {
+		result[k] = make(map[string]*types.UserConfigSchema)
+		filePath := filepath.Join(outputDir, v)
+		err := readFile(filePath, result[k])
+		if err != nil && !os.IsNotExist(err) {
+			return nil, fmt.Errorf("%q: %w", filePath, err)
+		}
+	}
+
+	return result, nil
+}
+
+func readFile(filePath string, schema map[string]*types.UserConfigSchema) error {
+	f, err := os.Open(filepath.Clean(filePath))
 	if err != nil {
 		return err
 	}
 
-	if outputDir == "" {
-		var wd string
+	defer withLogError(f.Close)
+	return yaml.NewDecoder(f).Decode(schema)
+}
 
-		wd, err = os.Getwd()
+func write(outputDir string, result types.DiffResult) error {
+	for k, v := range getSchemaFilenames() {
+		p := filepath.Join(outputDir, v)
+		err := writeFile(p, result[k])
 		if err != nil {
-			return err
+			return fmt.Errorf("%q: %w", p, err)
 		}
-
-		outputDir = strings.Join([]string{wd, "pkg/dist"}, string(os.PathSeparator))
-
-		err = flags.Set("output-dir", outputDir)
-		if err != nil {
-			return err
-		}
-	}
-
-	fi, err := os.Stat(outputDir)
-	if err != nil {
-		return err
-	}
-
-	if !fi.IsDir() {
-		return errors.New("output directory is not a directory")
 	}
 
 	return nil
 }
 
-// setup sets up the application.
-func setup(flags *pflag.FlagSet) {
-	logger.Info.Println("go-api-schemas tool started")
-
-	logger.Info.Println("setting up output directory")
-
-	if err := setupOutputDir(flags); err != nil {
-		logger.Error.Fatalf("error setting up output directory: %s", err)
+func writeFile(filePath string, schema map[string]*types.UserConfigSchema) error {
+	f, err := os.Create(filepath.Clean(filePath))
+	if err != nil {
+		return err
 	}
 
-	logger.Info.Println("setting up environment variables")
+	defer withLogError(f.Close)
+
+	e := yaml.NewEncoder(f)
+	defer withLogError(e.Close)
+
+	const indentSpaces = 2
+	e.SetIndent(indentSpaces)
+	return e.Encode(schema)
 }
 
-// run is the function that is called when the rootCmd is executed.
-func run(cmd *cobra.Command, args []string) {
-	flags := cmd.Flags()
+const (
+	serviceSchemaFilename             = "service_types.yml"
+	integrationSchemaFilename         = "integration_types.yml"
+	integrationEndpointSchemaFilename = "integration_endpoint_types.yml"
+)
 
-	setup(flags)
-
-	shouldRegenerate, err := flags.GetBool("regenerate")
-	if err != nil {
-		logger.Error.Fatalf("error getting regeneration flag: %s", err)
+func getSchemaFilenames() map[types.SchemaType]string {
+	return map[types.SchemaType]string{
+		types.ServiceSchemaType:             serviceSchemaFilename,
+		types.IntegrationSchemaType:         integrationSchemaFilename,
+		types.IntegrationEndpointSchemaType: integrationEndpointSchemaFilename,
 	}
+}
 
-	logger.Info.Println("generating")
-
-	gr, err := gen.Run(args...)
-	if err != nil {
-		logger.Error.Fatalf("error generating: %s", err)
+func withLogError(f func() error) {
+	if err := f(); err != nil {
+		log.Println("[ERROR]: " + err.Error())
 	}
-
-	rr := make(types.ReadResult)
-
-	if !shouldRegenerate {
-		logger.Info.Println("reading files")
-
-		rr, err = reader.Run(logger, flags)
-		if err != nil && !os.IsNotExist(err) {
-			logger.Error.Fatalf("error reading files: %s", err)
-		}
-	}
-
-	logger.Info.Println("diffing")
-	dr, err := diff.Run(rr, gr)
-	if err != nil {
-		logger.Error.Fatalf("error diffing: %s", err)
-	}
-
-	logger.Info.Println("writing files")
-	if err = writer.Run(logger, flags, dr); err != nil {
-		logger.Error.Fatalf("error writing files: %s", err)
-	}
-
-	logger.Info.Println("done")
 }

@@ -34,6 +34,10 @@ linters:
     - whitespace
 
 linters-settings:
+  revive:
+    rules:
+      - name: exported
+        disabled: true
   gocognit:
     min-complexity: 25
   goconst:
