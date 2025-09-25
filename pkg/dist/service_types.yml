@@ -6544,6 +6544,7 @@ pg:
         - value: "15"
         - value: "16"
         - value: "17"
+        - value: "18"
     pgaudit:
       title: PGAudit settings
       description: System-wide settings for the pgaudit extension.
