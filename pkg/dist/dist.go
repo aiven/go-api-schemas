@@ -1,4 +1,3 @@
-// Package dist contains the embedded files.
 package dist
 
 import _ "embed"

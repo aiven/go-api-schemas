@@ -1,10 +1,8 @@
-// Package gen is the package that contains the generation logic.
 package gen
 
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"maps"
 	"os"
 	"path/filepath"
@@ -15,7 +13,7 @@ import (
 
 	"github.com/huandu/xstrings"
 
-	"github.com/aiven/go-api-schemas/internal/pkg/types"
+	"github.com/aiven/go-api-schemas/internal/types"
 )
 
 type doc struct {
@@ -77,16 +75,16 @@ func fromFile(fileName string) (types.GenerationResult, error) {
 
 	legacyToComponents(d)
 
-	kinds := map[string]int{
-		"Service":             types.KeyServiceTypes,
-		"Integration":         types.KeyIntegrationTypes,
-		"IntegrationEndpoint": types.KeyIntegrationEndpointTypes,
+	kinds := map[string]types.SchemaType{
+		"Service":             types.ServiceSchemaType,
+		"Integration":         types.IntegrationSchemaType,
+		"IntegrationEndpoint": types.IntegrationEndpointSchemaType,
 	}
 
 	// New openapi-uc schema file
 	result := make(types.GenerationResult)
 	for _, v := range kinds {
-		result[v] = make(map[string]types.UserConfigSchema)
+		result[v] = make(map[string]*types.UserConfigSchema)
 	}
 
 	for k, v := range d.Components.Schemas {
@@ -107,27 +105,19 @@ func fromFile(fileName string) (types.GenerationResult, error) {
 			return nil, fmt.Errorf("failed to convert %s %s: %w", match[1], match[2], err)
 		}
 
-		if kind == types.KeyServiceTypes && name == "opensearch" {
-			delete(uc.Properties, "custom_repos")
-			log.Printf("Removed `custom_repos` from opensearch, because of `one_of`")
-		}
-
 		// autoscale_cpu_fraction is an invalid property, it shouldn't be there.
 		// todo: remove this when the schema is fixed
-		if kind == types.KeyIntegrationEndpointTypes && name == "autoscaler" {
+		if kind == types.IntegrationEndpointSchemaType && name == "autoscaler" {
 			if autoscaling, ok := uc.Properties["autoscaling"]; ok && autoscaling.Items != nil {
 				if t, ok := autoscaling.Items.Properties["type"]; ok {
 					t.Enum = filterEnums(t.Enum, func(v any) bool {
 						return fmt.Sprint(v) != "autoscale_cpu_fraction"
 					})
-
-					// fixme: properties are not pointers
-					autoscaling.Items.Properties["type"] = t
 				}
 			}
 		}
 
-		result[kind][name] = *uc
+		result[kind][name] = uc
 	}
 
 	return result, nil
@@ -153,7 +143,7 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 	src.Nullable = src.isRequired && src.Nullable
 
 	uc := types.UserConfigSchema{
-		Properties:  make(map[string]types.UserConfigSchema),
+		Properties:  make(map[string]*types.UserConfigSchema),
 		Title:       normalizeWhitespace(src.Title),
 		Description: normalizeWhitespace(src.Description),
 		Required:    src.Required,
@@ -185,8 +175,8 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 	}
 
 	for _, v := range src.Enum {
-		if fmt.Sprintf("%v", v) != "" {
-			uc.Enum = append(uc.Enum, types.UserConfigSchemaEnumValue{Value: v})
+		if fmt.Sprint(v) != "" {
+			uc.Enum = append(uc.Enum, &types.UserConfigSchemaEnumValue{Value: v})
 		}
 	}
 
@@ -209,7 +199,7 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		if err != nil {
 			return nil, err
 		}
-		uc.Properties[k] = *child
+		uc.Properties[k] = child
 	}
 
 	if len(src.OneOf) != 0 {
@@ -222,7 +212,7 @@ func toUserConfig(src *schema) (*types.UserConfigSchema, error) { // nolint: fun
 		if err != nil {
 			return nil, err
 		}
-		uc.OneOf = append(uc.OneOf, *child)
+		uc.OneOf = append(uc.OneOf, child)
 	}
 
 	return &uc, nil
@@ -246,7 +236,7 @@ func normalizeType(s *schema) ([]string, error) {
 		return []string{t}, nil
 	case []any:
 		for _, v := range t {
-			result[fmt.Sprintf("%v", v)] = true
+			result[fmt.Sprint(v)] = true
 		}
 	case nil:
 	default:
@@ -286,7 +276,7 @@ func formatValue(t string, v any) any {
 		return nil
 	}
 
-	s := fmt.Sprintf("%v", v)
+	s := fmt.Sprint(v)
 	if s == "" {
 		return nil
 	}
@@ -343,7 +333,7 @@ func Run(fileNames ...string) (types.GenerationResult, error) {
 }
 
 func removeBlockedFields(result types.GenerationResult) {
-	services, ok := result[types.KeyServiceTypes]
+	services, ok := result[types.ServiceSchemaType]
 	if ok {
 		if v, ok := services["opensearch"]; ok {
 			delete(v.Properties, "elasticsearch_version")
@@ -357,8 +347,8 @@ func normalizeWhitespace(s string) string {
 	return strings.TrimSpace(reWhitespace.ReplaceAllString(s, " "))
 }
 
-func filterEnums(enums []types.UserConfigSchemaEnumValue, keep func(v any) bool) []types.UserConfigSchemaEnumValue {
-	result := make([]types.UserConfigSchemaEnumValue, 0, len(enums))
+func filterEnums(enums []*types.UserConfigSchemaEnumValue, keep func(v any) bool) []*types.UserConfigSchemaEnumValue {
+	result := make([]*types.UserConfigSchemaEnumValue, 0, len(enums))
 	for _, v := range enums {
 		if keep(v.Value) {
 			result = append(result, v)
