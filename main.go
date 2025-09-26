@@ -1,31 +1,14 @@
-// Package main is the main package of the application.
 package main
 
 import (
-	"github.com/spf13/cobra"
+	"log"
 
 	"github.com/aiven/go-api-schemas/cmd"
-	"github.com/aiven/go-api-schemas/internal/pkg/util"
 )
 
-// logger is the logger of the application.
-var logger = &util.Logger{}
-
-// rootCmd is the root command for the application.
-var rootCmd *cobra.Command
-
-// setup sets up the application.
-func setup() {
-	util.SetupLogger(logger)
-
-	rootCmd = cmd.NewCmdRoot(logger)
-}
-
-// main is the entrypoint for the application.
 func main() {
-	setup()
-
-	if err := rootCmd.Execute(); err != nil {
-		panic(err)
+	c := cmd.NewCmdRoot()
+	if err := c.Execute(); err != nil {
+		log.Fatal(err)
 	}
 }

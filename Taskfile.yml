@@ -40,3 +40,12 @@ tasks:
     cmds:
       - for: [service_types, integration_types, integration_endpoint_types]
         cmd: "curl -so ./pkg/dist/{{.ITEM}}.yml https://raw.githubusercontent.com/aiven/go-api-schemas/refs/heads/main/pkg/dist/{{.ITEM}}.yml"
+  fmt-imports:
+    desc: Remove blank lines in Go import blocks and run goimports
+    cmds:
+      - find . -type f -name '*.go' -exec sed -i'' -e '/^import ($/,/^)$/{/^[[:space:]]*$/d;}' {} +
+      - goimports -local "github.com/aiven/go-api-schemas" -w .
+  fmt:
+    desc: Format code
+    cmds:
+      - task: fmt-imports
