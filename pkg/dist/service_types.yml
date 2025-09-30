@@ -4689,17 +4689,29 @@ opensearch:
             one_of:
               - type: object
                 required:
-                  - account
                   - base_path
-                  - container
+                  - bucket
+                  - region
+                  - access_key
+                  - secret_key
                 properties:
+                  access_key:
+                    title: AWS Access key
+                    type: string
+                    pattern: ^[^\r\n]*$
                   account:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
                     title: Account name
                     type: string
                     pattern: ^[^\r\n]*$
                   base_path:
                     title: The path to the repository data within its container
                     description: The path to the repository data within its container. The value of this setting should not start or end with a /
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  bucket:
+                    title: S3 bucket name
                     type: string
                     pattern: ^[^\r\n]*$
                   chunk_size:
@@ -4712,57 +4724,15 @@ opensearch:
                     description: when set to true metadata files are stored in compressed format
                     type: boolean
                   container:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
                     title: Azure container name
                     description: Azure container name
                     type: string
                     pattern: ^[^\r\n]*$
-                  endpoint_suffix:
-                    title: Endpoint suffix
-                    description: Defines the DNS suffix for Azure Storage endpoints.
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  key:
-                    title: Account secret key
-                    description: Azure account secret key. One of key or sas_token should be specified
-                    type: string
-                    pattern: ^[^\r\n]*$
-                    _secure: true
-                  readonly:
-                    title: Whether the repository is read-only.
-                    type: boolean
-                    default: false
-                  sas_token:
-                    title: SAS token
-                    description: A shared access signatures (SAS) token. One of key or sas_token should be specified
-                    type: string
-                    pattern: ^[^\r\n]*$
-                    _secure: true
-              - type: object
-                required:
-                  - base_path
-                  - bucket
-                  - credentials
-                properties:
-                  base_path:
-                    title: The path to the repository data within its container
-                    description: The path to the repository data within its container. The value of this setting should not start or end with a /
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  bucket:
-                    title: Google Cloud Storage bucket name
-                    description: The path to the repository data within its container
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  chunk_size:
-                    title: Chunk size
-                    description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  compress:
-                    title: Metadata files are stored in compressed format
-                    description: when set to true metadata files are stored in compressed format
-                    type: boolean
                   credentials:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
                     title: Google service account credentials map
                     type: object
                     required:
@@ -4828,45 +4798,26 @@ opensearch:
                         type: string
                         example: '{"universe_domain": "googleapis.com", ...'
                     _secure: true
-                  readonly:
-                    title: Whether the repository is read-only.
-                    type: boolean
-                    default: false
-              - type: object
-                required:
-                  - base_path
-                  - bucket
-                  - region
-                  - access_key
-                  - secret_key
-                properties:
-                  access_key:
-                    title: AWS Access key
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  base_path:
-                    title: The path to the repository data within its container
-                    description: The path to the repository data within its container. The value of this setting should not start or end with a /
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  bucket:
-                    title: S3 bucket name
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  chunk_size:
-                    title: Chunk size
-                    description: Big files can be broken down into chunks during snapshotting if needed. Should be the same as for the 3rd party repository
-                    type: string
-                    pattern: ^[^\r\n]*$
-                  compress:
-                    title: Metadata files are stored in compressed format
-                    description: when set to true metadata files are stored in compressed format
-                    type: boolean
                   endpoint:
                     title: The S3 service endpoint to connect
                     description: The S3 service endpoint to connect to. If you are using an S3-compatible service then you should set this to the service’s endpoint
                     type: string
                     pattern: ^[^\r\n]*$
+                  endpoint_suffix:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
+                    title: Endpoint suffix
+                    description: Defines the DNS suffix for Azure Storage endpoints.
+                    type: string
+                    pattern: ^[^\r\n]*$
+                  key:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
+                    title: Account secret key
+                    description: Azure account secret key. One of key or sas_token should be specified
+                    type: string
+                    pattern: ^[^\r\n]*$
+                    _secure: true
                   readonly:
                     title: Whether the repository is read-only.
                     type: boolean
@@ -4875,6 +4826,14 @@ opensearch:
                     title: S3 region
                     type: string
                     pattern: ^[^\r\n]*$
+                  sas_token:
+                    is_deprecated: true
+                    deprecation_notice: This property is deprecated.
+                    title: SAS token
+                    description: A shared access signatures (SAS) token. One of key or sas_token should be specified
+                    type: string
+                    pattern: ^[^\r\n]*$
+                    _secure: true
                   secret_key:
                     title: AWS secret key
                     description: AWS secret key
