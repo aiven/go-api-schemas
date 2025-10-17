@@ -6500,6 +6500,43 @@ pg:
           type: integer
           minimum: "0"
           maximum: "604800000"
+        io_combine_limit:
+          title: io_combine_limit
+          description: 'EXPERIMENTAL: Controls the largest I/O size in operations that combine I/O in 8kB units. Version 17 and up only.'
+          type: integer
+          default: "16"
+          minimum: "1"
+          maximum: "32"
+        io_max_combine_limit:
+          title: io_max_combine_limit
+          description: 'EXPERIMENTAL: Controls the largest I/O size in operations that combine I/O in 8kB units, and silently limits the user-settable parameter io_combine_limit. Version 18 and up only. Changing this parameter causes a service restart.'
+          type: integer
+          default: "16"
+          minimum: "1"
+          maximum: "128"
+        io_max_concurrency:
+          title: io_max_concurrency
+          description: 'EXPERIMENTAL: Controls the maximum number of I/O operations that one process can execute simultaneously. Version 18 and up only. Changing this parameter causes a service restart.'
+          type: integer
+          default: "-1"
+          minimum: "-1"
+          maximum: "1024"
+        io_method:
+          title: io_method
+          description: 'EXPERIMENTAL: Controls the maximum number of I/O operations that one process can execute simultaneously. Version 18 and up only. Changing this parameter causes a service restart.'
+          type: string
+          default: worker
+          enum:
+            - value: io_uring
+            - value: sync
+            - value: worker
+        io_workers:
+          title: io_max_concurrency
+          description: 'EXPERIMENTAL: Number of IO worker processes, for io_method=worker. Version 18 and up only. Changing this parameter causes a service restart.'
+          type: integer
+          default: "3"
+          minimum: "1"
+          maximum: "32"
         jit:
           title: jit
           description: Controls system-wide use of Just-in-Time Compilation (JIT).
@@ -6545,7 +6582,7 @@ pg:
           description: Sets the PostgreSQL maximum number of concurrent connections to the database server. This is a limited-release parameter. Contact your account team to confirm your eligibility. You cannot decrease this parameter value when set. For services with a read replica, first increase the read replica's value. After the change is applied to the replica, you can increase the primary service's value. Changing this parameter causes a service restart.
           type: integer
           minimum: "25"
-          maximum: "262143"
+          maximum: "60000"
         max_files_per_process:
           title: max_files_per_process
           description: PostgreSQL maximum number of files that can be open per process. The default is `1000` (upstream default). Changing this parameter causes a service restart.
