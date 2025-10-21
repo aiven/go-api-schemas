@@ -2052,6 +2052,8 @@ grafana:
       type: boolean
       example: false
 influxdb:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
