@@ -25,7 +25,7 @@ lint:
         - pkg/dist/*.yml
 runtimes:
   enabled:
-    - go@1.24.1
+    - go@1.25.3
     - node@22.16.0
     - python@3.10.8
 actions:
