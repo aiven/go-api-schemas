@@ -4060,7 +4060,7 @@ mysql:
       title: The minimum amount of time in seconds to keep binlog entries before deletion. This may be extended for services that require binlog entries for longer than the default for example if using the MySQL Debezium Kafka connector.
       type: integer
       minimum: "600"
-      maximum: "604800"
+      maximum: "9007199254740991"
       example: "600"
     ip_filter:
       title: IP filter
