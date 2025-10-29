@@ -2445,7 +2445,7 @@ kafka:
           maximum: "9223372036854775807"
         log_retention_hours:
           title: log.retention.hours
-          description: 'The number of hours to keep a log file before deleting it (Default: 168 hours (1 week))'
+          description: 'The number of hours to keep a log file before deleting it. Use -1 for unlimited retention or 1 or higher. Setting 0 is invalid and prevents Kafka from starting. (Default: 168 hours, or 1 week)'
           type: integer
           minimum: "-1"
           maximum: "2147483647"
