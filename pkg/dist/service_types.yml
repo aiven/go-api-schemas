@@ -34,9 +34,7 @@ alloydbomni:
       title: PostgreSQL major version
       type: string
       enum:
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "15"
+        - value: "15"
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
       type: integer
