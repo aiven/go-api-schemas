@@ -4100,6 +4100,14 @@ mysql:
           type: string
           max_length: 63
           example: defaultdb
+        dump_tool:
+          title: MySQL migration dump tool
+          description: 'Experimental! Tool to use for database dump and restore during migration. Default: mysqldump'
+          type: string
+          enum:
+            - value: null
+            - value: mydumper
+            - value: mysqldump
         host:
           title: Hostname or IP address of the server where to migrate data from
           type: string
