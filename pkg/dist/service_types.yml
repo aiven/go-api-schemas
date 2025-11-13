@@ -4045,12 +4045,14 @@ mysql:
     backup_hour:
       title: The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
       type: integer
+      default: "0"
       minimum: "0"
       maximum: "23"
       example: "3"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type: integer
+      default: "0"
       minimum: "0"
       maximum: "59"
       example: "30"
