@@ -2965,9 +2965,14 @@ kafka:
         - value: "3.8"
         - value: "3.9"
         - value: "4.0"
+    letsencrypt_sasl:
+      title: Use Let's Encrypt CA for Kafka SASL
+      description: 'Use a Let''s Encrypt certificate authority (CA) for Kafka SASL authentication. (Default: False)'
+      type: boolean
+      example: true
     letsencrypt_sasl_privatelink:
-      title: Use Letsencrypt CA for Kafka SASL via Privatelink
-      description: Use Letsencrypt CA for Kafka SASL via Privatelink
+      title: Use Let's Encrypt CA for Kafka SASL via Privatelink
+      description: 'Use a Let''s Encrypt certificate authority (CA) for Kafka SASL authentication via Privatelink. (Default: False)'
       type: boolean
       example: true
     private_access:
@@ -3046,6 +3051,17 @@ kafka:
           title: Allow clients to connect to schema_registry from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    sasl_oauthbearer_allowed_urls:
+      title: Allowed URLs for SASL OAUTHBEARER
+      description: List of allowed URLs for SASL OAUTHBEARER authentication. Only HTTPS URLs are allowed for security reasons.
+      type: array
+      items:
+        type: string
+        max_length: 2048
+      example:
+        - https://auth.example.com
+        - https://auth2.example.com
+      user_error: Only HTTPS URLs are allowed for SASL OAUTHBEARER authentication
     schema_registry:
       title: Enable Schema-Registry service
       type: boolean
@@ -3352,6 +3368,17 @@ kafka_connect:
           title: Allow clients to connect to prometheus from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
+    sasl_oauthbearer_allowed_urls:
+      title: Allowed URLs for SASL OAUTHBEARER
+      description: List of allowed URLs for SASL OAUTHBEARER authentication. Only HTTPS URLs are allowed for security reasons.
+      type: array
+      items:
+        type: string
+        max_length: 2048
+      example:
+        - https://auth.example.com
+        - https://auth2.example.com
+      user_error: Only HTTPS URLs are allowed for SASL OAUTHBEARER authentication
     secret_providers:
       title: Kafka Connect secret providers
       description: 'Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault (provider: vault, auth_method: token) and AWS Secrets Manager (provider: aws, auth_method: credentials) are supported. Secrets can be referenced in connector config with ${<provider_name>:<secret_path>:<key_name>}'
