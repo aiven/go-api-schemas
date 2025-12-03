@@ -814,7 +814,9 @@ cassandra:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "4"
-        - value: "4.1"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "4.1"
       pattern: ^[0-9]+(\.[0-9]+)?$
     ip_filter:
       title: IP filter
