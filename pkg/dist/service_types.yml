@@ -3602,6 +3602,17 @@ kafka_mirrormaker:
           minimum: "1"
           maximum: "8"
           example: "2"
+    sasl_oauthbearer_allowed_urls:
+      title: Allowed URLs for SASL OAUTHBEARER
+      description: List of allowed URLs for SASL OAUTHBEARER authentication. Only HTTPS URLs are allowed for security reasons.
+      type: array
+      items:
+        type: string
+        max_length: 2048
+      example:
+        - https://auth.example.com
+        - https://auth2.example.com
+      user_error: Only HTTPS URLs are allowed for SASL OAUTHBEARER authentication
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
