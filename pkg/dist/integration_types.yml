@@ -7,17 +7,19 @@ autoscaler_service:
   properties:
     autoscaling:
       title: ServiceAutoscalerIntegrationUserConfig
-      description: Configure service autoscaling integration. This is an experimental api and subject to change. For further assistance, contact the Aiven support team mailto:support@aiven.io or your account team.
+      description: Configure autoscaling for Inkless services. This feature automatically scales the service plan based on CPU usage. This feature is in the limited availability stage and subject to change. Contact the [Aiven support team](mailto:support@aiven.io) or your account team to request access and enable autoscaling for your project.
       type: object
       properties:
         max_plan:
           title: Max Plan
+          description: The maximum service plan to scale up to
           type: string
           min_length: 3
           max_length: 64
           example: business-5
         min_plan:
           title: Min Plan
+          description: The minimum service plan to scale down to
           type: string
           min_length: 3
           max_length: 64

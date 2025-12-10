@@ -5648,6 +5648,23 @@ opensearch:
           minimum: "0"
           maximum: "100"
           example: "50"
+        ml_commons_model_access_control_enabled:
+          title: plugins.ml_commons.model_access_control.enabled
+          description: Enable or disable model access control for ML Commons. When enabled, access to ML models is controlled by security permissions. Defaults to false.
+          type: boolean
+          example: false
+        ml_commons_native_memory_threshold:
+          title: plugins.ml_commons.native_memory_threshold
+          description: Native memory threshold percentage for ML Commons. Controls the maximum percentage of native memory that can be used by ML Commons operations. Defaults to 90%.
+          type: integer
+          minimum: "1"
+          maximum: "100"
+          example: "90"
+        ml_commons_only_run_on_ml_node:
+          title: plugins.ml_commons.only_run_on_ml_node
+          description: Enable or disable running ML Commons tasks only on ML nodes. When enabled, ML tasks will only execute on nodes designated as ML nodes. Defaults to true.
+          type: boolean
+          example: false
         node.search.cache.size:
           title: The limit of how much total remote data can be referenced
           description: Defines a limit of how much total remote data can be referenced as a ratio of the size of the disk reserved for the file cache. This is designed to be a safeguard to prevent oversubscribing a cluster. Defaults to 5gb. Requires restarting all OpenSearch nodes.
@@ -7223,6 +7240,8 @@ pg:
       maximum: "1024"
       example: "4"
 redis:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
