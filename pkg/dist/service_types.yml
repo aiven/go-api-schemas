@@ -2967,6 +2967,7 @@ kafka:
         - value: "3.8"
         - value: "3.9"
         - value: "4.0"
+        - value: "4.1"
     letsencrypt_sasl:
       title: Use Let's Encrypt CA for Kafka SASL
       description: 'Use a Let''s Encrypt certificate authority (CA) for Kafka SASL authentication. (Default: False)'
