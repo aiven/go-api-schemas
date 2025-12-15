@@ -4187,6 +4187,10 @@ mysql:
           minimum: "1"
           maximum: "65535"
           example: "1234"
+        reestablish_replication:
+          title: Skip dump-restore part and start replication
+          type: boolean
+          default: false
         ssl:
           title: The server where to migrate data from is secured with SSL
           type: boolean
@@ -7887,7 +7891,7 @@ valkey:
       description: Set Valkey IO thread count. Changing this will cause a restart of the Valkey service.
       type: integer
       minimum: "1"
-      maximum: "32"
+      maximum: "256"
       example: "1"
     valkey_lfu_decay_time:
       title: LFU maxmemory-policy counter decay time in minutes
