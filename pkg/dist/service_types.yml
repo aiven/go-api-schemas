@@ -2826,7 +2826,6 @@ kafka:
           title: Enabled
           description: Whether to enable the Diskless functionality
           type: boolean
-          create_only: true
           example: true
     kafka_rest:
       title: Enable Kafka-REST service
