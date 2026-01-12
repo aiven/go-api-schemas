@@ -2236,6 +2236,20 @@ kafka:
       title: Allow access to read Kafka topic messages in the Aiven Console and REST API.
       type: boolean
       example: true
+    backup_interval_hours:
+      title: Backup interval in hours
+      description: Interval in hours between automatic backups. Minimum value is 3 hours. Must be a divisor of 24 (3, 4, 6, 8, 12, 24). (Applicable to ACU plans only)
+      type: integer
+      minimum: "3"
+      maximum: "24"
+      example: "24"
+    backup_retention_days:
+      title: Backup retention in days
+      description: Number of days to retain automatic backups. Backups older than this value will be automatically deleted. (Applicable to ACU plans only)
+      type: integer
+      minimum: "1"
+      maximum: "30"
+      example: "7"
     custom_domain:
       title: Custom domain
       description: Serve the web frontend using a custom CNAME pointing to the Aiven DNS name. When you set a custom domain for a service deployed in a VPC, the service certificate is only created for the public-* hostname and the custom domain.
@@ -2826,7 +2840,6 @@ kafka:
           title: Enabled
           description: Whether to enable the Diskless functionality
           type: boolean
-          create_only: true
           example: true
     kafka_rest:
       title: Enable Kafka-REST service
@@ -6367,12 +6380,26 @@ pg:
       minimum: "0"
       maximum: "23"
       example: "3"
+    backup_interval_hours:
+      title: Backup interval in hours
+      description: Interval in hours between automatic backups. Minimum value is 3 hours. Must be a divisor of 24 (3, 4, 6, 8, 12, 24). (Applicable to ACU plans only)
+      type: integer
+      minimum: "3"
+      maximum: "24"
+      example: "24"
     backup_minute:
       title: The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
       type: integer
       minimum: "0"
       maximum: "59"
       example: "30"
+    backup_retention_days:
+      title: Backup retention in days
+      description: Number of days to retain automatic backups. Backups older than this value will be automatically deleted. (Applicable to ACU plans only)
+      type: integer
+      minimum: "1"
+      maximum: "30"
+      example: "7"
     enable_ha_replica_dns:
       title: Enable HA replica DNS
       description: Creates a dedicated read-only DNS that automatically falls back to the primary if standby nodes are unavailable. It switches back when a standby recovers.
