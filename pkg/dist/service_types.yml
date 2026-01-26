@@ -6126,6 +6126,7 @@ opensearch:
         - value: "1"
         - value: "2"
         - value: "2.19"
+        - value: "3.3"
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
