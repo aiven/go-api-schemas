@@ -2265,6 +2265,17 @@ kafka:
           description: Whether to enable the follower fetching functionality
           type: boolean
           example: true
+    gcp_auth_allowed_urls:
+      title: Allowed URLs for auth URI validation
+      description: Allow-list of HTTPS URLs used to validate GCP credential_source requests for Kafka Connect.
+      type: array
+      items:
+        type: string
+        max_length: 2048
+      example:
+        - https://sts.googleapis.com
+        - https://iamcredentials.googleapis.com
+      user_error: Only HTTPS URLs are allowed for auth URI validation
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -3176,6 +3187,17 @@ kafka_connect:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    gcp_auth_allowed_urls:
+      title: Allowed URLs for auth URI validation
+      description: Allow-list of HTTPS URLs used to validate GCP credential_source requests for Kafka Connect.
+      type: array
+      items:
+        type: string
+        max_length: 2048
+      example:
+        - https://sts.googleapis.com
+        - https://iamcredentials.googleapis.com
+      user_error: Only HTTPS URLs are allowed for auth URI validation
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -5762,9 +5784,9 @@ opensearch:
                   minimum: "1"
                 window_size:
                   title: The window size of the top N queries by the metric
-                  description: Configure the window size of the top N queries
+                  description: Configure the window size of the top N queries. The value should be a time value with unit, e.g. 1m, 5s, 1h.
                   type: string
-                  pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
+                  pattern: \d+(?:d|h|m|s|ms|micros|nanos)
             latency:
               title: Top N queries monitoring by latency
               type: object
@@ -5780,9 +5802,9 @@ opensearch:
                   minimum: "1"
                 window_size:
                   title: The window size of the top N queries by the metric
-                  description: Configure the window size of the top N queries
+                  description: Configure the window size of the top N queries. The value should be a time value with unit, e.g. 1m, 5s, 1h.
                   type: string
-                  pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
+                  pattern: \d+(?:d|h|m|s|ms|micros|nanos)
             memory:
               title: Top N queries monitoring by memory
               type: object
@@ -5798,9 +5820,9 @@ opensearch:
                   minimum: "1"
                 window_size:
                   title: The window size of the top N queries by the metric
-                  description: Configure the window size of the top N queries
+                  description: Configure the window size of the top N queries. The value should be a time value with unit, e.g. 1m, 5s, 1h.
                   type: string
-                  pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
+                  pattern: \d+(?:d|h|m|s|ms|micros|nanos)
         search_backpressure:
           title: Search Backpressure Settings
           type: object
@@ -7970,7 +7992,7 @@ valkey:
       description: Set output buffer limit for pub / sub clients in MB. The value is the hard limit, the soft limit is 1/4 of the hard limit. When setting the limit, be mindful of the available memory in the selected service plan.
       type: integer
       minimum: "32"
-      maximum: "512"
+      maximum: "262144"
       example: "64"
     valkey_ssl:
       title: Require SSL to access Valkey
