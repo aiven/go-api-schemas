@@ -115,6 +115,7 @@ datadog:
       type: string
       enum:
         - value: ap1.datadoghq.com
+        - value: ap2.datadoghq.com
         - value: datadoghq.com
         - value: datadoghq.eu
         - value: ddog-gov.com
