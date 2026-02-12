@@ -1049,6 +1049,14 @@ clickhouse:
       description: Use static public IP addresses
       type: boolean
       example: true
+    tiered_storage_move_factor:
+      title: Tiered storage move factor
+      description: The percentage of free disk space required on local storage before data is moved to object storage. A value of 0.2 means data is moved when local storage has less than 20% free space.
+      type: number
+      default: "0.2"
+      minimum: "0"
+      maximum: "1"
+      example: "0.2"
 dragonfly:
   type: object
   properties:
@@ -1969,8 +1977,8 @@ grafana:
           title: From address
           description: Address used for sending emails
           type: string
-          max_length: 319
-          pattern: ^[A-Za-z0-9_\-\.+\'&]+@(([\da-zA-Z])([_\w-]{,62})\.){,127}(([\da-zA-Z])[_\w-]{,61})?([\da-zA-Z]\.((xn\-\-[a-zA-Z\d]+)|([a-zA-Z\d]{2,})))$
+          max_length: 254
+          pattern: ^(?=.{1,64}@)[a-zA-Z0-9_!#\$%&\'\*\+\-/=\?\^`\{\|\}~]+(?:\.[a-zA-Z0-9_!#\$%&\'\*\+\-/=\?\^`\{\|\}~]+)*@(?:(?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,61})?[a-zA-Z0-9])\.)+(?:[a-zA-Z]{2,}|xn--[a-zA-Z0-9]+)$
           example: yourgrafanauser@yourdomain.example.com
           user_error: Must be a valid email address
         from_name:
