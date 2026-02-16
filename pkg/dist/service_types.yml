@@ -2264,6 +2264,11 @@ kafka:
       type: string
       max_length: 255
       example: grafana.example.org
+    enable_ipv6:
+      title: Enable IPv6
+      description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
+      type: boolean
+      example: true
     follower_fetching:
       title: Enable follower fetching
       type: object
@@ -5720,8 +5725,8 @@ opensearch:
           pattern: \d+(?:b|kb|mb|gb|tb)
           example: 5gb
         override_main_response_version:
-          title: compatibility.override_main_response_version
-          description: Compatibility mode sets OpenSearch to report its version as 7.10 so clients continue to work. Default is false
+          title: (DEPRECATED) compatibility.override_main_response_version
+          description: Compatibility mode sets OpenSearch to report its version as 7.10 so clients continue to work. Default is false. Deprecated and ignored for service version 3.3 and higher.
           type: boolean
           example: true
         plugins_alerting_filter_by_backend_roles:
