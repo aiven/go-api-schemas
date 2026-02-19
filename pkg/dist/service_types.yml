@@ -1,4 +1,6 @@
 alloydbomni:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
