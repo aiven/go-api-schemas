@@ -928,6 +928,11 @@ clickhouse:
       minimum: "0"
       maximum: "59"
       example: "30"
+    clickhouse_version:
+      title: ClickHouse major version
+      type: string
+      enum:
+        - value: "25.3"
     enable_ipv6:
       title: Enable IPv6
       description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
