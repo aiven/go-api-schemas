@@ -928,6 +928,11 @@ clickhouse:
       minimum: "0"
       maximum: "59"
       example: "30"
+    clickhouse_version:
+      title: ClickHouse major version
+      type: string
+      enum:
+        - value: "25.3"
     enable_ipv6:
       title: Enable IPv6
       description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
@@ -5460,19 +5465,19 @@ opensearch:
               title: The amount of time to wait for the cluster state upload to complete
               description: The amount of time to wait for the cluster state upload to complete. Defaults to 20s.
               type: string
-              pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+              pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
               example: 20s
             state.metadata_manifest.upload_timeout:
               title: The amount of time to wait for the manifest file upload to complete
               description: The amount of time to wait for the manifest file upload to complete. The manifest file contains the details of each of the files uploaded for a single cluster state, both index metadata files and global metadata files. Defaults to 20s.
               type: string
-              pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+              pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
               example: 20s
             translog.buffer_interval:
               title: The default value of the translog buffer interval
               description: The default value of the translog buffer interval used when performing periodic translog updates. This setting is only effective when the index setting `index.remote_store.translog.buffer_interval` is not present. Defaults to 650ms.
               type: string
-              pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+              pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
               example: 650ms
             translog.max_readers:
               title: The maximum number of open translog files for remote-backed indexes
@@ -5801,7 +5806,7 @@ opensearch:
                   title: The window size of the top N queries by the metric
                   description: Configure the window size of the top N queries. The value should be a time value with unit, e.g. 1m, 5s, 1h.
                   type: string
-                  pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+                  pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
             latency:
               title: Top N queries monitoring by latency
               type: object
@@ -5819,7 +5824,7 @@ opensearch:
                   title: The window size of the top N queries by the metric
                   description: Configure the window size of the top N queries. The value should be a time value with unit, e.g. 1m, 5s, 1h.
                   type: string
-                  pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+                  pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
             memory:
               title: Top N queries monitoring by memory
               type: object
@@ -5837,7 +5842,7 @@ opensearch:
                   title: The window size of the top N queries by the metric
                   description: Configure the window size of the top N queries. The value should be a time value with unit, e.g. 1m, 5s, 1h.
                   type: string
-                  pattern: \d+(?:d|h|m|s|ms|micros|nanos)
+                  pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
         search_backpressure:
           title: Search Backpressure Settings
           type: object
@@ -6156,6 +6161,17 @@ opensearch:
           default: "30000"
           minimum: "5000"
           maximum: "120000"
+        session_keepalive:
+          title: Determines whether the session TTL resets (is “kept alive”) on each user activity. Optional. Default is true.
+          type: boolean
+          default: true
+        session_ttl:
+          title: session_ttl
+          description: Defines the time-to-live (TTL) for user sessions. The value should be a time value with unit, e.g. 1m, 5s, 1h, 3d, 100ms. Default is 1 hour.
+          type: string
+          default: 1h
+          pattern: ^\d+\s*(?:[dhms]|ms|micros|nanos)$
+          example: 30s
     opensearch_version:
       title: OpenSearch version
       type: string
