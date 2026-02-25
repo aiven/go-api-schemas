@@ -743,6 +743,8 @@ alloydbomni:
       maximum: "1024"
       example: "4"
 cassandra:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
