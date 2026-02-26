@@ -2,6 +2,8 @@ autoscaler:
   title: Integration user config
   type: object
 autoscaler_service:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Service autoscaler user config
   type: object
   properties:
