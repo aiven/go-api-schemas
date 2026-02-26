@@ -1,4 +1,6 @@
 autoscaler:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - autoscaling
@@ -29,10 +31,14 @@ autoscaler:
               - value: autoscale_disk
       max_items: 64
 autoscaler_service:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Service autoscaler user config
   description: Service autoscaler user config. This is an experimental api and subject to change. For further assistance, contact the Aiven support team mailto:support@aiven.io or your account team.
   type: object
 datadog:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - datadog_api_key
@@ -123,6 +129,8 @@ datadog:
         - value: us5.datadoghq.com
       example: datadoghq.com
 external_aws_cloudwatch_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - access_key
@@ -153,6 +161,8 @@ external_aws_cloudwatch_logs:
       example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       _secure: true
 external_aws_cloudwatch_metrics:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - access_key
@@ -184,6 +194,8 @@ external_aws_cloudwatch_metrics:
       example: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       _secure: true
 external_aws_s3:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - url
@@ -209,6 +221,8 @@ external_aws_s3:
       max_length: 2048
       example: https://mybucket.s3-myregion.amazonaws.com/mydataset/
 external_azure_blob_storage:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - connection_string
@@ -233,6 +247,8 @@ external_azure_blob_storage:
       max_length: 256
       example: container-dev
 external_clickhouse:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - host
@@ -263,6 +279,8 @@ external_clickhouse:
       max_length: 64
       example: default
 external_elasticsearch_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - url
@@ -306,6 +324,8 @@ external_elasticsearch_logs:
       max_length: 2048
       example: https://user:passwd@logs.example.com/
 external_google_cloud_bigquery:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: User configuration for Google Cloud BigQuery integration
   type: object
   required:
@@ -326,6 +346,8 @@ external_google_cloud_bigquery:
       example: '{"type": "service_account", ...'
       _secure: true
 external_google_cloud_logging:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: User configuration for Google Cloud Logging integration
   type: object
   required:
@@ -352,6 +374,8 @@ external_google_cloud_logging:
       example: '{"type": "service_account", ...'
       _secure: true
 external_kafka:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - bootstrap_servers
@@ -425,6 +449,8 @@ external_kafka:
         - value: https
       example: https
 external_mysql:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - host
@@ -470,6 +496,8 @@ external_mysql:
       max_length: 256
       example: myname
 external_opensearch_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - url
@@ -513,6 +541,8 @@ external_opensearch_logs:
       max_length: 2048
       example: https://user:passwd@logs.example.com/
 external_postgresql:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - host
@@ -593,6 +623,8 @@ external_postgresql:
       max_length: 256
       example: myname
 external_prometheus:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     basic_auth_password:
@@ -616,6 +648,8 @@ external_prometheus:
       max_length: 2048
       example: https://write.example.com/
 external_schema_registry:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - url
@@ -645,6 +679,8 @@ external_schema_registry:
       max_length: 2048
       example: https://schema-registry.kafka.company.com:28419
 jolokia:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     basic_auth_password:
@@ -663,6 +699,8 @@ jolokia:
       example: jol48k51
       user_error: Must be 5-32 characters long and may contain only lower case letters and numbers.
 prometheus:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     basic_auth_password:
@@ -681,6 +719,8 @@ prometheus:
       example: prom4851
       user_error: Must be 5-32 characters long and may contain only lower case letters and numbers.
 rsyslog:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - server

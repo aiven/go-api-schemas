@@ -1,7 +1,11 @@
 autoscaler:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 autoscaler_service:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Service autoscaler user config
   type: object
   properties:
@@ -25,6 +29,8 @@ autoscaler_service:
           max_length: 64
           example: business-4
 clickhouse_credentials:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -45,6 +51,8 @@ clickhouse_credentials:
             example: alice
       max_items: 64
 clickhouse_kafka:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -297,6 +305,8 @@ clickhouse_kafka:
             max_items: 100
       max_items: 400
 clickhouse_postgresql:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -326,9 +336,13 @@ clickhouse_postgresql:
             example: public
       max_items: 10
 dashboard:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 datadog:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     datadog_dbm_enabled:
@@ -469,12 +483,18 @@ datadog:
           type: boolean
           default: false
 datasource:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 disaster_recovery:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 external_aws_cloudwatch_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -493,6 +513,8 @@ external_aws_cloudwatch_logs:
           - value: service_name
       max_items: 5
 external_aws_cloudwatch_metrics:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: External AWS CloudWatch Metrics integration user config
   type: object
   properties:
@@ -545,6 +567,8 @@ external_aws_cloudwatch_metrics:
         - field: evicted_keys
           metric: redis
 external_elasticsearch_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -563,9 +587,13 @@ external_elasticsearch_logs:
           - value: service_name
       max_items: 5
 external_google_cloud_logging:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 external_opensearch_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -584,15 +612,23 @@ external_opensearch_logs:
           - value: service_name
       max_items: 5
 flink:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 flink_external_bigquery:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 flink_external_kafka:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 flink_external_postgresql:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -604,9 +640,13 @@ flink_external_postgresql:
         - value: unspecified
       example: unspecified
 jolokia:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 kafka_connect:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -635,9 +675,13 @@ kafka_connect:
           max_length: 249
           example: __connect_status
 kafka_connect_postgresql:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 kafka_logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   required:
     - kafka_topic
@@ -665,6 +709,8 @@ kafka_logs:
           - value: service_name
       max_items: 5
 kafka_mirrormaker:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -738,6 +784,8 @@ kafka_mirrormaker:
           minimum: "0"
           maximum: "268435456"
 logs:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     elasticsearch_index_days_max:
@@ -781,6 +829,8 @@ m3coordinator:
   title: Integration user config
   type: object
 metrics:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -882,6 +932,8 @@ metrics:
       example: metrics_writer
       user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 40 characters
 prometheus:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
   properties:
@@ -956,6 +1008,8 @@ prometheus:
               maximum: "2592000"
               example: "86400"
 rsyslog:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Integration user config
   type: object
 thanos_migrate:
