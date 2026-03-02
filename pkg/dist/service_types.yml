@@ -743,6 +743,8 @@ alloydbomni:
       maximum: "1024"
       example: "4"
 cassandra:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
@@ -2296,6 +2298,18 @@ kafka:
         - https://sts.googleapis.com
         - https://iamcredentials.googleapis.com
       user_error: Only HTTPS URLs are allowed for auth URI validation
+    inkless:
+      title: Inkless configuration values
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the Inkless functionality
+          type: boolean
+          create_only: true
+          example: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
