@@ -29,6 +29,8 @@ autoscaler:
               - value: autoscale_disk
       max_items: 64
 autoscaler_service:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   title: Service autoscaler user config
   description: Service autoscaler user config. This is an experimental api and subject to change. For further assistance, contact the Aiven support team mailto:support@aiven.io or your account team.
   type: object
