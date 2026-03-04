@@ -743,6 +743,8 @@ alloydbomni:
       maximum: "1024"
       example: "4"
 cassandra:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
@@ -2296,6 +2298,18 @@ kafka:
         - https://sts.googleapis.com
         - https://iamcredentials.googleapis.com
       user_error: Only HTTPS URLs are allowed for auth URI validation
+    inkless:
+      title: Inkless configuration values
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the Inkless functionality
+          type: boolean
+          create_only: true
+          example: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -6739,7 +6753,7 @@ pg:
           maximum: "2147483647"
         max_connections:
           title: max_connections
-          description: Sets the PostgreSQL maximum number of concurrent connections to the database server. This is a limited-release parameter. Contact your account team to confirm your eligibility. You cannot decrease this parameter value when set. For services with a read replica, first increase the read replica's value. After the change is applied to the replica, you can increase the primary service's value. Changing this parameter causes a service restart.
+          description: Sets the PostgreSQL maximum number of concurrent connections to the database server. This is a limited-release parameter. Contact your account team to confirm your eligibility. For services with a read replica, first increase the read replica's value. After the change is applied to the replica, you can increase the primary service's value. Changing this parameter causes a service restart.
           type: integer
           minimum: "25"
           maximum: "60000"
