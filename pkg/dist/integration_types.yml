@@ -840,6 +840,10 @@ metrics:
               title: Gather thread state counts from INFORMATION_SCHEMA.PROCESSLIST
               type: boolean
               example: true
+            gather_replica_status:
+              title: Gather metrics from SHOW REPLICA STATUS command output
+              type: boolean
+              example: true
             gather_slave_status:
               title: Gather metrics from SHOW SLAVE STATUS command output
               type: boolean
@@ -919,6 +923,10 @@ prometheus:
               example: false
             gather_process_list:
               title: Gather thread state counts from INFORMATION_SCHEMA.PROCESSLIST
+              type: boolean
+              example: true
+            gather_replica_status:
+              title: Gather metrics from SHOW REPLICA STATUS command output
               type: boolean
               example: true
             gather_slave_status:

@@ -743,6 +743,8 @@ alloydbomni:
       maximum: "1024"
       example: "4"
 cassandra:
+  is_deprecated: true
+  deprecation_notice: This property is deprecated.
   type: object
   properties:
     additional_backup_regions:
@@ -2296,6 +2298,18 @@ kafka:
         - https://sts.googleapis.com
         - https://iamcredentials.googleapis.com
       user_error: Only HTTPS URLs are allowed for auth URI validation
+    inkless:
+      title: Inkless configuration values
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          title: Enabled
+          description: Whether to enable the Inkless functionality
+          type: boolean
+          create_only: true
+          example: true
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -5742,7 +5756,7 @@ opensearch:
           type: boolean
           example: false
         reindex_remote_whitelist:
-          title: reindex_remote_whitelist
+          title: reindex_remote_allowlist
           description: Whitelisted addresses for reindexing. Changing this value will cause all OpenSearch instances to restart.
           type: array
           items:
@@ -6739,7 +6753,7 @@ pg:
           maximum: "2147483647"
         max_connections:
           title: max_connections
-          description: Sets the PostgreSQL maximum number of concurrent connections to the database server. This is a limited-release parameter. Contact your account team to confirm your eligibility. You cannot decrease this parameter value when set. For services with a read replica, first increase the read replica's value. After the change is applied to the replica, you can increase the primary service's value. Changing this parameter causes a service restart.
+          description: Sets the PostgreSQL maximum number of concurrent connections to the database server. For services with a read replica, first increase the read replica's value. After the change is applied to the replica, you can increase the primary service's value. Changing this parameter causes a service restart.
           type: integer
           minimum: "25"
           maximum: "60000"
@@ -6757,7 +6771,7 @@ pg:
           maximum: "6400"
         max_logical_replication_workers:
           title: max_logical_replication_workers
-          description: PostgreSQL maximum logical replication workers (taken from the pool of max_parallel_workers). The default is `4` (upstream default). Changing this parameter causes a service restart.
+          description: PostgreSQL maximum logical replication workers (taken from the pool defined by max_worker_processes). The default is `4` (upstream default). Changing this parameter causes a service restart.
           type: integer
           minimum: "4"
           maximum: "256"
@@ -7291,6 +7305,40 @@ pg:
       description: Use static public IP addresses
       type: boolean
       example: true
+    switchover_windows:
+      type: array
+      items:
+        type: object
+        required:
+          - dow
+          - start_time
+          - end_time
+        properties:
+          dow:
+            type: string
+            enum:
+              - value: friday
+              - value: monday
+              - value: saturday
+              - value: sunday
+              - value: thursday
+              - value: tuesday
+              - value: wednesday
+          end_time:
+            type: string
+            min_length: 8
+            max_length: 8
+            pattern: ^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+            example: "12:30:00"
+            user_error: Must be HH:MM:SS
+          start_time:
+            type: string
+            min_length: 8
+            max_length: 8
+            pattern: ^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+            example: "12:30:00"
+            user_error: Must be HH:MM:SS
+      max_items: 28
     synchronous_replication:
       title: Synchronous replication type. Note that the service plan also needs to support synchronous replication.
       type: string
@@ -8035,3 +8083,8 @@ valkey:
       default: "300"
       minimum: "0"
       maximum: "2073600"
+    valkey_version:
+      title: Valkey major version
+      type: string
+      enum:
+        - value: "8.1"
