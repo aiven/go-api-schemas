@@ -2345,9 +2345,9 @@ kafka:
       properties:
         auto_create_topics_enable:
           title: auto.create.topics.enable
-          description: 'Enable auto-creation of topics. (Default: true)'
+          description: 'Enable auto-creation of topics. (Default: false)'
           type: boolean
-          example: true
+          example: false
         compression_type:
           title: compression.type
           description: 'Specify the final compression type for a given topic. This configuration accepts the standard compression codecs (''gzip'', ''snappy'', ''lz4'', ''zstd''). It additionally accepts ''uncompressed'' which is equivalent to no compression; and ''producer'' which means retain the original compression codec set by the producer.(Default: producer)'
@@ -2806,7 +2806,7 @@ kafka:
       type: array
       items:
         title: Kafka Connect secret provider
-        description: Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault and AWS Secrets Manager are supported.
+        description: Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault, AWS Secrets Manager, and ENV secret providers are supported.
         type: object
         required:
           - name
@@ -2838,9 +2838,22 @@ kafka:
                 type: string
                 max_length: 128
                 _secure: true
+          env:
+            title: ENV config for Secret Provider
+            description: ENV secret provider configuration
+            type: object
+            required:
+              - secrets
+            properties:
+              secrets:
+                title: Environment secrets
+                description: Key/value map of secrets for ENV secret provider
+                type: object
+                _secure: true
           name:
             title: Name of the secret provider. Used to reference secrets in connector config.
             type: string
+            pattern: ^[A-Za-z0-9_-]+$
           vault:
             title: Vault Config for Secret Provider
             description: Vault secret provider configuration
@@ -3457,7 +3470,7 @@ kafka_connect:
       type: array
       items:
         title: Kafka Connect secret provider
-        description: Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault and AWS Secrets Manager are supported.
+        description: Configure external secret providers in order to reference external secrets in connector configuration. Currently Hashicorp Vault, AWS Secrets Manager, and ENV secret providers are supported.
         type: object
         required:
           - name
@@ -3489,9 +3502,22 @@ kafka_connect:
                 type: string
                 max_length: 128
                 _secure: true
+          env:
+            title: ENV config for Secret Provider
+            description: ENV secret provider configuration
+            type: object
+            required:
+              - secrets
+            properties:
+              secrets:
+                title: Environment secrets
+                description: Key/value map of secrets for ENV secret provider
+                type: object
+                _secure: true
           name:
             title: Name of the secret provider. Used to reference secrets in connector config.
             type: string
+            pattern: ^[A-Za-z0-9_-]+$
           vault:
             title: Vault Config for Secret Provider
             description: Vault secret provider configuration
