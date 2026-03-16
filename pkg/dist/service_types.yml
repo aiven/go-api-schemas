@@ -8123,4 +8123,6 @@ valkey:
       type: string
       enum:
         - value: "8.1"
-        - value: "9.0"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "9.0"
