@@ -24,6 +24,12 @@ type doc struct {
 
 	// Legacy user config files
 	legacyDoc
+
+	// e.g. {"errors":[{"message":"Invalid token","status":401}],"message":"Invalid token"}
+	Errors []struct {
+		Message string `json:"message"`
+		Status  int    `json:"status"`
+	} `json:"errors"`
 }
 
 type schema struct {
@@ -71,6 +77,14 @@ func fromFile(fileName string) (types.GenerationResult, error) {
 	err = json.Unmarshal(b, &d)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(d.Errors) > 0 {
+		msgs := make([]string, 0, len(d.Errors))
+		for _, err := range d.Errors {
+			msgs = append(msgs, fmt.Sprintf("%s: %d", err.Message, err.Status))
+		}
+		return nil, fmt.Errorf("errors in schema file %q: %s", fileName, strings.Join(msgs, ", "))
 	}
 
 	legacyToComponents(d)
