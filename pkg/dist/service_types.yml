@@ -935,6 +935,7 @@ clickhouse:
       type: string
       enum:
         - value: "25.3"
+        - value: "25.8"
     enable_ipv6:
       title: Enable IPv6
       description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
@@ -6925,6 +6926,16 @@ pg:
             - value: all
             - value: none
             - value: top
+        synchronous_commit:
+          title: synchronous_commit
+          description: Sets the current transaction's synchronization level. The default is `off`. This setting takes precedence over `synchronous_replication`.
+          type: string
+          enum:
+            - value: local
+            - value: "off"
+            - value: "on"
+            - value: remote_apply
+            - value: remote_write
         temp_file_limit:
           title: temp_file_limit
           description: PostgreSQL temporary file limit in KiB, -1 for unlimited
@@ -7375,7 +7386,8 @@ pg:
             user_error: Must be HH:MM:SS
       max_items: 28
     synchronous_replication:
-      title: Synchronous replication type. Note that the service plan also needs to support synchronous replication.
+      title: Synchronous replication type. (deprecated, use synchronous_commit instead). Note that the service plan also needs to support synchronous replication.
+      description: This setting is deprecated. Use synchronous_commit instead. Any change to this setting will automatically update synchronous_commit. Setting the value to quorum changes synchronous_commit to remote_write, while setting it to off changes synchronous_commit to off.
       type: string
       enum:
         - value: "off"
