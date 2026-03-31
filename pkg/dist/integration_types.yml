@@ -143,10 +143,11 @@ clickhouse_kafka:
             example: clickhouse
           handle_error_mode:
             title: How to handle errors for Kafka engine
-            description: Defines how ClickHouse should handle errors when processing Kafka messages. 'default' stops on errors, 'stream' continues processing and logs errors.
+            description: Defines how ClickHouse should handle errors when processing Kafka messages. 'default' stops on errors, 'stream' continues processing and logs errors, 'dead_letter_queue' saves error data to system.dead_letter_queue (requires ClickHouse 25.8+).
             type: string
             default: default
             enum:
+              - value: dead_letter_queue
               - value: default
               - value: stream
             example: stream
