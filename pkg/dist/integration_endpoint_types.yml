@@ -469,6 +469,78 @@ external_mysql:
       type: string
       max_length: 256
       example: myname
+external_object_storage_config:
+  type: object
+  required:
+    - storage_type
+  properties:
+    account_key:
+      title: Azure account secret key (Azure only)
+      type: string
+      max_length: 256
+      example: YWNjb3VudCBrZXkgZXhhbXBsZQ==
+      _secure: true
+    account_name:
+      title: Azure account name (Azure only)
+      type: string
+      max_length: 256
+      example: myazureaccount
+    aws_access_key_id:
+      title: AWS access key ID (S3 only)
+      type: string
+      max_length: 128
+      example: AKIAIOSFODNN7EXAMPLE
+    aws_secret_access_key:
+      title: AWS secret access key (S3 only)
+      type: string
+      max_length: 128
+      example: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      _secure: true
+    bucket_name:
+      title: Bucket name
+      type: string
+      max_length: 256
+      example: my-thanos-bucket
+    credentials:
+      title: Google service account credentials JSON (Google Cloud Storage only)
+      type: string
+      max_length: 4096
+      example: '{"type": "service_account", ...'
+      _secure: true
+    host:
+      title: S3-compatible endpoint host (S3 only)
+      type: string
+      max_length: 2048
+      example: s3.eu-west-1.amazonaws.com
+    port:
+      title: S3-compatible endpoint port (S3 only)
+      type: integer
+      minimum: "1"
+      maximum: "65535"
+      example: "443"
+    prefix:
+      title: Object storage prefix / path
+      type: string
+      max_length: 256
+      example: thanos-data/
+    project_id:
+      title: GCP project ID (Google Cloud Storage only)
+      type: string
+      max_length: 256
+      example: my-gcp-project
+    region:
+      title: AWS S3 region (S3 only)
+      type: string
+      max_length: 256
+      example: eu-west-1
+    storage_type:
+      title: Object storage type
+      type: string
+      enum:
+        - value: azure
+        - value: google
+        - value: s3
+      example: s3
 external_opensearch_logs:
   type: object
   required:
