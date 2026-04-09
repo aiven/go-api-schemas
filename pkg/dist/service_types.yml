@@ -2258,6 +2258,14 @@ kafka:
       title: Backup interval in hours
       description: Interval in hours between automatic backups. Minimum value is 3 hours. Must be a divisor of 24 (3, 4, 6, 8, 12, 24). (Applicable to ACU plans only)
       type: integer
+      enum:
+        - value: 12
+        - value: 24
+        - value: 3
+        - value: 4
+        - value: 6
+        - value: 8
+        - value: null
       minimum: "3"
       maximum: "24"
       example: "24"
@@ -6488,6 +6496,14 @@ pg:
       title: Backup interval in hours
       description: Interval in hours between automatic backups. Minimum value is 3 hours. Must be a divisor of 24 (3, 4, 6, 8, 12, 24). (Applicable to ACU plans only)
       type: integer
+      enum:
+        - value: 12
+        - value: 24
+        - value: 3
+        - value: 4
+        - value: 6
+        - value: 8
+        - value: null
       minimum: "3"
       maximum: "24"
       example: "24"
