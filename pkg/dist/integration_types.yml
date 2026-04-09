@@ -151,6 +151,87 @@ clickhouse_kafka:
               - value: default
               - value: stream
             example: stream
+          materialized_view:
+            title: Materialized view
+            description: Optional materialized view that persists data from the Kafka engine table into a MergeTree-family table. When specified, a ClickHouse materialized view is created that automatically reads from the Kafka table and inserts into a durable target table.
+            type: object
+            required:
+              - view_name
+              - order_by
+            properties:
+              database_name:
+                title: Database name
+                description: The database to create the materialized view in. Must not be the Kafka integration database as it is not replicated and may be dropped.
+                type: string
+                default: default
+                min_length: 1
+                max_length: 40
+                example: default
+              engine:
+                title: Table engine
+                description: The MergeTree-family engine for the materialized view's target table.
+                type: string
+                default: MergeTree
+                enum:
+                  - value: AggregatingMergeTree
+                  - value: CollapsingMergeTree
+                  - value: MergeTree
+                  - value: ReplacingMergeTree
+                  - value: SummingMergeTree
+                  - value: VersionedCollapsingMergeTree
+                example: MergeTree
+              engine_params:
+                title: Engine parameters
+                description: Column names passed as engine arguments, e.g. the sign column for CollapsingMergeTree or the sign and version columns for VersionedCollapsingMergeTree.
+                type: array
+                default: []
+                items:
+                  type: string
+                  min_length: 1
+                  max_length: 40
+                max_items: 10
+                example:
+                  - sign
+                  - version
+              local_disk_ttl_days:
+                title: Local disk TTL in days
+                description: Number of days after which data is moved from local disk to remote storage (tiered storage). Must be specified together with ttl_column.
+                type: integer
+                minimum: "1"
+                maximum: "36500"
+                example: "7"
+              order_by:
+                title: ORDER BY columns
+                description: Columns for the ORDER BY clause of the target table. Determines the sort order and primary index.
+                type: array
+                items:
+                  type: string
+                  min_length: 1
+                  max_length: 40
+                max_items: 100
+                example:
+                  - key
+              ttl_column:
+                title: TTL column
+                description: Date or DateTime column used for both row deletion TTL and local disk tiered storage TTL. Must be specified when ttl_days or local_disk_ttl_days is set.
+                type: string
+                min_length: 1
+                max_length: 40
+                example: created_at
+              ttl_days:
+                title: TTL in days
+                description: Number of days after which rows are deleted, calculated from the TTL column value. Must be specified together with ttl_column.
+                type: integer
+                minimum: "1"
+                maximum: "36500"
+                example: "30"
+              view_name:
+                title: View name
+                description: The name of the materialized view to create.
+                type: string
+                min_length: 1
+                max_length: 40
+                example: events_mv
           max_block_size:
             title: Number of row collected by poll(s) for flushing data from Kafka
             description: Maximum number of rows to collect before flushing data between Kafka and ClickHouse.
