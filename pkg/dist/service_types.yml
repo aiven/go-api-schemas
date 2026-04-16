@@ -1042,6 +1042,19 @@ clickhouse:
       max_length: 128
       pattern: ^[a-zA-Z0-9-_:.+]+$
       example: backup-20191112t091354293891z
+    server_settings:
+      title: ClickHouse server settings
+      description: ClickHouse server settings, which can be found in the `system.server_settings` table.
+      type: object
+      properties:
+        vector_similarity_index_cache_size:
+          title: vector_similarity_index_cache_size
+          description: Fraction of total server memory allocated to the vector similarity index cache. 0 disables the cache. Default is 0.07 (7% of server memory). Only effective on ClickHouse 25.8+.
+          type: number
+          default: "0.07"
+          minimum: "0.0"
+          maximum: "0.5"
+          example: "0.07"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -2734,6 +2747,12 @@ kafka:
           minimum: "1"
           maximum: "2147483647"
           example: "5000"
+        prefer_ipv6_address_enable:
+          title: Let connectors prefer IPv6 addresses from dual-stack external servers.
+          description: When enabled, connectors will automatically resolve IPv6 addresses from external server names configured with dual-stack.
+          type: boolean
+          default: false
+          example: true
         producer_batch_size:
           title: The batch size in bytes the producer will attempt to collect for the same partition before publishing to broker
           description: This setting gives the upper bound of the batch size to be sent. If there are fewer than this many bytes accumulated for this partition, the producer will 'linger' for the linger.ms time waiting for more records to show up. A batch size of zero will disable batching entirely (defaults to 16384).
@@ -2892,6 +2911,10 @@ kafka:
               prefix_path_depth:
                 title: Prefix path depth of the secrets Engine. Default is 1. If the secrets engine path has more than one segment it has to be increased to the number of segments.
                 type: integer
+              server_pem:
+                title: PEM encoded certificate of the Vault server. Required if the vault server uses a self-signed certificate.
+                type: string
+                max_length: 4096
               token:
                 title: Token used to authenticate with vault and auth method `token`.
                 type: string
@@ -3347,6 +3370,12 @@ kafka_connect:
           minimum: "1"
           maximum: "2147483647"
           example: "5000"
+        prefer_ipv6_address_enable:
+          title: Let connectors prefer IPv6 addresses from dual-stack external servers.
+          description: When enabled, connectors will automatically resolve IPv6 addresses from external server names configured with dual-stack.
+          type: boolean
+          default: false
+          example: true
         producer_batch_size:
           title: The batch size in bytes the producer will attempt to collect for the same partition before publishing to broker
           description: This setting gives the upper bound of the batch size to be sent. If there are fewer than this many bytes accumulated for this partition, the producer will 'linger' for the linger.ms time waiting for more records to show up. A batch size of zero will disable batching entirely (defaults to 16384).
@@ -3556,6 +3585,10 @@ kafka_connect:
               prefix_path_depth:
                 title: Prefix path depth of the secrets Engine. Default is 1. If the secrets engine path has more than one segment it has to be increased to the number of segments.
                 type: integer
+              server_pem:
+                title: PEM encoded certificate of the Vault server. Required if the vault server uses a self-signed certificate.
+                type: string
+                max_length: 4096
               token:
                 title: Token used to authenticate with vault and auth method `token`.
                 type: string
