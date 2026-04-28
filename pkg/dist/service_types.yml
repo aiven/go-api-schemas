@@ -3096,6 +3096,7 @@ mysql:
       type: string
       enum:
         - value: "8"
+        - value: "8.4"
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
