@@ -73,6 +73,10 @@ clickhouse:
           title: Allow clients to connect to clickhouse with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
           type: boolean
           example: true
+        clickhouse_arrowflight:
+          title: Allow clients to connect to clickhouse_arrowflight with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
+          type: boolean
+          example: true
         clickhouse_https:
           title: Allow clients to connect to clickhouse_https with a DNS name that always resolves to the service's private IP addresses. Only available in certain network locations
           type: boolean
@@ -91,6 +95,10 @@ clickhouse:
       properties:
         clickhouse:
           title: Enable clickhouse
+          type: boolean
+          example: true
+        clickhouse_arrowflight:
+          title: Enable clickhouse_arrowflight
           type: boolean
           example: true
         clickhouse_https:
@@ -118,6 +126,10 @@ clickhouse:
       properties:
         clickhouse:
           title: Allow clients to connect to clickhouse from the public internet for service nodes that are in a project VPC or another type of private network
+          type: boolean
+          example: true
+        clickhouse_arrowflight:
+          title: Allow clients to connect to clickhouse_arrowflight from the public internet for service nodes that are in a project VPC or another type of private network
           type: boolean
           example: true
         clickhouse_https:
