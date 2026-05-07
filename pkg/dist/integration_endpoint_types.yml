@@ -305,6 +305,7 @@ external_elasticsearch_logs:
       min_length: 12
       max_length: 2048
       example: https://user:passwd@logs.example.com/
+      _secure: true
 external_google_cloud_bigquery:
   title: User configuration for Google Cloud BigQuery integration
   type: object
@@ -584,6 +585,7 @@ external_opensearch_logs:
       min_length: 12
       max_length: 2048
       example: https://user:passwd@logs.example.com/
+      _secure: true
 external_postgresql:
   type: object
   required:
