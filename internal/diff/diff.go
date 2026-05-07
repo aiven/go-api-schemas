@@ -26,6 +26,12 @@ func diffTwo(was, have *types.UserConfigSchema) *types.UserConfigSchema {
 		return was
 	}
 
+	// Preserve a manually-set `_secure: true` across regenerations. We patch the
+	// remote schema locally to ship security fixes faster than upstream, so once
+	// `_secure: true` is set in the YAML it must stick until a human removes it
+	// (a remote `_secure: false`/missing value must not silently override it).
+	have.Secure = was.Secure || have.Secure
+
 	// Properties
 	have.Properties = diffMaps(was.Properties, have.Properties)
 	have.Items = diffTwo(was.Items, have.Items)
