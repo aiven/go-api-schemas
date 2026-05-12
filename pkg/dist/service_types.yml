@@ -7982,3 +7982,9 @@ valkey:
       default: "300"
       minimum: "0"
       maximum: "2073600"
+    valkey_version:
+      title: Valkey major version
+      type: string
+      enum:
+        - value: "8.1"
+        - value: "9.0"
