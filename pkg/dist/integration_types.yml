@@ -777,6 +777,12 @@ kafka_mirrormaker:
           enum:
             - value: earliest
             - value: latest
+        consumer_fetch_max_bytes:
+          title: consumer.fetch.max.bytes
+          description: The maximum amount of data the server should return for a fetch request.
+          type: integer
+          minimum: "0"
+          maximum: "104857600"
         consumer_fetch_min_bytes:
           title: consumer.fetch.min.bytes
           description: The minimum amount of data the server should return for a fetch request
@@ -784,6 +790,12 @@ kafka_mirrormaker:
           minimum: "1"
           maximum: "5242880"
           example: "1024"
+        consumer_max_partition_fetch_bytes:
+          title: consumer.max.partition.fetch.bytes
+          description: The maximum amount of data per partition the server will return.
+          type: integer
+          minimum: "0"
+          maximum: "104857600"
         consumer_max_poll_records:
           title: Set the max.poll.records to consumer.
           description: Set consumer max.poll.records. The default is 500.
@@ -791,6 +803,20 @@ kafka_mirrormaker:
           minimum: "100"
           maximum: "20000"
           example: "500"
+        consumer_receive_buffer_bytes:
+          title: consumer.receive.buffer.bytes
+          description: The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. -1 uses the OS default.
+          type: integer
+          minimum: "-1"
+          maximum: "104857600"
+          example: "65536"
+        consumer_request_timeout_ms:
+          title: consumer.request.timeout.ms
+          description: The maximum time the client will wait for a response to a request.
+          type: integer
+          minimum: "0"
+          maximum: "600000"
+          example: "30000"
         producer_batch_size:
           title: producer.batch.size
           description: The batch size in bytes producer will attempt to collect before publishing to broker.
@@ -827,6 +853,20 @@ kafka_mirrormaker:
           type: integer
           minimum: "0"
           maximum: "268435456"
+        producer_request_timeout_ms:
+          title: producer.request.timeout.ms
+          description: The maximum time the client will wait for a response to a request.
+          type: integer
+          minimum: "0"
+          maximum: "600000"
+          example: "30000"
+        producer_send_buffer_bytes:
+          title: producer.send.buffer.bytes
+          description: The size of the TCP send buffer (SO_SNDBUF) to use when sending data. -1 uses the OS default.
+          type: integer
+          minimum: "-1"
+          maximum: "104857600"
+          example: "131072"
 logs:
   type: object
   properties:
