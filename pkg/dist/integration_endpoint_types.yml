@@ -119,6 +119,7 @@ datadog:
         - value: datadoghq.com
         - value: datadoghq.eu
         - value: ddog-gov.com
+        - value: us2.ddog-gov.com
         - value: us3.datadoghq.com
         - value: us5.datadoghq.com
       example: datadoghq.com
