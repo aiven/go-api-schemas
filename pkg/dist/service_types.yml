@@ -1349,6 +1349,19 @@ kafka:
           type: integer
           minimum: "1"
           maximum: "10"
+        group_coordinator_rebalance_protocols:
+          title: group.coordinator.rebalance.protocols
+          description: The enabled consumer group rebalance protocols. Use consumer, classic, share, streams to enable Kafka share groups.
+          type: string
+          enum:
+            - value: classic
+            - value: classic,consumer
+            - value: classic,consumer,share
+            - value: classic,consumer,share,streams
+            - value: classic,consumer,streams
+            - value: classic,share
+            - value: classic,streams
+          example: classic,consumer,streams
         group_initial_rebalance_delay_ms:
           title: group.initial.rebalance.delay.ms
           description: 'The amount of time, in milliseconds, the group coordinator will wait for more consumers to join a new group before performing the first rebalance. A longer delay means potentially fewer rebalances, but increases the time until processing begins. The default value for this is 3 seconds. During development and testing it might be desirable to set this to 0 in order to not delay test execution time. (Default: 3000 ms (3 seconds))'
@@ -1369,6 +1382,78 @@ kafka:
           minimum: "0"
           maximum: "60000"
           example: "6000"
+        group_share_delivery_count_limit:
+          title: group.share.delivery.count.limit
+          description: The maximum delivery attempts for a share-group record.
+          type: integer
+          minimum: "2"
+          maximum: "10"
+          example: "5"
+        group_share_heartbeat_interval_ms:
+          title: group.share.heartbeat.interval.ms
+          description: The heartbeat interval used by share group members.
+          type: integer
+          example: "5000"
+        group_share_max_groups:
+          title: group.share.max.groups
+          description: The maximum number of share groups allowed on the broker.
+          type: integer
+        group_share_max_heartbeat_interval_ms:
+          title: group.share.max.heartbeat.interval.ms
+          description: The maximum heartbeat interval allowed for share group members.
+          type: integer
+          example: "15000"
+        group_share_max_record_lock_duration_ms:
+          title: group.share.max.record.lock.duration.ms
+          description: The maximum record lock duration allowed for share groups.
+          type: integer
+          example: "60000"
+        group_share_max_session_timeout_ms:
+          title: group.share.max.session.timeout.ms
+          description: The maximum session timeout allowed for share group members.
+          type: integer
+          example: "60000"
+        group_share_max_size:
+          title: group.share.max.size
+          description: The maximum number of members allowed in a share group.
+          type: integer
+          minimum: "10"
+          maximum: "1000"
+          example: "200"
+        group_share_min_heartbeat_interval_ms:
+          title: group.share.min.heartbeat.interval.ms
+          description: The minimum heartbeat interval allowed for share group members.
+          type: integer
+          example: "5000"
+        group_share_min_record_lock_duration_ms:
+          title: group.share.min.record.lock.duration.ms
+          description: The minimum record lock duration allowed for share groups.
+          type: integer
+          example: "15000"
+        group_share_min_session_timeout_ms:
+          title: group.share.min.session.timeout.ms
+          description: The minimum session timeout allowed for share group members.
+          type: integer
+          example: "45000"
+        group_share_partition_max_record_locks:
+          title: group.share.partition.max.record.locks
+          description: The maximum number of record locks allowed per share group partition.
+          type: integer
+          minimum: "100"
+          maximum: "10000"
+          example: "2000"
+        group_share_record_lock_duration_ms:
+          title: group.share.record.lock.duration.ms
+          description: The duration for which a fetched share-group record is locked.
+          type: integer
+          minimum: "1000"
+          maximum: "3600000"
+          example: "30000"
+        group_share_session_timeout_ms:
+          title: group.share.session.timeout.ms
+          description: The timeout used to detect share group member failures.
+          type: integer
+          example: "45000"
         log_cleaner_delete_retention_ms:
           title: log.cleaner.delete.retention.ms
           description: 'How long are delete records retained? (Default: 86400000 (1 day))'
@@ -3054,6 +3139,12 @@ mysql:
           type: integer
           minimum: "0"
           maximum: "1024"
+        relay_log_space_limit:
+          title: relay_log_space_limit
+          description: The maximum amount of space in bytes to use for all relay logs while replicating from an external migration source. When the limit is reached, the replication I/O thread stops fetching relay log events until the SQL thread has caught up. Raise this to give a large migration a bigger relay-log budget; ensure the service disk is sized accordingly. The setting applies only on the node replicating from the external source; standby nodes always use the Aiven-managed default (the smaller of 5 GiB and 30% of the service disk), which is also used when this option is left unset. Changing this parameter will lead to a restart of the MySQL service.
+          type: integer
+          minimum: "134217728"
+          maximum: "18446744073709551615"
         slow_query_log:
           title: slow_query_log
           description: Slow query log enables capturing of slow queries. Setting slow_query_log to false also truncates the mysql.slow_log table.
