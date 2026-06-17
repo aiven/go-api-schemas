@@ -1096,6 +1096,12 @@ prometheus:
 rsyslog:
   title: Integration user config
   type: object
+  properties:
+    escape_newlines:
+      title: Escape newlines in log messages
+      description: Per-service override for escaping embedded newlines in log messages. When set, it overrides the rsyslog endpoint setting for this service. When unset, the endpoint setting applies.
+      type: boolean
+      example: false
 thanos_migrate:
   is_deprecated: true
   deprecation_notice: This property is deprecated.
