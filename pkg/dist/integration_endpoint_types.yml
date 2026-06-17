@@ -102,7 +102,7 @@ datadog:
       title: Number of seconds that datadog will wait to get consumer statistics from brokers
       type: integer
       minimum: "2"
-      maximum: "300"
+      maximum: "298"
       example: "60"
     max_partition_contexts:
       title: Maximum number of partition contexts to send
@@ -779,6 +779,12 @@ rsyslog:
         -----BEGIN CERTIFICATE-----
         ...
         -----END CERTIFICATE-----
+    escape_newlines:
+      title: Escape newlines in log messages
+      description: When true, embedded newlines in a log message are escaped so a multi-line record (e.g. a stack trace) is delivered as one complete log entry. Useful for newline-delimited cloud log intakes that drop continuation lines.
+      type: boolean
+      default: false
+      example: false
     format:
       title: Message format
       type: string

@@ -1320,6 +1320,43 @@ kafka:
       type: object
       default: {}
       properties:
+        audit_log:
+          title: Kafka audit logging configuration
+          description: Enable Kafka audit logging by providing this object. Removing it disables the feature. Enabling, updating, or disabling audit logging causes a rolling restart of all Kafka brokers.
+          type: object
+          properties:
+            aggregation_period_sec:
+              title: Aggregation period in seconds
+              description: Aggregation period in seconds over which audit log entries are batched before being emitted.
+              type: integer
+              default: "300"
+              minimum: "1"
+              maximum: "600"
+              example: "300"
+            group_by:
+              title: Group by
+              description: Group audit log entries by user or by user and IP address. Only valid when record_type is user_operations.
+              type: string
+              default: user_and_ip
+              enum:
+                - value: user
+                - value: user_and_ip
+              example: user
+            include_denials:
+              title: Include log denials
+              description: Whether to include denied authorization attempts in the audit log.
+              type: boolean
+              default: false
+              example: false
+            record_type:
+              title: Audit log type
+              description: user_operations records individual Kafka API calls (produce, fetch, etc.). user_activity records higher-level user actions.
+              type: string
+              default: user_operations
+              enum:
+                - value: user_activity
+                - value: user_operations
+              example: user_operations
         auto_create_topics_enable:
           title: auto.create.topics.enable
           description: 'Enable auto-creation of topics. (Default: false)'
@@ -2981,6 +3018,11 @@ mysql:
           minimum: "900"
           maximum: "31536000"
           example: "86400"
+        innodb_adaptive_hash_index:
+          title: innodb_adaptive_hash_index
+          description: 'Whether InnoDB adaptive hash indexing is enabled. The optimal setting is workload-dependent: it speeds up lookups for some workloads but its internal latch can become a contention point under high concurrency, in which case disabling it can improve throughput.'
+          type: boolean
+          example: false
         innodb_change_buffer_max_size:
           title: innodb_change_buffer_max_size
           description: Maximum size for the InnoDB change buffer, as a percentage of the total size of the buffer pool. Default is 25
@@ -3009,6 +3051,20 @@ mysql:
           max_length: 1024
           pattern: ^.+/.+$
           example: db_name/table_name
+        innodb_io_capacity:
+          title: innodb_io_capacity
+          description: The number of I/O operations per second (IOPS) available to InnoDB background tasks, such as flushing pages from the buffer pool and merging data from the change buffer. Set this to a value appropriate for the underlying storage; it must not exceed innodb_io_capacity_max.
+          type: integer
+          minimum: "100"
+          maximum: "4294967295"
+          example: "2000"
+        innodb_io_capacity_max:
+          title: innodb_io_capacity_max
+          description: The maximum number of I/O operations per second (IOPS) that InnoDB background tasks may perform when flushing falls behind. Defaults to twice innodb_io_capacity (minimum 2000). This must be greater than or equal to innodb_io_capacity.
+          type: integer
+          minimum: "100"
+          maximum: "4294967295"
+          example: "4000"
         innodb_lock_wait_timeout:
           title: innodb_lock_wait_timeout
           description: The length of time in seconds an InnoDB transaction waits for a row lock before giving up. Default is 120.
@@ -3352,6 +3408,18 @@ opensearch:
           type: string
           pattern: ^[^\r\n]*$
           _secure: true
+        max_restore_bytes_per_sec:
+          title: Restore bytes per second
+          description: Throttles the restore rate per node. Defaults to unlimited. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+          type: string
+          pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+          example: 40mb
+        max_snapshot_bytes_per_sec:
+          title: Snapshot bytes per second
+          description: Throttles the snapshot rate per node. Defaults to 40mb. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+          type: string
+          pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+          example: 40mb
         readonly:
           title: Whether the repository is read-only.
           type: boolean
@@ -3651,6 +3719,18 @@ opensearch:
                     type: string
                     pattern: ^[^\r\n]*$
                     _secure: true
+                  max_restore_bytes_per_sec:
+                    title: Restore bytes per second
+                    description: Throttles the restore rate per node. Defaults to unlimited. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+                    type: string
+                    pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+                    example: 40mb
+                  max_snapshot_bytes_per_sec:
+                    title: Snapshot bytes per second
+                    description: Throttles the snapshot rate per node. Defaults to 40mb. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+                    type: string
+                    pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+                    example: 40mb
                   readonly:
                     title: Whether the repository is read-only.
                     type: boolean
@@ -3734,6 +3814,18 @@ opensearch:
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
+        max_restore_bytes_per_sec:
+          title: Restore bytes per second
+          description: Throttles the restore rate per node. Defaults to unlimited. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+          type: string
+          pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+          example: 40mb
+        max_snapshot_bytes_per_sec:
+          title: Snapshot bytes per second
+          description: Throttles the snapshot rate per node. Defaults to 40mb. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+          type: string
+          pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+          example: 40mb
         readonly:
           title: Whether the repository is read-only.
           type: boolean
@@ -5005,6 +5097,18 @@ opensearch:
           type: string
           pattern: ^(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?)(,(\*?[a-z0-9._-]*\*?|-\*?[a-z0-9._-]*\*?))*[,]?$
           example: metrics*,logs*,data-20240823
+        max_restore_bytes_per_sec:
+          title: Restore bytes per second
+          description: Throttles the restore rate per node. Defaults to unlimited. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+          type: string
+          pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+          example: 40mb
+        max_snapshot_bytes_per_sec:
+          title: Snapshot bytes per second
+          description: Throttles the snapshot rate per node. Defaults to 40mb. Note that if the recovery settings for managed services are set, this value is overridden by the recovery settings. Value should be a byte size with unit, e.g. 40mb, 100kb, 1gb
+          type: string
+          pattern: ^\d+\s*(?:[bB]|[kKmMgGtTpP][bB])$
+          example: 40mb
         readonly:
           title: Whether the repository is read-only.
           type: boolean
