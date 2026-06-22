@@ -15,7 +15,7 @@ jobs:
       contents: write # For trunk to create PRs
       pull-requests: write # For trunk to create PRs
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-go@v6
