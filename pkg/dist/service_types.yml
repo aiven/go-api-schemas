@@ -1331,7 +1331,7 @@ kafka:
               type: integer
               default: "300"
               minimum: "1"
-              maximum: "600"
+              maximum: "1800"
               example: "300"
             group_by:
               title: Group by
