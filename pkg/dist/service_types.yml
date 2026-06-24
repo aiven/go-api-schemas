@@ -2003,6 +2003,17 @@ kafka:
       required:
         - enabled
       properties:
+        auto_diskless_topic_regexes:
+          title: Auto diskless topic regexes
+          description: The regexes of topics to auto enable diskless. Topics matching any of the regexes will be created as diskless topics.
+          type: array
+          items:
+            title: Topic regex
+            description: The regex to match topics to auto enable diskless. It follows `java.util.regex.Pattern` syntax, but only a subset of characters is allowed.
+            type: string
+            max_length: 128
+            pattern: ^[\^\$\-_\.*\+?A-Za-z0-9\\\[\]\|\{\}\(\)]+$
+          max_items: 32
         enabled:
           title: Enabled
           description: Whether to enable the Diskless functionality
@@ -4990,6 +5001,7 @@ opensearch:
         - value: "2"
         - value: "2.19"
         - value: "3.3"
+        - value: "3.6"
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
