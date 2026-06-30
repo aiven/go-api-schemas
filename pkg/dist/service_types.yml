@@ -2181,11 +2181,11 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "3.7"
-        - value: "3.8"
-        - value: "3.9"
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
-          value: "4.0"
+          value: "3.8"
+        - value: "3.9"
+        - value: "4.0"
         - value: "4.1"
         - value: "4.2"
     letsencrypt_sasl:
