@@ -783,6 +783,12 @@ kafka_mirrormaker:
           type: integer
           minimum: "0"
           maximum: "104857600"
+        consumer_fetch_max_wait_ms:
+          title: consumer.fetch.max.wait.ms
+          description: The maximum amount of time the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy `consumer_fetch_min_bytes`. Default is `500`.
+          type: integer
+          minimum: "0"
+          maximum: "600000"
         consumer_fetch_min_bytes:
           title: consumer.fetch.min.bytes
           description: The minimum amount of data the server should return for a fetch request. Default is `1`.
