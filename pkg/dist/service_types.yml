@@ -5601,7 +5601,7 @@ pg:
             - value: worker
         io_workers:
           title: io_max_concurrency
-          description: 'EXPERIMENTAL: Number of IO worker processes, for io_method=worker. Version 18 and up only. Changing this parameter causes a service restart.'
+          description: 'EXPERIMENTAL: Number of IO worker processes, for io_method=worker. Version 18 and up only.'
           type: integer
           default: "3"
           minimum: "1"
@@ -5767,7 +5767,7 @@ pg:
           user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
         pg_stat_monitor.pgsm_enable_query_plan:
           title: pg_stat_monitor.pgsm_enable_query_plan
-          description: Enables or disables query plan monitoring. Changing this parameter causes a service restart. Only available for PostgreSQL 13+.
+          description: Enables or disables query plan monitoring. Only available for PostgreSQL 13+.
           type: boolean
           example: false
         pg_stat_monitor.pgsm_max_buckets:
