@@ -1019,6 +1019,11 @@ grafana:
       max_length: 64
       pattern: ^(G|UA|YT|MO)-[a-zA-Z0-9-]+$
       example: UA-123456-4
+    grafana_version:
+      title: Grafana major version
+      type: string
+      enum:
+        - value: "11"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -2202,7 +2207,7 @@ kafka:
       example: true
     preferred_zones:
       title: Preferred zones
-      description: 'List of preferred zone IDs for service node placement. Nodes will be placed in these zones when available. If a specified zone is unavailable (e.g., due to capacity constraints), nodes will be placed in other available zones to maintain the configured number of zones for availability. Invalid zone IDs are rejected at configuration time. Zone IDs are cloud-specific: AWS uses zone IDs like ''euc1-az1'', GCP uses zone names like ''europe-west1-a'', and Azure uses ''location/zone'' format like ''germanywestcentral/1''. If single_zone is enabled with an availability_zone, that setting takes precedence over preferred_zones.Changes take effect on next node recreation (e.g., maintenance or plan change). For Kafka professional plans, nodes outside preferred zones are automatically rebalanced once per day.'
+      description: 'List of preferred zone IDs for service node placement. Nodes will be placed in these zones when available. If a specified zone is unavailable (e.g., due to capacity constraints), nodes will be placed in other available zones to maintain the configured number of zones for availability. Invalid zone IDs are rejected at configuration time. Zone IDs are cloud-specific: AWS uses zone IDs like ''euc1-az1'', GCP uses zone names like ''europe-west1-a'', and Azure uses ''location/zone'' format like ''germanywestcentral/1''. If single_zone is enabled with an availability_zone, that setting takes precedence over preferred_zones. Changes take effect on next node recreation (e.g., maintenance or plan change). For eligible plans, nodes outside preferred zones are automatically rebalanced once per day.'
       type: array
       items:
         title: Zone ID
@@ -2580,6 +2585,16 @@ kafka_connect:
             max_length: 128
             pattern: ^[^\r\n]*$
             example: 2.5.0
+    preferred_zones:
+      title: Preferred zones
+      description: 'List of preferred zone IDs for service node placement. Nodes will be placed in these zones when available. If a specified zone is unavailable (e.g., due to capacity constraints), nodes will be placed in other available zones to maintain the configured number of zones for availability. Invalid zone IDs are rejected at configuration time. Zone IDs are cloud-specific: AWS uses zone IDs like ''euc1-az1'', GCP uses zone names like ''europe-west1-a'', and Azure uses ''location/zone'' format like ''germanywestcentral/1''. If single_zone is enabled with an availability_zone, that setting takes precedence over preferred_zones. Changes take effect on next node recreation (e.g., maintenance or plan change). For eligible plans, nodes outside preferred zones are automatically rebalanced once per day.'
+      type: array
+      items:
+        title: Zone ID
+        type: string
+        max_length: 64
+        example: euc1-az1
+      max_items: 10
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
@@ -2895,6 +2910,16 @@ kafka_mirrormaker:
           minimum: "1"
           maximum: "8"
           example: "2"
+    preferred_zones:
+      title: Preferred zones
+      description: 'List of preferred zone IDs for service node placement. Nodes will be placed in these zones when available. If a specified zone is unavailable (e.g., due to capacity constraints), nodes will be placed in other available zones to maintain the configured number of zones for availability. Invalid zone IDs are rejected at configuration time. Zone IDs are cloud-specific: AWS uses zone IDs like ''euc1-az1'', GCP uses zone names like ''europe-west1-a'', and Azure uses ''location/zone'' format like ''germanywestcentral/1''. If single_zone is enabled with an availability_zone, that setting takes precedence over preferred_zones. Changes take effect on next node recreation (e.g., maintenance or plan change). For eligible plans, nodes outside preferred zones are automatically rebalanced once per day.'
+      type: array
+      items:
+        title: Zone ID
+        type: string
+        max_length: 64
+        example: euc1-az1
+      max_items: 10
     sasl_oauthbearer_allowed_urls:
       title: Allowed URLs for SASL OAUTHBEARER
       description: List of allowed URLs for SASL OAUTHBEARER authentication. Only HTTPS URLs are allowed for security reasons.
@@ -3068,6 +3093,11 @@ mysql:
       title: mysql.conf configuration values
       type: object
       properties:
+        automatic_sp_privileges:
+          title: automatic_sp_privileges
+          description: When enabled, the server automatically grants the EXECUTE and ALTER ROUTINE privileges to the creator of a stored routine and drops them when the routine is dropped.
+          type: boolean
+          example: true
         connect_timeout:
           title: connect_timeout
           description: The number of seconds that the mysqld server waits for a connect packet before responding with Bad handshake
@@ -3083,6 +3113,11 @@ mysql:
           max_length: 100
           pattern: ^([-+][\d:]*|[\w/]*)$
           example: "+03:00"
+        end_markers_in_json:
+          title: end_markers_in_json
+          description: Whether optimizer JSON output such as EXPLAIN FORMAT=JSON adds end markers that repeat a structure's key near its closing bracket, making large JSON structures easier to read.
+          type: boolean
+          example: false
         group_concat_max_len:
           title: group_concat_max_len
           description: The maximum permitted result length in bytes for the GROUP_CONCAT() function.
@@ -3163,6 +3198,11 @@ mysql:
           type: integer
           minimum: "65536"
           maximum: "1099511627776"
+        innodb_optimize_fulltext_only:
+          title: innodb_optimize_fulltext_only
+          description: When enabled, OPTIMIZE TABLE on InnoDB tables only updates the FULLTEXT index instead of rebuilding the table. Intended to be enabled temporarily during FULLTEXT index maintenance and disabled afterwards; while enabled, OPTIMIZE TABLE does not reclaim table space.
+          type: boolean
+          example: false
         innodb_print_all_deadlocks:
           title: innodb_print_all_deadlocks
           description: When enabled, information about all deadlocks in InnoDB user transactions is recorded in the error log. Disabled by default.
@@ -3318,6 +3358,11 @@ mysql:
           minimum: "1"
           maximum: "2147483"
           example: "28800"
+        windowing_use_high_precision:
+          title: windowing_use_high_precision
+          description: Whether window functions are computed to high precision. Disabling this trades exactness for speed in window function evaluation.
+          type: boolean
+          example: true
     mysql_incremental_backup:
       title: MySQL incremental backup configuration
       type: object
@@ -5601,7 +5646,7 @@ pg:
             - value: worker
         io_workers:
           title: io_max_concurrency
-          description: 'EXPERIMENTAL: Number of IO worker processes, for io_method=worker. Version 18 and up only. Changing this parameter causes a service restart.'
+          description: 'EXPERIMENTAL: Number of IO worker processes, for io_method=worker. Version 18 and up only.'
           type: integer
           default: "3"
           minimum: "1"
@@ -5767,7 +5812,7 @@ pg:
           user_error: Must consist of alpha-numeric characters, dots, underscores or dashes, may not start with dash or dot, max 64 characters
         pg_stat_monitor.pgsm_enable_query_plan:
           title: pg_stat_monitor.pgsm_enable_query_plan
-          description: Enables or disables query plan monitoring. Changing this parameter causes a service restart. Only available for PostgreSQL 13+.
+          description: Enables or disables query plan monitoring. Only available for PostgreSQL 13+.
           type: boolean
           example: false
         pg_stat_monitor.pgsm_max_buckets:
