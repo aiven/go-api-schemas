@@ -3151,6 +3151,18 @@ mysql:
           minimum: "0"
           maximum: "2"
           example: "0"
+        innodb_ft_enable_stopword:
+          title: innodb_ft_enable_stopword
+          description: Whether stopword processing is applied when creating or rebuilding an InnoDB FULLTEXT index. Enabled by default.
+          type: boolean
+          example: false
+        innodb_ft_max_token_size:
+          title: innodb_ft_max_token_size
+          description: Maximum length of words that are stored in an InnoDB FULLTEXT index. Changing this parameter will lead to a restart of the MySQL service.
+          type: integer
+          minimum: "10"
+          maximum: "84"
+          example: "60"
         innodb_ft_min_token_size:
           title: innodb_ft_min_token_size
           description: Minimum length of words that are stored in an InnoDB FULLTEXT index. Changing this parameter will lead to a restart of the MySQL service.
@@ -3158,9 +3170,29 @@ mysql:
           minimum: "0"
           maximum: "16"
           example: "3"
+        innodb_ft_num_word_optimize:
+          title: innodb_ft_num_word_optimize
+          description: Number of words processed during each OPTIMIZE TABLE operation on an InnoDB FULLTEXT index. Default is 2000.
+          type: integer
+          minimum: "1000"
+          maximum: "10000"
+          example: "4000"
+        innodb_ft_result_cache_limit:
+          title: innodb_ft_result_cache_limit
+          description: Maximum memory in bytes used per query for the InnoDB FULLTEXT search query result cache. Aiven sizes this automatically based on the service plan's memory; setting a value overrides the calculated default.
+          type: integer
+          minimum: "1000000"
+          maximum: "4294967295"
         innodb_ft_server_stopword_table:
           title: innodb_ft_server_stopword_table
           description: This option is used to specify your own InnoDB FULLTEXT index stopword list for all InnoDB tables.
+          type: string
+          max_length: 1024
+          pattern: ^.+/.+$
+          example: db_name/table_name
+        innodb_ft_user_stopword_table:
+          title: innodb_ft_user_stopword_table
+          description: This option is used to specify your own InnoDB FULLTEXT index stopword list for specific InnoDB tables.
           type: string
           max_length: 1024
           pattern: ^.+/.+$
