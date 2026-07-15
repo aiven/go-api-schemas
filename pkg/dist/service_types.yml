@@ -3113,11 +3113,25 @@ mysql:
           max_length: 100
           pattern: ^([-+][\d:]*|[\w/]*)$
           example: "+03:00"
+        div_precision_increment:
+          title: div_precision_increment
+          description: Number of digits by which to increase the scale of the result of division operations performed with the / operator. Default is 4.
+          type: integer
+          minimum: "0"
+          maximum: "30"
+          example: "6"
         end_markers_in_json:
           title: end_markers_in_json
           description: Whether optimizer JSON output such as EXPLAIN FORMAT=JSON adds end markers that repeat a structure's key near its closing bracket, making large JSON structures easier to read.
           type: boolean
           example: false
+        eq_range_index_dive_limit:
+          title: eq_range_index_dive_limit
+          description: The number of equality ranges in a query at or above which the optimizer switches from index dives to index statistics when estimating the number of qualifying rows. 0 means always use index dives. Default is 200.
+          type: integer
+          minimum: "0"
+          maximum: "4294967295"
+          example: "100"
         group_concat_max_len:
           title: group_concat_max_len
           description: The maximum permitted result length in bytes for the GROUP_CONCAT() function.
@@ -3313,12 +3327,26 @@ mysql:
           type: integer
           minimum: "102400"
           maximum: "1073741824"
+        max_execution_time:
+          title: max_execution_time
+          description: Execution timeout in milliseconds for read-only top-level SELECT statements. 0 (the default) means no timeout.
+          type: integer
+          minimum: "0"
+          maximum: "4294967295"
+          example: "15000"
         max_heap_table_size:
           title: max_heap_table_size
           description: Limits the size of internal in-memory tables. Also set tmp_table_size. Default is 16777216 (16M)
           type: integer
           minimum: "1048576"
           maximum: "1073741824"
+        max_seeks_for_key:
+          title: max_seeks_for_key
+          description: Limit on the assumed maximum number of index seeks when looking up rows based on a key. Lowering this value causes the optimizer to prefer index lookups over table scans.
+          type: integer
+          minimum: "1"
+          maximum: "18446744073709551615"
+          example: "100"
         net_buffer_length:
           title: net_buffer_length
           description: Start sizes of connection buffer and result buffer. Default is 16384 (16K). Changing this parameter will lead to a restart of the MySQL service.
@@ -3340,6 +3368,26 @@ mysql:
           minimum: "1"
           maximum: "3600"
           example: "30"
+        optimizer_prune_level:
+          title: optimizer_prune_level
+          description: Controls the heuristics applied during query optimization to prune less-promising partial plans from the optimizer search space. 0 disables heuristics (exhaustive search); 1 prunes plans based on the number of rows retrieved.
+          type: integer
+          minimum: "0"
+          maximum: "1"
+          example: "1"
+        optimizer_search_depth:
+          title: optimizer_search_depth
+          description: Maximum depth of search performed by the query optimizer when choosing a join order. Larger values produce better plans for joins over many tables but take longer to compile; 0 lets the optimizer choose the depth automatically.
+          type: integer
+          minimum: "0"
+          maximum: "62"
+          example: "62"
+        optimizer_switch:
+          title: optimizer_switch
+          description: Comma-separated list of optimizer flag assignments in the form flag=on|off|default, or the single value 'default' to reset all flags. Flags not listed keep their current values. Controls query optimizer behaviors such as index merge, hash join and semijoin strategies.
+          type: string
+          pattern: ^(default|[a-z_]+=(on|off|default)(,[a-z_]+=(on|off|default))*)$
+          example: batched_key_access=on,mrr_cost_based=off
         performance_schema_events_statements_history_size:
           title: performance_schema_events_statements_history_size
           description: The number of rows per thread in the events_statements_history table. Changing this parameter will lead to a restart of the MySQL service.
@@ -4566,7 +4614,7 @@ opensearch:
           title: http.max_content_length
           description: Maximum content length for HTTP requests to the OpenSearch HTTP API, in bytes.
           type: integer
-          minimum: "1"
+          minimum: "1048576"
           maximum: "2147483647"
         http_max_header_size:
           title: http.max_header_size
