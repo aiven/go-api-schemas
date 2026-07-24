@@ -737,6 +737,38 @@ jolokia:
       pattern: ^[a-z0-9\-@_]{5,32}$
       example: jol48k51
       user_error: Must be 5-32 characters long and may contain only lower case letters and numbers.
+opentelemetry:
+  type: object
+  required:
+    - service_address
+    - timeout
+    - compression
+  properties:
+    attributes:
+      title: Resource attributes to attach to every exported metric
+      type: object
+    compression:
+      title: Payload compression
+      type: string
+      enum:
+        - value: gzip
+        - value: none
+      example: gzip
+    headers:
+      title: Additional gRPC metadata headers sent with every export request
+      type: object
+    service_address:
+      title: OpenTelemetry gRPC receiver address
+      description: gRPC target as 'host:port', no URL scheme (this output speaks OTLP/gRPC only, no plain HTTP/HTTPS transport).
+      type: string
+      max_length: 2048
+      example: otel-collector.example.avns.net:4317
+    timeout:
+      title: Connection timeout in seconds
+      type: integer
+      minimum: "1"
+      maximum: "30"
+      example: "10"
 prometheus:
   type: object
   properties:
