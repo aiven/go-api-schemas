@@ -3464,9 +3464,7 @@ mysql:
       title: MySQL major version
       type: string
       enum:
-        - is_deprecated: true
-          deprecation_notice: This value is deprecated.
-          value: "8"
+        - value: "8"
         - value: "8.4"
     private_access:
       title: Allow access to selected service ports from private networks
