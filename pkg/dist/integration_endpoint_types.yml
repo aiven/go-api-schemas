@@ -758,8 +758,8 @@ opentelemetry:
       title: Additional gRPC metadata headers sent with every export request
       type: object
     service_address:
-      title: OpenTelemetry gRPC receiver address
-      description: gRPC target as 'host:port', no URL scheme (this output speaks OTLP/gRPC only, no plain HTTP/HTTPS transport).
+      title: OpenTelemetry receiver address
+      description: Either a bare 'host:port' (OTLP/gRPC, no URL scheme) or an 'http://'/'https://' URL (OTLP/HTTP).
       type: string
       max_length: 2048
       example: otel-collector.example.avns.net:4317
