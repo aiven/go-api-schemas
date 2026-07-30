@@ -32,6 +32,7 @@ clickhouse:
       enum:
         - value: "25.3"
         - value: "25.8"
+        - value: "26.3"
     enable_ipv6:
       title: Enable IPv6
       description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
@@ -3464,7 +3465,9 @@ mysql:
       title: MySQL major version
       type: string
       enum:
-        - value: "8"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "8"
         - value: "8.4"
     private_access:
       title: Allow access to selected service ports from private networks
