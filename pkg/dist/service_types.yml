@@ -5730,10 +5730,9 @@ pg:
             - value: sync
             - value: worker
         io_workers:
-          title: io_max_concurrency
+          title: io_workers
           description: 'EXPERIMENTAL: Number of IO worker processes, for io_method=worker. Version 18 and up only.'
           type: integer
-          default: "3"
           minimum: "1"
           maximum: "32"
         jit:
