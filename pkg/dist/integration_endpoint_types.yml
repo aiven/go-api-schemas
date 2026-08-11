@@ -754,6 +754,14 @@ opentelemetry:
         - value: gzip
         - value: none
       example: gzip
+    encoding_type:
+      title: OTLP wire format
+      description: Encoding used for exported metrics. Leave unset to use telegraf's default.
+      type: string
+      enum:
+        - value: json
+        - value: protobuf
+      example: protobuf
     headers:
       title: Additional gRPC metadata headers sent with every export request
       type: object
