@@ -30,7 +30,9 @@ clickhouse:
       title: ClickHouse major version
       type: string
       enum:
-        - value: "25.3"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "25.3"
         - value: "25.8"
         - value: "26.3"
     enable_ipv6:
@@ -3328,6 +3330,13 @@ mysql:
           type: integer
           minimum: "102400"
           maximum: "1073741824"
+        max_connections:
+          title: max_connections
+          description: The maximum permitted number of simultaneous client connections. Lower this to reserve memory for other work. The value cannot exceed the limit provided by your service plan. Upgrading the plan does not raise a value you have set explicitly, so increase it yourself after an upgrade.
+          type: integer
+          minimum: "30"
+          maximum: "100000"
+          example: "200"
         max_execution_time:
           title: max_execution_time
           description: Execution timeout in milliseconds for read-only top-level SELECT statements. 0 (the default) means no timeout.
@@ -3348,6 +3357,13 @@ mysql:
           minimum: "1"
           maximum: "18446744073709551615"
           example: "100"
+        max_user_connections:
+          title: max_user_connections
+          description: The maximum number of simultaneous connections permitted to any single user account. 0, the default, means no per-account limit. Any other value must be at least 10 below max_connections, so that monitoring and your own admin sessions can still connect when an application saturates its own limit. Aiven's replication and management connections are unaffected however low you set this.
+          type: integer
+          minimum: "0"
+          maximum: "99990"
+          example: "50"
         net_buffer_length:
           title: net_buffer_length
           description: Start sizes of connection buffer and result buffer. Default is 16384 (16K). Changing this parameter will lead to a restart of the MySQL service.
@@ -5904,6 +5920,14 @@ pg:
           minimum: "1"
           maximum: "10"
           example: "10"
+        pg_stat_plans.track:
+          title: pg_stat_plans.track
+          description: Controls which statements' plans are tracked. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable plan tracking. The default is `top`.
+          type: string
+          enum:
+            - value: all
+            - value: none
+            - value: top
         pg_stat_statements.track:
           title: pg_stat_statements.track
           description: Controls which statements are counted. Specify top to track top-level statements (those issued directly by clients), all to also track nested statements (such as statements invoked within functions), or none to disable statement statistics collection. The default is `top`.
@@ -6038,6 +6062,11 @@ pg:
     pg_stat_monitor_enable:
       title: Enable pg_stat_monitor extension if available for the current cluster
       description: Enable the pg_stat_monitor extension. Changing this parameter causes a service restart. When this extension is enabled, pg_stat_statements results for utility commands are unreliable
+      type: boolean
+      default: false
+    pg_stat_plans_enable:
+      title: Enable pg_stat_plans extension if available for the current cluster
+      description: Enable the pg_stat_plans extension. Changing this parameter causes a service restart. Tracks execution plans for SQL queries
       type: boolean
       default: false
     pg_version:
