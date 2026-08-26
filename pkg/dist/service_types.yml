@@ -4771,6 +4771,11 @@ opensearch:
           minimum: "0"
           maximum: "100"
           example: "50"
+        ml_commons_connector_access_control_enabled:
+          title: plugins.ml_commons.connector_access_control_enabled
+          description: When set to true, the setting allows admins to control access and permissions to the connector API using backend_roles. Defaults to false.
+          type: boolean
+          example: false
         ml_commons_model_access_control_enabled:
           title: plugins.ml_commons.model_access_control.enabled
           description: Enable or disable model access control for ML Commons. When enabled, access to ML models is controlled by security permissions. Defaults to false.
@@ -4788,6 +4793,16 @@ opensearch:
           description: Enable or disable running ML Commons tasks only on ML nodes. When enabled, ML tasks will only execute on nodes designated as ML nodes. Defaults to true.
           type: boolean
           example: false
+        ml_commons_trusted_connector_endpoints_regex:
+          title: plugins.ml_commons.trusted_connector_endpoints_regex
+          description: Adds the trusted endpoints to the cluster settings. Supports Java regex expressions.
+          type: array
+          items:
+            title: An URL endpoint pattern.
+            type: string
+            max_length: 261
+            example: ^https://api\.example\.com/.*$
+          max_items: 50
         node.search.cache.size:
           title: The limit of how much total remote data can be referenced
           description: Defines a limit of how much total remote data can be referenced as a ratio of the size of the disk reserved for the file cache. This is designed to be a safeguard to prevent oversubscribing a cluster. Defaults to 5gb. Requires restarting all OpenSearch nodes.
