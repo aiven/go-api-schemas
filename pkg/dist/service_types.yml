@@ -2340,15 +2340,12 @@ kafka:
           example: true
         sasl_oauthbearer_method_roles:
           title: sasl.oauthbearer.method.roles
-          description: Mapping of HTTP methods to the list of roles allowed to perform them on the Schema Registry. Role names use the `karapace.` prefix, e.g. `karapace.schema:read`.
-          type: object
-          example:
-            DELETE: []
-            GET:
-              - karapace.schema:read
-              - karapace.subject:read
-            POST: []
-            PUT: []
+          description: 'JSON object mapping HTTP methods to the list of roles allowed to perform them on the Schema Registry, provided as a JSON-encoded string. Role names use the `karapace.` prefix, e.g. `karapace.schema:read`. Defaults to `{"GET": ["karapace.schema:read", "karapace.subject:read"], "POST": [], "PUT": [], "DELETE": []}`.'
+          type: string
+          max_length: 4096
+          pattern: ^\s*(?=.*"GET":\s*\[[^\]]*\])(?=.*"POST":\s*\[[^\]]*\])(?=.*"PUT":\s*\[[^\]]*\])(?=.*"DELETE":\s*\[[^\]]*\])\{\s*(?:"(?:GET|POST|PUT|DELETE)":\s*\[[^\]]*\]\s*,?\s*){4}\}\s*$
+          example: '{"GET": ["karapace.schema:read", "karapace.subject:read"], "POST": [], "PUT": [], "DELETE": []}'
+          user_error: 'Must be a JSON object mapping each of the GET, POST, PUT and DELETE HTTP methods to an array of role names, e.g. {"GET": ["karapace.schema:read"], "POST": [], "PUT": [], "DELETE": []}'
         sasl_oauthbearer_roles_claim_path:
           title: sasl.oauthbearer.roles.claim.path
           description: JSON path used to extract the roles claim from the JWT for Schema Registry authorization. Defaults to `resource_access.karapace.roles`.
@@ -6960,5 +6957,7 @@ valkey:
       type: string
       enum:
         - value: "8.1"
-        - value: "9.0"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "9.0"
         - value: "9.1"
