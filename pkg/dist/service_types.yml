@@ -1,3 +1,181 @@
+application:
+  type: object
+  properties:
+    application:
+      title: Configuration specific to application service type
+      type: object
+      properties:
+        environment_variables:
+          title: Environment variables
+          type: array
+          items:
+            title: Environment variable
+            type: object
+            required:
+              - key
+              - value
+              - kind
+            properties:
+              key:
+                title: Environment variable key
+                type: string
+                min_length: 1
+                max_length: 512
+                pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                example: DATABASE_URL
+              kind:
+                title: Environment variable kind
+                type: string
+                default: variable
+                enum:
+                  - value: secret
+                  - value: variable
+                min_length: 0
+                max_length: 32
+                example: secret
+              value:
+                title: Environment variable value
+                type: string
+                min_length: 0
+                max_length: 4096
+                pattern: ^.*$
+                example: postgresql://user:password@netloc:port/dbname
+                _secure: true
+        ports:
+          title: Ports
+          type: array
+          items:
+            title: Port
+            type: object
+            required:
+              - name
+              - port
+              - protocol
+            properties:
+              name:
+                title: Port name
+                description: 'Allowed characters: ASCII letters, digits, underscore, hyphen. Single (non-consecutive) ASCII spaces are allowed between characters. No leading or trailing spaces.'
+                type: string
+                min_length: 1
+                max_length: 32
+                pattern: ^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$
+                example: default
+              port:
+                title: Port number
+                type: integer
+                minimum: "1"
+                maximum: "65535"
+                example: "80"
+              protocol:
+                title: Protocol
+                type: string
+                enum:
+                  - value: HTTP
+                example: HTTP
+        restart_policy:
+          title: Restart policy
+          type: object
+          properties:
+            condition:
+              title: Restart condition
+              type: string
+              enum:
+                - value: any
+                - value: none
+                - value: on-failure
+        source:
+          title: Version control system information
+          type: object
+          required:
+            - repository_url
+          properties:
+            branch:
+              title: Branch name
+              type: string
+              min_length: 1
+              max_length: 256
+              pattern: ^[a-zA-Z0-9\-_./]+$
+              example: main
+            build_path:
+              title: Build context path
+              description: Path of image build context. If set without containerfile_path, this will also be used to search for Containerfile/Dockerfile.
+              type: string
+              min_length: 1
+              max_length: 512
+              pattern: ^[a-zA-Z0-9\-_./]+$
+              example: main
+            containerfile_path:
+              title: Containerfile/Dockerfile path
+              description: Path of Containerfile/Dockerfile in the source directory. Does not have to overlap with build_path. Send null to clear on update; omit to leave unchanged.
+              type: string
+              min_length: 1
+              max_length: 512
+              pattern: ^[a-zA-Z0-9\-_./]+$
+              example: ./Containerfile
+            deployment_key:
+              type: string
+              min_length: 0
+              max_length: 4096
+              pattern: ^[\s\S]+$
+              example: |-
+                -----BEGIN OPENSSH PRIVATE KEY-----
+                b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+                QyNTUxOQAAACAVgWGYsG/vRV7uzJo3LP7Tf6C4fW3rH0sGQLF0CTvRywAAAKBgof9VYKH/
+                VQAAAAtzc2gtZWQyNTUxOQAAACAVgWGYsG/vRV7uzJo3LP7Tf6C4fW3rH0sGQLF0CTvRyw
+                AAAECpnx9BFmexgdkbeLT7gaY70K8x7znGw3d+TSIvu7RRaBWBYZiwb+9FXu7Mmjcs/tN/
+                oLh9besfSwZAsXQJO9HLAAAAFnlvdXJfZW1haWxAZXhhbXBsZS5jb20BAgMEBQYH
+                -----END OPENSSH PRIVATE KEY-----
+              _secure: true
+            remote_repository_id:
+              title: Remote repository ID
+              description: A remote repository ID, unique per VCS type
+              type: string
+              min_length: 1
+              max_length: 512
+              pattern: ^[a-zA-Z0-9\-_{}]+$
+              example: "1234567890"
+            repository_url:
+              title: Repository URL
+              type: string
+              min_length: 1
+              max_length: 2048
+              pattern: (^https://.+$)|(^git@.+$)|(^docker\.io/.+$)
+              example: git@github.com:Aiven-Open/mcp-aiven.git
+            vcs_integration_id:
+              title: VCS integration ID
+              type: string
+              min_length: 1
+              max_length: 64
+              pattern: ^vcs[a-zA-Z0-9]*$
+              example: vcs51174433e50
+    ip_filter:
+      title: IP filter
+      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
+      type: array
+      default:
+        - 0.0.0.0/0
+        - ::/0
+      items:
+        title: CIDR address block, either as a string, or in a dict with an optional description field
+        type:
+          - object
+          - string
+        required:
+          - network
+        properties:
+          description:
+            title: Description for IP filter list entry
+            type: string
+            max_length: 1024
+            example: Production service IP range
+          network:
+            title: CIDR address block
+            type: string
+            max_length: 43
+            example: 10.20.0.0/16
+        max_length: 43
+        example: 10.20.0.0/16
+      max_items: 8000
 clickhouse:
   type: object
   properties:
@@ -2200,9 +2378,12 @@ kafka:
         - value: "4.2"
     karapace_version:
       title: Karapace version
-      description: Pin a specific installed Karapace version on this service. Leave null/unset to auto-follow the newest installed version.
+      description: Select a Karapace version for this service, or select Latest to use the latest available version automatically. New versions become available after installation during a maintenance update.
       type: string
-      pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+      enum:
+        - value: 6.2.1
+        - value: 6.2.2
+        - value: null
     letsencrypt_sasl:
       title: Use Let's Encrypt CA for Kafka SASL
       description: 'Use a Let''s Encrypt certificate authority (CA) for Kafka SASL authentication. (Default: False)'
@@ -2335,7 +2516,7 @@ kafka:
           example: true
         sasl_oauthbearer_authorization_enabled:
           title: Enable OIDC authorization for Schema Registry
-          description: If enabled, the Schema Registry enforces role-based authorization derived from the JWT roles claim. Requires `sasl_oauthbearer_authentication_enabled` to be enabled. Defaults to `false`.
+          description: If enabled, the Schema Registry enforces role-based authorization derived from the JWT roles claim. Enabling this automatically enables `sasl_oauthbearer_authentication_enabled` when it is not already enabled, since authorization requires authentication. Defaults to `false`.
           type: boolean
           example: true
         sasl_oauthbearer_method_roles:
@@ -3591,6 +3772,56 @@ mysql:
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
+      type: boolean
+      example: true
+nomadclient:
+  type: object
+  required:
+    - deployment_name
+  properties:
+    deployment_name:
+      title: Deployment name
+      description: The name of the deployment that this service is part of
+      type: string
+      max_length: 32
+      pattern: ^[a-z][a-z0-9-]*$
+      example: eur-1
+    enable_ipv6:
+      title: Enable IPv6
+      description: Register AAAA DNS records for the service, and allow IPv6 packets to service ports
+      type: boolean
+      example: true
+    ip_filter:
+      title: IP filter
+      description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
+      type: array
+      default:
+        - 0.0.0.0/0
+        - ::/0
+      items:
+        title: CIDR address block, either as a string, or in a dict with an optional description field
+        type:
+          - object
+          - string
+        required:
+          - network
+        properties:
+          description:
+            title: Description for IP filter list entry
+            type: string
+            max_length: 1024
+            example: Production service IP range
+          network:
+            title: CIDR address block
+            type: string
+            max_length: 43
+            example: 10.20.0.0/16
+        max_length: 43
+        example: 10.20.0.0/16
+      max_items: 8000
+    service_log:
+      title: Service logging
+      description: Store logs for the service so that they are available in the HTTP API and console.
       type: boolean
       example: true
 opensearch:
