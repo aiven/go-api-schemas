@@ -1,91 +1,22 @@
 application_service_credential:
   title: Application credential integration
   one_of:
-    - title: Application credential integration for PostgreSQL
+    - title: Application credential integration for OpenSearch
       type: object
       required:
         - service_type
         - exposed_values
       properties:
         exposed_values:
-          title: Exposed Postgres values
-          description: Configuration for exposing values from the PostgreSQL service to the application service
+          title: Exposed OpenSearch values
+          description: Configuration for exposing values from the OpenSearch service to the application service
           type: object
           required:
             - connection_string
-          properties:
-            connection_string:
-              title: Configuration for Postgres connection string
-              description: Configuration for exposing PostgreSQL connection string (in postgres://user:pass@host:port/dbname format)
-              type: object
-              required:
-                - environment_variable_key
-              properties:
-                environment_variable_key:
-                  title: Application service environment variable key
-                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
-                  type: string
-                  default: DATABASE_URL
-                  min_length: 1
-                  max_length: 512
-                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
-                  example: DATABASE_URL
-        service_type:
-          type: string
-          enum:
-            - value: pg
-    - title: Application credential integration for Valkey
-      type: object
-      required:
-        - service_type
-        - exposed_values
-      properties:
-        exposed_values:
-          title: Exposed Valkey values
-          description: Configuration for exposing values from the Valkey service to the application service
-          type: object
-          required:
-            - connection_string
-          properties:
-            connection_string:
-              title: Configuration for Valkey connection string
-              description: Configuration for exposing Valkey connection string (in rediss://user:pass@host:port format)
-              type: object
-              required:
-                - environment_variable_key
-              properties:
-                environment_variable_key:
-                  title: Application service environment variable key
-                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
-                  type: string
-                  default: DATABASE_URL
-                  min_length: 1
-                  max_length: 512
-                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
-                  example: DATABASE_URL
-        service_type:
-          type: string
-          enum:
-            - value: valkey
-    - title: Application credential integration for Kafka
-      description: Kafka credentials with SSL client certificate authentication
-      type: object
-      required:
-        - service_type
-        - exposed_values
-      properties:
-        exposed_values:
-          title: Exposed Kafka values
-          description: Configuration for exposing values from the Kafka service to the application service
-          type: object
-          required:
-            - bootstrap_servers
-            - security_protocol
-            - access_key
-            - access_cert
-            - ca_cert
           properties:
             access_cert:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Configuration for Kafka access certificate
               description: Configuration for exposing Kafka access certificate (client certificate)
               type: object
@@ -102,6 +33,8 @@ application_service_credential:
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_ACCESS_CERT
             access_key:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Configuration for Kafka access key
               description: Configuration for exposing Kafka access key (client certificate private key)
               type: object
@@ -118,6 +51,8 @@ application_service_credential:
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_ACCESS_KEY
             bootstrap_servers:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Configuration for Kafka bootstrap servers
               description: Configuration for exposing Kafka bootstrap servers (in host:port format)
               type: object
@@ -134,6 +69,8 @@ application_service_credential:
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_BOOTSTRAP_SERVER
             ca_cert:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Configuration for Kafka CA certificate
               description: Configuration for exposing Kafka CA certificate
               type: object
@@ -149,7 +86,25 @@ application_service_credential:
                   max_length: 512
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_CA_CERT
+            connection_string:
+              title: Configuration for OpenSearch connection string
+              description: Configuration for exposing OpenSearch connection URL (in https://user:pass@host:port format)
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: OPENSEARCH_URI
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: OPENSEARCH_URI
             security_protocol:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Configuration for Kafka security protocol
               description: Configuration for exposing security protocol (e.g. SSL)
               type: object
@@ -168,40 +123,16 @@ application_service_credential:
         service_type:
           type: string
           enum:
-            - value: kafka
-    - title: Application credential integration for OpenSearch
-      type: object
-      required:
-        - service_type
-        - exposed_values
-      properties:
-        exposed_values:
-          title: Exposed OpenSearch values
-          description: Configuration for exposing values from the OpenSearch service to the application service
-          type: object
-          required:
-            - connection_string
-          properties:
-            connection_string:
-              title: Configuration for OpenSearch connection string
-              description: Configuration for exposing OpenSearch connection URL (in https://user:pass@host:port format)
-              type: object
-              required:
-                - environment_variable_key
-              properties:
-                environment_variable_key:
-                  title: Application service environment variable key
-                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
-                  type: string
-                  default: OPENSEARCH_URI
-                  min_length: 1
-                  max_length: 512
-                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
-                  example: OPENSEARCH_URI
-        service_type:
-          type: string
-          enum:
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: kafka
             - value: opensearch
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: pg
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: valkey
 autoscaler:
   title: Integration user config
   type: object
