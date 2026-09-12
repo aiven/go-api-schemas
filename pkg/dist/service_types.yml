@@ -2374,7 +2374,9 @@ kafka:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "4.0"
-        - value: "4.1"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "4.1"
         - value: "4.2"
     karapace_version:
       title: Karapace version
@@ -2383,6 +2385,7 @@ kafka:
       enum:
         - value: 6.2.1
         - value: 6.2.2
+        - value: 6.2.3
         - value: null
     letsencrypt_sasl:
       title: Use Let's Encrypt CA for Kafka SASL
@@ -2511,29 +2514,30 @@ kafka:
           example: true
         sasl_oauthbearer_authentication_enabled:
           title: Enable OIDC authentication for Schema Registry
-          description: If enabled, the Schema Registry validates OAuth2/OIDC JWT bearer tokens on incoming requests. Requires the OIDC provider settings under the `kafka` configuration (`sasl_oauthbearer_jwks_endpoint_url` and related). Defaults to `false`.
+          description: If enabled, the Schema Registry validates OAuth 2.0/OIDC JWT bearer tokens. Requires `sasl_oauthbearer_jwks_endpoint_url`, `sasl_oauthbearer_expected_issuer`, and `sasl_oauthbearer_expected_audience` under `kafka`. Defaults to `false`.
           type: boolean
           example: true
         sasl_oauthbearer_authorization_enabled:
           title: Enable OIDC authorization for Schema Registry
-          description: If enabled, the Schema Registry enforces role-based authorization derived from the JWT roles claim. Enabling this automatically enables `sasl_oauthbearer_authentication_enabled` when it is not already enabled, since authorization requires authentication. Defaults to `false`.
+          description: If enabled, the Schema Registry enforces role-based authorization using the JWT roles claim. It also enables `sasl_oauthbearer_authentication_enabled` if it isn't already enabled. Authorization requires authentication. Defaults to `false`.
           type: boolean
           example: true
         sasl_oauthbearer_method_roles:
           title: sasl.oauthbearer.method.roles
-          description: 'JSON object mapping HTTP methods to the list of roles allowed to perform them on the Schema Registry, provided as a JSON-encoded string. Role names use the `karapace.` prefix, e.g. `karapace.schema:read`. Defaults to `{"GET": ["karapace.schema:read", "karapace.subject:read"], "POST": [], "PUT": [], "DELETE": []}`.'
+          description: 'Maps HTTP methods to allowed roles. Use a JSON object with `GET`, `POST`, `PUT`, and `DELETE` keys mapped to arrays of roles. Role names use the `karapace.` prefix. Example: `{"GET": ["karapace.schema:read"], "POST": [], "PUT": [], "DELETE": []}`.'
           type: string
           max_length: 4096
           pattern: ^\s*(?=.*"GET":\s*\[[^\]]*\])(?=.*"POST":\s*\[[^\]]*\])(?=.*"PUT":\s*\[[^\]]*\])(?=.*"DELETE":\s*\[[^\]]*\])\{\s*(?:"(?:GET|POST|PUT|DELETE)":\s*\[[^\]]*\]\s*,?\s*){4}\}\s*$
-          example: '{"GET": ["karapace.schema:read", "karapace.subject:read"], "POST": [], "PUT": [], "DELETE": []}'
-          user_error: 'Must be a JSON object mapping each of the GET, POST, PUT and DELETE HTTP methods to an array of role names, e.g. {"GET": ["karapace.schema:read"], "POST": [], "PUT": [], "DELETE": []}'
+          example: '{"GET":["karapace.schema:read"],"POST":[],"PUT":[],"DELETE":[]}'
+          user_error: 'Enter a JSON object with GET, POST, PUT, and DELETE keys. Map each key to an array of roles. Example: {"GET": ["role"], "POST": [], "PUT": [], "DELETE": []}'
         sasl_oauthbearer_roles_claim_path:
           title: sasl.oauthbearer.roles.claim.path
-          description: JSON path used to extract the roles claim from the JWT for Schema Registry authorization. Defaults to `resource_access.karapace.roles`.
+          description: The JSON path the Schema Registry uses to find the roles claim in the JWT. Defaults to `resource_access.karapace.roles`.
           type: string
           max_length: 128
           pattern: ^[^\r\n]*\S[^\r\n]*$
           example: resource_access.karapace.roles
+          user_error: Enter a roles claim path on a single line.
         schema_reader_strict_mode:
           title: schema_reader_strict_mode
           description: If enabled, causes the Karapace schema-registry service to shutdown when there are invalid schema records in the `_schemas` topic. Defaults to `false`.
@@ -3448,7 +3452,7 @@ mysql:
           example: "50"
         innodb_log_buffer_size:
           title: innodb_log_buffer_size
-          description: The size in bytes of the buffer that InnoDB uses to write to the log files on disk.
+          description: The size in bytes of the buffer that InnoDB uses to write to the log files on disk. Requests above 15% of the RAM provided by your service plan are rejected, because a larger buffer leaves less memory for the buffer pool and client connections.
           type: integer
           minimum: "1048576"
           maximum: "4294967296"
@@ -3537,7 +3541,7 @@ mysql:
           example: "0"
         max_allowed_packet:
           title: max_allowed_packet
-          description: Size of the largest message in bytes that can be received by the server. Default is 67108864 (64M)
+          description: Size of the largest message in bytes that can be received by the server. Default is 67108864 (64M). Statements and rows larger than this are rejected with a packet too large error.
           type: integer
           minimum: "102400"
           maximum: "1073741824"
@@ -3635,7 +3639,7 @@ mysql:
           example: true
         sort_buffer_size:
           title: sort_buffer_size
-          description: Sort buffer size in bytes for ORDER BY optimization. Default is 262144 (256K)
+          description: Sort buffer size in bytes for ORDER BY optimization. Default is 262144 (256K). Requests above 2% of the RAM provided by your service plan are rejected, because the buffer is allocated per session and its cost multiplies with the connection count.
           type: integer
           minimum: "32768"
           maximum: "1073741824"
@@ -3661,7 +3665,7 @@ mysql:
           maximum: "1073741824"
         wait_timeout:
           title: wait_timeout
-          description: The number of seconds the server waits for activity on a noninteractive connection before closing it.
+          description: The number of seconds the server waits for activity on a noninteractive connection before closing it. Requests to set this below 30 are rejected, because a shorter timeout closes your own idle connections between statements.
           type: integer
           minimum: "1"
           maximum: "2147483"
@@ -7103,6 +7107,19 @@ valkey:
       enum:
         - value: allchannels
         - value: resetchannels
+    valkey_active_defrag_ignore_bytes:
+      title: Active defrag minimum fragmentation waste
+      description: Minimum amount of fragmentation waste, in bytes, before active defragmentation starts. Only takes effect when `valkey_activedefrag` is enabled.
+      type: integer
+      minimum: "1048576"
+      maximum: "1073741824"
+    valkey_active_defrag_threshold_lower:
+      title: Active defrag minimum fragmentation percentage
+      description: Minimum percentage of fragmentation before active defragmentation starts. Only takes effect when `valkey_activedefrag` is enabled.
+      type: integer
+      default: "10"
+      minimum: "1"
+      maximum: "100"
     valkey_active_expire_effort:
       title: Active expire effort
       description: Valkey reclaims expired keys both when accessed and in the background. The background process scans for expired keys to free memory. Increasing the active-expire-effort setting (default 1, max 10) uses more CPU to reclaim expired keys faster, reducing memory usage but potentially increasing latency.
