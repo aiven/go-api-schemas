@@ -133,6 +133,9 @@ application_service_credential:
             - is_deprecated: true
               deprecation_notice: This value is deprecated.
               value: valkey
+        source_service_parameters:
+          title: OpenSearch source service parameters
+          type: object
 autoscaler:
   title: Integration user config
   type: object
