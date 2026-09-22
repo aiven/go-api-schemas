@@ -72,6 +72,64 @@ application:
                 enum:
                   - value: HTTP
                 example: HTTP
+              security:
+                title: Port security
+                description: Access control for this port. Omit to leave the port reachable by anyone who can reach its address.
+                type: object
+                required:
+                  - authentication_method
+                  - oidc
+                properties:
+                  authentication_method:
+                    title: Authentication method
+                    description: Which of the authentication configurations below applies to this port.
+                    type: string
+                    enum:
+                      - value: oidc
+                    example: oidc
+                  oidc:
+                    title: OIDC authentication
+                    description: Generic OpenID Connect provider that callers of this port must authenticate against.
+                    type: object
+                    required:
+                      - name
+                      - issuer_url
+                      - client_id
+                      - client_secret
+                    properties:
+                      client_id:
+                        title: Client ID
+                        description: OAuth2 client ID registered with the issuer.
+                        type: string
+                        min_length: 1
+                        max_length: 512
+                        pattern: ^\S+$
+                        example: 0oa1b2c3d4e5f6g7h8i9
+                      client_secret:
+                        title: Client secret
+                        description: OAuth2 client secret registered with the issuer. Redacted when read back.
+                        type: string
+                        min_length: 8
+                        max_length: 4096
+                        pattern: ^.*$
+                        example: example-client-secret
+                        _secure: true
+                      issuer_url:
+                        title: Issuer URL
+                        description: OIDC issuer base URL. Must serve /.well-known/openid-configuration over HTTPS.
+                        type: string
+                        min_length: 1
+                        max_length: 2048
+                        pattern: ^https://\S+$
+                        example: https://login.example.com
+                      name:
+                        title: Configuration name
+                        description: Label for this authentication configuration, shown to the user.
+                        type: string
+                        min_length: 1
+                        max_length: 64
+                        pattern: ^\S+( \S+)*$
+                        example: Corporate Okta
         restart_policy:
           title: Restart policy
           type: object
@@ -5008,11 +5066,27 @@ opensearch:
           description: When set to true, the setting allows admins to control access and permissions to the connector API using backend_roles. Defaults to false.
           type: boolean
           example: false
+        ml_commons_max_model_on_node:
+          title: plugins.ml_commons.max_model_on_node
+          description: Maximum number of ML models that can be deployed on a single ML node. Defaults to 10.
+          type: integer
+          minimum: "1"
+          example: "10"
         ml_commons_model_access_control_enabled:
           title: plugins.ml_commons.model_access_control.enabled
           description: Enable or disable model access control for ML Commons. When enabled, access to ML models is controlled by security permissions. Defaults to false.
           type: boolean
           example: false
+        ml_commons_model_auto_deploy_enable:
+          title: plugins.ml_commons.model_auto_deploy.enable
+          description: 'For externally hosted models only: automatically deploy a model on its first predict request instead of requiring an explicit deploy call first. Defaults to true.'
+          type: boolean
+          example: true
+        ml_commons_model_auto_redeploy_enable:
+          title: plugins.ml_commons.model_auto_redeploy.enable
+          description: Automatically redeploy deployed or partially deployed models after ML nodes rejoin the cluster, e.g. after a node replacement. Defaults to true.
+          type: boolean
+          example: true
         ml_commons_native_memory_threshold:
           title: plugins.ml_commons.native_memory_threshold
           description: Native memory threshold percentage for ML Commons. Controls the maximum percentage of native memory that can be used by ML Commons operations. Defaults to 90%.
@@ -7083,6 +7157,13 @@ valkey:
       max_length: 128
       pattern: ^[a-zA-Z0-9-_:.]+$
       example: backup-20191112t091354293891z
+    replicas:
+      title: Number of replicas per shard
+      description: Number of replicas per shard in the Valkey cluster. Only applies to cluster plans.
+      type: integer
+      minimum: "0"
+      maximum: "2"
+      example: "1"
     service_log:
       title: Service logging
       description: Store logs for the service so that they are available in the HTTP API and console.
@@ -7095,6 +7176,13 @@ valkey:
       create_only: true
       pattern: ^[a-z][-a-z0-9]{0,63}$|^$
       example: anotherservicename
+    shard_count:
+      title: Number of shards
+      description: Number of shards (primaries) in the Valkey cluster. Required for cluster plans.
+      type: integer
+      minimum: "1"
+      maximum: "5"
+      example: "3"
     static_ips:
       title: Static IP addresses
       description: Use static public IP addresses
