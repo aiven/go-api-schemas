@@ -1630,6 +1630,48 @@ kafka:
           type: integer
           minimum: "1"
           maximum: "10"
+        group_consumer_heartbeat_interval_ms:
+          title: group.consumer.heartbeat.interval.ms
+          description: 'The heartbeat interval given to the members of a consumer group using the consumer rebalance protocol. Must be between group.consumer.min.heartbeat.interval.ms and group.consumer.max.heartbeat.interval.ms, and lower than group.consumer.session.timeout.ms. (Default: 5000 ms (5 seconds)) Requires Kafka 4.0 or later.'
+          type: integer
+          minimum: "500"
+          maximum: "1800000"
+          example: "5000"
+        group_consumer_max_heartbeat_interval_ms:
+          title: group.consumer.max.heartbeat.interval.ms
+          description: 'The maximum heartbeat interval allowed for consumer group members using the consumer rebalance protocol. Must not be less than group.consumer.min.heartbeat.interval.ms. (Default: 15000 ms (15 seconds)) Requires Kafka 4.0 or later.'
+          type: integer
+          minimum: "500"
+          maximum: "1800000"
+          example: "15000"
+        group_consumer_max_session_timeout_ms:
+          title: group.consumer.max.session.timeout.ms
+          description: 'The maximum session timeout allowed for consumer group members using the consumer rebalance protocol. Must not be less than group.consumer.min.session.timeout.ms. (Default: 60000 ms (60 seconds)) Requires Kafka 4.0 or later.'
+          type: integer
+          minimum: "1000"
+          maximum: "1800000"
+          example: "60000"
+        group_consumer_min_heartbeat_interval_ms:
+          title: group.consumer.min.heartbeat.interval.ms
+          description: 'The minimum heartbeat interval allowed for consumer group members using the consumer rebalance protocol. Must not be greater than group.consumer.max.heartbeat.interval.ms. (Default: 5000 ms (5 seconds)) Requires Kafka 4.0 or later.'
+          type: integer
+          minimum: "500"
+          maximum: "1800000"
+          example: "5000"
+        group_consumer_min_session_timeout_ms:
+          title: group.consumer.min.session.timeout.ms
+          description: 'The minimum session timeout allowed for consumer group members using the consumer rebalance protocol. Must not be greater than group.consumer.max.session.timeout.ms. (Default: 45000 ms (45 seconds)) Requires Kafka 4.0 or later.'
+          type: integer
+          minimum: "1000"
+          maximum: "1800000"
+          example: "45000"
+        group_consumer_session_timeout_ms:
+          title: group.consumer.session.timeout.ms
+          description: 'The timeout used to detect consumer group member failures when using the consumer rebalance protocol. Must be between group.consumer.min.session.timeout.ms and group.consumer.max.session.timeout.ms. (Default: 45000 ms (45 seconds)) Requires Kafka 4.0 or later.'
+          type: integer
+          minimum: "1000"
+          maximum: "1800000"
+          example: "45000"
         group_coordinator_rebalance_protocols:
           title: group.coordinator.rebalance.protocols
           description: The enabled consumer group rebalance protocols. Use consumer, classic, share, streams to enable Kafka share groups.
@@ -3514,6 +3556,33 @@ mysql:
           type: integer
           minimum: "1048576"
           maximum: "4294967296"
+        innodb_max_dirty_pages_pct:
+          title: innodb_max_dirty_pages_pct
+          description: Percentage of dirty pages in the InnoDB buffer pool at which InnoDB starts flushing aggressively. Lowering it spreads write I/O more evenly and shortens crash recovery, at the cost of flushing pages that might have been modified again. Must stay at or above innodb_max_dirty_pages_pct_lwm. Default is 90.
+          type: number
+          minimum: "5"
+          maximum: "99"
+          example: "75"
+        innodb_max_dirty_pages_pct_lwm:
+          title: innodb_max_dirty_pages_pct_lwm
+          description: Percentage of dirty pages in the InnoDB buffer pool at which InnoDB starts pre-flushing, to keep the dirty page ratio from reaching innodb_max_dirty_pages_pct. 0 turns pre-flushing off. Cannot be set above innodb_max_dirty_pages_pct. Default is 10.
+          type: number
+          minimum: "0"
+          maximum: "99"
+          example: "10"
+        innodb_max_purge_lag:
+          title: innodb_max_purge_lag
+          description: Number of outstanding transactions the InnoDB purge operation may fall behind by before INSERT, UPDATE and DELETE are delayed to let it catch up. The delay applies per row and grows with the lag, and it is capped by innodb_max_purge_lag_delay, which has to be set as well for this option to have any effect. Default is 0, which never delays anything.
+          type: integer
+          minimum: "0"
+          maximum: "4294967295"
+        innodb_max_purge_lag_delay:
+          title: innodb_max_purge_lag_delay
+          description: Cap in microseconds on the per-row delay innodb_max_purge_lag applies to INSERT, UPDATE and DELETE. MySQL clamps the delay to this value unconditionally, so while this is 0 no delay is ever applied and innodb_max_purge_lag on its own does nothing. Both options must be non-zero for either to take effect. Default is 0.
+          type: integer
+          minimum: "0"
+          maximum: "10000000"
+          example: "10000"
         innodb_online_alter_log_max_size:
           title: innodb_online_alter_log_max_size
           description: The upper limit in bytes on the size of the temporary log files used during online DDL operations for InnoDB tables.
@@ -6794,6 +6863,7 @@ pg:
       type: string
       enum:
         - value: aiven
+        - value: pg_lake
         - value: timescale
       example: aiven
     work_mem:

@@ -1,15 +1,15 @@
 application_service_credential:
   title: Application credential integration
   one_of:
-    - title: Application credential integration for OpenSearch
+    - title: Application credential integration for MySQL
       type: object
       required:
         - service_type
         - exposed_values
       properties:
         exposed_values:
-          title: Exposed OpenSearch values
-          description: Configuration for exposing values from the OpenSearch service to the application service
+          title: Exposed MySQL values
+          description: Configuration for exposing values from the MySQL service to the application service
           type: object
           required:
             - connection_string
@@ -87,8 +87,8 @@ application_service_credential:
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_CA_CERT
             connection_string:
-              title: Configuration for OpenSearch connection string
-              description: Configuration for exposing OpenSearch connection URL (in https://user:pass@host:port format)
+              title: Configuration for MySQL connection string
+              description: Configuration for exposing MySQL connection string (in mysql://user:pass@host:port/dbname format)
               type: object
               required:
                 - environment_variable_key
@@ -97,11 +97,11 @@ application_service_credential:
                   title: Application service environment variable key
                   description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
                   type: string
-                  default: OPENSEARCH_URI
+                  default: DATABASE_URL
                   min_length: 1
                   max_length: 512
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
-                  example: OPENSEARCH_URI
+                  example: DATABASE_URL
             security_protocol:
               is_deprecated: true
               deprecation_notice: This property is deprecated.
@@ -126,7 +126,10 @@ application_service_credential:
             - is_deprecated: true
               deprecation_notice: This value is deprecated.
               value: kafka
-            - value: opensearch
+            - value: mysql
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: opensearch
             - is_deprecated: true
               deprecation_notice: This value is deprecated.
               value: pg
@@ -134,7 +137,7 @@ application_service_credential:
               deprecation_notice: This value is deprecated.
               value: valkey
         source_service_parameters:
-          title: OpenSearch source service parameters
+          title: MySQL source service parameters
           type: object
 autoscaler:
   title: Integration user config
