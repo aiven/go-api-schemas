@@ -74,7 +74,7 @@ application:
                 example: HTTP
               security:
                 title: Port security
-                description: Access control for this port. Omit to leave the port reachable by anyone who can reach its address.
+                description: 'Access control for the application''s ports. An application supports a single OIDC provider, which protects every port: set `security` on one port, or on several with the same value, and it is stored on every port. Omit it from every port to leave the ports reachable by anyone who can reach their address.'
                 type: object
                 required:
                   - authentication_method
@@ -2478,6 +2478,7 @@ kafka:
           deprecation_notice: This value is deprecated.
           value: "4.1"
         - value: "4.2"
+        - value: "4.3"
     karapace_version:
       title: Karapace version
       description: Select a Karapace version for this service, or select Latest to use the latest available version automatically. New versions become available after installation during a maintenance update.
@@ -2718,6 +2719,37 @@ kafka_connect:
         example: aws-eu-central-1
         user_error: Must consist of lower-case alpha-numeric characters or dashes
       max_items: 1
+    custom_plugins:
+      title: Custom Kafka Connect plugins
+      description: Install custom plugins uploaded via the custom file service.
+      type: array
+      items:
+        title: A custom Kafka Connect plugin
+        description: Install a custom plugin uploaded via the custom file service.
+        type: object
+        required:
+          - plugin_name
+          - plugin_version
+        properties:
+          plugin_name:
+            title: Plugin name
+            description: The name of the custom plugin as specified during upload
+            type: string
+            min_length: 1
+            max_length: 64
+            pattern: ^[^\r\n]*$
+            example: my-custom-connector
+            user_error: Must be a valid plugin name (1-64 characters, no newlines)
+          plugin_version:
+            title: Plugin version
+            description: The version to install. Use a semver version (e.g. '1.0.0') or 'latest' to always use the most recent version.
+            type: string
+            min_length: 1
+            max_length: 32
+            pattern: (?i)^(latest|v?(?:(?:(?P<epoch>[0-9]+)!)?(?P<release>[0-9]+(?:\.[0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>alpha|a|beta|b|preview|pre|c|rc)[-_\.]?(?P<pre_n>[0-9]+)?)?(?P<post>(?:-(?P<post_n1>[0-9]+))|(?:[-_\.]?(?P<post_l>post|rev|r)[-_\.]?(?P<post_n2>[0-9]+)?))?(?P<dev>[-_\.]?(?P<dev_l>dev)[-_\.]?(?P<dev_n>[0-9]+)?)?)(?:\+(?P<local>[a-z0-9]+(?:[-_\.][a-z0-9]+)*))?)$
+            example: latest
+            user_error: Must be 'latest' or a valid semver version (e.g. '1.0.0', '2.1.0-beta')
+      max_items: 10
     gcp_auth_allowed_urls:
       title: Allowed URLs for auth URI validation
       description: Allow-list of HTTPS URLs used to validate GCP credential_source requests for Kafka Connect.
