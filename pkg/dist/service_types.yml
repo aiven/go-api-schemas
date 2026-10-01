@@ -78,13 +78,13 @@ application:
                 type: object
                 required:
                   - authentication_method
-                  - oidc
                 properties:
                   authentication_method:
                     title: Authentication method
                     description: Which of the authentication configurations below applies to this port.
                     type: string
                     enum:
+                      - value: aiven_platform
                       - value: oidc
                     example: oidc
                   oidc:
