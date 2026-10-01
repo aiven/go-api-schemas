@@ -1,18 +1,23 @@
 application_service_credential:
   title: Application credential integration
   one_of:
-    - title: Application credential integration for MySQL
+    - title: Application credential integration for ClickHouse
       type: object
       required:
         - service_type
         - exposed_values
       properties:
         exposed_values:
-          title: Exposed MySQL values
-          description: Configuration for exposing values from the MySQL service to the application service
+          title: Exposed ClickHouse values
+          description: Configuration for exposing values from the ClickHouse service to the application service
           type: object
           required:
-            - connection_string
+            - host
+            - port
+            - user
+            - password
+            - database
+            - secure
           properties:
             access_cert:
               is_deprecated: true
@@ -87,6 +92,8 @@ application_service_credential:
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_CA_CERT
             connection_string:
+              is_deprecated: true
+              deprecation_notice: This property is deprecated.
               title: Configuration for MySQL connection string
               description: Configuration for exposing MySQL connection string (in mysql://user:pass@host:port/dbname format)
               type: object
@@ -102,6 +109,86 @@ application_service_credential:
                   max_length: 512
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: DATABASE_URL
+            database:
+              title: Configuration for ClickHouse database
+              description: Configuration for exposing the ClickHouse database name
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: CLICKHOUSE_DATABASE
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: CLICKHOUSE_DATABASE
+            host:
+              title: Configuration for ClickHouse host
+              description: Configuration for exposing the ClickHouse service hostname
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: CLICKHOUSE_HOST
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: CLICKHOUSE_HOST
+            password:
+              title: Configuration for ClickHouse password
+              description: Configuration for exposing the ClickHouse service password
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: CLICKHOUSE_PASSWORD
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: CLICKHOUSE_PASSWORD
+            port:
+              title: Configuration for ClickHouse port
+              description: Configuration for exposing the ClickHouse native protocol port
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: CLICKHOUSE_PORT
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: CLICKHOUSE_PORT
+            secure:
+              title: Configuration for ClickHouse secure connection flag
+              description: Configuration for exposing whether the ClickHouse connection uses TLS
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: CLICKHOUSE_SECURE
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: CLICKHOUSE_SECURE
             security_protocol:
               is_deprecated: true
               deprecation_notice: This property is deprecated.
@@ -120,13 +207,32 @@ application_service_credential:
                   max_length: 512
                   pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
                   example: KAFKA_SECURITY_PROTOCOL
+            user:
+              title: Configuration for ClickHouse user
+              description: Configuration for exposing the ClickHouse service username
+              type: object
+              required:
+                - environment_variable_key
+              properties:
+                environment_variable_key:
+                  title: Application service environment variable key
+                  description: The name of the environment variable in the target service's container where the exposed value from the source service is injected into at runtime.
+                  type: string
+                  default: CLICKHOUSE_USER
+                  min_length: 1
+                  max_length: 512
+                  pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+                  example: CLICKHOUSE_USER
         service_type:
           type: string
           enum:
+            - value: clickhouse
             - is_deprecated: true
               deprecation_notice: This value is deprecated.
               value: kafka
-            - value: mysql
+            - is_deprecated: true
+              deprecation_notice: This value is deprecated.
+              value: mysql
             - is_deprecated: true
               deprecation_notice: This value is deprecated.
               value: opensearch
@@ -137,7 +243,7 @@ application_service_credential:
               deprecation_notice: This value is deprecated.
               value: valkey
         source_service_parameters:
-          title: MySQL source service parameters
+          title: ClickHouse source service parameters
           type: object
 autoscaler:
   title: Integration user config
