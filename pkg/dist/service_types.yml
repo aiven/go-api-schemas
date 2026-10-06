@@ -2487,6 +2487,7 @@ kafka:
         - value: 6.2.1
         - value: 6.2.2
         - value: 6.2.3
+        - value: 6.2.4
         - value: null
     letsencrypt_sasl:
       title: Use Let's Encrypt CA for Kafka SASL
