@@ -130,6 +130,7 @@ application:
                         max_length: 64
                         pattern: ^\S+( \S+)*$
                         example: Corporate Okta
+          max_items: 5
         restart_policy:
           title: Restart policy
           type: object
@@ -2487,6 +2488,7 @@ kafka:
         - value: 6.2.1
         - value: 6.2.2
         - value: 6.2.3
+        - value: 6.2.4
         - value: null
     letsencrypt_sasl:
       title: Use Let's Encrypt CA for Kafka SASL
@@ -5670,6 +5672,7 @@ opensearch:
         - value: "2.19"
         - value: "3.3"
         - value: "3.6"
+        - value: "3.8"
     private_access:
       title: Allow access to selected service ports from private networks
       type: object
