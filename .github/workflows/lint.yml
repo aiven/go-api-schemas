@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - main
+  merge_group:
+    types: [checks_requested]
 
 jobs:
   commitlint:
@@ -19,7 +21,8 @@ jobs:
   trunk:
     if: >
       (github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'skip workflows')) ||
-      github.event_name == 'push'
+      github.event_name == 'push' ||
+      github.event_name == 'merge_group'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
