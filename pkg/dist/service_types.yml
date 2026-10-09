@@ -5152,6 +5152,25 @@ opensearch:
           minimum: "1"
           maximum: "2147483647"
           example: "30"
+        knn_cache_item_expiry_enabled:
+          title: knn.cache.item.expiry.enabled
+          description: Enable or disable removing KNN graphs from the cache when they are idle. Disabled by default.
+          type: boolean
+          example: true
+        knn_cache_item_expiry_minutes:
+          title: knn.cache.item.expiry.minutes
+          description: If enabled, the amount of time in minutes a KNN graph can be idle in the cache before being evicted.
+          type: integer
+          minimum: "1"
+          maximum: "10080"
+          example: "180"
+        knn_circuit_breaker_unset_percentage:
+          title: knn.circuit_breaker.unset.percentage
+          description: The native memory usage, as a percentage below the KNN memory circuit breaker limit, at which a tripped circuit breaker resets. Defaults to 5%.
+          type: number
+          minimum: "0"
+          maximum: "100"
+          example: "5"
         knn_memory_circuit_breaker_enabled:
           title: knn.memory.circuit_breaker.enabled
           description: Enable or disable KNN memory circuit breaker. Defaults to true.
