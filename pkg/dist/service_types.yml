@@ -1301,6 +1301,11 @@ grafana:
         max_length: 43
         example: 10.20.0.0/16
       max_items: 8000
+    metrics_disable_total_stats:
+      title: Disable total stats metrics
+      description: Do not collect the grafana_stat_total_* and grafana_stat_totals_* metrics, which require periodic database queries. Defaults to true, unless metrics_enabled is set
+      type: boolean
+      example: true
     metrics_enabled:
       title: Metrics enabled
       description: Enable Grafana's /metrics endpoint
