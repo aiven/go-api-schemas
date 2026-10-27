@@ -3807,6 +3807,13 @@ mysql:
           type: integer
           minimum: "134217728"
           maximum: "18446744073709551615"
+        schema_definition_cache:
+          title: schema_definition_cache
+          description: The number of schema definition objects the data dictionary object cache can hold. Raise it above the number of schemas on the service to keep their definitions in memory. Each cached definition uses a small amount of memory, and the cache never holds more than the service's own schemas, so a high value costs nothing extra on a service with few schemas. Default is 256.
+          type: integer
+          minimum: "256"
+          maximum: "524288"
+          example: "4000"
         slow_query_log:
           title: slow_query_log
           description: Slow query log enables capturing of slow queries. Setting slow_query_log to false also truncates the mysql.slow_log table.
@@ -3832,6 +3839,13 @@ mysql:
           description: Require primary key to be defined for new tables or old tables modified with ALTER TABLE and fail if missing. It is recommended to always have primary keys because various functionality may break if any large table is missing them.
           type: boolean
           example: true
+        tablespace_definition_cache:
+          title: tablespace_definition_cache
+          description: The number of tablespace definition objects the data dictionary object cache can hold. Each InnoDB table stored in its own file is a separate tablespace, so raise it above the number of tables on the service to keep their tablespace definitions in memory. Each cached definition uses a small amount of memory, and the cache never holds more than the service's own tables, so a high value costs nothing extra on a service with few tables. Default is 256.
+          type: integer
+          minimum: "256"
+          maximum: "524288"
+          example: "10000"
         tmp_table_size:
           title: tmp_table_size
           description: Limits the size of internal in-memory tables. Also set max_heap_table_size. Default is 16777216 (16M)
@@ -7431,5 +7445,7 @@ valkey:
       type: string
       enum:
         - value: "8.1"
-        - value: "9.0"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "9.0"
         - value: "9.1"
