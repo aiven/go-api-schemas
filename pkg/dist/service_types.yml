@@ -53,13 +53,26 @@ application:
               - protocol
             properties:
               custom_domain:
-                title: Custom domain
-                description: Custom hostname served by this port.
+                title: Custom domain (deprecated)
+                description: Deprecated, use `custom_domains`. A custom hostname served by this port. It is served in addition to any `custom_domains`.
                 type: string
                 min_length: 1
                 max_length: 253
                 pattern: ^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+$
                 example: app.example.com
+              custom_domains:
+                title: Custom domains
+                description: Custom hostnames served by this port. At most 20 per port, and a hostname can be on only one port.
+                type: array
+                items:
+                  type: string
+                  min_length: 1
+                  max_length: 253
+                  pattern: ^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+$
+                max_items: 20
+                example:
+                  - app.example.com
+                  - www.example.com
               name:
                 title: Port name
                 description: 'Allowed characters: ASCII letters, digits, underscore, hyphen. Single (non-consecutive) ASCII spaces are allowed between characters. No leading or trailing spaces.'
@@ -3807,6 +3820,13 @@ mysql:
           type: integer
           minimum: "134217728"
           maximum: "18446744073709551615"
+        schema_definition_cache:
+          title: schema_definition_cache
+          description: The number of schema definition objects the data dictionary object cache can hold. Raise it above the number of schemas on the service to keep their definitions in memory. Each cached definition uses a small amount of memory, and the cache never holds more than the service's own schemas, so a high value costs nothing extra on a service with few schemas. Default is 256.
+          type: integer
+          minimum: "256"
+          maximum: "524288"
+          example: "4000"
         slow_query_log:
           title: slow_query_log
           description: Slow query log enables capturing of slow queries. Setting slow_query_log to false also truncates the mysql.slow_log table.
@@ -3832,6 +3852,13 @@ mysql:
           description: Require primary key to be defined for new tables or old tables modified with ALTER TABLE and fail if missing. It is recommended to always have primary keys because various functionality may break if any large table is missing them.
           type: boolean
           example: true
+        tablespace_definition_cache:
+          title: tablespace_definition_cache
+          description: The number of tablespace definition objects the data dictionary object cache can hold. Each InnoDB table stored in its own file is a separate tablespace, so raise it above the number of tables on the service to keep their tablespace definitions in memory. Each cached definition uses a small amount of memory, and the cache never holds more than the service's own tables, so a high value costs nothing extra on a service with few tables. Default is 256.
+          type: integer
+          minimum: "256"
+          maximum: "524288"
+          example: "10000"
         tmp_table_size:
           title: tmp_table_size
           description: Limits the size of internal in-memory tables. Also set max_heap_table_size. Default is 16777216 (16M)
@@ -7360,7 +7387,7 @@ valkey:
       default: false
     valkey_io_threads:
       title: Valkey IO thread count
-      description: Set Valkey IO thread count. Changing this will cause a restart of the Valkey service.
+      description: Set Valkey IO thread count. On Valkey 9.0 and later, changes are applied without a restart. On Valkey 8.1, changing this replaces the service nodes.
       type: integer
       minimum: "1"
       maximum: "256"
@@ -7431,5 +7458,7 @@ valkey:
       type: string
       enum:
         - value: "8.1"
-        - value: "9.0"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "9.0"
         - value: "9.1"
