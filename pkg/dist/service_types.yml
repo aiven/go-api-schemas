@@ -187,6 +187,12 @@ application:
               max_length: 512
               pattern: ^[a-zA-Z0-9\-_./]+$
               example: main
+            commit_sha:
+              title: Commit SHA
+              description: Full 40-character lowercase hex SHA of the commit to deploy. Without it, the HEAD of the configured branch is deployed; with it, this commit is deployed regardless of new pushes to the branch. Requires a VCS integration. Send null to clear on update; omit to leave unchanged.
+              type: string
+              pattern: ^[0-9a-f]{40}$
+              example: 7fec93fe4ec0f95278976d8107b28d1c16c932da
             containerfile_path:
               title: Containerfile/Dockerfile path
               description: Path of Containerfile/Dockerfile in the source directory. Does not have to overlap with build_path. Send null to clear on update; omit to leave unchanged.
