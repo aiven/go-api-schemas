@@ -185,15 +185,21 @@ application:
               type: string
               min_length: 1
               max_length: 512
-              pattern: ^[a-zA-Z0-9\-_./]+$
+              pattern: '^(?:[a-zA-Z0-9\-_.]+(?: [a-zA-Z0-9\-_.]+)*|/)+$'
               example: main
+            commit_sha:
+              title: Commit SHA
+              description: Full 40-character lowercase hex SHA of the commit to deploy. Without it, the HEAD of the configured branch is deployed; with it, this commit is deployed regardless of new pushes to the branch. Requires a VCS integration. Changing the branch clears it. Send null to clear on update; omit to leave unchanged.
+              type: string
+              pattern: ^[0-9a-f]{40}$
+              example: 7fec93fe4ec0f95278976d8107b28d1c16c932da
             containerfile_path:
               title: Containerfile/Dockerfile path
               description: Path of Containerfile/Dockerfile in the source directory. Does not have to overlap with build_path. Send null to clear on update; omit to leave unchanged.
               type: string
               min_length: 1
               max_length: 512
-              pattern: ^[a-zA-Z0-9\-_./]+$
+              pattern: '^(?:[a-zA-Z0-9\-_.]+(?: [a-zA-Z0-9\-_.]+)*|/)+$'
               example: ./Containerfile
             deployment_key:
               type: string
@@ -848,6 +854,23 @@ grafana:
           example: bfa6gea4f129076761dcba8ce5e1e406bd83af7b
           user_error: Must be a valid client secret string
           _secure: true
+        org_mapping:
+          title: Organization mapping
+          description: Map Azure AD groups to Grafana organizations and roles. Each entry is <group object ID>:<organization ID>:<role>. Use * as the group to match all users, or as the organization to match all organizations. The role defaults to Viewer. Users matching at least one entry are removed from organizations they are not mapped to.
+          type: array
+          items:
+            title: Group to organization and role mapping
+            type: string
+            max_length: 128
+            pattern: ^(\*|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}):(\*|[1-9][0-9]{0,18})(:(Viewer|Editor|Admin|None))?$(?!\n)
+            example: c0ffee15-c01d-0000-1111-012345abcdef:1:Editor
+            user_error: Must be <group object ID or *>:<organization ID or *>, optionally followed by :Viewer, :Editor, :Admin or :None
+          max_items: 50
+        skip_org_role_sync:
+          title: Skip organization role sync
+          description: Stop automatically syncing user organizations and roles at sign-in
+          type: boolean
+          example: false
         token_url:
           title: Token URL
           type: string
@@ -1291,6 +1314,7 @@ grafana:
       enum:
         - value: "11"
         - value: "12"
+        - value: "13"
     ip_filter:
       title: IP filter
       description: Allow incoming connections from CIDR address block, e.g. '10.20.0.0/16'
@@ -2016,15 +2040,25 @@ kafka:
           type: integer
           minimum: "10485760"
           maximum: "1048576000"
+        sasl_oauthbearer_allow_unverified_audience:
+          title: sasl.oauthbearer.allow.unverified.audience
+          description: 'Accept tokens whatever their audience when sasl_oauthbearer_expected_audience is not set. Either this or sasl_oauthbearer_expected_audience is required when sasl_oauthbearer_jwks_endpoint_url is set. Apache Kafka only has this option from version 4.4: before that, the audience is not verified unless sasl_oauthbearer_expected_audience is set (Default: false).'
+          type: boolean
+          example: true
+        sasl_oauthbearer_allow_unverified_issuer:
+          title: sasl.oauthbearer.allow.unverified.issuer
+          description: 'Accept tokens whatever their issuer when sasl_oauthbearer_expected_issuer is not set. Either this or sasl_oauthbearer_expected_issuer is required when sasl_oauthbearer_jwks_endpoint_url is set. Apache Kafka only has this option from version 4.4: before that, the issuer is not verified unless sasl_oauthbearer_expected_issuer is set (Default: false).'
+          type: boolean
+          example: true
         sasl_oauthbearer_expected_audience:
           title: sasl.oauthbearer.expected.audience
-          description: 'The (optional) comma-delimited setting for the broker to use to verify that the JWT was issued for one of the expected audiences. (Default: null)'
+          description: The comma-delimited setting for the broker to use to verify that the JWT was issued for one of the expected audiences.
           type: string
           max_length: 128
           pattern: ^[^\r\n]*$
         sasl_oauthbearer_expected_issuer:
           title: sasl.oauthbearer.expected.issuer
-          description: 'Optional setting for the broker to use to verify that the JWT was created by the expected issuer.(Default: null)'
+          description: The broker uses this setting to verify that the JWT was created by the expected issuer.
           type: string
           max_length: 128
           pattern: ^[^\r\n]*$
@@ -7537,6 +7571,24 @@ valkey:
       description: Enable active memory defragmentation. When enabled, Valkey relocates objects off sparsely-used memory pages to reduce fragmentation and return memory to the operating system. Defragmentation runs on the main thread and consumes CPU, so it may increase latency under load.
       type: boolean
       default: false
+    valkey_hotkeys_sampling_percentage:
+      title: Hot key detection sampling percentage
+      description: Percentage of key accesses sampled for hot key detection. Lower values reduce overhead at the cost of accuracy. Only takes effect when `valkey_hotkeys_top_k` is above 0. Defaults to 1. Requires Valkey 9.2 or later.
+      type: integer
+      minimum: "1"
+      maximum: "100"
+    valkey_hotkeys_top_k:
+      title: Hot key detection top-K
+      description: Number of hottest keys to track and report with the HOTKEYS GET command. 0 disables hot key detection. Requires Valkey 9.2 or later.
+      type: integer
+      minimum: "0"
+      maximum: "1000"
+    valkey_hotkeys_window_seconds:
+      title: Hot key detection window
+      description: Length of the hot key reporting window in seconds. HOTKEYS GET reports the last completed window. Only takes effect when `valkey_hotkeys_top_k` is above 0. Defaults to 1. Requires Valkey 9.2 or later.
+      type: integer
+      minimum: "1"
+      maximum: "300"
     valkey_io_threads:
       title: Valkey IO thread count
       description: Set Valkey IO thread count. On Valkey 9.0 and later, changes are applied without a restart. On Valkey 8.1, changing this replaces the service nodes.
