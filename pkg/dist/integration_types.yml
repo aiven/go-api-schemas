@@ -1431,6 +1431,11 @@ rsyslog:
       description: Per-service override for escaping embedded newlines in log messages. When set, it overrides the rsyslog endpoint setting for this service. When unset, the endpoint setting applies.
       type: boolean
       example: false
+    octet_counted_framing:
+      title: Use octet-counted framing
+      description: Per-service override for octet-counted framing (RFC 6587 section 3.4.1). When set, it overrides the rsyslog endpoint setting for this service. When unset, the endpoint setting applies.
+      type: boolean
+      example: true
 thanos_migrate:
   is_deprecated: true
   deprecation_notice: This property is deprecated.
