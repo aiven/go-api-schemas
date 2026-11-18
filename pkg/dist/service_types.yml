@@ -667,7 +667,9 @@ flink:
         - is_deprecated: true
           deprecation_notice: This value is deprecated.
           value: "1.16"
-        - value: "1.19"
+        - is_deprecated: true
+          deprecation_notice: This value is deprecated.
+          value: "1.19"
         - value: "1.20"
       create_only: true
     ip_filter:
