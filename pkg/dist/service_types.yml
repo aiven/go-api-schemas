@@ -169,8 +169,6 @@ application:
         source:
           title: Version control system information
           type: object
-          required:
-            - repository_url
           properties:
             branch:
               title: Branch name
@@ -225,6 +223,7 @@ application:
               example: "1234567890"
             repository_url:
               title: Repository URL
+              description: 'URL of the source repository. Not needed with a VCS integration: the API then sets it to the URL of the repository of remote_repository_id, and replaces a repository_url sent with it.'
               type: string
               min_length: 1
               max_length: 2048
@@ -6800,6 +6799,7 @@ pg:
         - value: "16"
         - value: "17"
         - value: "18"
+        - value: "19"
     pgaudit:
       title: PGAudit settings
       description: System-wide settings for the pgaudit extension.
@@ -7623,6 +7623,16 @@ valkey:
         - value: volatile-lru
         - value: volatile-random
         - value: volatile-ttl
+    valkey_modules_enabled:
+      title: Valkey modules
+      description: Modules loaded by the service. `json` is available on all versions, `bloom` and `search` require Valkey 9 or later. Removing a module that still holds data is rejected. Changing the list replaces the service nodes.
+      type: array
+      items:
+        type: string
+        enum:
+          - value: bloom
+          - value: json
+          - value: search
     valkey_notify_keyspace_events:
       title: Set notify-keyspace-events option
       type: string
